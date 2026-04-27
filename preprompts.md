@@ -133,5 +133,3 @@ and Open-Loop Frequency Responses" : 10.8 and 10.10 might be combined or at leas
 * " 11.1 Introduction"
 * "11.2 Transient Response via Gain Adjustment" - Connected to gain and phase margin.  This is as far as we go, just being able to select a proportional gain value.
 
------------------------------------
-
