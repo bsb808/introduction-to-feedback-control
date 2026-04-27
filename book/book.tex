@@ -1,0 +1,66 @@
+\documentclass[12pt,oneside,openany]{book}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[capitalise]{cleveref}
+\usepackage{microtype}
+\usepackage{fancyvrb}
+\usepackage{parskip}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc, fit}
+
+\usepackage{array}
+\usepackage{tabularx}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\usepackage{subfiles}
+
+\newcommand{\figplaceholder}[2][3in]{%
+  \begin{center}
+  \fbox{\parbox{#1}{\centering\vspace{0.5in}\textit{[Figure: #2]}\vspace{0.5in}}}
+  \end{center}
+}
+
+\newcommand{\chaptertitle}[2]{%
+  \ifSubfilesClassLoaded{%
+    \title{#1\\[0.5em]\large ME 2801 --- Week #2}%
+    \author{}\date{}%
+    \maketitle%
+    \tableofcontents%
+    \newpage%
+    \chapter{#1}%
+  }{%
+    \chapter{#1}%
+  }%
+}
+
+\title{Introduction to Feedback Control}
+\author{Brian Bingham}
+\date{}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+
+\subfile{week01_laplace_part1/chapter/laplace_part1}
+\subfile{week02_laplace_part2_modeling/chapter/laplace_part2_modeling}
+\subfile{week03_lab_usv_sysid/chapter/lab_usv_sysid}
+\subfile{week04_time_response/chapter/time_response}
+\subfile{week05_blockdiagrams_pid/chapter/blockdiagrams_pid}
+\subfile{week06_steady_state_error/chapter/steady_state_error}
+\subfile{week07_lab_usv_pid/chapter/lab_usv_pid}
+\subfile{week08_freq_response_part1/chapter/freq_response_part1}
+\subfile{week09_freq_response_part2/chapter/freq_response_part2}
+\subfile{week10_lab_usv_nav/chapter/lab_usv_nav}
+
+\end{document}

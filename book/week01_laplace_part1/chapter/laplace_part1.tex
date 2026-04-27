@@ -1,0 +1,445 @@
+\documentclass[../../book.tex]{subfiles}
+\begin{document}
+\chaptertitle{Laplace Transforms: The Mathematical Foundation}{1}
+
+% ===========================================================================
+\section{Why Laplace Transforms?}
+\label{sec:intro}
+% ===========================================================================
+
+Control engineering is the practice of designing systems that drive a physical
+output toward a desired value.  A ship autopilot drives heading toward a
+commanded course.  A speed governor holds propulsion at a target regardless of
+current drag.  A UAV attitude controller keeps roll and pitch near zero despite
+wind gusts.
+
+Every one of these problems involves differential equations.  The physics of the
+system --- inertia, drag, electrical time constants --- all produce ODEs.  To
+design and analyze feedback controllers, we need a way to work with those ODEs
+efficiently.
+
+The Laplace transform is that tool.  It converts differential equations into
+algebraic equations, which are far easier to manipulate.  The resulting
+description of a system in the \emph{$s$-domain} also turns out to be the ideal
+language for specifying feedback controllers and predicting their behavior.
+
+A note on vocabulary: throughout this course, \emph{system} means a physical
+thing abstracted as a device with defined inputs and defined outputs.  This is a
+deliberate simplification --- ``all models are wrong, but some are useful'' ---
+and the Laplace-based model is a very useful one.
+
+This chapter covers the Laplace transform from the ground up: transform tables,
+key theorems, the inverse transform via partial fractions, and complete worked
+examples of solving first- and second-order ODEs.
+
+% ===========================================================================
+\section{The Laplace Transform}
+\label{sec:laplace}
+% ===========================================================================
+
+The Laplace transform converts a function of time $f(t)$ into a function of
+the complex variable $s$:
+\begin{equation}
+  \mathcal{L}\bigl[f(t)\bigr] = F(s) = \int_0^{\infty} f(t)\, e^{-st}\, dt
+  \label{eq:definition}
+\end{equation}
+
+This integral evaluates to a closed-form expression for every function that
+appears in practice.  Those results are tabulated once and for all.
+\Cref{tab:pairs} lists the six pairs used most often in this course.
+
+\begin{table}[htbp]
+\centering
+\caption{Laplace transform pairs.  The table is the working tool; the integral
+  definition is rarely evaluated directly.}
+\label{tab:pairs}
+\begin{tabular}{clcc}
+\toprule
+\# & Signal & $f(t),\; t \geq 0$ & $F(s)$ \\
+\midrule
+1 & Impulse     & $\delta(t)$       & $1$ \\[4pt]
+2 & Step        & $\mu(t)$          & $\dfrac{1}{s}$ \\[8pt]
+3 & Ramp / power ($n = 1, 2, \ldots$) & $t^n$ & $\dfrac{n!}{s^{n+1}}$ \\[8pt]
+4 & Exponential & $e^{-at}$         & $\dfrac{1}{s+a}$ \\[8pt]
+5 & Sine        & $\sin(\omega t)$  & $\dfrac{\omega}{s^2+\omega^2}$ \\[8pt]
+6 & Cosine      & $\cos(\omega t)$  & $\dfrac{s}{s^2+\omega^2}$ \\[4pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+These pairs are not memorization targets.  You will look them up until you have
+used them enough times that they stick on their own.
+
+% ---------------------------------------------------------------------------
+\subsection{Transform Properties}
+\label{sec:theorems}
+% ---------------------------------------------------------------------------
+
+The derivative property is what makes Laplace transforms genuinely useful: a
+time derivative becomes multiplication by $s$.  \Cref{tab:theorems} collects
+the properties used throughout this course.
+
+\begin{table}[htbp]
+\centering
+\caption{Laplace transform properties.}
+\label{tab:theorems}
+\begin{tabular}{clcc}
+\toprule
+\# & Property & $f(t)$ & $F(s)$ \\
+\midrule
+1 & Scaling      & $A\,f(t)$            & $A\,F(s)$ \\[4pt]
+2 & Linearity    & $f_1(t) \pm f_2(t)$  & $F_1(s) \pm F_2(s)$ \\[4pt]
+3 & First derivative  & $\dot{f}(t)$   & $s\,F(s) - f(0)$ \\[4pt]
+4 & Second derivative & $\ddot{f}(t)$  & $s^2 F(s) - s\,f(0) - \dot{f}(0)$ \\[6pt]
+5 & $n$th derivative  & $f^{(n)}(t)$   & $\displaystyle s^n F(s)
+    - \sum_{k=1}^{n} s^{n-k}\, f^{(k-1)}(0)$ \\[8pt]
+6 & Integration  & $\displaystyle\int_0^t f(\tau)\,d\tau$
+                                        & $\dfrac{F(s)}{s}$ \\[8pt]
+7 & Final value  & $\displaystyle\lim_{t\to\infty} f(t)$
+                                        & $\displaystyle\lim_{s\to 0} s\,F(s)$ \\[4pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+The \textbf{final value theorem} (Property~7) will reappear repeatedly.  It
+gives the steady-state value of $f(t)$ directly from $F(s)$, without computing
+the full inverse transform.  It is only valid when $f(t)$ converges to a finite
+limit --- i.e., when the system is stable.
+
+\textbf{One property conspicuously absent from the table:} there is no
+multiplication theorem.  The Laplace transform of a product of two functions is
+\emph{not} the product of their individual transforms:
+\begin{equation}
+  \mathcal{L}\bigl[f_1(t)\,f_2(t)\bigr] \;\neq\; \mathcal{L}\bigl[f_1(t)\bigr]
+  \cdot \mathcal{L}\bigl[f_2(t)\bigr]
+  \label{eq:no_product}
+\end{equation}
+This matters in the next section.  When the algebraic solution $Y(s)$ is a
+product of two $s$-domain functions, we cannot invert it by multiplying the
+individual inverse transforms.  We must first rewrite $Y(s)$ as a \emph{sum}
+of table-matching terms --- which is the job of partial fraction expansion.
+
+% ===========================================================================
+\section{The Three-Step Process for Solving ODEs}
+\label{sec:threestep}
+% ===========================================================================
+
+The Laplace transform turns ODE-solving into a three-step algebraic procedure:
+
+\begin{enumerate}
+  \item \textbf{Transform.}  Apply $\mathcal{L}[\,\cdot\,]$ to both sides of
+    the ODE.  Use the derivative property to replace $\dot{y}$, $\ddot{y}$,
+    etc.\ with powers of $s$ times $Y(s)$, minus initial-condition terms.
+
+  \item \textbf{Rearrange.}  Collect terms and solve algebraically for $Y(s)$
+    --- the Laplace transform of the unknown output.  No calculus from this
+    point forward.
+
+  \item \textbf{Invert.}  Take the inverse Laplace transform to recover $y(t)$.
+    Rewrite $Y(s)$ as a sum of table-matching terms via partial fraction
+    expansion, then read each term off \cref{tab:pairs}.
+\end{enumerate}
+
+The worked examples below demonstrate each step.
+
+% ===========================================================================
+\section{First-Order Systems}
+\label{sec:first_order}
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+\subsection{Partial Fraction Expansion and the Cover-Up Method}
+\label{sec:pfe}
+% ---------------------------------------------------------------------------
+
+Step~3 requires decomposing $Y(s)$ --- a ratio of polynomials in $s$ --- into
+simpler fractions that each match a row in \cref{tab:pairs}.  The roots of the
+denominator polynomial are the \emph{poles} of $Y(s)$; they determine what
+form the expansion takes.
+
+For distinct real poles $-p_1, -p_2, \ldots, -p_n$:
+\begin{equation}
+  Y(s) = \frac{N(s)}{(s+p_1)(s+p_2)\cdots(s+p_n)}
+        = \frac{K_1}{s+p_1} + \frac{K_2}{s+p_2} + \cdots + \frac{K_n}{s+p_n}
+  \label{eq:pfe}
+\end{equation}
+
+Each residue $K_i$ is found by the \emph{cover-up method}: multiply both sides
+by $(s+p_i)$ and evaluate at the pole $s = -p_i$:
+\begin{equation}
+  K_i = \bigl[(s+p_i)\,Y(s)\bigr]_{s\,=\,-p_i}
+  \label{eq:coverup}
+\end{equation}
+
+MATLAB's \texttt{residue} function performs this computation.  Given numerator
+and denominator coefficient vectors (descending powers of $s$):
+\begin{Verbatim}[frame=single, fontsize=\small]
+num = [1];           % numerator:   1
+den = [1, 1, 0];     % denominator: s^2 + s = s(s + 1)
+[r, p, k] = residue(num, den)
+% r: residues  [K1; K2; ...]  (numerators of each partial fraction)
+% p: poles     [p1; p2; ...]  (denominator roots, so Y = sum r(i)/(s - p(i)))
+% k: polynomial term (empty for strictly proper systems)
+\end{Verbatim}
+
+Note the sign convention: MATLAB returns poles as roots of the denominator, so
+each fraction is $r_i/(s - p_i)$, not $K_i/(s + p_i)$.  A pole at $s = -1$
+appears as \texttt{p = -1}.
+
+% ---------------------------------------------------------------------------
+\subsection{Worked Example: Step Response of a First-Order ODE}
+\label{sec:fo_example}
+% ---------------------------------------------------------------------------
+
+Consider the first-order ODE
+\begin{equation}
+  \tau\,\dot{y}(t) + y(t) = K\,u(t), \qquad y(0) = 0
+  \label{eq:fo_ode}
+\end{equation}
+where $u(t) = \mu(t)$ is a unit step, $\tau > 0$ is the time constant, and
+$K$ is the DC gain.  This describes a wide class of physical systems: an RC
+circuit (voltage across the capacitor), a thermal system (temperature response
+to a step heat input), a ship speed response to a step throttle command.
+
+\textbf{Step 1: Transform.}  Apply $\mathcal{L}[\,\cdot\,]$ to both sides of
+\cref{eq:fo_ode}.  Using the first-derivative property with $y(0) = 0$:
+\[
+  \tau\,\bigl[s\,Y(s) - 0\bigr] + Y(s) = K \cdot \frac{1}{s}
+  \quad\implies\quad
+  \tau s\,Y(s) + Y(s) = \frac{K}{s}
+\]
+
+\textbf{Step 2: Rearrange.}  Factor and solve for $Y(s)$:
+\[
+  Y(s)\,(\tau s + 1) = \frac{K}{s}
+  \quad\implies\quad
+  Y(s) = \frac{K}{s\,(\tau s + 1)}
+\]
+This is a product of $\mathcal{L}[\mu(t)] = 1/s$ and $\mathcal{L}[e^{-t/\tau}]
+= 1/(s + 1/\tau)$ (up to a constant) --- but \cref{eq:no_product} says we
+cannot invert it term by term.  Partial fractions are required.
+
+\textbf{Step 3: Invert via partial fractions.}  Rewrite $Y(s)$ with monic
+first-order factors:
+\[
+  Y(s) = \frac{K/\tau}{\,s\,(s + 1/\tau)\,} = \frac{K_1}{s} + \frac{K_2}{s + 1/\tau}
+\]
+
+Apply the cover-up method (\cref{eq:coverup}):
+\[
+  K_1 = \left[\frac{K/\tau}{s + 1/\tau}\right]_{s=0}
+      = \frac{K/\tau}{1/\tau} = K
+  \qquad\qquad
+  K_2 = \left[\frac{K/\tau}{s}\right]_{s=-1/\tau}
+      = \frac{K/\tau}{-1/\tau} = -K
+\]
+
+So:
+\begin{equation}
+  Y(s) = \frac{K}{s} - \frac{K}{s + 1/\tau}
+  \label{eq:fo_pf}
+\end{equation}
+
+Both terms now match \cref{tab:pairs} directly --- pair~2 and pair~4
+respectively:
+\begin{equation}
+  \boxed{y(t) = K\!\left(1 - e^{-t/\tau}\right), \quad t \geq 0}
+  \label{eq:fo_response}
+\end{equation}
+
+The output rises exponentially from 0 toward the steady-state value $K$,
+reaching $63\%$ of the final value at $t = \tau$.
+
+\figplaceholder[3.5in]{First-order step response $y(t) = K(1-e^{-t/\tau})$ for
+  $K=1$, $\tau = 1\,\text{s}$.  Annotate the $63\%$ point at $t = \tau$ and
+  the asymptote at $y = K$.}
+
+\textbf{MATLAB verification.}  \texttt{residue} confirms the partial fractions,
+and the Control System Toolbox \texttt{step} command verifies the analytic
+result:
+\begin{Verbatim}[frame=single, fontsize=\small]
+tau = 1;  K = 1;
+
+% Partial fractions of Y(s) = (K/tau) / (s*(s + 1/tau))
+num = [K/tau];
+den = [1,  1/tau,  0];       % s^2 + (1/tau)*s
+[r, p, ~] = residue(num, den)
+% Expected: r = [-1; 1],  p = [-1; 0]
+% i.e.  Y(s) = -1/(s+1) + 1/s  =  1/s - 1/(s+1)
+
+% Analytic solution
+t = linspace(0, 5*tau, 300);
+y_analytic = K * (1 - exp(-t/tau));
+
+% Verification with transfer function
+sys = tf(K, [tau, 1]);
+figure;
+step(sys, t);
+hold on;
+plot(t, y_analytic, '--', 'DisplayName', 'Analytic');
+\end{Verbatim}
+
+% ---------------------------------------------------------------------------
+\subsection{Poles and What They Tell You}
+\label{sec:poles}
+% ---------------------------------------------------------------------------
+
+The poles of $Y(s)$ are $s = 0$ and $s = -1/\tau$.  Each pole generates one
+term in $y(t)$:
+
+\begin{itemize}
+  \item The pole at $s = 0$ (from the input $1/s$) produces the constant term
+    $K$ --- the final steady-state value.
+  \item The pole at $s = -1/\tau$ (from the system's own dynamics) produces
+    $e^{-t/\tau}$ --- the transient that decays away.
+\end{itemize}
+
+This one-to-one correspondence between poles and time-domain terms is not a
+coincidence.  It holds in general: \emph{poles in the left half of the
+$s$-plane generate decaying exponentials (stable); a pole at the origin
+generates a constant; a pole in the right half-plane generates a growing
+exponential (unstable)}.  The pole locations are a complete summary of the
+system's dynamic character --- a fact the rest of the course exploits
+extensively.
+
+% ===========================================================================
+\section{Second-Order Systems}
+\label{sec:second_order}
+% ===========================================================================
+
+The same three steps apply to second-order ODEs.  The new complication is that
+the characteristic polynomial can have complex roots, which requires
+interpreting what \texttt{residue} returns.
+
+% ---------------------------------------------------------------------------
+\subsection{Worked Example: Step Response of a Second-Order ODE}
+\label{sec:so_example}
+% ---------------------------------------------------------------------------
+
+The standard second-order form is:
+\begin{equation}
+  \ddot{y} + 2\zeta\omega_n\,\dot{y} + \omega_n^2\,y = \omega_n^2\,u(t),
+  \qquad y(0) = 0,\quad \dot{y}(0) = 0
+  \label{eq:so_ode}
+\end{equation}
+with unit step input $u(t) = \mu(t)$.  The parameter $\omega_n > 0$ is the
+\emph{natural frequency} (rad/s) and $\zeta > 0$ is the \emph{damping ratio}.
+
+\textbf{Step 1: Transform.}  Using the second-derivative property with zero
+initial conditions:
+\[
+  s^2 Y(s) + 2\zeta\omega_n\,s\,Y(s) + \omega_n^2\,Y(s) = \frac{\omega_n^2}{s}
+\]
+
+\textbf{Step 2: Rearrange.}
+\begin{equation}
+  Y(s) = \frac{\omega_n^2}{s\!\left(s^2 + 2\zeta\omega_n s + \omega_n^2\right)}
+  \label{eq:so_ys}
+\end{equation}
+
+\textbf{Step 3: Invert.}  The quadratic factor's roots depend on $\zeta$.
+
+\paragraph{Case 1: Overdamped ($\zeta > 1$).}  The quadratic has two distinct
+real roots $s_{1,2} = -\zeta\omega_n \pm \omega_n\sqrt{\zeta^2 - 1}$.  The
+partial fraction expansion has three real terms and the response is a sum of
+three exponentials with no oscillation.  \texttt{residue} returns three real
+values.
+
+\paragraph{Case 2: Underdamped ($0 < \zeta < 1$).}  The quadratic has complex
+conjugate roots:
+\begin{equation}
+  s_{1,2} = -\zeta\omega_n \pm j\omega_d,
+  \qquad \omega_d = \omega_n\sqrt{1 - \zeta^2}
+  \label{eq:complex_poles}
+\end{equation}
+where $\omega_d$ is the \emph{damped natural frequency}.  \texttt{residue}
+returns complex residues:
+\begin{Verbatim}[frame=single, fontsize=\small]
+zeta = 0.5;  wn = 1;
+
+num = [wn^2];
+den = [1,  2*zeta*wn,  wn^2,  0];   % s(s^2 + 2*zeta*wn*s + wn^2)
+[r, p, ~] = residue(num, den)
+
+% r = [ complex_1;  complex_2;  real ]   (complex_2 = conj(complex_1))
+% p = [ -0.5+0.866i;  -0.5-0.866i;  0 ]
+\end{Verbatim}
+
+A complex conjugate pair of residues $r, r^*$ at poles $p = -\alpha \pm
+j\omega_d$ always combine to produce a real time-domain term.  Writing
+$r = |r|\,e^{j\phi_r}$:
+\begin{equation}
+  \mathcal{L}^{-1}\!\left[\frac{r}{s-p} + \frac{r^*}{s-p^*}\right]
+  = 2|r|\,e^{-\alpha t}\cos(\omega_d t + \phi_r), \quad t \geq 0
+  \label{eq:complex_pair}
+\end{equation}
+
+For the step response in \cref{eq:so_ys} with $0 < \zeta < 1$, assembling the
+three partial fraction terms gives the closed-form result:
+\begin{equation}
+  \boxed{y(t) = 1 - \frac{1}{\sqrt{1-\zeta^2}}\,e^{-\zeta\omega_n t}
+    \cos\!\left(\omega_d t - \phi\right),
+  \quad \phi = \arctan\!\left(\frac{\zeta}{\sqrt{1-\zeta^2}}\right)}
+  \label{eq:so_response}
+\end{equation}
+
+The output oscillates around the final value~1.  The exponential envelope
+$e^{-\zeta\omega_n t}$ controls how fast the oscillations decay; $\omega_d$
+sets the oscillation frequency.
+
+\figplaceholder[3.5in]{Underdamped second-order step response for $\zeta = 0.5$,
+  $\omega_n = 1\,\text{rad/s}$.  Annotate the $e^{-\zeta\omega_n t}$ envelope,
+  the period $2\pi/\omega_d$, and the final value~1.}
+
+\paragraph{Case 3: Critically damped ($\zeta = 1$).}  A repeated real root
+at $s = -\omega_n$ requires a repeated-root term $K/(s+\omega_n)^2$ in the
+partial fraction expansion, which inverts using pair~3 from \cref{tab:pairs}
+with $n = 1$.  This case is covered in the time response chapter.
+
+% ---------------------------------------------------------------------------
+\subsection{Reading Pole Locations in the $s$-Plane}
+\label{sec:splane}
+% ---------------------------------------------------------------------------
+
+Plotting poles in the complex $s$-plane gives an immediate visual summary of
+response character:
+
+\begin{itemize}
+  \item \textbf{Real part} $\leftrightarrow$ decay rate.  The further left, the
+    faster the exponential envelope decays.
+  \item \textbf{Imaginary part} $\leftrightarrow$ oscillation frequency.
+    Larger imaginary part means faster oscillations.
+  \item \textbf{Right half-plane pole} $\rightarrow$ growing exponential
+    (unstable).
+  \item \textbf{Pole on the imaginary axis} $\rightarrow$ sustained oscillation
+    (marginally stable).
+\end{itemize}
+
+The $s$-plane pole-zero plot becomes a standard analysis tool in every chapter
+that follows.
+
+% ===========================================================================
+\section{Summary}
+\label{sec:summary}
+% ===========================================================================
+
+The Laplace transform reduces solving a linear ODE to three algebraic steps:
+\begin{enumerate}
+  \item \textbf{Transform:} apply $\mathcal{L}[\,\cdot\,]$ to both sides, using
+    the derivative property to convert time derivatives to powers of $s$.
+  \item \textbf{Rearrange:} solve algebraically for $Y(s)$.
+  \item \textbf{Invert:} decompose $Y(s)$ via partial fractions and read $y(t)$
+    from the transform table.
+\end{enumerate}
+
+The poles of $Y(s)$ --- roots of the denominator polynomial --- determine the
+form of the time-domain response.  Real poles produce exponential terms;
+complex conjugate pairs produce damped sinusoids.  MATLAB's \texttt{residue}
+computes partial fraction coefficients directly from numerator and denominator
+vectors.
+
+The next chapter extends this to the \emph{transfer function} --- a
+Laplace-domain representation of a complete system that makes block diagram
+algebra possible --- and covers the second-order time response in detail.
+
+\end{document}

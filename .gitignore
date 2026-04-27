@@ -41,8 +41,9 @@ octave-workspace
 *.synctex.gz
 *.toc
 
-## PDFs — ignore build artifacts; keep refs and misc
+## PDFs — ignore build artifacts; keep refs, misc, and chapter image assets
 *.pdf
 !**/refs/*.pdf
 !misc/**/*.pdf
+!**/chapter/images/*.pdf
 

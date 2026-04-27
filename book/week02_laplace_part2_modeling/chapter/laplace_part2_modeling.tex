@@ -1,0 +1,318 @@
+\documentclass[../../book.tex]{subfiles}
+\begin{document}
+\chaptertitle{Modeling and Transfer Functions}{2}
+
+% ===========================================================================
+\section{The Transfer Function}
+\label{sec:tf}
+% ===========================================================================
+
+Last week we used the Laplace transform to solve differential equations.  The
+process was: take the Laplace transform of both sides, rearrange algebraically
+to find the output $Y(s)$, then convert back to the time domain via inverse Laplace transform.  In that
+context the ``solution'' was the time-domain output $y(t)$ for a specific input,
+including the effects of initial conditions.  The transfer function is a
+different use of the same tool: instead of solving for the output for a specific
+input, we solve for the \emph{relationship} between input and output.
+
+This is exactly the \emph{system} abstraction introduced in week~1: a defined
+input, a defined output, and a mathematical relationship between them.  The
+transfer function is the Laplace-domain expression of that relationship.
+
+% ---------------------------------------------------------------------------
+\subsection{Definition}
+\label{sec:tf_def}
+% ---------------------------------------------------------------------------
+
+Starting from an ODE with output $c(t)$ and input $r(t)$, assume
+\emph{zero initial conditions} and take the Laplace transform of both sides.
+Rearrange to collect all $C(s)$ terms on one side and all $R(s)$ terms on
+the other.  The transfer function $G(s)$ is the ratio of output to input:
+\begin{equation}
+  G(s) = \frac{C(s)}{R(s)}
+  \label{eq:tf_def}
+\end{equation}
+This is the same algebraic step as week~1's ``rearrange'' step, stopped before
+partial fraction expansion.  We are not asking what $c(t)$ is for a specific
+input --- we are asking what relationship the system imposes between any input
+and its corresponding output.
+
+Two things to notice:
+\begin{itemize}
+  \item \textbf{Zero initial conditions.}  The transfer function assumes the
+    system starts at rest.  Initial conditions shift the problem, not the
+    system; the transfer function describes the system alone.
+  \item \textbf{The output follows directly.}  Once $G(s)$ is known, the
+    output for any input $R(s)$ is simply
+    \begin{equation}
+      C(s) = G(s)\,R(s)
+      \label{eq:output_rule}
+    \end{equation}
+    Multiplication in the $s$-domain corresponds to convolution in the time
+    domain, but we will work almost entirely in the $s$-domain.
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+\subsection{Examples: from ODE to transfer function}
+\label{sec:tf_examples}
+% ---------------------------------------------------------------------------
+
+The pattern is the same every time.  Work through the examples below; the
+general form appears at the end.
+
+\subsubsection*{Example 1 --- First-order ODE}
+
+Given the ODE
+\begin{equation}
+  \frac{dc}{dt} + 2c(t) = r(t)
+  \label{eq:ex1_ode}
+\end{equation}
+where $c(t)$ is the output and $r(t)$ is the input.
+
+Taking the Laplace transform, setting initial conditions to zero:
+\[
+  sC(s) + 2C(s) = R(s)
+\]
+Factor and divide:
+\[
+  C(s)(s + 2) = R(s)
+  \qquad \Longrightarrow \qquad
+  G(s) = \frac{C(s)}{R(s)} = \frac{1}{s+2}
+\]
+The denominator $s + 2$ is identical to the characteristic polynomial of the
+ODE.  This is always the case: the poles of $G(s)$ are the roots of the
+characteristic equation.
+
+\subsubsection*{Example 2 --- Second-order ODE}
+
+Given
+\begin{equation}
+  \ddot{c} + 5\dot{c} + 6c = 2\dot{r} + r
+  \label{eq:ex2_ode}
+\end{equation}
+
+Taking the Laplace transform, setting initial conditions to zero:
+\[
+  s^2 C(s) + 5s\,C(s) + 6C(s) = 2s\,R(s) + R(s)
+\]
+Factor each side:
+\[
+  (s^2 + 5s + 6)\,C(s) = (2s + 1)\,R(s)
+\]
+Transfer function:
+\begin{equation}
+  G(s) = \frac{C(s)}{R(s)} = \frac{2s + 1}{s^2 + 5s + 6}
+  \label{eq:ex2_tf}
+\end{equation}
+
+The denominator polynomial is again the characteristic polynomial.  The
+numerator reflects the ODE's right-hand side.
+
+\subsubsection*{Example 3 --- Pure math, no physical interpretation yet}
+
+Given a third-order system:
+\[
+  \dddot{c} + 4\ddot{c} + 5\dot{c} + 2c = 3\ddot{r} + r
+\]
+
+Laplace transform:
+\[
+  (s^3 + 4s^2 + 5s + 2)\,C(s) = (3s^2 + 1)\,R(s)
+\]
+\begin{equation}
+  G(s) = \frac{3s^2 + 1}{s^3 + 4s^2 + 5s + 2}
+  \label{eq:ex3_tf}
+\end{equation}
+
+The pattern is clear: the Laplace transform of the output-side coefficients
+forms the denominator; the input-side forms the numerator.
+
+% ---------------------------------------------------------------------------
+\subsection{General form}
+\label{sec:tf_general}
+% ---------------------------------------------------------------------------
+
+For any linear, time-invariant ODE with output $c$ and input $r$, the
+transfer function is a ratio of polynomials in $s$:
+\begin{equation}
+  G(s) = \frac{b_m s^m + b_{m-1}s^{m-1} + \cdots + b_0}
+              {a_n s^n + a_{n-1}s^{n-1} + \cdots + a_0}
+  \label{eq:tf_general}
+\end{equation}
+The denominator coefficients come from the left-hand (output) side of the ODE;
+the numerator coefficients from the right-hand (input) side.  Physical systems
+require $n \geq m$ --- the denominator degree must be at least as large as the
+numerator degree.
+
+In practice, you will almost never use \cref{eq:tf_general} directly.  You
+derive each transfer function by working the ODE as in the examples above.
+
+The companion script \texttt{code/modeling\_and\_tf.m} works through these
+examples in MATLAB, covering how to create transfer function objects with
+\texttt{tf()} and \texttt{zpk()} and use the Control System Toolbox.
+
+% ===========================================================================
+\section{Mechanical System Models}
+\label{sec:mechanical}
+% ===========================================================================
+
+We now apply the transfer function concept to physical systems.  The goal is
+to write an ODE from the physics --- Newton's second law for translation,
+its rotational counterpart for rotation --- and then express that physics as a transfer function $G(s)$.
+
+Engineering curricula devote many courses to developing models of physical systems: statics, dynamics, fluid mechanics, thermodynamics, heat transfer, vibrations, and circuit theory are all about generating governing equations for different physical domains.  That modeling process is a critical skill, covered in depth across the curriculum.
+
+The focus here is not how to build those models from scratch, but how to take a model and extract the transfer function.  How that model is developed depends heavily on the domain --- surface ships, aircraft, underwater vehicles, and spacecraft each have their own modeling traditions.  For this course, we use simple one-degree-of-freedom lumped-parameter models; that scope is sufficient for many applications.
+
+% ---------------------------------------------------------------------------
+\subsection{Translational systems}
+\label{sec:translation}
+% ---------------------------------------------------------------------------
+
+Translational motion involves three passive elements: mass $M$, spring
+constant $K$, and viscous damping coefficient $b$.  \Cref{tab:translational}
+lists each element's time-domain relationship between applied force and
+displacement, along with its Laplace-domain equivalent (obtained by taking the
+Laplace transform with zero initial conditions).
+
+\begin{table}[htbp]
+\centering
+\caption{Translational mechanical elements.  $f(t)$ is force (N),
+  $x(t)$ is displacement (m).  The Laplace-domain relationships assume zero
+  initial conditions.}
+\label{tab:translational}
+\begin{tabular}{lccc}
+\toprule
+Element & Symbol & Time domain & Laplace domain \\
+\midrule
+% CLAUDE: Change the variable names to all be lower case for mass, damper, and spring.  This is more consistent with the rest of the course.  We can use capital letters for the transfer function and for the input and output variables, but for the physical parameters we should use lower case.  This is a common convention in control textbooks.  Also note the spaces I added and apply this to the rotational table as well.
+Mass    & $M$ (kg)  & $f = m\,\ddot{x}$  & $F(s) = ms^2 X(s)$ \\[4pt]
+Damper  & $b$ (N$\cdot$s/m) & $f = b\,\dot{x}$ & $F(s) = b\,sX(s)$ \\[4pt]
+Spring  & $k$ (N/m) & $f = k\, x$         & $F(s) = k\,X(s)$ \\[4pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+The Laplace-domain relationships in \cref{tab:translational} simply restate
+the derivative property from week~1 applied to each element: $\dot{x}
+\rightarrow sX(s)$ and $\ddot{x} \rightarrow s^2 X(s)$ under zero initial
+conditions.  No new concept is required.
+
+\textbf{Finding the transfer function.}  Apply Newton's second law, sum all
+forces on the mass, set the sum equal to zero.  Take the Laplace transform
+and solve for $G(s) = X(s)/F(s)$.
+
+\subsubsection*{Example: mass-spring-damper (1-DOF)}
+
+\figplaceholder[3.5in]{Mass $m$ connected to a wall by spring $k$ and damper
+  $b$ in parallel.  Input $f(t)$ applied to mass; output $x(t)$ is mass
+  displacement.  Positive direction: right.}
+
+Positive displacement to the right.  Forces on the mass:
+\begin{itemize}
+  \item Applied force $f(t)$: acts to the right (positive).
+  \item Spring force $k \, x(t)$: opposes displacement, acts to the left (negative).
+  \item Damping force $b \, \dot{x}(t)$: opposes velocity, acts to the left (negative).
+\end{itemize}
+
+Newton's second law ($\sum F = m\ddot{x}$):
+\begin{equation}
+  m \, \ddot{x} + b \, \dot{x} + k \, x = f(t)
+  \label{eq:msd_ode}
+\end{equation}
+
+Laplace transform with zero initial conditions:
+\[
+  m \, s^2 X(s) + b \, s X(s) + k \, X(s) = F(s)
+\]
+\[
+  \bigl(m s^2 + b s + k\bigr)X(s) = F(s)
+\]
+\begin{equation}
+  G(s) = \frac{X(s)}{F(s)} = \frac{1}{m s^2 + b s + k}
+  \label{eq:msd_tf}
+\end{equation}
+
+This is a second-order transfer function.  The denominator polynomial is
+exactly the characteristic polynomial of \cref{eq:msd_ode}.  The poles are
+the roots of $m s^2 + b s + k = 0$, which depend on the relative values of
+$m$, $b$, and $k$ --- and determine whether the step response is overdamped,
+critically damped, or underdamped (covered in week~4).
+
+% ---------------------------------------------------------------------------
+\subsection{Rotational systems}
+\label{sec:rotation}
+% ---------------------------------------------------------------------------
+
+Rotational systems follow the same approach, with torque replacing force and
+angular displacement $\theta$ replacing linear displacement $x$.
+\Cref{tab:rotational} lists the three rotational elements.
+
+\begin{table}[htbp]
+\centering
+\caption{Rotational mechanical elements.  $T(t)$ is torque (N$\cdot$m),
+  $\theta(t)$ is angular displacement (rad).}
+\label{tab:rotational}
+\begin{tabular}{lccc}
+\toprule
+Element & Symbol & Time domain & Laplace domain \\
+\midrule
+Inertia          & $j$ (kg$\cdot$m$^2$) & $T = j\,\ddot{\theta}$  & $T(s) = j\,s^2\Theta(s)$ \\[4pt]
+Rotational damper & $d$ (N$\cdot$m$\cdot$s/rad) & $T = d\,\dot{\theta}$ & $T(s) = d\,s\Theta(s)$ \\[4pt]
+Torsional spring  & $k$ (N$\cdot$m/rad) & $T = k\,\theta$ & $T(s) = k\,\Theta(s)$ \\[4pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Example: rotating inertia with damping (1-DOF)}
+
+\figplaceholder[3.5in]{Disk with moment of inertia $j$ supported in bearings
+  with rotational damping $d$.  Input is applied torque $T(t)$; output is
+  angular displacement $\theta(t)$.}
+
+Sum of torques (Newton's second law for rotation, $\sum T = j\ddot{\theta}$):
+\begin{equation}
+  j\ddot{\theta} + d\dot{\theta} = T(t)
+  \label{eq:rot_ode}
+\end{equation}
+
+Laplace transform:
+\[
+  j s^2 \Theta(s) + d s \, \Theta(s) = T(s)
+\]
+\[
+  s (j s + d) \, \Theta(s) = T(s)
+\]
+\begin{equation}
+  G(s) = \frac{\Theta(s)}{T(s)} = \frac{1}{s (j s + d)}
+  \label{eq:rot_tf}
+\end{equation}
+
+The pole at $s = 0$ reflects that the system integrates angular velocity into
+angle --- if you apply a constant torque with no restoring spring, the disk
+spins up indefinitely.  The pole at $s = -d/j$ sets the time constant of the
+velocity response.
+
+% ===========================================================================
+\section{Summary}
+\label{sec:summary}
+% ===========================================================================
+
+The transfer function $G(s) = C(s)/R(s)$ is the system's ODE rewritten as a
+ratio of polynomials in $s$, evaluated at zero initial conditions.  To find
+it:
+\begin{enumerate}
+  \item Write the differential equation (from physics, or as given).
+  \item Take the Laplace transform with zero initial conditions.
+  \item Collect output terms on one side, input terms on the other, and divide.
+\end{enumerate}
+
+For mechanical systems, Newton's second law (translational or rotational)
+gives the ODE directly.  The Laplace-domain versions of each element's
+force-displacement law (\cref{tab:translational,tab:rotational}) let you write
+the transformed equation by inspection.
+
+Once $G(s)$ is in hand, the output for any input is $C(s) = G(s)R(s)$ --- the
+starting point for everything that follows.
+
+\end{document}

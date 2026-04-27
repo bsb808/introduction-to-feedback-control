@@ -1,0 +1,563 @@
+\documentclass[../../book.tex]{subfiles}
+\begin{document}
+\graphicspath{{../refs/images/}}
+\chaptertitle{Frequency Response, Part~1: Bode Plots}{8}
+
+% ===========================================================================
+\section{Another Analytical Lens}
+\label{sec:intro}
+% ===========================================================================
+
+By now we have two analytical views of a dynamic system.  The transfer function
+$G(s)$ is our algebraic handle on the input/output relationship.  The time
+response---step response in particular---is our window into how the system
+behaves in the time domain.  The step response is intuitive: push the input,
+watch what happens, and describe what you see with a concrete vocabulary (rise
+time, settling time, overshoot).
+
+The \emph{frequency response} is a third view.  Like the transfer function and
+the time response, it is an analytical abstraction---a mathematical way of
+characterizing what the system does to a particular class of inputs.  That
+class is sinusoids.
+
+The frequency domain is less immediately intuitive than the time domain.
+We do not usually think about everyday cause and effect in terms of sinusoids.
+But the abstraction is powerful.  The Bode plot, which is the standard graphical
+representation of the frequency response, is one of the most widely used tools
+in controls.  This week we build the vocabulary to read and sketch one.
+
+% ---------------------------------------------------------------------------
+\subsection{Sinusoidal steady state}
+\label{sec:sinusoidal}
+% ---------------------------------------------------------------------------
+
+The premise of frequency response is the behavior of a linear system under a
+sinusoidal input, \emph{after all transients have died out}.  In that sinusoidal
+steady state, the output is also a sinusoid at the same frequency as the input.
+What changes between input and output is (1) the amplitude and (2) the phase
+angle.
+
+\begin{figure}[htbp]
+  \figplaceholder[5in]{Sinusoidal frequency response: (a) mechanical system with
+    sinusoidal force input and position output; (b) transfer function as a
+    complex multiplier on phasors; (c) input and output waveforms showing
+    amplitude scaling and phase shift. [Nise Fig.~10.2]}
+  \caption{A sinusoidal input $f(t) = M_i\cos(\omega t + \phi_i)$ produces a
+    sinusoidal steady-state output $x(t) = M_o\cos(\omega t + \phi_o)$ at the
+    same frequency.  The system scales the amplitude by $M(\omega) = M_o/M_i$
+    and shifts the phase by $\phi(\omega) = \phi_o - \phi_i$.}
+  \label{fig:sinusoidal}
+\end{figure}
+
+Figure~\ref{fig:sinusoidal} illustrates the idea.  The magnitude frequency
+response is the amplitude ratio:
+\begin{equation}
+  M(\omega) = \frac{M_o(\omega)}{M_i(\omega)}
+  \label{eq:mag_response}
+\end{equation}
+The phase frequency response is the phase difference between output and input:
+\begin{equation}
+  \phi(\omega) = \phi_o(\omega) - \phi_i(\omega)
+  \label{eq:phase_response}
+\end{equation}
+Both are functions of $\omega$.  Together they constitute the \emph{frequency
+response} of the system---a complete description of how the system processes
+sinusoids at any frequency.
+
+% ---------------------------------------------------------------------------
+\subsection{Experimental measurement}
+\label{sec:experimental}
+% ---------------------------------------------------------------------------
+
+One practical advantage of the frequency-response view is that it can be
+measured directly from a physical system without having a model.  Drive the
+system with a sinusoidal input at frequency $\omega$, wait for transients to
+decay, then measure the amplitude ratio and phase shift at the output.  Repeat
+across a range of frequencies and you have an empirical Bode plot.
+
+This is not just a thought experiment.  In the USV lab we identified surge and
+yaw dynamics from step responses, but sinusoidal sweep testing is equally
+valid---and in some situations preferable, because it probes the system at
+each frequency individually.  The Bode plot is simultaneously an analytical
+prediction from a transfer function \emph{and} a directly measurable property
+of a physical system.  That dual nature is part of what makes it so useful.
+
+% ===========================================================================
+\section{The Frequency Response Function}
+\label{sec:G_jomega}
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+\subsection{Evaluating \texorpdfstring{$G(j\omega)$}{G(jω)}}
+\label{sec:eval}
+% ---------------------------------------------------------------------------
+
+We can derive the frequency response from the transfer function analytically.
+The derivation follows the forced response of $C(s) = G(s)R(s)$ under a
+sinusoidal input.  After separating the forced (sinusoidal) component from the
+transient response via partial fractions, the result is compact: substitute
+$s = j\omega$ into the transfer function.
+
+\begin{equation}
+  \boxed{G(j\omega) = G(s)\big|_{s\,=\,j\omega}}
+  \label{eq:G_jomega}
+\end{equation}
+
+The complex-valued function $G(j\omega)$ encodes the magnitude and phase
+directly:
+\begin{align}
+  M(\omega) &= \bigl|G(j\omega)\bigr| \label{eq:magnitude} \\
+  \phi(\omega) &= \angle G(j\omega) \label{eq:phase}
+\end{align}
+
+% ---------------------------------------------------------------------------
+\subsection{Example: \texorpdfstring{$G(s) = 1/(s+2)$}{G(s) = 1/(s+2)}}
+\label{sec:example_10_1}
+% ---------------------------------------------------------------------------
+
+Take $G(s) = 1/(s+2)$.  Substituting $s = j\omega$:
+\begin{equation}
+  G(j\omega) = \frac{1}{j\omega + 2} = \frac{2 - j\omega}{\omega^2 + 4}
+  \label{eq:example_gjw}
+\end{equation}
+The magnitude and phase follow directly:
+\begin{align}
+  M(\omega) &= \frac{1}{\sqrt{\omega^2 + 4}} \label{eq:example_mag} \\[4pt]
+  \phi(\omega) &= -\tan^{-1}\!\left(\frac{\omega}{2}\right) \label{eq:example_phase}
+\end{align}
+
+A few reference values:
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+$\omega$ (rad/s) & $M(\omega)$ & $\phi(\omega)$ \\
+\midrule
+0   & $1/2 = 0.5$     & $0^\circ$   \\
+2   & $1/\sqrt{8} \approx 0.354$ & $-45^\circ$ \\
+$\infty$ & $\to 0$   & $-90^\circ$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The separate magnitude and phase plots are shown in
+Figure~\ref{fig:example_bode}.
+
+\begin{figure}[htbp]
+  \figplaceholder[5in]{Separate magnitude and phase Bode plots for
+    $G(s)=1/(s+2)$: magnitude rolls off from $-6$~dB at DC and phase shifts
+    from $0^\circ$ toward $-90^\circ$. [Nise Fig.~10.4]}
+  \caption{Frequency response of $G(s) = 1/(s+2)$.  Upper: magnitude
+    $20\log M$ vs.\ frequency (rad/s) on a log scale.  Lower: phase
+    $\phi(\omega)$ in degrees.  At the break frequency $\omega = 2$~rad/s
+    the magnitude is $-3$~dB and the phase is $-45^\circ$.}
+  \label{fig:example_bode}
+\end{figure}
+
+% ===========================================================================
+\section{The Bode Plot}
+\label{sec:bode_plot}
+% ===========================================================================
+
+% ---------------------------------------------------------------------------
+\subsection{Two scales that make sketching possible}
+\label{sec:scales}
+% ---------------------------------------------------------------------------
+
+The Bode plot uses two scale choices that turn out to be essential for
+sketching:
+\begin{itemize}
+  \item \textbf{Magnitude in decibels (dB).}  Plot $20\log M$ rather than $M$
+    itself.
+  \item \textbf{Logarithmic frequency axis.}  Plot $\omega$ on a log scale so
+    that each decade ($\times 10$) occupies equal horizontal distance.
+\end{itemize}
+
+The power of these choices follows from the structure of a typical transfer
+function.  A general $G(s)$ is a ratio of polynomials: its magnitude is a
+product of individual terms.  Taking the logarithm turns that product into a
+sum:
+\begin{equation}
+  20\log|G(j\omega)| = 20\log K
+    + \sum_k 20\log|(j\omega + z_k)|
+    - 20m\log|\omega|
+    - \sum_i 20\log|(j\omega + p_i)|
+  \label{eq:log_sum}
+\end{equation}
+
+If each individual term can be approximated as a \emph{straight line} on the
+log-frequency axis, the composite Bode plot is just the algebraic sum of those
+straight lines.  This is the core insight: \textbf{products of transfer
+function terms become sums of straight-line segments}, which can be added
+graphically.  The same additivity holds for phase.
+
+% ---------------------------------------------------------------------------
+\subsection{Anatomy of a Bode plot}
+\label{sec:anatomy}
+% ---------------------------------------------------------------------------
+
+A Bode plot is two graphs sharing a common log-frequency horizontal axis:
+\begin{itemize}
+  \item \textbf{Upper plot}: magnitude $20\log M$ (dB) vs.\ $\log\omega$.
+  \item \textbf{Lower plot}: phase $\phi$ (degrees) vs.\ $\log\omega$.
+\end{itemize}
+
+Key landmarks to identify on any Bode plot:
+\begin{description}
+  \item[Break frequencies] The frequencies where the slope of the asymptote
+    changes.  Each real pole or zero contributes one break; each second-order
+    conjugate pair contributes one.
+  \item[Asymptotic slopes] The slope of the straight-line approximation between
+    breaks, in dB/decade.  A real pole contributes $-20$~dB/decade; a real
+    zero $+20$~dB/decade; a second-order pole pair $-40$~dB/decade.
+  \item[DC gain (low-frequency asymptote)] The magnitude as $\omega \to 0$.
+    This sets the starting level of the magnitude plot.
+\end{description}
+
+% ===========================================================================
+\section{Bode Form: Normalizing for Sketching}
+\label{sec:bode_form}
+% ===========================================================================
+
+Before sketching, convert the transfer function to \emph{Bode form} by
+factoring each pole and zero so that the constant term is 1, not the leading
+coefficient.  This normalization gives each building block a DC gain of exactly
+1 (0~dB), so individual contributions can be added directly.
+
+For a real pole at $s = -a$, factor out $a$:
+\begin{equation}
+  \frac{1}{s + a} = \frac{1}{a} \cdot \frac{1}{\dfrac{s}{a} + 1}
+  \label{eq:bode_form_pole}
+\end{equation}
+The $1/a$ factor is a constant gain contribution; $1/(s/a + 1)$ is the
+normalized building block with break frequency $\omega = a$.
+
+For a real zero at $s = -a$:
+\begin{equation}
+  s + a = a\!\left(\frac{s}{a} + 1\right)
+  \label{eq:bode_form_zero}
+\end{equation}
+
+A complete transfer function in Bode form:
+\begin{equation}
+  G(s) = \underbrace{\frac{K\,z_1 z_2\cdots z_k}{p_1 p_2\cdots p_n}}_{\displaystyle K_0}
+  \cdot
+  \frac{\left(\dfrac{s}{z_1}+1\right)\cdots\left(\dfrac{s}{z_k}+1\right)}
+       {s^m\!\left(\dfrac{s}{p_1}+1\right)\cdots\left(\dfrac{s}{p_n}+1\right)}
+  \label{eq:bode_form_general}
+\end{equation}
+The constant $K_0$ shifts the magnitude curve up or down by $20\log K_0$~dB
+across all frequencies; the normalized factors each start at 0~dB.
+
+% ===========================================================================
+\section{The Building Blocks}
+\label{sec:blocks}
+% ===========================================================================
+
+We now work through each building block type: its exact frequency response,
+its asymptotic magnitude approximation, and its phase behavior.
+Table~\ref{tab:building_blocks} summarizes the rules; Figures~\ref{fig:blocks_s_1s}
+and~\ref{fig:blocks_za_1za} show the normalized Bode plots.
+
+\begin{table}[htbp]
+\centering
+\caption{Bode building-block summary.  Break frequency is $a$ for first-order
+  blocks, $\omega_n$ for second-order.}
+\label{tab:building_blocks}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Block & $G(s)$ & Low-freq mag & Slope above break & Phase range \\
+\midrule
+Gain          & $K$                     & $20\log K$~dB & 0~dB/dec      & $0^\circ$ \\
+Differentiator & $s$                   & ---           & $+20$~dB/dec  & $+90^\circ$ (const.) \\
+Integrator    & $1/s$                   & ---           & $-20$~dB/dec  & $-90^\circ$ (const.) \\
+Real zero     & $s/a + 1$               & 0~dB          & $+20$~dB/dec  & $0^\circ \to +90^\circ$ \\
+Real pole     & $1/(s/a + 1)$           & 0~dB          & $-20$~dB/dec  & $0^\circ \to -90^\circ$ \\
+2nd-order zero & $s^2/\omega_n^2 + 2\zeta s/\omega_n + 1$ & 0~dB & $+40$~dB/dec & $0^\circ \to +180^\circ$ \\
+2nd-order pole & $1/(s^2/\omega_n^2 + 2\zeta s/\omega_n + 1)$ & 0~dB & $-40$~dB/dec & $0^\circ \to -180^\circ$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------------
+\subsection{Gain: \texorpdfstring{$G(s) = K$}{G(s) = K}}
+\label{sec:gain_block}
+% ---------------------------------------------------------------------------
+
+A pure gain is frequency-independent.  The magnitude is $20\log K$~dB at all
+frequencies and the phase is $0^\circ$ (for $K > 0$).  On the Bode plot the
+gain shifts the entire magnitude curve up or down by a fixed amount---it
+changes the level, not the shape.
+
+% ---------------------------------------------------------------------------
+\subsection{Integrator and differentiator: \texorpdfstring{$G(s) = 1/s$
+and $G(s) = s$}{G(s) = 1/s and G(s) = s}}
+\label{sec:integrator}
+% ---------------------------------------------------------------------------
+
+The integrator $G(s) = 1/s$ has no break frequency.  Substituting $s=j\omega$:
+\begin{equation}
+  G(j\omega) = \frac{1}{j\omega} = \frac{1}{\omega}\angle{-90^\circ}
+  \label{eq:integrator}
+\end{equation}
+In dB the magnitude is $20\log(1/\omega) = -20\log\omega$, a straight line of
+slope $-20$~dB/decade passing through 0~dB at $\omega = 1$~rad/s.  The phase
+is a constant $-90^\circ$.
+
+The differentiator $G(s) = s$ is the inverse: slope $+20$~dB/decade through
+0~dB at $\omega = 1$~rad/s, constant phase $+90^\circ$.
+
+A pole of order $m$ at the origin, $G(s) = 1/s^m$, contributes a slope of
+$-20m$~dB/decade and a constant phase of $-90m^\circ$.
+
+\begin{figure}[htbp]
+  \figplaceholder[5in]{Normalized Bode plots for (a)~$G(s)=s$ and
+    (b)~$G(s)=1/s$: straight-line magnitude and constant phase.
+    [Nise Fig.~10.9a,b]}
+  \caption{Differentiator ($s$) and integrator ($1/s$): magnitude and phase.
+    Both are straight lines at all frequencies with no break.}
+  \label{fig:blocks_s_1s}
+\end{figure}
+
+% ---------------------------------------------------------------------------
+\subsection{Real zero: \texorpdfstring{$G(s) = s/a + 1$}{G(s) = s/a + 1}}
+\label{sec:real_zero}
+% ---------------------------------------------------------------------------
+
+The normalized real zero has break frequency $a$.  Its frequency response:
+\begin{equation}
+  G(j\omega) = j\frac{\omega}{a} + 1
+  \label{eq:real_zero_gjw}
+\end{equation}
+
+\textbf{Magnitude asymptotes.}
+\begin{itemize}
+  \item \emph{Low frequency} ($\omega \ll a$): $G(j\omega) \approx 1$,
+    so $20\log M \approx 0$~dB.
+  \item \emph{High frequency} ($\omega \gg a$): $G(j\omega) \approx j\omega/a$,
+    so $20\log M \approx 20\log(\omega/a)$---slope $+20$~dB/decade starting at
+    $\omega = a$.
+\end{itemize}
+The two asymptotes meet at $\omega = a$.  The exact magnitude there is
+$20\log\sqrt{2} \approx +3$~dB above the asymptote.
+
+\textbf{Phase.}  The phase rises from $0^\circ$ at low frequencies to
+$+90^\circ$ at high frequencies, passing through $+45^\circ$ at the break.
+The asymptotic approximation draws a straight-line ramp of slope
+$+45^\circ$/decade from one decade below the break ($0.1a$) to one decade
+above ($10a$), where it levels off.
+
+% ---------------------------------------------------------------------------
+\subsection{Real pole: \texorpdfstring{$G(s) = 1/(s/a + 1)$}{G(s) = 1/(s/a + 1)}}
+\label{sec:real_pole}
+% ---------------------------------------------------------------------------
+
+The normalized real pole is the mirror image of the real zero:
+\begin{itemize}
+  \item \textbf{Magnitude}: flat at 0~dB for $\omega < a$, rolls off at
+    $-20$~dB/decade for $\omega > a$.  The exact magnitude at the break is
+    $-3$~dB.
+  \item \textbf{Phase}: $0^\circ$ at DC, $-45^\circ$ at the break, $-90^\circ$
+    at high frequencies.  Asymptotic approximation: $-45^\circ$/decade ramp
+    from $0.1a$ to $10a$.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \figplaceholder[5in]{Normalized Bode plots for (c)~$G(s)=(s/a+1)$ and
+    (d)~$G(s)=1/(s/a+1)$: asymptotic (straight-line) and exact responses.
+    [Nise Fig.~10.9c,d]}
+  \caption{Real zero ($s/a + 1$) and real pole $1/(s/a + 1)$: normalized
+    asymptotic and exact Bode plots.  The maximum deviation between the
+    asymptote and the exact curve is 3.01~dB in magnitude and $5.7^\circ$
+    in phase, both at the break frequency.}
+  \label{fig:blocks_za_1za}
+\end{figure}
+
+% ---------------------------------------------------------------------------
+\subsection{Second-order factors}
+\label{sec:second_order}
+% ---------------------------------------------------------------------------
+
+A second-order denominator arises from a conjugate pole pair.  The normalized
+form is:
+\begin{equation}
+  G(s) = \frac{1}{\dfrac{s^2}{\omega_n^2} + 2\zeta\dfrac{s}{\omega_n} + 1}
+  \label{eq:second_order_block}
+\end{equation}
+The break frequency is $\omega_n$; $\zeta$ is the damping ratio.
+
+\textbf{Magnitude asymptotes.}
+\begin{itemize}
+  \item \emph{Low frequency}: $G(j\omega) \approx 1$, so $20\log M \approx 0$~dB.
+  \item \emph{High frequency}: $|G(j\omega)| \approx \omega_n^2/\omega^2$,
+    so $20\log M \approx -40\log(\omega/\omega_n)$---slope $-40$~dB/decade
+    starting at $\omega_n$.
+\end{itemize}
+
+\textbf{Phase.}  The phase falls from $0^\circ$ at DC to $-180^\circ$ at
+high frequencies, passing through $-90^\circ$ at $\omega = \omega_n$.
+The asymptotic approximation uses a slope of $-90^\circ$/decade from
+$0.1\omega_n$ to $10\omega_n$.
+
+\begin{figure}[htbp]
+  \figplaceholder[5in]{Bode asymptotes for the normalized second-order factor
+    $1/(s^2/\omega_n^2 + 2\zeta s/\omega_n + 1)$: (a)~magnitude; (b)~phase.
+    [Nise Fig.~10.13]}
+  \caption{Second-order pole factor: asymptotic magnitude (left) and phase
+    (right).  The magnitude breaks at $-40$~dB/decade at the natural frequency
+    $\omega_n$; the phase swings from $0^\circ$ to $-180^\circ$ through
+    $-90^\circ$ at $\omega_n$.}
+  \label{fig:second_order_bode}
+\end{figure}
+
+\textbf{A note on accuracy.}  Unlike the first-order case---where the asymptote
+and the exact curve differ by at most 3~dB in magnitude---the second-order
+asymptote can be far off near the break frequency.  For small $\zeta$ the
+actual magnitude \emph{peaks} significantly above 0~dB near $\omega_n$ (the
+resonance peak).  The asymptote does not capture this.  Use the asymptotic
+sketch to understand the shape and locate break frequencies, then use MATLAB
+for the exact plot.
+
+% ===========================================================================
+\section{Combining Building Blocks: A Worked Example}
+\label{sec:example}
+% ===========================================================================
+
+We now sketch the Bode plot for a transfer function with a pole at the origin,
+two finite poles, and a zero:
+\begin{equation}
+  G(s) = \frac{K(s+3)}{s(s+1)(s+2)}
+  \label{eq:example_tf}
+\end{equation}
+
+\subsection*{Step 1: Convert to Bode form}
+
+Factor out the constants from each pole and zero to normalize them to unit
+DC gain:
+\begin{equation}
+  G(s) = K \cdot \frac{3\!\left(\dfrac{s}{3}+1\right)}
+                      {s \cdot 1\cdot\left(\dfrac{s}{1}+1\right)
+                              \cdot 2\cdot\left(\dfrac{s}{2}+1\right)}
+       = \underbrace{\frac{3K}{2}}_{\displaystyle K_0}
+         \cdot
+         \frac{\left(\dfrac{s}{3}+1\right)}
+              {s\!\left(\dfrac{s}{1}+1\right)\!\left(\dfrac{s}{2}+1\right)}
+  \label{eq:example_bode_form}
+\end{equation}
+The DC gain factor $K_0 = 3K/2$ shifts the magnitude by $20\log(3K/2)$~dB.
+For $K = 1$, $K_0 = 1.5$ and the shift is $+3.5$~dB.
+
+\subsection*{Step 2: Identify break frequencies}
+
+Reading from the normalized form: breaks at $\omega = 1$ (pole), $\omega = 2$
+(pole), and $\omega = 3$ (zero).
+
+\subsection*{Step 3: Determine the starting point}
+
+The pole at the origin gives an initial slope of $-20$~dB/decade.  Evaluate
+the low-frequency asymptote at a convenient starting point---one decade below
+the lowest break, $\omega = 0.1$~rad/s.  At that frequency only the $1/s$ and
+$K_0$ terms are active (all $(s/a+1)$ terms are $\approx 1$):
+\begin{equation}
+  20\log|G(j0.1)| \approx 20\log\!\left(\frac{K_0}{0.1}\right)
+    = 20\log(15) \approx 23.5~\text{dB} \quad (K=1)
+  \label{eq:example_start}
+\end{equation}
+
+\subsection*{Step 4: Sketch the magnitude using slope contributions}
+
+Draw the initial $-20$~dB/decade line from the starting point, then update
+the slope at each break frequency.  Table~\ref{tab:example_mag_slopes} tracks
+the running slope.
+
+\begin{table}[htbp]
+\centering
+\caption{Magnitude slope contributions for $G(s) = K(s+3)/[s(s+1)(s+2)]$.}
+\label{tab:example_mag_slopes}
+\begin{tabular}{@{}llr@{}}
+\toprule
+Frequency range & Event & Running slope (dB/dec) \\
+\midrule
+Start to $\omega = 1$  & Pole at origin (always active) & $-20$ \\
+$\omega = 1$ to $2$    & Pole at $-1$ adds $-20$        & $-40$ \\
+$\omega = 2$ to $3$    & Pole at $-2$ adds $-20$        & $-60$ \\
+$\omega = 3$ onward    & Zero at $-3$ adds $+20$        & $-40$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \figplaceholder[5.5in]{Bode magnitude plot for $G(s)=K(s+3)/[s(s+1)(s+2)]$,
+    $K=1$: (a)~individual component asymptotes; (b)~composite asymptote.
+    [Nise Fig.~10.11]}
+  \caption{Magnitude Bode plot for the worked example.  Left: each building
+    block drawn separately.  Right: the composite asymptote, obtained by
+    summing the slopes.}
+  \label{fig:example_magnitude}
+\end{figure}
+
+\subsection*{Step 5: Sketch the phase using the $45^\circ$/decade rule}
+
+Each pole contributes a $-45^\circ$/decade phase ramp beginning one decade
+below its break and ending one decade above.  The zero contributes
+$+45^\circ$/decade over the same span.  The pole at the origin contributes a
+constant $-90^\circ$ offset at all frequencies.
+
+Table~\ref{tab:example_phase_slopes} shows the ramp start/stop frequencies
+and slope contributions for each term.
+
+\begin{table}[htbp]
+\centering
+\caption{Phase slope contributions for $G(s) = K(s+3)/[s(s+1)(s+2)]$.
+  Each ramp applies over the one-decade window around its break.}
+\label{tab:example_phase_slopes}
+\begin{tabular}{@{}llcc@{}}
+\toprule
+Source & Ramp active (rad/s) & Slope (deg/dec) \\
+\midrule
+Pole at origin & (all $\omega$, constant offset) & $-90^\circ$ offset \\
+Pole at $\omega = 1$ & $0.1$ to $10$   & $-45$ \\
+Pole at $\omega = 2$ & $0.2$ to $20$   & $-45$ \\
+Zero at $\omega = 3$ & $0.3$ to $30$   & $+45$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Sum the contributions at each frequency to build the composite phase portrait.
+Figure~\ref{fig:example_phase} shows the result.
+
+\begin{figure}[htbp]
+  \figplaceholder[5.5in]{Bode phase plot for $G(s)=K(s+3)/[s(s+1)(s+2)]$:
+    (a)~individual component ramps starting from the $-90^\circ$ offset;
+    (b)~composite phase. [Nise Fig.~10.12]}
+  \caption{Phase Bode plot for the worked example.  The composite phase starts
+    at $-90^\circ$ (from the pole at the origin) and is shaped by the ramp
+    contributions of the two finite poles and the zero.}
+  \label{fig:example_phase}
+\end{figure}
+
+% ===========================================================================
+\section{Checking Your Sketch with MATLAB}
+\label{sec:matlab}
+% ===========================================================================
+
+The companion script \texttt{freq\_response\_companion.m} works through all
+the examples in this chapter using the Control System Toolbox.  It also uses
+the \texttt{sketchbode} utility, which overlays the straight-line asymptotic
+approximation on the exact MATLAB Bode plot so you can see directly where the
+asymptote is accurate and where it deviates.
+
+\texttt{sketchbode} was written by a student at Olin College in 2007 and has
+been part of this course since.  The workflow is:
+\begin{enumerate}
+  \item Sketch the Bode plot by hand, identifying break frequencies and slopes.
+  \item Call \texttt{sketchbode(sys)} to check your break frequencies and
+    slopes against the computed asymptote.
+  \item Call \texttt{bode(sys)} (or inspect the \texttt{sketchbode} overlay)
+    to see the exact frequency response.
+\end{enumerate}
+
+For second-order factors with small $\zeta$, step~3 matters more than for
+first-order systems: the asymptote near $\omega_n$ can be misleading, and
+only the exact plot shows the resonance peak.
+
+\end{document}
