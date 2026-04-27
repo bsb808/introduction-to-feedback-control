@@ -1,0 +1,98 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Assignment: Steady-State Error}}
+\end{center}
+
+The textbook exercises, designated with the word ``Nise'', are from the
+``Problems'' section at the end of the chapter in \emph{Control System
+Engineering} by Norman Nise, 7th edition.
+
+% ---------------------------------------------------------------
+\section*{Nise 7.5}
+
+Given the open-loop transfer function, predict the steady-state error for step
+(position), ramp (velocity), and parabolic (acceleration) test inputs.  By
+inspection of $G(s)$ you should be able to anticipate the type of steady-state
+error (zero, constant, or infinite) for each input type before computing it.
+
+% ---------------------------------------------------------------
+\section*{Nise 7.10}
+
+Use the \emph{Key Equations} (inside back cover of the Nise textbook) to find
+the answers by hand.  Optionally, check with MATLAB.
+
+% ---------------------------------------------------------------
+\section*{Nise 7.17}
+
+This exercise revisits the derivation of the steady-state error equations for
+step, ramp, and parabolic inputs to deepen understanding of system type.
+
+% ---------------------------------------------------------------
+\section*{USV Case Study}
+
+From the previous assignment, you developed proportional-only unity-feedback
+controllers for surge (speed) and yaw, and evaluated the closed-loop response
+to step inputs.  You may have observed that the two controllers had different
+steady-state error behavior.  Here you will use system-type analysis to explain
+that difference.
+
+\subsection*{Plant models}
+
+Surge (speed) plant:
+\[
+  G_u(s) = \frac{1}{Ms + D}
+\]
+Proportional feedback gain: $K_u$.
+
+Yaw (heading) plant:
+\[
+  G_r(s) = \frac{1}{s\,(Is + d)}
+\]
+Proportional feedback gain: $K_r$.
+
+\subsection*{Exercises}
+
+Work through the following steps independently for each degree of freedom
+(surge and yaw).
+
+\begin{itemize}
+
+  \item What is the system Type for each closed loop?
+
+  \item Based on the system Type, which input (step, ramp, or parabolic)
+    produces a non-zero, finite steady-state error?
+
+  \item For that input type, find an expression for the constant steady-state
+    error in terms of the relevant physical and control parameters
+    ($K_u$, $K_r$, $M$, $D$, $I$, $d$).
+    \begin{itemize}
+      \item How do the physical model parameters affect (increase or decrease)
+        steady-state error?
+      \item How does the control gain affect steady-state error?
+    \end{itemize}
+
+\end{itemize}
+
+\end{document}

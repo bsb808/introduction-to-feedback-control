@@ -1,0 +1,65 @@
+\documentclass[multi={mymath,myarray},border=1pt]{standalone}
+%\documentclass{article}
+\usepackage{amsmath}
+\usepackage{IEEEtrantools}
+
+\newenvironment{mymath}{$\displaystyle}{$}
+
+%\newenvironment{myarray}
+%  {\begin{IEEEeqnarray*}{rCl}} % Start of myarray environment
+%  {\end{IEEEeqnarray*}}
+\newenvironment{myarray}{$\begin{aligned}[t]}{\end{aligned}$}
+  
+\begin{document}
+
+\begin{myarray}
+  e(t \rightarrow \infty) & = \lim_{s \rightarrow 0} s \, E(s) =
+  \lim_{s \rightarrow 0} s \, \frac{R(s)}{1 + G(s)} \\
+  \dot{e}(t \rightarrow \infty) & = \lim_{s \rightarrow 0} s \,(s \, E(s)) =
+  \lim_{s \rightarrow 0} s^2 \, \frac{R(s)}{1 + G(s)} 
+\end{myarray}
+\begin{myarray}
+  \dot{e}_{\text{step}}(\infty) & =  \lim_{s \rightarrow 0}  \frac{s}{1 + G(s)} =
+  0 \\
+  \dot{e}_{\text{ramp}}(\infty) & =  \lim_{s \rightarrow 0}  \frac{1}{1 + G(s)} =
+  \frac{1}{1 + K_p}\\
+  \dot{e}_{\text{para}}(\infty) & =  \lim_{s \rightarrow 0}  \frac{1}{s + s\,G(s)} =
+  \frac{1}{K_v}
+\end{myarray}
+
+\begin{mymath}
+  K_p = \left\{
+  \begin{matrix}
+    const & \:\:\:\:  \text{Type 0} \\
+    \infty & \:\:\:\: \text{Type 1} \\
+    \infty & \:\:\:\:  \text{Type 2}
+  \end{matrix}
+  \right.
+\end{mymath}
+
+
+\begin{mymath}
+  K_v = \left\{
+  \begin{matrix}
+    0 & \:\:\:\:  \text{Type 0} \\
+    const & \:\:\:\: \text{Type 1} \\
+    \infty & \:\:\:\:  \text{Type 2}
+  \end{matrix}
+  \right.
+\end{mymath}
+
+\begin{mymath}
+  G_{ol}(s) = \frac{1}{Ms +D} =\frac{1/M}{s+D/M}
+\end{mymath}
+
+\begin{mymath}
+  G_{\text{surge}}(s) = \frac{\text{forward velocity}}{\text{thrust}} =
+  \frac{1}{Ms + D} 
+\end{mymath}
+
+\begin{mymath}
+  G_{\text{yaw}}(s) = \frac{\text{angular displacement}}{\text{torque}} =
+  \frac{1}{s(Is + d)} 
+\end{mymath}
+
+\end{document}

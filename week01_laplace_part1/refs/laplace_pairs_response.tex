@@ -1,0 +1,43 @@
+\documentclass[10pt]{article}
+\special{papersize=8.5in,11.0in}
+\usepackage{fullpage}
+\usepackage{subfigure}
+\usepackage[pdftex]{graphicx}
+\usepackage{cite}      % Written by Donald Arseneau
+\usepackage{graphicx}  % Written by David Carlisle and Sebastian Rahtz
+\usepackage{url}       % Written by Donald Arseneau
+\usepackage{stfloats}  % Written by Sigitas Tolusis
+\usepackage{amssymb,longtable,dcolumn}
+
+\begin{document}
+\centerline{\large {\bf Laplace Transform Pairs: Time Response}}
+\vspace{1ex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[hbt]\center
+\begin{tabular}{|p{2in}|c|c|} \hline
+	& \mbox{\rule[-1ex]{0cm}{4ex}  $f(t)$} & $F(s)$ \\ \hline \hline
+  First-order impulse response	& \mbox{\rule[-2ex]{0cm}{5ex}
+    $\frac{K_{dc}}{\tau} \left( {e}^{t/\tau} \right)$ } & $K_{dc} \, \frac{1}{(\tau \, s + 1)}$ \\ \hline
+  First-order step response	& \mbox{\rule[-2ex]{0cm}{5ex}
+    $K_{dc} \left( 1 - {e}^{t/\tau} \right)$ } & $\frac{1}{s} \cdot K_{dc} \, \frac{1}{(\tau \, s + 1)}$ \\ \hline
+  Second-order, underdamped impulse response	& \mbox{\rule[-2ex]{0cm}{5ex}
+    $K_{DC} \left(\frac{\omega_n}{\sqrt{1-\zeta^2}}\right) \left( e^{-\zeta \omega_n t} \right)  \sin(\omega_{d} t ) $
+  } & $ K_{dc} \, \frac{\omega_n^2}{(s+\zeta \omega_n)^2 + (\omega_d)^2}$ \\ \hline
+    Second-order, underdamped step response	& \mbox{\rule[-2ex]{0cm}{5ex}
+    $K_{DC} \left( 1 -  \left(\frac{1}{\sqrt{1-\zeta^2}}\right) \left( e^{-\zeta \omega_n t} \right)  \cos(\omega_{d} t + \phi ) \right) $
+  } & $ \frac{1}{s} \cdot  K_{dc} \left( \frac{\omega_n^2}{(s+\zeta \omega_n)^2 + (\omega_d)^2} \right)$ \\ \hline
+    
+\end{tabular}
+%\caption{Laplace Transform Pairs}
+\label{t:bayes.note}
+\end{table}
+
+\[
+\omega_d = \omega_n \sqrt{1-\zeta^2}
+\]
+\[
+\phi = \tan^{-1}(\zeta/\sqrt{1-\zeta^2})
+\]
+
+\end{document}

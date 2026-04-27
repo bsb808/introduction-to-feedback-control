@@ -1,0 +1,163 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Assignment: Transfer Functions and Modeling}}
+\end{center}
+
+\textbf{Instructions.}  Show your work for full credit.  All transfer functions
+are evaluated at zero initial conditions.  Express answers as ratios of
+polynomials in $s$ in descending order.  MATLAB may be used to verify results
+but hand derivation is required.
+
+\bigskip\hrule\bigskip
+
+% ===========================================================================
+\section*{Part 1: Transfer Functions from ODEs}
+% ===========================================================================
+
+For each problem: (a)~identify the input and output variable; (b)~take the
+Laplace transform of the ODE assuming zero initial conditions; (c)~solve for
+the transfer function $G(s) = C(s)/R(s)$.
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+
+\item First-order, simple.
+\[
+  3\dot{c}(t) + c(t) = r(t)
+\]
+
+\item First-order, input derivative.
+\[
+  2\dot{c}(t) + 4c(t) = 5\dot{r}(t)
+\]
+
+\item Second-order, no input derivative.
+\[
+  \ddot{c}(t) + 6\dot{c}(t) + 8c(t) = r(t)
+\]
+
+\item Second-order, input appears on both sides.
+\[
+  \ddot{c}(t) + 3\dot{c}(t) + 2c(t) = \dot{r}(t) + 4r(t)
+\]
+
+\item Third-order.  Identify the poles.  Are any of them real?  What does that
+  tell you about the step response?
+\[
+  \dddot{c} + 6\ddot{c} + 11\dot{c} + 6c = r(t)
+\]
+
+\item \textbf{Reverse direction.}  A system has transfer function
+\[
+  G(s) = \frac{s + 3}{s^2 + 4s + 3}
+\]
+Write the corresponding differential equation relating output $c(t)$ to input
+$r(t)$.
+
+\item Given $\ddot{c} + 5\dot{c} + 6c = 2\dot{r} + r$:
+(a)~Find $G(s)$.
+(b)~Find the poles and zeros of $G(s)$.
+(c)~Use MATLAB to create the \texttt{tf} object and verify with \texttt{pole(G)}
+and \texttt{zero(G)}.
+
+\end{enumerate}
+
+\bigskip\hrule\bigskip
+
+% ===========================================================================
+\section*{Part 2: Mechanical System Transfer Functions}
+% ===========================================================================
+
+For each system: (a)~draw a free-body diagram; (b)~write the equation of motion
+using Newton's second law; (c)~take the Laplace transform; (d)~find the transfer
+function with the input and output as stated.
+
+\begin{enumerate}[label=\textbf{\arabic*.}, resume]
+
+\item A mass $M = 2\,\text{kg}$ is connected to a wall by a spring $K = 8\,\text{N/m}$
+  (no damping).  Input: applied force $f(t)$; output: displacement $x(t)$.
+
+  Find $G(s) = X(s)/F(s)$.  What are the poles?  What type of motion does the
+  step response produce?
+
+\item A mass $M$ is connected to a wall by a spring $K$ and a viscous damper $b$
+  in parallel.  Input: applied force $f(t)$; output: displacement $x(t)$.
+
+  (a)~Find $G(s) = X(s)/F(s)$ in terms of $M$, $b$, $K$.
+
+  (b)~Let $M = 1\,\text{kg}$, $b = 4\,\text{N{\cdot}s/m}$, $K = 3\,\text{N/m}$.
+  Find the numerical transfer function, then use MATLAB to find the poles.  Is
+  the system overdamped, underdamped, or critically damped?
+
+\item A rotating disk has moment of inertia $J = 0.5\,\text{kg{\cdot}m}^2$
+  and is connected to a fixed support through a rotational damper
+  $D = 2\,\text{N{\cdot}m{\cdot}s/rad}$.  Input: applied torque $T(t)$; output:
+  angular velocity $\omega(t) = \dot{\theta}(t)$.
+
+  (a)~Write the equation of motion in terms of $\omega(t)$.
+
+  (b)~Find $G(s) = \Omega(s)/T(s)$.
+
+  (c)~Use the final value theorem to find the steady-state angular velocity for
+  $T(t) = T_0\,u(t)$.
+
+\item A rotating shaft has inertia $J$, torsional spring $K$, and rotational
+  damping $D$.  Input: applied torque $T(t)$; output: angular displacement
+  $\theta(t)$.
+
+  Find $G(s) = \Theta(s)/T(s)$ in terms of $J$, $D$, $K$.
+
+\end{enumerate}
+
+\bigskip\hrule\bigskip
+
+% ===========================================================================
+\section*{Part 3: Using the Transfer Function}
+% ===========================================================================
+
+\begin{enumerate}[label=\textbf{\arabic*.}, resume]
+
+\item A first-order system has transfer function $G(s) = \dfrac{5}{s+5}$.
+
+  (a)~For a unit step input $R(s) = 1/s$, write $C(s) = G(s)R(s)$ and find
+  $c(t)$ via partial fractions.
+
+  (b)~Use the final value theorem to find the steady-state value without
+  inverting the transform.
+
+\item A second-order system has transfer function
+\[
+  G(s) = \frac{4}{s^2 + 2s + 4}
+\]
+
+  (a)~For a unit step input, write $C(s)$.
+
+  (b)~Use MATLAB's \texttt{step(G)} to plot the step response.  Label the plot
+  with the natural frequency $\omega_n$, damping ratio $\zeta$, and time
+  constant $\tau = 1/(\zeta\omega_n)$.
+  (Hint: match the denominator to $s^2 + 2\zeta\omega_n s + \omega_n^2$.)
+
+\end{enumerate}
+
+\end{document}

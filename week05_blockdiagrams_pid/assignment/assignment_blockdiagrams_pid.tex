@@ -1,0 +1,169 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Assignment: Block Diagrams and PID Control}}
+\end{center}
+
+The textbook exercises, designated with the word ``Nise'', are from the
+``Problems'' section at the end of the chapter in \emph{Control System
+Engineering} by Norman Nise, 7th edition.
+
+% ---------------------------------------------------------------
+\section*{Nise 5.1}
+
+% ---------------------------------------------------------------
+\section*{Nise 5.11}
+
+Do this problem both manually and with MATLAB.
+
+\begin{enumerate}
+\item By hand, find the closed-loop transfer function using block diagram
+  algebra, then calculate the requested metrics using the key equations.
+\item Using MATLAB, use \texttt{feedback()} and \texttt{stepinfo()} to obtain
+  the same results.
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Exercise 3: Proportional Speed Control of the USV}
+
+This exercise connects block diagram algebra to the feedback controllers
+we will implement in the USV field labs.
+For background on the surge plant model and proportional control,
+refer to the \emph{PID Control: From Analysis to Practice} article distributed
+in class.
+
+\subsection*{Background}
+
+The surge (forward-speed) dynamics of the USV can be modeled as a first-order
+plant:
+\[
+  G_{\mathrm{surge}}(s) = \frac{5.1}{1.3\,s + 1}
+\]
+where the input is normalized throttle ($\pm 1$) and the output is forward
+speed (m/s).
+We close a unity feedback loop with a proportional controller $C(s) = K_p$.
+
+\subsection*{Tasks}
+
+\begin{enumerate}
+
+\item \textbf{Block diagram.}
+  Draw the standard unity-feedback block diagram with $G_{\mathrm{surge}}(s)$
+  in the forward path and $K_p$ as the controller block.
+  Label $R(s)$, $E(s)$, $U(s)$, and $Y(s)$.
+
+\item \textbf{Closed-loop transfer function.}
+  Derive $T(s) = Y(s)/R(s)$.  Rewrite in standard first-order form and express
+  the closed-loop DC gain $K_{\mathrm{cl}}$ and time constant $\tau_{\mathrm{cl}}$
+  as explicit functions of $K_p$.
+
+\item \textbf{Design for rise time.}
+  Find the minimum $K_p$ such that the closed-loop rise time satisfies
+  $T_r < 1.5$\,s.  Derive $K_{p,\mathrm{min}}$ analytically before evaluating
+  numerically.
+
+\item \textbf{MATLAB verification.}
+  Use \texttt{feedback()} to build $T(s)$ and \texttt{stepinfo()} to extract
+  metrics.  Plot the closed-loop unit-step response for $K_{p,\mathrm{min}}$.
+
+\item \textbf{Report.}
+  State the following values from your MATLAB results:
+  \begin{itemize}
+    \item $K_{p,\mathrm{min}}$
+    \item Closed-loop rise time $T_r$
+    \item Steady-state error $e_{ss} = 1 - K_{\mathrm{cl}}$
+  \end{itemize}
+  Briefly explain why $e_{ss} > 0$ for any finite $K_p$ with proportional-only
+  control.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Exercise 4: Feedforward Compensation}
+
+This exercise extends Exercise~3 by adding a feedforward path to eliminate
+steady-state error without changing the closed-loop dynamics.
+
+\subsection*{Background}
+
+In Exercise~3, proportional-only control always leaves a nonzero steady-state
+error.
+Increasing $K_p$ arbitrarily is impractical for several reasons:
+
+\begin{itemize}
+  \item \textbf{Actuator saturation.}  Normalized throttle is bounded to
+        $\pm 1$.  At $t=0^+$, the error is $E(0)=1$, so the initial command is
+        $U(0) = K_p$.  Any $K_p > 1$ immediately saturates the throttle.
+  \item \textbf{Noise amplification.}  High gain passes sensor noise directly
+        to the actuator, causing excessive thruster activity.
+  \item \textbf{Reduced stability margins.}  High loop gain reduces gain and
+        phase margins, making the closed loop more sensitive to unmodeled
+        dynamics.
+\end{itemize}
+
+A better strategy is to keep $K_p$ modest and add a feedforward gain $K_{ff}$
+to handle the steady-state offset.
+
+\subsection*{Tasks}
+
+\begin{enumerate}
+
+\item \textbf{Feedforward block diagram.}
+  A feedforward gain $K_{ff}$ is added from $R(s)$ directly to the plant-input
+  summing junction, so the control effort becomes
+  \[
+    U(s) = K_p\,E(s) + K_{ff}\,R(s).
+  \]
+  Draw the modified block diagram and label all signals and blocks.
+
+\item \textbf{Closed-loop transfer function with feedforward.}
+  Derive $T_{ff}(s) = Y(s)/R(s)$.  Show that choosing
+  \[
+    K_{ff} = \frac{1}{K_{\mathrm{plant}}}, \qquad K_{\mathrm{plant}} = G_{\mathrm{surge}}(0),
+  \]
+  gives $T_{ff}(0) = 1$ (zero steady-state error) while leaving
+  $\tau_{\mathrm{cl}}$ unchanged.
+
+\item \textbf{MATLAB comparison.}
+  Using the same $K_p$ from Exercise~3:
+  \begin{enumerate}
+    \item Build the feedforward closed-loop \texttt{tf} object and verify with
+          \texttt{dcgain()}.
+    \item Plot the unit-step responses of the P-only and P+feedforward
+          controllers on the same axes.
+    \item Report rise time and steady-state value for the feedforward case.
+  \end{enumerate}
+
+\item \textbf{Report.}
+  State the following values:
+  \begin{itemize}
+    \item $K_{ff}$ (analytical value)
+    \item Closed-loop rise time $T_r$ for P+feedforward
+    \item Steady-state error $e_{ss}$ for P+feedforward
+  \end{itemize}
+  Comment on how $T_r$ compares to the P-only result and explain why.
+
+\end{enumerate}
+
+\end{document}

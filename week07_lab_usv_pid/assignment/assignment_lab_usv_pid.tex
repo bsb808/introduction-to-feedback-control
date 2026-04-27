@@ -1,0 +1,113 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Lab Assignment: USV PID Control}}
+\end{center}
+
+This assignment accompanies the closed-loop PID control experiments on the USV.
+You will design controllers analytically, implement them in ArduPilot, collect
+step-response data, and compare measured performance against predictions.
+
+\textbf{Deliverable.}  A brief lab report (PDF) with figures and MATLAB code
+appended.
+
+\bigskip\hrule\bigskip
+
+% ---------------------------------------------------------------
+\section*{1\quad Pre-lab: Controller Design}
+
+\begin{enumerate}
+
+\item Using the surge and yaw plant models identified in the previous lab,
+  design a proportional controller for each axis that achieves the rise-time
+  specification given in class.  Show your design calculations.
+
+\item For the surge axis, design a PI controller that eliminates steady-state
+  error while maintaining approximately the same rise time.  State your choice
+  of $K_p$ and $K_i$.
+
+\item Predict the closed-loop step-response metrics (rise time, settling time,
+  percent overshoot, steady-state error) for each controller.  Use MATLAB
+  \texttt{step()} and \texttt{stepinfo()} to verify your predictions.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{2\quad Experiment}
+
+\begin{enumerate}[resume]
+
+\item Configure the ArduPilot parameters for your designed controller gains.
+  Record the parameter file for each trial.
+
+\item Conduct step-response experiments for the surge and yaw axes.
+  Collect ArduPilot \texttt{.BIN} logs for each trial.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{3\quad Post-lab: Data Analysis}
+
+\begin{enumerate}[resume]
+
+\item Process the \texttt{.BIN} logs using the provided pipeline
+  (\texttt{bin2mat.py}, \texttt{proc\_openloop\_response.m}).
+  Plot the measured step response for each trial.
+
+\item Overlay the simulated (model-predicted) response on each measured
+  response plot.  Compute the rise time, settling time, and steady-state
+  error from the measured data.
+
+\item Fill in the comparison table below (expand rows as needed):
+
+  \begin{center}
+  \begin{tabular}{lccc}
+    \hline
+    Metric & Predicted & Measured & Difference \\
+    \hline
+    Surge $T_r$ (s) & & & \\
+    Surge $e_{ss}$ (m/s) & & & \\
+    Yaw $T_r$ (s) & & & \\
+    Yaw $e_{ss}$ (rad/s) & & & \\
+    \hline
+  \end{tabular}
+  \end{center}
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{4\quad Discussion}
+
+\begin{enumerate}[resume]
+
+\item Discuss the agreement (or disagreement) between predicted and measured
+  performance.  What are the most likely sources of discrepancy?
+
+\item How did the PI controller affect steady-state error and rise time compared
+  to the proportional-only controller?  Is this consistent with your
+  pre-lab prediction?
+
+\end{enumerate}
+
+\end{document}

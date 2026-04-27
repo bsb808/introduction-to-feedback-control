@@ -1,0 +1,124 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Assignment: Stability Margins and Gain Design}}
+\end{center}
+
+The textbook exercises designated with the word ``Nise'' are from the
+``Problems'' section at the end of Chapters~10 and~11 in \emph{Control System
+Engineering} by Norman Nise, 7th edition.
+
+% ---------------------------------------------------------------
+\section*{Part 1: Reading Stability Margins from a Bode Plot}
+
+\begin{enumerate}
+
+\item For each open-loop transfer function, use MATLAB to plot the Bode diagram
+  and read off the gain margin (GM) and phase margin (PM).  State whether
+  the closed-loop system is stable and explain how you determined this from
+  the margins.
+
+  \begin{enumerate}
+    \item $G(s) = \dfrac{100}{(s+1)(s+5)(s+10)}$
+    \item $G(s) = \dfrac{10}{s(s+2)(s+8)}$
+    \item $G(s) = \dfrac{K}{s(s+1)(s+4)}$ with $K = 1$
+  \end{enumerate}
+
+\item For part~(c) above, use MATLAB \texttt{margin()} to confirm your
+  margin values.  Then determine the maximum gain $K_{\max}$ that keeps the
+  closed loop stable.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Part 2: Relating Frequency Response to Transient Response}
+
+\begin{enumerate}[resume]
+
+\item A unity-feedback system has open-loop transfer function
+  \[
+    G(s) = \frac{K}{s(s+4)}
+  \]
+  \begin{enumerate}
+    \item For $K = 4$, compute the phase margin using MATLAB.
+    \item Use the approximation $\zeta \approx \mathrm{PM}/100$ (for
+      $\mathrm{PM} < 70°$) to estimate the damping ratio of the dominant
+      closed-loop poles.
+    \item Use MATLAB \texttt{step()} on the \emph{closed-loop} system to find
+      the actual \%OS, and compare it to the prediction
+      $\%OS \approx e^{-\pi\zeta/\sqrt{1-\zeta^2}} \times 100$.
+  \end{enumerate}
+
+\item \textbf{Nise 10.7} (selected parts): Read gain and phase margins from a
+  given Bode plot and determine closed-loop stability.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Part 3: Gain Adjustment Design}
+
+\begin{enumerate}[resume]
+
+\item A unity-feedback position-control system has open-loop transfer function
+  \[
+    G(s) = \frac{K}{s(s+2)(s+5)}
+  \]
+  Design a gain $K$ such that the closed-loop phase margin is at least $40°$.
+
+  \begin{enumerate}
+    \item Plot the Bode diagram for $K = 1$ using MATLAB.
+    \item Identify the frequency $\omega_{PM}$ at which the phase equals
+      $-180° + 40° = -140°$.
+    \item Compute the required gain adjustment so the magnitude is $0$\,dB at
+      $\omega_{PM}$.
+    \item Verify by re-plotting with the designed $K$ and confirming the margin
+      with \texttt{margin()}.
+  \end{enumerate}
+
+\item \textbf{Nise 11.2} (selected parts): Given a desired percent overshoot,
+  find the gain $K$ using the phase-margin/damping-ratio relationship.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Part 4: USV Application}
+
+\begin{enumerate}[resume]
+
+\item For the USV surge plant with proportional control:
+  \[
+    L(s) = K_p \cdot G_{\mathrm{surge}}(s) = \frac{5.1\,K_p}{1.3\,s + 1}
+  \]
+  \begin{enumerate}
+    \item Show that this first-order loop has infinite gain margin and
+      compute the phase margin as a function of $K_p$.
+      (Hint: a first-order system's phase never reaches $-180°$.)
+    \item What does this imply about the stability of proportional control of
+      a first-order plant?
+    \item Verify with MATLAB \texttt{margin()} for $K_p = 2$.
+  \end{enumerate}
+
+\end{enumerate}
+
+\end{document}

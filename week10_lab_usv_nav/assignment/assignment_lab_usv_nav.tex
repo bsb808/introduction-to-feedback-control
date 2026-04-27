@@ -1,0 +1,107 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Lab Assignment: USV Navigation}}
+\end{center}
+
+This assignment accompanies the autonomous navigation experiments on the USV.
+You will analyze waypoint-following performance, connect outer-loop navigation
+to inner-loop speed and heading control, and reflect on the end-to-end
+system behavior.
+
+\textbf{Deliverable.}  A brief lab report (PDF) with figures and MATLAB code
+appended.
+
+\bigskip\hrule\bigskip
+
+% ---------------------------------------------------------------
+\section*{1\quad Pre-lab: Navigation Architecture}
+
+\begin{enumerate}
+
+\item Describe the two-loop control architecture used for waypoint navigation:
+  identify the outer loop (guidance) and inner loops (speed and heading
+  control).  Draw a block diagram showing how the loops interact.
+
+\item For the heading control loop, what is the commanded variable?  How does
+  the guidance law translate a waypoint bearing error into a heading command?
+
+\item Based on your heading controller gains from the previous lab, predict
+  the closed-loop bandwidth of the heading loop.  Explain why bandwidth
+  matters for navigation performance.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{2\quad Experiment}
+
+\begin{enumerate}[resume]
+
+\item Configure ArduPilot for an autonomous waypoint mission with at least four
+  waypoints forming a closed course.  Record the parameter file and the mission
+  file.
+
+\item Execute the mission and collect ArduPilot \texttt{.BIN} logs.
+  If possible, run at least two trials with different speed commands.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{3\quad Post-lab: Data Analysis}
+
+\begin{enumerate}[resume]
+
+\item Process the \texttt{.BIN} log.  Plot the GPS track (latitude/longitude
+  converted to local East-North coordinates) and overlay the commanded
+  waypoints.
+
+\item Compute the cross-track error (perpendicular distance from the planned
+  path) as a function of time.  Plot and report the RMS cross-track error for
+  each leg.
+
+\item Plot heading and speed as functions of time.  Identify the time intervals
+  corresponding to turns and straight-line segments.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{4\quad Discussion}
+
+\begin{enumerate}[resume]
+
+\item How does cross-track error vary with vehicle speed?  Is this consistent
+  with your expectation based on the heading-control bandwidth?
+
+\item Identify one factor that limited navigation accuracy in your experiment
+  and propose a specific change (to the controller or the guidance law) that
+  would reduce it.
+
+\item Reflect on the full-stack design process from this course: plant
+  identification $\to$ controller design $\to$ closed-loop analysis $\to$
+  field implementation.  What was the most significant gap between theory and
+  experiment?
+
+\end{enumerate}
+
+\end{document}

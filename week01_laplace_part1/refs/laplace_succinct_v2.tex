@@ -1,0 +1,51 @@
+\documentclass[10pt]{article}
+\special{papersize=8.5in,11.0in}
+\usepackage{fullpage}
+\usepackage{subfigure}
+\usepackage[pdftex]{graphicx}
+\usepackage{cite}      % Written by Donald Arseneau
+\usepackage{graphicx}  % Written by David Carlisle and Sebastian Rahtz
+\usepackage{url}       % Written by Donald Arseneau
+\usepackage{stfloats}  % Written by Sigitas Tolusis
+\usepackage{amssymb,longtable,dcolumn}
+
+\begin{document}
+\centerline{\large {\bf Laplace Transform Pairs and Properties}}
+\vspace{1ex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[hbt]\center
+\begin{tabular}{|c|c|c|} \hline
+	& \mbox{\rule[-1ex]{0cm}{4ex}  $f(t)$} & $F(s)$ \\ \hline \hline
+1 	& \mbox{\rule[-2ex]{0cm}{5ex}  $\delta(t)$ - Impulse } & 1 \\ \hline
+2 	& \mbox{\rule[-2ex]{0cm}{5ex}  $\mu(t)$ - Step	} & $\frac{1}{s}$ \\ \hline
+3 	& \mbox{\rule[-2ex]{0cm}{5ex}  $t^n \,\, (n=1,2,3,...) $ } & $\frac{n!}{s^{n+1}}$ \\ \hline
+4 	& \mbox{\rule[-2ex]{0cm}{5ex}  $e^{-at}$		} & $\frac{1}{s+a}$ \\ \hline
+5 	& \mbox{\rule[-2ex]{0cm}{5ex}  $sin(\omega t)$ 	} & $\frac{\omega}{s^2+\omega^2}$ \\ \hline
+6 	& \mbox{\rule[-2ex]{0cm}{5ex}  $cos(\omega t) $	} & $\frac{s}{s^2+\omega^2}$ \\ \hline 
+
+\end{tabular}
+\caption{Laplace Transform Pairs}
+\label{t:bayes.note}
+\end{table}
+
+\begin{table}[hbt]\center
+\begin{tabular}{|c|c|c|} \hline
+	& \mbox{\rule[-1ex]{0cm}{4ex}  $f(t)$		} & $F(s)$ \\ \hline \hline
+1 	& \mbox{\rule[-2ex]{0cm}{5ex}  $Af(t)$ 	} & $AF(s)$ \\ \hline
+2 	& \mbox{\rule[-2ex]{0cm}{5ex}  $f_1(t) \pm f_2(t)$	} & $F_1(s) \pm  F_2(s)$ \\ \hline
+3 	& \mbox{\rule[-2ex]{0cm}{6ex} $\frac{d^n}{dt^{n}} f(t)$} & $ s^nF(s) - \sum_{k=1}^{n} s^{n-k} [\frac{d^{k-1}}{dt^{k-1}}f(t)]_{t=0}$ \\ \hline
+3.1 	& \mbox{\rule[-2ex]{0cm}{6ex} $\frac{d}{dt} f(t)$} & $ sF(s) - f(0)$ \\ \hline
+3.2 	& \mbox{\rule[-2ex]{0cm}{6ex} $\frac{d^2}{dt^{2}} f(t)$} & $ s^2F(s) - \left( s f(0) + \dot{f}(0)\right)$ \\ \hline
+4 	& \mbox{\rule[-2ex]{0cm}{5ex}  $\int_{0}^{t}f(t)$		} & $\frac{F(s)}{s}$ \\ \hline
+5 	& \mbox{\rule[-2ex]{0cm}{5ex}  $t^nf(t) $	} & $(-1)^n \frac{d^n}{ds^n}F(s) $, $n=1,2,3,\dots$\\ \hline 
+
+6 	& \mbox{\rule[-2ex]{0cm}{5ex}  $e^{-at}f(t)$ 	} & $F(s+a)$ \\ \hline
+7 	& \mbox{\rule[-2ex]{0cm}{5ex}  $f(t-a)\mu(t-a) $	} & $e^{-as}F(s)$, $a \geq 0 $\\ \hline 
+8	& \mbox{\rule[-2ex]{0cm}{5ex} $\lim_{t \rightarrow \infty} [f(t)]$} & $ \lim_{s \rightarrow 0} [s F(s)] $ \\ \hline 
+\end{tabular}
+\caption{Laplace Transform Properties}
+\label{t:bayes.note}
+\end{table}
+
+\end{document}

@@ -1,0 +1,110 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Assignment: Laplace Transforms}}
+\end{center}
+
+% ---------------------------------------------------------------
+\section*{Part 1: Forward Laplace Transform}
+
+Using the Laplace transform table, find $F(s) = \mathcal{L}\{f(t)\}$ for each
+function below.  Assume $f(t) = 0$ for $t < 0$.
+
+\begin{enumerate}
+
+\item $f(t) = 4e^{-3t}$
+
+\item $f(t) = 2\sin(5t)$
+
+\item $f(t) = 3\cos(2t)$
+
+\item $f(t) = t\,e^{-2t}$
+
+\item $f(t) = 5 - 5e^{-t}$
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Part 2: Inverse Laplace Transform by Partial Fractions}
+
+Find $f(t) = \mathcal{L}^{-1}\{F(s)\}$ for each expression using partial fraction
+expansion.  Show all steps.
+
+\begin{enumerate}[resume]
+
+\item $F(s) = \dfrac{3}{s(s+3)}$
+
+\item $F(s) = \dfrac{s+1}{(s+2)(s+4)}$
+
+\item $F(s) = \dfrac{2}{s^2 + 4s + 3}$
+
+\item $F(s) = \dfrac{10}{s(s^2 + 4s + 8)}$
+  \hfill (Hint: complete the square in the denominator)
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Part 3: Solving ODEs via Laplace Transforms}
+
+For each ODE, assume zero initial conditions and a unit step input $r(t) = u(t)$
+($R(s) = 1/s$).
+(a)~Take the Laplace transform.
+(b)~Solve for $C(s)$.
+(c)~Find $c(t)$ via partial fractions and inverse transform.
+
+\begin{enumerate}[resume]
+
+\item $\dot{c}(t) + 4c(t) = 8\,r(t)$
+
+\item $\ddot{c}(t) + 5\dot{c}(t) + 6c(t) = 6\,r(t)$
+
+\item $\ddot{c}(t) + 4\dot{c}(t) + 8c(t) = 8\,r(t)$
+  \hfill (underdamped: express result in the form
+  $c(t) = K[1 - A\,e^{-\sigma t}\cos(\omega_d t - \phi)]$)
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Part 4: Pole Locations and Time-Domain Behavior}
+
+\begin{enumerate}[resume]
+
+\item For each transfer function below: identify the poles; state whether the
+  system is stable; and describe the qualitative character of the step response
+  (e.g., overdamped, underdamped, undamped oscillation, or unstable).
+
+  \begin{enumerate}
+    \item $G(s) = \dfrac{1}{(s+1)(s+3)}$
+    \item $G(s) = \dfrac{1}{s^2 + 2s + 5}$
+    \item $G(s) = \dfrac{1}{s(s+2)}$
+    \item $G(s) = \dfrac{1}{(s-1)(s+3)}$
+  \end{enumerate}
+
+\item Using MATLAB, create \texttt{tf} objects for each system in the previous
+  problem and plot the step responses with \texttt{step()}.
+  Confirm that the plots match your qualitative predictions.
+
+\end{enumerate}
+
+\end{document}

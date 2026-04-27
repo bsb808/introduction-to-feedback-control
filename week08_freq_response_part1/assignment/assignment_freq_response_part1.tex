@@ -1,0 +1,109 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Assignment: Frequency Response and Bode Plots}}
+\end{center}
+
+The textbook exercises designated with the word ``Nise'' are from the
+``Problems'' section at the end of Chapter~10 in \emph{Control System
+Engineering} by Norman Nise, 7th edition.
+
+% ---------------------------------------------------------------
+\section*{Part 1: Frequency Response by Hand}
+
+\begin{enumerate}
+
+\item For the transfer function $G(s) = \dfrac{10}{s + 10}$:
+  \begin{enumerate}
+    \item Evaluate $G(j\omega)$ at $\omega = 1$, $10$, and $100$\,rad/s.
+      Compute the magnitude (in dB) and phase (in degrees) at each frequency.
+    \item Sketch the straight-line (asymptotic) Bode magnitude and phase plots
+      by hand.  Label the break frequency and the low- and high-frequency
+      asymptote slopes.
+    \item Use MATLAB \texttt{bode(G)} to plot the exact response.  Overlay your
+      sketch and note where the straight-line approximation has the largest
+      error.
+  \end{enumerate}
+
+\item Convert to Bode form and sketch the asymptotic Bode magnitude plot for
+  each transfer function.  Label all break frequencies and asymptote slopes.
+  Verify with MATLAB.
+
+  \begin{enumerate}
+    \item $G(s) = \dfrac{100(s+1)}{s(s+10)}$
+    \item $G(s) = \dfrac{50}{(s+2)(s+5)}$
+    \item $G(s) = \dfrac{5(s+2)}{s^2(s+20)}$
+  \end{enumerate}
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Part 2: Bode Sketching from Building Blocks}
+
+\begin{enumerate}[resume]
+
+\item The transfer function of the USV surge plant is
+  \[
+    G_{\mathrm{surge}}(s) = \frac{5.1}{1.3\,s + 1}
+  \]
+  \begin{enumerate}
+    \item Convert to Bode form.  Identify the DC gain (in dB) and the break
+      frequency.
+    \item Sketch the asymptotic Bode magnitude and phase plots.
+    \item Use MATLAB to produce the exact Bode plot and compare.
+    \item At what frequency does the magnitude drop to $-3$\,dB relative to DC?
+      What is the physical interpretation of this frequency?
+  \end{enumerate}
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Part 3: Nise Problems}
+
+\begin{enumerate}[resume]
+
+\item \textbf{Nise 10.1} (selected parts): Sketch the Bode magnitude and phase
+  plots for the given transfer functions.
+
+\item \textbf{Nise 10.2} (selected parts): From the given Bode plots, identify
+  the transfer function.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Part 4: MATLAB Exploration}
+
+\begin{enumerate}[resume]
+
+\item Use the \texttt{sketchbode} utility (in \texttt{matlab/}) to overlay the
+  asymptotic and exact Bode plots for the surge plant.  Run the function and
+  include the resulting figure in your report.
+
+\item For the closed-loop surge system with $K_p = 2$, use MATLAB to plot the
+  Bode magnitude of the closed-loop transfer function.  Identify the
+  $-3$\,dB bandwidth.
+
+\end{enumerate}
+
+\end{document}

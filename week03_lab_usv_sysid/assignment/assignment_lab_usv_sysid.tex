@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Lab Assignment: USV System Identification}}
+\end{center}
+
+This assignment accompanies the USV open-loop step-response experiments.
+You will process flight-log data, identify first-order plant models for surge and
+yaw, and validate the models against measured data.
+
+\textbf{Deliverable.}  A brief lab report (PDF) with figures and MATLAB code
+appended.
+
+\bigskip\hrule\bigskip
+
+% ---------------------------------------------------------------
+\section*{1\quad Data Processing}
+
+\begin{enumerate}
+
+\item Convert the ArduPilot \texttt{.BIN} log to \texttt{.mat} format using
+  \texttt{bin2mat.py}.  Run \texttt{proc\_openloop\_response.m} to extract and
+  plot the surge and yaw step responses.
+
+\item Identify the start and end of each step (the interval where the actuator
+  command is approximately constant).  Trim the time series to the relevant
+  windows and shift time so that $t = 0$ at the start of each step.
+
+\item Plot the trimmed surge (speed vs.\ time) and yaw (yaw rate vs.\ time)
+  responses on separate axes.  Label axes with units.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{2\quad Surge Model Identification}
+
+The surge plant is modeled as a first-order system:
+\[
+  G_{\mathrm{surge}}(s) = \frac{K_{\mathrm{surge}}}{\tau_{\mathrm{surge}}\,s + 1}
+\]
+where the input is normalized throttle ($\pm 1$) and the output is forward speed (m/s).
+
+\begin{enumerate}[resume]
+
+\item From the step-response data, estimate the steady-state speed $y_{ss}$ and
+  the normalized throttle command $u_0$.  Compute the DC gain:
+  \[
+    K_{\mathrm{surge}} = \frac{y_{ss}}{u_0}
+  \]
+
+\item Estimate the time constant $\tau_{\mathrm{surge}}$ from the response.
+  (The output reaches $63.2\%$ of $y_{ss}$ at $t = \tau$.)
+
+\item Construct the identified transfer function as a MATLAB \texttt{tf} object.
+  Simulate the model's step response and overlay it on the measured data.
+  Comment on the fit quality.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{3\quad Yaw Model Identification}
+
+The yaw plant is modeled as an integrator with damping:
+\[
+  G_{\mathrm{yaw}}(s) = \frac{K_{\mathrm{yaw}}}{s\,(\tau_{\mathrm{yaw}}\,s + 1)}
+\]
+where the input is normalized rudder command ($\pm 1$) and the output is yaw rate (rad/s).
+
+\begin{enumerate}[resume]
+
+\item From the step-response data, estimate the steady-state yaw rate $r_{ss}$
+  and the normalized rudder command $\delta_0$.  Compute the gain parameter
+  $K_{\mathrm{yaw}} = r_{ss}/\delta_0$.
+
+\item Estimate $\tau_{\mathrm{yaw}}$ from the initial transient shape.
+
+\item Construct the identified transfer function.  Simulate and overlay on the
+  measured yaw rate.  Comment on the fit.
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{4\quad Discussion}
+
+\begin{enumerate}[resume]
+
+\item What are the dominant sources of uncertainty in this identification
+  procedure?  How would you reduce them in a follow-on experiment?
+
+\item How would wind, waves, or current affect the identified parameters?
+
+\end{enumerate}
+
+\end{document}
