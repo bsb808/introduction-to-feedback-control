@@ -17,6 +17,10 @@
 
 - [ ] Review first draft of chapter (`week09_freq_response_part2/chapter/freq_response_p2.tex`) and companion script (`freq_response_p2_companion.m`).
 
+## Terminology: ArduPilot / ArduRover / autopilot
+
+- [ ] Audit all lab documents for consistent use of ArduPilot vocabulary.  Verify the community standard (ArduPilot = the project; ArduRover = the rover/boat firmware; autopilot = the hardware board) and apply uniformly across Lab 1 (`lab_usv_sysid.tex`), Lab 2 (`lab_usv_pid.tex`), and any future lab documents.
+
 ## Rebase
 
 I want to do a full rebase of this project to scrub the git history and as a clean break as the project has taken a new turn.  

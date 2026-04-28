@@ -21,6 +21,10 @@
 
 \usepackage{subfiles}
 
+% Draft review flag: \verify{note} renders an inline orange callout.
+% Redefine to \newcommand{\verify}[1]{} to suppress all flags in a clean build.
+\newcommand{\verify}[1]{\textcolor{orange}{\textbf{[?~#1]}}}
+
 \newcommand{\figplaceholder}[2][3in]{%
   \begin{center}
   \fbox{\parbox{#1}{\centering\vspace{0.5in}\textit{[Figure: #2]}\vspace{0.5in}}}

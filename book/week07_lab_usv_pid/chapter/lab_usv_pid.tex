@@ -1,7 +1,296 @@
 \documentclass[../../book.tex]{subfiles}
 \begin{document}
+\graphicspath{{images/}}
 \chaptertitle{Lab 2: USV PID Control}{7}
 
-Content forthcoming.
+\section{Learning Objectives}
+
+By the end of this lab you should be able to:
+
+\begin{description}
+  \item[\textbf{Describe}] How ArduRover implements closed-loop PID speed and steering-rate control, and how it connects to the first-order plant models identified in Lab~1.
+  \item[\textbf{Configure}] ArduRover PID parameters to implement a specific control design on the USV autopilot.
+  \item[\textbf{Explain}] The role of command input filtering and why disabling the acceleration limit allows a step input to reach the controller directly.
+  \item[\textbf{Measure}] Closed-loop step-response metrics---rise time, percent overshoot, settling time, and steady-state error---from field data.
+  \item[\textbf{Tune}] Speed and steering-rate PID gains to improve closed-loop performance relative to factory defaults.
+  \item[\textbf{Compare}] Closed-loop step-response predictions from the Lab~1 plant model against measured field data for both channels, and interpret where the model guides sound design decisions even when it does not perfectly match the experiment.
+  \item[\textbf{Argue}] For a specific tuning tradeoff in the context of a timed waypoint race.
+\end{description}
+
+% ============================================================
+\section{Introduction: ArduPilot for USVs}
+
+ArduPilot is a mature, open-source autopilot software project supporting a wide range of unmanned platforms---fixed-wing aircraft, multirotors, traditional helicopters, rovers, and surface vessels.  The project grew from aerial roots, and the multirotor and fixed-wing implementations benefit from a large user base, extensive documentation, and years of field-validated defaults.
+
+Applying ArduPilot to an unmanned surface vehicle (USV) is technically straightforward in principle: the same autopilot hardware and the same closed-loop PID architecture that steers a quadrotor can steer a boat.  In practice, however, USV users face a distinct set of challenges:
+
+\begin{itemize}
+  \item \textbf{Architectural complexity.}  The ArduRover firmware---ArduPilot's rover and boat implementation---inherits infrastructure designed for a broad class of vehicles.  Much of this complexity is irrelevant to a simple single-screw USV, but it must be understood or carefully bypassed.
+
+  \item \textbf{Aerial-centric documentation.}  Online tutorials, forum threads, and parameter descriptions routinely assume an aerial context.  Terminology such as ``throttle,'' ``heading hold,'' and ``attitude'' carries implicit aerial meaning that must be reinterpreted for a surface vehicle.
+
+  \item \textbf{Small community.}  The USV user base is a small fraction of the ArduPilot project, so there is less empirical data, fewer worked examples, and less community synthesis to guide configuration.
+
+  \item \textbf{Distinct dynamics.}  A single-screw, single-rudder USV is fundamentally different from an overactuated multirotor.  The multirotor is holonomic---it can accelerate in any direction from rest---whereas the USV is non-holonomic: it can only generate lateral force indirectly, by developing forward speed and then deflecting a rudder into the flow.  Additionally, the USV has limited control authority at low speeds and is susceptible to wind and current disturbances that have no direct aerial analogue.
+\end{itemize}
+
+These experiments use \textbf{ArduRover V4.6.3 (3fc7011a)}.  Parameter names and defaults may differ in later releases; verify against the ArduRover parameter documentation for the firmware version installed on your vehicle.
+
+% ============================================================
+\section{Closed-Loop Control Architecture}
+
+\subsection{ArduRover Operating Mode}
+
+ArduRover supports several control modes.  This lab uses \textbf{ACRO mode}, in which the RC transmitter sticks command \emph{desired} speed and \emph{desired} yaw rate rather than directly commanding throttle and rudder deflection.  ArduRover's PID controllers then close the loop, driving the actuators to track the commanded values.
+
+\begin{center}
+\begin{tabular}{L{3.0cm} L{9.5cm}}
+  \textbf{Throttle stick} & Commands desired surge speed $r_u$ [m/s] \\
+  \textbf{Steering stick} & Commands desired yaw rate $r_r$ [rad/s] \\
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+
+In Manual mode the PID controllers are bypassed and the sticks command the actuators directly; the closed-loop behavior described in this lab is not present in Manual mode.
+
+\verify{Confirm ACRO mode stick behavior in ArduRover V4.6.3.}
+
+\subsection{Surge Speed Control Loop}
+\label{sec:surge_loop}
+
+The pilot commands a desired speed $r_u(t)$.  This command passes through an optional acceleration limiter (Section~\ref{sec:filtering}) before reaching the speed PID controller.  The PID computes a speed error $e_u = r_u - u$ and produces a normalized throttle command $\delta_T \in [-1, +1]$, which drives the ESC and propeller.  Surge speed $u$ is estimated by ArduRover's Extended Kalman Filter (EKF), which fuses GPS velocity and IMU measurements to produce a higher-rate, lower-noise velocity estimate than raw GPS alone, and fed back to close the loop.
+
+\subsection{Yaw-Rate Control Loop}
+\label{sec:yaw_loop}
+
+The steering stick commands a desired yaw rate $r_r(t)$.  The yaw-rate PID computes an error $e_r = r_r - r$ and outputs a normalized rudder command $\delta_R \in [-1, +1]$.  Yaw rate $r$ is measured directly by the IMU's $z$-axis gyroscope and fed back.
+
+\subsection{Connection to Lab~1 Plant Models}
+
+The plant transfer functions $G_{\mathrm{surge}}^*$ and $G_r^*$ are exactly the models you identified in Lab~1.  For any set of PID gains, you can use MATLAB to simulate the closed-loop step response and predict performance metrics before going to the field.
+
+Use this capability deliberately.  Before Run~2, simulate the closed-loop response for your chosen gains and compare it against the Run~1 data.  After the field session, overlay the predicted and measured responses on the same axes.
+
+The linear model is a design tool, not a truth model.  The Lab~1 identification invested limited time and used simplified dynamics---linear drag, decoupled surge and yaw channels, no wind or current.  The purpose of the model is to guide design choices: to tell you whether increasing $K_p$ will likely shorten rise time, or whether adding integral action will eliminate steady-state error.  Expect qualitative agreement and treat discrepancies as information about what the model misses.
+
+% ============================================================
+\section{Command Input Filtering}
+\label{sec:filtering}
+
+\subsection{The Acceleration Limiter in ArduRover}
+
+ArduRover applies a nonlinear rate limiter to the speed command before it reaches the PID controller.  As covered in the Week~5 input-filtering companion script, a rate limiter ramps the command at a fixed maximum rate rather than stepping it instantaneously.  For speed commands, the limiting rate is set by the parameter \texttt{ATC\_ACCEL\_MAX} [m/s$^2$].
+
+With a non-zero \texttt{ATC\_ACCEL\_MAX}, moving the throttle stick instantly produces a setpoint that \emph{ramps} at $R_{\max}$ m/s$^2$.  The PID never sees a true step; it sees a ramp until the setpoint reaches the commanded value.  This is the same rate-limiter behavior studied in Week~5, and it has two practical effects on the step-response experiment:
+
+\begin{itemize}
+  \item The effective input to the closed-loop system is a ramp, not a step, so rise-time and overshoot measurements reflect both the limiter and the PID dynamics together.
+  \item A faster rise time can be ``achieved'' simply by increasing $R_{\max}$---without any change to the PID gains.  This conflates actuator scheduling with controller performance.
+\end{itemize}
+
+\subsection{Disabling the Limiter for Testing}
+
+To observe the PID's true closed-loop step response, set:
+
+\begin{center}
+  \texttt{ATC\_ACCEL\_MAX} $= 0$ \quad (unlimited; speed setpoint steps immediately with the stick)
+\end{center}
+
+With this setting, a quick stick movement delivers an approximate step directly to the PID error input.  The closed-loop step response then reflects only the PID gains and the plant dynamics---consistent with the analysis in Sections~\ref{sec:surge_loop} and~\ref{sec:yaw_loop}.
+
+Note: In a fielded autonomous system, the acceleration limiter protects actuators and preserves stability margin.  Disable it only for the manual step-response characterization in this lab.
+
+% ============================================================
+\section{ArduRover Parameter Configuration}
+\label{sec:params}
+
+\subsection{Category 1: Preset Parameters}
+
+The following parameters are configured by the instructor before the lab.  The \textbf{Default} column shows values from the vehicle parameter file; \textbf{Lab Setting} shows the value to use for the step-response experiments.  Bold lab settings indicate a change from the default.
+
+\vspace{6pt}
+\begin{center}
+\begin{tabular}{L{3.6cm} C{1.8cm} C{1.8cm} L{5.8cm}}
+  \textbf{Parameter} & \textbf{Default} & \textbf{Lab Setting} & \textbf{Rationale} \\
+  \midrule
+  \texttt{ATC\_ACCEL\_MAX}     & 1     & \textbf{0} & Disables speed command rate limiter (Section~\ref{sec:filtering}); allows a true step to reach the speed PID \\[6pt]
+  \texttt{ATC\_STR\_ACC\_MAX}  & 120   & \textbf{0} & Disables steering rate acceleration limiter; same purpose for the yaw-rate channel \\[6pt]
+  \texttt{ATC\_STR\_RAT\_FF}   & 2.0   & \textbf{0} & Removes feedforward so the step response reflects PID gains only; restore after the lab \\[6pt]
+  \texttt{ATC\_SPEED\_IMAX}    & 1.0   & 1.0        & Integrator anti-windup limit; appropriate for this vehicle \\[6pt]
+  \texttt{ATC\_STR\_RAT\_IMAX} & 1.0   & 1.0        & Steering-rate integrator anti-windup limit; appropriate for this vehicle \\[6pt]
+  \texttt{ATC\_SPEED\_FLTE}    & 10 Hz & 10 Hz      & Low-pass filter on the speed error signal; already active \\[6pt]
+  \texttt{ATC\_STR\_RAT\_FLTE} & 10 Hz & 10 Hz      & Low-pass filter on the steering-rate error signal; already active \\[4pt]
+  \bottomrule
+\end{tabular}
+\end{center}
+\vspace{6pt}
+
+\subsection{Category 2: Tunable Parameters}
+
+The following parameters are the student's tuning variables.  Default values are from the vehicle parameter file (\texttt{usv\_ardu\_13Apr2026.param}).
+
+\vspace{6pt}
+\begin{center}
+\begin{tabular}{L{4.0cm} C{2.0cm} L{6.2cm}}
+  \textbf{Parameter} & \textbf{Default} & \textbf{Description} \\
+  \midrule
+  \texttt{ATC\_SPEED\_P}       & 1.0 & Surge speed proportional gain $K_{p,u}$ \\[2pt]
+  \texttt{ATC\_SPEED\_I}       & 0.2 & Surge speed integral gain $K_{i,u}$ \\[2pt]
+  \texttt{ATC\_SPEED\_D}       & 0.0 & Surge speed derivative gain $K_{d,u}$ \\[6pt]
+  \texttt{ATC\_STR\_RAT\_P}    & 0.2 & Steering rate proportional gain $K_{p,r}$ \\[2pt]
+  \texttt{ATC\_STR\_RAT\_I}    & 0.2 & Steering rate integral gain $K_{i,r}$ \\[2pt]
+  \texttt{ATC\_STR\_RAT\_D}    & 0.0 & Steering rate derivative gain $K_{d,r}$ \\[4pt]
+  \bottomrule
+\end{tabular}
+\end{center}
+\vspace{6pt}
+
+% ============================================================
+\section{Measured Performance Metrics}
+
+For each step-response trial we will extract rise time $t_r$, percent overshoot \%OS, settling time $t_s$, and steady-state error $e_{ss}$ from the data using MATLAB (definitions in the Week~4 time-response chapter).  We will also record \textbf{control effort}---the actuator command ($\delta_T$ for surge, $\delta_R$ for yaw rate)---which reflects how hard the controller is working and places a real physical bound on how aggressive a set of PID gains can be in practice.
+
+% ============================================================
+\section{Experiment Protocol}
+\label{sec:protocol}
+
+\subsection{Pre-Experiment Setup}
+
+Assign the same roles as Lab~1 (pilot, planner, scribe).  Before launching:
+
+\begin{enumerate}
+  \item Connect to the vehicle via Mission Planner and open the Full Parameter List.
+  \item Record the current values of all parameters from Section~\ref{sec:params} in your field notes.
+  \item Apply the preset parameters (Section~\ref{sec:params}); the instructor may configure these in advance.
+  \item Verify \texttt{LOG\_BITMASK = 65535} so that all ArduRover data is logged to the SD card.
+  \item Place the vehicle in \textbf{ACRO mode} before entering the water.
+\end{enumerate}
+
+\subsection{Run 1: Factory Defaults}
+
+With the tunable parameters at factory defaults:
+
+\begin{enumerate}
+  \item Surge step trials (2--3 successful runs):
+    \begin{itemize}
+      \item Begin with the vehicle at rest on open water.
+      \item Apply a step throttle command ($\delta_0 \approx 20$--$50\%$ of full deflection, consistent with Lab~1) and hold it until the speed reaches a clear steady state.
+      \item The scribe records the time and step fraction for each trial.
+    \end{itemize}
+
+  \item Yaw-rate step trials (2--3 successful runs):
+    \begin{itemize}
+      \item Begin with the vehicle moving at a low, approximately constant surge speed (to give the rudder flow authority).
+      \item Apply a step steering command and hold until the yaw rate settles.
+      \item Record the surge speed, step fraction, and direction (positive/negative) for each trial.
+    \end{itemize}
+
+  \item Do not adjust any parameters during Run~1.
+\end{enumerate}
+
+\subsection{Run 2: Tuned Parameters}
+
+\begin{enumerate}
+  \item As a team, select new values for the six tunable gains.  Use your Lab~1 plant models to simulate the predicted closed-loop response for each channel before choosing values.  Record your chosen parameters and the reasoning in your field notes before entering the water.
+  \item Repeat the surge and yaw-rate step-response trials with the tuned parameters.
+  \item If time and battery life permit, iterate on your tuning based on the observed responses.
+\end{enumerate}
+
+\subsection{Practical Notes}
+
+\begin{itemize}
+  \item Keep the surge and yaw experiments separate---do not attempt to measure both channels simultaneously.
+  \item Use the same step fraction ($\delta_0$) across Run~1 and Run~2 so that the metrics are directly comparable.
+  \item Verify the SD card is logging before each run by checking the log counter in Mission Planner.
+\end{itemize}
+
+% ============================================================
+\section{Data Analysis}
+
+\subsection{Relevant Log Channels}
+
+Use the same \texttt{bin2mat.py} pipeline as Lab~1 to convert the \texttt{.BIN} log to \texttt{.mat}.  The closed-loop analysis requires the speed and yaw-rate \emph{setpoints} in addition to the measured signals from Lab~1.  These appear in ArduRover's control-tuning log message:
+
+\vspace{6pt}
+\begin{center}
+\begin{tabular}{L{2.8cm} L{2.8cm} C{1.8cm} L{5.0cm}}
+  \textbf{Log message} & \textbf{Field} & \textbf{Units} & \textbf{Description} \\
+  \midrule
+  \texttt{CTUN} & \texttt{DesSpeed}    & m/s   & Speed setpoint (command to PID) \\[3pt]
+  \texttt{GPS}  & \texttt{Spd}         & m/s   & Measured surge speed \\[3pt]
+  \texttt{RCOU} & \texttt{C3}          & PWM   & Throttle command to ESC (surge control effort) \\[5pt]
+  \texttt{CTUN} & \texttt{DesTurnRate} & rad/s & Yaw-rate setpoint (command to PID) \\[3pt]
+  \texttt{IMU}  & \texttt{GyrZ}        & rad/s & Measured yaw rate \\[3pt]
+  \texttt{RCOU} & \texttt{C1}          & PWM   & Rudder command to servo (yaw control effort) \\[3pt]
+  \bottomrule
+\end{tabular}
+\end{center}
+\vspace{4pt}
+{\small Verify \texttt{CTUN} field names against your log using Mission Planner's log browser before scripting the analysis; field names may differ across ArduRover versions.}
+\vspace{6pt}
+
+\subsection{Plots to Produce}
+
+Produce the following for \emph{both} channels and \emph{both} runs.  Plots for the two runs should use identical axes and time scales to allow direct comparison.
+
+\subsubsection{Closed-Loop Step Response}
+
+A two-panel figure:
+\begin{itemize}
+  \item \textbf{Top}: speed setpoint $r_u(t)$ and measured speed $u(t)$ on the same axes.  Annotate $t_r$, \%OS, $y_\infty$, and $e_{ss}$.
+  \item \textbf{Bottom}: surge control effort $\delta_T(t)$ (throttle command converted from PWM to $[-1,\,+1]$).
+\end{itemize}
+Produce an equivalent figure for the yaw-rate channel.
+
+\subsubsection{Model vs.\ Experiment}
+
+For each channel, overlay the predicted closed-loop step response---simulated in MATLAB from the Lab~1 plant model and your chosen PID gains---on the measured response from Run~2.  Annotate any qualitative differences: does the model over- or under-predict rise time?  Does it predict overshoot that isn't observed in the data, or miss overshoot that is?  A brief written interpretation of the overlay is more valuable than a perfect match.
+
+\subsubsection{Performance Summary}
+
+Record the measured metrics in the following table:
+
+\vspace{6pt}
+\begin{center}
+\begin{tabular}{C{1.8cm} C{1.8cm} C{1.8cm} C{1.8cm} C{1.8cm} C{1.8cm}}
+  \textbf{Channel} & \textbf{Run} & \textbf{$t_r$ [s]} & \textbf{\%OS} & \textbf{$t_s$ [s]} & \textbf{$e_{ss}$} \\
+  \midrule
+  Surge    & Default & & & & \\[6pt]
+  Surge    & Tuned   & & & & \\[6pt]
+  Yaw rate & Default & & & & \\[6pt]
+  Yaw rate & Tuned   & & & & \\[6pt]
+  \bottomrule
+\end{tabular}
+\end{center}
+\vspace{6pt}
+
+% ============================================================
+\section{Performance Tradeoffs and Tuning Strategy}
+\label{sec:tradeoffs}
+
+\subsection{Race Context}
+
+Lab~3 is a timed waypoint race: the USV must navigate a series of waypoints in the shortest total time.  Optimal tuning for this task is not the same as optimal tuning for a general regulation problem.
+
+\begin{itemize}
+  \item \textbf{Surge speed.}  Slow acceleration wastes time between waypoints.  Speed overshoot is generally tolerable (the vessel is moving forward), but very large overshoot wastes energy and complicates steering at high speed.  Steady-state speed error means the vessel runs slower than commanded---a direct time penalty.
+
+  \item \textbf{Yaw rate.}  Waypoints require turns.  A slow yaw-rate response produces wide, slow arcs.  Yaw-rate overshoot causes heading oscillation, which requires corrective steering and adds distance traveled.  Steady-state yaw-rate error means the vessel undershoots its turns.
+
+  \item \textbf{Control effort.}  Aggressive gains (fast response, low error) demand large actuator commands.  Excessive throttle cycling stresses the ESC and propeller; excessive rudder cycling increases drag and can destabilize the yaw response.  These are physical constraints on how aggressive your tuning can be.
+\end{itemize}
+
+\subsection{Guiding Questions}
+
+Use these questions to frame your team's tuning argument:
+
+\begin{enumerate}
+  \item Which metrics matter most for minimizing race time?  Justify with reference to the specific course layout.
+  \item What tradeoffs did you accept?  For example, if you increased $K_{p,u}$ to reduce rise time, did overshoot increase?  Is that acceptable given the race context?
+  \item Did you include integral action ($K_i > 0$) in one or both channels?  What does the integrator eliminate, and does that matter for the race?
+  \item Did you include derivative action ($K_d > 0$)?  Why or why not?
+  \item How does the measured closed-loop response compare to what you predicted from the Lab~1 plant model?  Where did the model guide you well, and where did it fall short?
+\end{enumerate}
 
 \end{document}
