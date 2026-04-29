@@ -86,7 +86,7 @@ With a non-zero \texttt{ATC\_ACCEL\_MAX}, moving the throttle stick instantly pr
 
 \begin{itemize}
   \item The effective input to the closed-loop system is a ramp, not a step, so rise-time and overshoot measurements reflect both the limiter and the PID dynamics together.
-  \item A faster rise time can be ``achieved'' simply by increasing $R_{\max}$---without any change to the PID gains.  This conflates actuator scheduling with controller performance.
+  \item A faster rise time can be ``achieved'' simply by increasing $R_{\max}$---without any change to the PID gains.  This conflates actuator smoothing with controller performance.
 \end{itemize}
 
 \subsection{Disabling the Limiter for Testing}
@@ -159,6 +159,7 @@ For each step-response trial we will extract rise time $t_r$, percent overshoot 
 
 Assign the same roles as Lab~1 (pilot, planner, scribe).  Before launching:
 
+% CLAUDE: Revise this process.   We are going to try connecting the ARM switch so that it restarts a log file, so it will be important for the scribe to write down the times of the Arming and what experiments were done during that log.  Also, we won't go into ACRO mode until after we launch the boat.  Finally, it is good to both manually write down the various PID parameters and save a timestamped (or labelled) export of the params file from mission planner.
 \begin{enumerate}
   \item Connect to the vehicle via Mission Planner and open the Full Parameter List.
   \item Record the current values of all parameters from Section~\ref{sec:params} in your field notes.
@@ -174,6 +175,7 @@ With the tunable parameters at factory defaults:
 \begin{enumerate}
   \item Surge step trials (2--3 successful runs):
     \begin{itemize}
+      \item Put in ACRO model, note time starting new log file.
       \item Begin with the vehicle at rest on open water.
       \item Apply a step throttle command ($\delta_0 \approx 20$--$50\%$ of full deflection, consistent with Lab~1) and hold it until the speed reaches a clear steady state.
       \item The scribe records the time and step fraction for each trial.
@@ -189,10 +191,19 @@ With the tunable parameters at factory defaults:
   \item Do not adjust any parameters during Run~1.
 \end{enumerate}
 
+
+\subsection{Tune Parameters}
+
+% CLAUDE: Go into some detail on an ad hoc tuning process.  Refer to the end of the PID article with hints for tuning.  Also mention how to measure "performance" in the context of minimizing time between waypoints.
+
 \subsection{Run 2: Tuned Parameters}
 
+After you have tuned the gains for the speed or heading loop, capture the results with a clean run.
+
+
 \begin{enumerate}
-  \item As a team, select new values for the six tunable gains.  Use your Lab~1 plant models to simulate the predicted closed-loop response for each channel before choosing values.  Record your chosen parameters and the reasoning in your field notes before entering the water.
+  \item As a team, select new values for the six tunable gains. 
+    Use your Lab~1 plant models to simulate the predicted closed-loop response for each channel before choosing values.  Record your chosen parameters and the reasoning in your field notes before entering the water.
   \item Repeat the surge and yaw-rate step-response trials with the tuned parameters.
   \item If time and battery life permit, iterate on your tuning based on the observed responses.
 \end{enumerate}
