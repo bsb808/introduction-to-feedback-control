@@ -48,7 +48,27 @@
       "Bash(git -C ~/WorkingCopies/me2801 pull)",
       "Bash(git -C ~/WorkingCopies/me2801 log --oneline -8)",
       "Bash(gh repo *)",
-      "Bash(rsync -a --exclude='.git' ~/WorkingCopies/me2801/ ~/WorkingCopies/introduction-to-feedback-control/)"
+      "Bash(rsync -a --exclude='.git' ~/WorkingCopies/me2801/ ~/WorkingCopies/introduction-to-feedback-control/)",
+      "Read(//home/bsb/WorkingCopies/introduction-to-feedback-control-claude/a5f684d0-f302-4e9a-b63f-7e344249e2c4/tool-results/**)",
+      "Read(//home/bsb/WorkingCopies/claude_local/**)",
+      "Read(//home/bsb/.claude/**)",
+      "Bash(git -C /home/bsb/WorkingCopies/introduction-to-feedback-control rm review_workflow.md)",
+      "Bash(git -C /home/bsb/WorkingCopies/introduction-to-feedback-control rm -f review_workflow.md)",
+      "Bash(git -C ~/WorkingCopies/claude_local remote get-url origin)",
+      "Bash(mv ~/WorkingCopies/claude_local ~/WorkingCopies/claude-global)",
+      "Bash(git -C ~/WorkingCopies/claude-global remote set-url origin git@github.com:bsb808/claude-global.git)",
+      "Read(//home/bsb/WorkingCopies/claude-global/**)",
+      "Read(//home/bsb/WorkingCopies/introduction-to-feedback-control-claude/**)",
+      "Read(//home/bsb/WorkingCopies/introduction-to-feedback-control-claude/memory/**)",
+      "Bash(git -C ~/WorkingCopies/introduction-to-feedback-control-claude remote get-url origin)",
+      "Bash(git -C ~/WorkingCopies/introduction-to-feedback-control-claude log --oneline -5)",
+      "Bash(git -C ~/WorkingCopies/introduction-to-feedback-control-claude status)",
+      "Bash(git -C ~/WorkingCopies/claude-global-claude status)",
+      "Bash(rm -rf ~/.claude/projects/-home-bsb-WorkingCopies-claude-global)",
+      "Bash(ln -s ~/WorkingCopies/claude-global-claude ~/.claude/projects/-home-bsb-WorkingCopies-claude-global)",
+      "Bash(git -C ~/WorkingCopies/claude-global status)",
+      "Bash(git -C ~/WorkingCopies/claude-global log --oneline -3)",
+      "Bash(git -C ~/WorkingCopies/claude-global log --oneline --all)"
     ],
     "additionalDirectories": [
       "/home/bsb/.config/Code/User",
@@ -61,7 +81,11 @@
       "/home/bsb/WorkingCopies/me2801_rebase/week07_lab_usv_pid/assignment",
       "/home/bsb/WorkingCopies/me2801_rebase/week08_freq_response_part1/assignment",
       "/home/bsb/WorkingCopies/me2801_rebase/week09_freq_response_part2/assignment",
-      "/home/bsb/WorkingCopies/me2801_rebase/week10_lab_usv_nav/assignment"
+      "/home/bsb/WorkingCopies/me2801_rebase/week10_lab_usv_nav/assignment",
+      "/home/bsb/WorkingCopies/claude_local",
+      "/home/bsb/.claude",
+      "/home/bsb/WorkingCopies/claude-global",
+      "/home/bsb/WorkingCopies/claude-global-claude"
     ]
   }
 }
