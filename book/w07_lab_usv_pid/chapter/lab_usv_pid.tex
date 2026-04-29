@@ -86,7 +86,7 @@ With a non-zero \texttt{ATC\_ACCEL\_MAX}, moving the throttle stick instantly pr
 
 \begin{itemize}
   \item The effective input to the closed-loop system is a ramp, not a step, so rise-time and overshoot measurements reflect both the limiter and the PID dynamics together.
-  \item A faster rise time can be ``achieved'' simply by increasing $R_{\max}$---without any change to the PID gains.  This conflates actuator scheduling with controller performance.
+  \item A faster rise time can be ``achieved'' simply by increasing $R_{\max}$---without any change to the PID gains.  This conflates command rate-limiting with controller performance.
 \end{itemize}
 
 \subsection{Disabling the Limiter for Testing}
@@ -157,15 +157,17 @@ For each step-response trial we will extract rise time $t_r$, percent overshoot 
 
 \subsection{Pre-Experiment Setup}
 
-Assign the same roles as Lab~1 (pilot, planner, scribe).  Before launching:
+Assign the same roles as Lab~1 (pilot, planner, scribe).  Dockside, before launching:
 
 \begin{enumerate}
   \item Connect to the vehicle via Mission Planner and open the Full Parameter List.
-  \item Record the current values of all parameters from Section~\ref{sec:params} in your field notes.
-  \item Apply the preset parameters (Section~\ref{sec:params}); the instructor may configure these in advance.
+  \item Verify the preset parameters from Section~\ref{sec:params}; the instructor may configure these in advance.
+  \item Record the tunable PID gains (Section~\ref{sec:params}) in the field notes \emph{and} save a timestamped or run-labelled export of the full parameter file from Mission Planner.  The handwritten record is for at-a-glance reference during the session; the exported \texttt{.param} file is the authoritative copy that can be reloaded later.
   \item Verify \texttt{LOG\_BITMASK = 65535} so that all ArduRover data is logged to the SD card.
-  \item Place the vehicle in \textbf{ACRO mode} before entering the water.
+  \item Confirm that the arming switch is wired to restart logging.  Each arming event begins a fresh \texttt{.BIN} log on the SD card.  The scribe is responsible for recording the wall-clock arming time and listing the experiments performed in each log so that runs can be matched to logs during analysis.
 \end{enumerate}
+
+The boat enters the water in Manual mode and is switched to \textbf{ACRO mode} only after it is clear of the launch and pointed at open water.  ACRO is the mode used for every step-response trial in this lab; Manual is used to maneuver to the test area and to recover at the end of a run.
 
 \subsection{Run 1: Factory Defaults}
 
@@ -174,13 +176,16 @@ With the tunable parameters at factory defaults:
 \begin{enumerate}
   \item Surge step trials (2--3 successful runs):
     \begin{itemize}
+      \item Confirm the vehicle is in ACRO mode and arm to start a fresh log; the scribe records the arming time and notes that this log contains the surge step trials.
       \item Begin with the vehicle at rest on open water.
       \item Apply a step throttle command ($\delta_0 \approx 20$--$50\%$ of full deflection, consistent with Lab~1) and hold it until the speed reaches a clear steady state.
       \item The scribe records the time and step fraction for each trial.
+      \item Disarm at the end of the surge trials to close the log.
     \end{itemize}
 
   \item Yaw-rate step trials (2--3 successful runs):
     \begin{itemize}
+      \item Re-arm to open a new log file for the yaw-rate trials; the scribe records the arming time and notes that this log contains the yaw-rate step trials.
       \item Begin with the vehicle moving at a low, approximately constant surge speed (to give the rudder flow authority).
       \item Apply a step steering command and hold until the yaw rate settles.
       \item Record the surge speed, step fraction, and direction (positive/negative) for each trial.
@@ -189,12 +194,31 @@ With the tunable parameters at factory defaults:
   \item Do not adjust any parameters during Run~1.
 \end{enumerate}
 
-\subsection{Run 2: Tuned Parameters}
+
+\subsection{Tune Parameters}
+\label{sec:tune}
+
+Bring the Run~1 logs onto a laptop between runs.  Plot the surge and yaw-rate step responses with the actuator effort below each, and read off rise time, percent overshoot, settling time, and steady-state error.  This is the diagnostic input for tuning.
+
+The tuning process is \emph{ad hoc}: there is no single procedure that produces the right gains, but the symptom-to-action mapping at the end of the PID Control chapter (Section~\ref{sec:tuning}, with the troubleshooting summary in Table~\ref{tab:troubleshoot}) gives a starting point.  Apply it as follows:
 
 \begin{enumerate}
-  \item As a team, select new values for the six tunable gains.  Use your Lab~1 plant models to simulate the predicted closed-loop response for each channel before choosing values.  Record your chosen parameters and the reasoning in your field notes before entering the water.
-  \item Repeat the surge and yaw-rate step-response trials with the tuned parameters.
-  \item If time and battery life permit, iterate on your tuning based on the observed responses.
+  \item Decide which symptom matters most given the race objective.  In a timed waypoint race the figure of merit is total time around the course (Section~\ref{sec:tradeoffs}).  Sluggish rise time and steady-state speed error directly cost time.  Modest surge overshoot is usually tolerable.  Yaw-rate overshoot causes heading hunting and adds traveled distance, also a time cost.  Pick the symptom whose elimination would buy the most time on this course.
+  \item Pick one gain to change in one channel.  Use the troubleshooting table: flat steady-state error with a clean transient $\Rightarrow$ raise $K_i$; sluggish rise with no oscillation $\Rightarrow$ raise $K_p$; ringing or sustained oscillation $\Rightarrow$ lower $K_i$ first, then $K_p$.  Change one parameter at a time so that the effect is attributable.
+  \item Simulate the candidate gains in MATLAB using your Lab~1 plant model before applying them to the vehicle.  This is free and rules out unstable choices.
+  \item Apply the new gain values in Mission Planner, re-arm the vehicle to open a fresh log, and repeat the affected step trial.  The scribe records the new gain values alongside the arming time so that each log can be matched to its parameter set during analysis.
+  \item Iterate.  Within a single field session expect two to four iterations per channel rather than a precise optimum.  Stop when the dominant symptom from step~1 is resolved or the next change produces no measurable improvement.
+\end{enumerate}
+
+\subsection{Run 2: Tuned Parameters}
+
+After tuning each channel, capture a clean set of step trials with the final gain values.
+
+\begin{enumerate}
+  \item Confirm the final gain values in Mission Planner and save a fresh timestamped parameter export labelled ``Run~2.''  Record the same gains in the field notes alongside the reasoning from Section~\ref{sec:tune}.
+  \item Re-arm to open a clean log file and repeat the surge step trials at the same step fraction $\delta_0$ used in Run~1, so that the metrics are directly comparable.
+  \item Re-arm again for the yaw-rate trials and repeat with the same step fraction used in Run~1.
+  \item If time and battery life permit, iterate further on the gains and capture additional clean runs; the scribe labels each new log with its parameter set.
 \end{enumerate}
 
 \subsection{Practical Notes}
