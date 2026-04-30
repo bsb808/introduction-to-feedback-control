@@ -31,6 +31,14 @@ If a public file would benefit from referencing a private note, prefer **omittin
 
 If the user has not yet cloned the private repo on this machine (no `./private/.git` directory), tell them how to clone it before writing private content. Do not silently create files into a non-git-tracked directory thinking they're being saved.
 
+### Session pickup notes
+
+If `./private/SESSION_NOTES.md` exists, read it at the start of every session. It contains the user's hand-off context — what they were working on last session, where to resume, any pending decisions. The user maintains it themselves; you can also update it when stopping work, if the user asks. It is **not** a substitute for the public CLAUDE.md guidance above; treat it as supplementary state for the active session.
+
+### Repo plumbing
+
+A `Makefile` at the repo root coordinates both repos. Prefer `make pull` / `make push` / `make sync` / `make status` over running `git` twice manually. `make clone-private` is the one-time-per-machine setup target.
+
 ## Plain-Text Live Script Format (.m files)
 
 Live scripts in this repo use MATLAB's plain-text format (`.m` with special markers), **not** binary `.mlx`. The `.gitattributes` marks `.mlx` as binary — do not create or edit `.mlx` files.
