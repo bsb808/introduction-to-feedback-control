@@ -34,6 +34,10 @@ octave-workspace
 .venv/
 venv/
 
+# Private notes (personal reminders, oral-exam prep, etc.)
+# Lives in a sibling private GitHub repo cloned into ./private/
+private/
+
 
 ## Latex
 
