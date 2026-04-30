@@ -1,0 +1,188 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{pdflscape}
+\usepackage{enumitem}
+\usepackage{amssymb}      % \square
+\usepackage{multirow}
+\usepackage{parskip}
+
+% ── Convenience macros ────────────────────────────────────────────────────────
+\newcommand{\cb}{$\square$}
+\newcommand{\blank}[1]{\underline{\hspace{#1}}}
+\newcommand{\param}[1]{\texttt{\small #1}}
+
+% ── Row colors ────────────────────────────────────────────────────────────────
+\definecolor{rowgray}{gray}{0.92}
+\definecolor{headblue}{RGB}{220,230,242}
+
+\begin{document}
+
+% ── Title block ───────────────────────────────────────────────────────────────
+\begin{center}
+  {\LARGE\bfseries Lab 2 Scribe Log}\\[4pt]
+  {\large USV PID Control --- ME 2801}
+\end{center}
+
+\medskip
+\noindent
+\begin{tabular}{@{}p{1.4cm}p{4.5cm}p{1.4cm}p{4.5cm}@{}}
+  Date:    & \blank{4.5cm} & Vehicle: & \blank{4.5cm} \\[8pt]
+  Team:    & \blank{4.5cm} & & \\[8pt]
+  Pilot:   & \blank{4.5cm} & Planner: & \blank{4.5cm} \\[8pt]
+  Scribe:  & \blank{4.5cm} & & \\
+\end{tabular}
+
+\bigskip
+% ── Pre-run checklist ─────────────────────────────────────────────────────────
+\noindent{\bfseries Pre-Run Checklist} (verify before every arming)
+
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt, label=\cb]
+  \item Mode set to \textbf{ACRO} before arming
+  \item Parameter file saved in Mission Planner \textbf{before} arming (timestamp in filename)
+  \item Scribe records time and log number \textbf{at} arming
+  \item Same throttle/rudder step fraction used across Run~1 and Run~2
+  \item Surge and yaw trials kept in \textbf{separate} log files (disarm between channels)
+\end{itemize}
+
+\bigskip
+% ── Parameter legend ──────────────────────────────────────────────────────────
+\noindent{\bfseries Parameter Legend} (Config $\to$ Full Parameter List in Mission Planner)
+
+\medskip
+\noindent
+\begin{tabular}{@{}lll@{}}
+  \toprule
+  \textbf{Column} & \textbf{ArduPilot Parameter} & \textbf{Description} \\
+  \midrule
+  \rowcolor{rowgray}
+  \texttt{SP\_P}   & \param{ATC\_SPEED\_P}      & Surge speed proportional gain \\
+  \texttt{SP\_I}   & \param{ATC\_SPEED\_I}      & Surge speed integral gain \\
+  \rowcolor{rowgray}
+  \texttt{SP\_D}   & \param{ATC\_SPEED\_D}      & Surge speed derivative gain \\
+  \texttt{SP\_FF}  & \param{ATC\_SPEED\_FF}     & Surge speed feedforward \\
+  \rowcolor{rowgray}
+  \texttt{A\_MAX}  & \param{ATC\_ACCEL\_MAX}    & Speed cmd rate limit (m/s$^2$); \textbf{0 = off} \\
+  \texttt{YR\_P}   & \param{ATC\_STR\_RAT\_P}   & Yaw-rate proportional gain \\
+  \rowcolor{rowgray}
+  \texttt{YR\_I}   & \param{ATC\_STR\_RAT\_I}   & Yaw-rate integral gain \\
+  \texttt{YR\_D}   & \param{ATC\_STR\_RAT\_D}   & Yaw-rate derivative gain \\
+  \rowcolor{rowgray}
+  \texttt{YR\_FF}  & \param{ATC\_STR\_RAT\_FF}  & Yaw-rate feedforward \\
+  \texttt{YA\_MAX} & \param{ATC\_STR\_ACC\_MAX}  & Yaw-rate cmd rate limit (deg/s$^2$); \textbf{0 = off} \\
+  \bottomrule
+\end{tabular}
+
+\bigskip
+% ── Param file record ─────────────────────────────────────────────────────────
+\noindent{\bfseries Parameter File Record}
+
+\medskip
+\noindent
+\begin{tabularx}{\linewidth}{@{}clX@{}}
+  \toprule
+  \textbf{\#} & \textbf{Filename} & \textbf{Changes from previous} \\
+  \midrule
+  \rowcolor{rowgray}
+  1 & & Baseline \\[10pt]
+  2 & & \\[10pt]
+  \rowcolor{rowgray}
+  3 & & \\[10pt]
+  4 & & \\[10pt]
+  \rowcolor{rowgray}
+  5 & & \\[10pt]
+  6 & & \\[10pt]
+  \bottomrule
+\end{tabularx}
+
+% ── Run log (landscape) ───────────────────────────────────────────────────────
+\begin{landscape}
+
+\noindent{\bfseries\large Run Log} \quad
+{\small One row per arming. Record log number from MP HUD after arming. Dash (---) = not applicable for this trial type.}
+
+\bigskip
+
+% Column widths tuned to fit landscape letter (24.4 cm usable)
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{2.2}   % tall rows for writing
+
+\noindent
+\begin{tabularx}{\linewidth}{%
+  >{\hfuzz=15pt\centering\arraybackslash}p{0.55cm}   % Run
+  >{\centering\arraybackslash}p{2.0cm}    % Time
+  >{\hfuzz=15pt\centering\arraybackslash}p{1.0cm}    % ARM
+  >{\hfuzz=15pt\centering\arraybackslash}p{1.2cm}    % ACRO
+  >{\centering\arraybackslash}p{1.1cm}    % Log #
+  >{\centering\arraybackslash}p{1.1cm}    % Trial
+  >{\centering\arraybackslash}p{0.85cm}   % SP_P
+  >{\centering\arraybackslash}p{0.85cm}   % SP_I
+  >{\centering\arraybackslash}p{0.85cm}   % SP_D
+  >{\centering\arraybackslash}p{0.85cm}   % SP_FF
+  >{\centering\arraybackslash}p{1.0cm}    % A_MAX
+  >{\centering\arraybackslash}p{0.85cm}   % YR_P
+  >{\centering\arraybackslash}p{0.85cm}   % YR_I
+  >{\centering\arraybackslash}p{0.85cm}   % YR_D
+  >{\centering\arraybackslash}p{0.85cm}   % YR_FF
+  >{\centering\arraybackslash}p{1.0cm}    % YA_MAX
+  X                                        % Notes
+}
+  \toprule
+  \rowcolor{headblue}
+  \multicolumn{6}{l}{\footnotesize} &
+  \multicolumn{5}{c}{\footnotesize\textbf{Surge PID}} &
+  \multicolumn{5}{c}{\footnotesize\textbf{Yaw-rate PID}} &
+  \multicolumn{1}{l}{} \\[-6pt]
+  \rowcolor{headblue}
+  {\footnotesize\textbf{Run}} &
+  {\footnotesize\textbf{Time (PDT)}} &
+  {\footnotesize\textbf{ARM}\,\cb} &
+  {\footnotesize\textbf{ACRO}\,\cb} &
+  {\footnotesize\textbf{Log \#}} &
+  {\footnotesize\textbf{Trial}} &
+  {\footnotesize\textbf{P}} & {\footnotesize\textbf{I}} &
+  {\footnotesize\textbf{D}} & {\footnotesize\textbf{FF}} &
+  {\footnotesize\textbf{Max}} &
+  {\footnotesize\textbf{P}} & {\footnotesize\textbf{I}} &
+  {\footnotesize\textbf{D}} & {\footnotesize\textbf{FF}} &
+  {\footnotesize\textbf{Max}} &
+  {\footnotesize\textbf{Notes}} \\
+  \midrule
+  \rowcolor{rowgray}
+  1  & & \cb & \cb & & Surge & & & & & & --- & --- & --- & --- & --- & \\
+  2  & & \cb & \cb & & Yaw   & --- & --- & --- & --- & --- & & & & & & \\
+  \rowcolor{rowgray}
+  3  & & \cb & \cb & & Surge & & & & & & --- & --- & --- & --- & --- & \\
+  4  & & \cb & \cb & & Yaw   & --- & --- & --- & --- & --- & & & & & & \\
+  \rowcolor{rowgray}
+  5  & & \cb & \cb & & Surge & & & & & & --- & --- & --- & --- & --- & \\
+  6  & & \cb & \cb & & Yaw   & --- & --- & --- & --- & --- & & & & & & \\
+  \rowcolor{rowgray}
+  7  & & \cb & \cb & & Surge & & & & & & --- & --- & --- & --- & --- & \\
+  8  & & \cb & \cb & & Yaw   & --- & --- & --- & --- & --- & & & & & & \\
+  \rowcolor{rowgray}
+  9  & & \cb & \cb & & Surge & & & & & & --- & --- & --- & --- & --- & \\
+  10 & & \cb & \cb & & Yaw   & --- & --- & --- & --- & --- & & & & & & \\
+  \rowcolor{rowgray}
+  11 & & \cb & \cb & & & & & & & & & & & & & \\
+  12 & & \cb & \cb & & & & & & & & & & & & & \\
+  \bottomrule
+\end{tabularx}
+
+\bigskip\bigskip
+\noindent{\bfseries General Notes}
+
+\medskip
+\noindent\rule{\linewidth}{0.4pt}\\[18pt]
+\rule{\linewidth}{0.4pt}\\[18pt]
+\rule{\linewidth}{0.4pt}\\[18pt]
+\rule{\linewidth}{0.4pt}\\[18pt]
+\rule{\linewidth}{0.4pt}
+
+\end{landscape}
+
+\end{document}

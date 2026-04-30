@@ -1,0 +1,4 @@
+pymavlink
+scipy
+numpy
+pandas

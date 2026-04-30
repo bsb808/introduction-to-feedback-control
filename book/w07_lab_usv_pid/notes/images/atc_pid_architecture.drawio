@@ -1,0 +1,201 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="ATC PID Architecture" id="atc_arch">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== SPEED LOOP (top) ===== -->
+        <mxCell id="title_speed" value="Speed loop (ACRO mode — surge channel)" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="500" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sp_setpt" value="r_u(t)&#xa;speed&#xa;setpoint" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="100" width="80" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sp_ratelim" value="Rate&#xa;limiter&#xa;ATC_ACCEL_MAX" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="120" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sp_sum" value="Σ" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="100" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sp_sum_plus" value="+" style="text;html=1;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="262" y="92" width="18" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="sp_sum_minus" value="−" style="text;html=1;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="295" y="142" width="18" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sp_lpf" value="LPF (error)&#xa;ATC_SPEED_FLTE" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="360" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sp_pid" value="PID&#xa;ATC_SPEED_P&#xa;ATC_SPEED_I&#xa;ATC_SPEED_D" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sp_ffsum" value="Σ" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="100" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sp_ff" value="ATC_SPEED_FF&#xa;(feedforward)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="500" y="200" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sp_plant" value="Surge plant&#xa;(boat dynamics)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="780" y="90" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sp_meas" value="u(t)&#xa;measured&#xa;speed" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="950" y="100" width="80" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- speed loop edges -->
+        <mxCell id="e1" style="endArrow=classic;html=1;" edge="1" parent="1" source="sp_setpt" target="sp_ratelim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="endArrow=classic;html=1;" edge="1" parent="1" source="sp_ratelim" target="sp_sum">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="endArrow=classic;html=1;" edge="1" parent="1" source="sp_sum" target="sp_lpf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="endArrow=classic;html=1;" edge="1" parent="1" source="sp_lpf" target="sp_pid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="endArrow=classic;html=1;" edge="1" parent="1" source="sp_pid" target="sp_ffsum">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="endArrow=classic;html=1;" edge="1" parent="1" source="sp_ffsum" target="sp_plant">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="endArrow=classic;html=1;" edge="1" parent="1" source="sp_plant" target="sp_meas">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- speed loop FF tap (from setpoint after rate limit, down to FF block, up to FFSum) -->
+        <mxCell id="e_ff_tap" style="endArrow=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="sp_ratelim" target="sp_ff">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_ff_to_sum" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="sp_ff" target="sp_ffsum">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- speed loop feedback -->
+        <mxCell id="e_fb" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="sp_meas" target="sp_sum">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="990" y="240" />
+              <mxPoint x="300" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ===== YAW LOOP (bottom) ===== -->
+        <mxCell id="title_yaw" value="Yaw-rate loop (ACRO mode — steering channel)" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="320" width="500" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="yr_setpt" value="r_r(t)&#xa;yaw-rate&#xa;setpoint" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="400" width="80" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="yr_ratelim" value="Rate&#xa;limiter&#xa;ATC_STR_ACC_MAX" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="120" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="yr_sum" value="Σ" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="400" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yr_sum_plus" value="+" style="text;html=1;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="262" y="392" width="18" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yr_sum_minus" value="−" style="text;html=1;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="295" y="442" width="18" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="yr_lpf" value="LPF (error)&#xa;ATC_STR_RAT_FLTE" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="360" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="yr_pid" value="PID&#xa;ATC_STR_RAT_P&#xa;ATC_STR_RAT_I&#xa;ATC_STR_RAT_D" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="380" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="yr_ffsum" value="Σ" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="400" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="yr_ff" value="ATC_STR_RAT_FF&#xa;(feedforward)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="500" y="500" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="yr_plant" value="Yaw plant&#xa;(boat dynamics)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="780" y="390" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="yr_meas" value="r(t)&#xa;measured&#xa;yaw rate" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="950" y="400" width="80" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- yaw loop edges -->
+        <mxCell id="ey1" style="endArrow=classic;html=1;" edge="1" parent="1" source="yr_setpt" target="yr_ratelim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ey2" style="endArrow=classic;html=1;" edge="1" parent="1" source="yr_ratelim" target="yr_sum">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ey3" style="endArrow=classic;html=1;" edge="1" parent="1" source="yr_sum" target="yr_lpf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ey4" style="endArrow=classic;html=1;" edge="1" parent="1" source="yr_lpf" target="yr_pid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ey5" style="endArrow=classic;html=1;" edge="1" parent="1" source="yr_pid" target="yr_ffsum">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ey6" style="endArrow=classic;html=1;" edge="1" parent="1" source="yr_ffsum" target="yr_plant">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ey7" style="endArrow=classic;html=1;" edge="1" parent="1" source="yr_plant" target="yr_meas">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ey_ff_tap" style="endArrow=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yr_ratelim" target="yr_ff">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ey_ff_to_sum" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="yr_ff" target="yr_ffsum">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="ey_fb" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="yr_meas" target="yr_sum">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="990" y="540" />
+              <mxPoint x="300" y="540" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
