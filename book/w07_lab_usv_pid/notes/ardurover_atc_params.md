@@ -33,7 +33,7 @@ In higher modes (HOLD, LOITER, AUTO, etc.) an outer **heading** loop (`ATC_STR_A
 - **Description:** Integrates speed error over time to drive steady-state error to zero.
 - **Units:** (motor effort)/(m/s · s)
 - **Range:** 0.000 – 2.000 &nbsp; **Default:** 0.20 &nbsp; **Vehicle:** 0.2
-- **Notes:** $K_i$ in the speed PID. Required when the plant has unmodeled drag or a constant disturbance (current, wind). Output  is anti-windup-clamped to `±ATC_SPEED_IMAX`.
+- **Notes:** $K_i$ in the speed PID. Required when the plant has unmodeled drag or a constant disturbance (current, wind). The **I-term's contribution** to the controller output (i.e. the integrator state times $K_i$) is clamped to ±`ATC_SPEED_IMAX` — this is the classic anti-windup mechanism. It does *not* clamp the summed P+I+D output (that's `ATC_SPEED_PDMX` / `_SMAX`'s job). You can verify in the logs: `PIDA_I` is the clamped I-term output, separate from `PIDA_P`, `PIDA_D`.
 
 ### `ATC_SPEED_D`
 - **Description:** Acts on rate of change of speed error.
@@ -41,27 +41,32 @@ In higher modes (HOLD, LOITER, AUTO, etc.) an outer **heading** loop (`ATC_STR_A
 - **Range:** 0.000 – 0.400 &nbsp; **Default:** 0.00 &nbsp; **Vehicle:** 0
 - **Notes:** Rarely useful for surge speed control on a USV — speed is GPS-noisy and derivative kick is undesirable. Leave at 0 unless you have a specific reason.
 
+
 ### `ATC_SPEED_FF`
 - **Description:** Feed-forward gain — output proportional to the **setpoint** (not the error).
 - **Units:** (motor effort)/(m/s)
 - **Range:** 0.000 – 0.500 &nbsp; **Default:** 0.0 &nbsp; **Vehicle:** 0
-- **Notes:** Enables predictive control: if you know empirically that 50 % throttle produces 2 m/s steady speed, an FF of 0.25 gives the right baseline output before the PID does any work. Lets you reduce $K_p$ and $K_i$ while keeping fast tracking. Conceptually equivalent to inverting the steady-state plant gain.
+- **Notes:** Enables predictive control: if you know empirically that 50 % throttle produces 2 m/s steady speed, an FF of 0.25 gives the right baseline output before the PID does any work. Lets you reduce $K_p$ and $K_i$ while keeping fast tracking. Conceptually equivalent to inverting the steady-state plant gain.  % CLAUDE: Explain how the this relates to the CRUISE_THROTTLE and CRUISE_SPEED parameters used in the "Cruise Throttle and Cruise Speed (Throttle Baseline)" section of this document: https://ardupilot.org/rover/docs/rover-tuning-throttle-and-speed.html
 
 ### `ATC_SPEED_IMAX`
 - **Description:** Anti-windup clamp on the integral term's output contribution.
 - **Range:** 0.000 – 1.000 &nbsp; **Default:** 1.00 &nbsp; **Vehicle:** 1.0
-- **Notes:** Prevents integral windup during saturation (e.g. low battery, prop fouled). Matches the normalized motor output range, so the default lets the I term fully command the motor on its own.
+- **Notes:** Prevents integral windup during saturation (e.g. low battery, prop fouled). Matches the normalized motor output range, so the default lets the I term fully command the motor on its own.  % CLAUDE: Can you explain the units of this?
 
 ### `ATC_SPEED_FLTT` &nbsp;/&nbsp; `ATC_SPEED_FLTE` &nbsp;/&nbsp; `ATC_SPEED_FLTD`
-- **Description:** Cutoff frequencies (Hz) for the LPFs on the **target**, **error**, and **derivative** signals respectively.
+- **Description:** Cutoff frequencies (Hz) for the low pass filters on the **target**, **error**, and **derivative** signals respectively.
 - **Range:** 0.000 – 100.000 Hz &nbsp; **Default (FLTE):** 10 Hz &nbsp; **Default (FLTT, FLTD):** 0 (off)
 - **Vehicle:** FLTT=0, FLTE=10, FLTD=0
-- **Notes:** Three filter taps that decouple noise, target step shape, and derivative noise. Lab default of FLTE=10 Hz is well above the surge dynamics (~0.5–2 Hz bandwidth) so it does not affect step-response analysis. Set FLTT > 0 to soften an aggressive setpoint command; leave FLTD at 0 unless using ATC_SPEED_D.
+- **Notes:** Three filter taps % CLAUDE: Audience won't understand fitler taps.
+ that decouple noise, target step shape, and derivative noise % CLAUDE: This is also confusing.
+  Lab default of FLTE=10 Hz is well above the surge dynamics (~0.5–2 Hz bandwidth) so it does not affect step-response analysis. Set FLTT > 0 to soften an aggressive setpoint command; leave FLTD at 0 unless using ATC_SPEED_D. % CLAUDE: Why?
+  % CLAUDE: How are these implemented?  Are the first order linear filters?  Why are rate limiters uses for inputs and outputs and a "filter" used for these?
+
 
 ### `ATC_SPEED_FILT` *(legacy)*
 - **Description:** Pre-FLTT/FLTE/FLTD filter parameter — superseded by the three split filters above.
 - **Default:** 10 Hz
-- **Notes:** Kept for backward compatibility. Modern firmware uses FLTT/FLTE/FLTD. If both are set, the split parameters take precedence.
+- **Notes:** Kept for backward compatibility. Modern firmware uses FLTT/FLTE/FLTD. If both are set, the split parameters take precedence. % CLAUDE: What does "split parameter" mean?  Why the change, just to the name?   what does "set" mean in this context - if there is a default this would suggest that it is "set" by default which contridicts the instructions?
 
 ### `ATC_SPEED_SMAX`
 - **Description:** Slew rate limit on the PID output to prevent oscillation when control authority is exceeded.
@@ -160,12 +165,12 @@ Same role as the equivalent `ATC_SPEED_*` parameters above. All default to 0 (di
 ### `ATC_STR_RAT_MAX`
 - **Description:** Hard cap on the commanded yaw rate.
 - **Units:** deg/s &nbsp; **Range:** 0 – 1000 &nbsp; **Default:** 120 &nbsp; **Vehicle:** 36
-- **Notes:** The vehicle's 36 deg/s cap matches the `ACRO_TURN_RATE` parameter — both default to the value advertised on the RC stick at full deflection. Reduces sensitivity of the steering stick. Increase if you want a more responsive boat (and better step amplitude in your data).
+- **Notes:** The vehicle's 36 deg/s cap matches the `ACRO_TURN_RATE` parameter — both default to the value advertised on the RC stick at full deflection. Reduces sensitivity of the steering stick. Increase if you want a more responsive boat (and better step amplitude in your data).  % CLAUDE: Say more about how this is implemented.
 
 ### `ATC_TURN_MAX_G`
 - **Description:** Maximum turning acceleration (lateral g) used to prevent rolling/slipping.
 - **Units:** g &nbsp; **Range:** 0.1 – 10 &nbsp; **Default:** 0.6 &nbsp; **Vehicle:** 0.6
-- **Notes:** Coordinated-turn safety: at high speeds, the autopilot reduces achievable yaw rate to keep lateral acceleration ≤ this value. Relevant in higher modes (AUTO) where the autopilot plans turns; in ACRO the pilot is in charge so this rarely engages.
+- **Notes:** Coordinated-turn safety: at high speeds, the autopilot reduces achievable yaw rate to keep lateral acceleration ≤ this value. Relevant in higher modes (AUTO) where the autopilot plans turns; in ACRO the pilot is in charge so this rarely engages.  % CLAUDE: I'm confused, wouldn't this be a rate limiter similer to the max accel value for speed?
 
 ---
 
