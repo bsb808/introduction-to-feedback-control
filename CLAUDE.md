@@ -6,6 +6,31 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ME 2801 — Controls Engineering course materials. Content includes MATLAB live scripts, LaTeX exam/homework documents, reusable MATLAB utilities, and USV (Unmanned Surface Vehicle) lab materials for system identification.
 
+## Public / Private split
+
+This repo is **public**. A sibling **private** repo is cloned into `./private/` for instructor-only content (oral-exam reminders, internal notes, working drafts not ready to publish, anything inappropriate for a public course repo).
+
+- **Public:** `bsb808/introduction-to-feedback-control` — the directory you're reading.
+- **Private:** `bsb808/introduction-to-feedback-control-private` — cloned at `./private/` (gitignored as a directory in the public repo's `.gitignore`).
+- The private tree **mirrors** the public structure: `private/book/wXX_*/notes/oral_exam_questions.md` corresponds to public `book/wXX_*/notes/`.
+- Each repo has its own git history. Commit/push from the corresponding directory:
+
+  ```bash
+  # Public changes
+  git add ... && git commit && git push
+
+  # Private changes
+  cd private && git add ... && git commit && git push
+  ```
+
+### When to route content to private
+
+During any review or note-taking workflow (including the `% CLAUDE:` PMR review process), if the user marks something as private — e.g. "this is a private note", "save as private", "remind me privately", or asks for content that's clearly for personal study (oral exam prep, gripes about colleagues, draft material the user isn't ready to publish) — write it to `./private/` mirroring the public file's location. Do **not** put it in the public file.
+
+If a public file would benefit from referencing a private note, prefer **omitting the link** rather than embedding a path that breaks for anyone cloning only the public repo. The user knows where to find their private notes.
+
+If the user has not yet cloned the private repo on this machine (no `./private/.git` directory), tell them how to clone it before writing private content. Do not silently create files into a non-git-tracked directory thinking they're being saved.
+
 ## Plain-Text Live Script Format (.m files)
 
 Live scripts in this repo use MATLAB's plain-text format (`.m` with special markers), **not** binary `.mlx`. The `.gitattributes` marks `.mlx` as binary — do not create or edit `.mlx` files.
