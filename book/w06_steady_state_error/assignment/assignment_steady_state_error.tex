@@ -33,79 +33,90 @@ verification tool --- a sample script is in
 \texttt{code/assignment\_solutions.m}.
 
 % ---------------------------------------------------------------
-\section*{Problem 1 --- Three test inputs}
-% CLAUDE: Change "Problem" to "Exercise" for all.
+\section*{Exercise 1 --- Three Test Inputs}
+
 The unity-feedback system has open-loop transfer function
 \[
   G(s) = \frac{600}{(s+10)(s^2 + 4s + 25)}.
 \]
 
-% CLAUDE: Is there any type of engineering system that a transfer function with this form of dynamics: 1 real pole, 2 complex and no zeros?  If so, give an example in one sentence.  If not, explain why not.  Maybe this is both a plant and controller for something?   Good to highlight G(s) in this context is both controller and plant.
-
-
 \begin{enumerate}[label=(\alph*)]
   \item Identify the system Type by inspection of $G(s)$.
-  \item Compute the static error constants $K_x$, $K_v$, and $K_a$. % CLAUDE: I don't like these as ane end.  We treat these as just named variables - intermediate steps in the general expression and used in the process of finding the steady-state error
   \item Find the steady-state error for the inputs $u(t)$, $t\,u(t)$, and
-    $\tfrac{1}{2}\,t^2 u(t)$. % CLAUDE: Provide a little note about why the factor of 1/2 is there.  It's just to make the math simpler, but it might be confusing to students.
-  \item In MATLAB, verify your step-input answer in (c) two ways:
-  \begin{itemize}
-    \item Calculate: compute the closed-loop transfer function and evaluate its DC gain.
-    \item Simulate: generate the step response and check the final value of the error signal.
-  \end{itemize}
-  \item Two of your answers in (c) are infinite.  In one sentence, explain
+    $\tfrac{1}{2}\,t^2 u(t)$.  (The factor of $\tfrac12$ on the parabola is
+    just a bookkeeping convenience: it gives $\mathcal{L}\{\tfrac12 t^2\} =
+    1/s^3$, which keeps the algebra clean.)
+  \item In MATLAB, verify your step-input answer in (b) two ways:
+    \begin{itemize}
+      \item Calculate: compute the closed-loop transfer function and
+        evaluate its DC gain.
+      \item Simulate: generate the step response and check the final value
+        of the error signal.
+    \end{itemize}
+  \item Two of your answers in (b) are infinite.  In one sentence, explain
     what physical fact about $G(s)$ makes that so.
+  \item What kind of engineering system has dynamics like this --- one real
+    pole, two complex poles, no zeros?  Either give a one-sentence example,
+    or argue that $G(s)$ here is most naturally read as a \emph{plant --
+    controller cascade}, $G(s) = C(s)\,P(s)$.  (Recall the chapter's note on
+    overloaded notation.) % CLAUDE: No.  I meant to give a physical interpretation (one sentence) in the problem definition.
 \end{enumerate}
 
 % ---------------------------------------------------------------
-\section*{Speed (transient) and accuracy (steady-state) together}
+\section*{Exercise 2 --- Speed (Transient) and Accuracy (Steady-State) Together}
 
-The unity-feedback system has an open-loop transfer function
+The unity-feedback system has open-loop transfer function
 \[
   G(s) = \frac{4000}{s(s+60)}.
 \]
 
+For each computational part below, work the answer to each of eleement first \emph{analytically,
+by hand,}, then repeat and verify in MATLAB.
+
 \begin{enumerate}[label=(\alph*)]
-  \item What is the percent overshoot for a unit step input?  (Recall the
-    second-order formulas from the time-response chapter.) % CLAUDE: Open-loop or closed-loop?  be specific
-  \item What is the 2\,\% settling time?
-  \item Find the steady-state error for the inputs $5u(t)$, $5tu(t)$, and
-    $5t^2 u(t)$. % CLAUDE:  somehow say they need to do this analytically, by-and 
-  \item Verify (a)--(c) in MATLAB using \texttt{stepinfo} and a closed-loop
-    \texttt{lsim} on the ramp. 
-    % CLAUDE: Refactor the above where the question is to dothe same thing twice, once with pen and paper and once with matlab.
-  \item Suppose you want to reduce the ramp error in (c) by raising the loop
-    gain.  In one or two sentences, explain why this might be a bad idea ---
-    referencing your answer to (a).
+  \item Find the percent overshoot of the closed-loop unit-step response,
+    by hand.  Verify with \texttt{stepinfo(feedback(G,1))}.
+  \item Find the 2\,\% settling time, by hand.  Verify with the same
+    \texttt{stepinfo} output.
+  \item Find the steady-state error for the inputs $5u(t)$, $5t\,u(t)$, and
+    $5t^2 u(t)$, by hand.  Verify the each response with MATLAB. 
+  \item Suppose you want to reduce the ramp error in (c) by raising the
+    loop gain.  In one or two sentences, explain why this might be a bad
+    idea --- referencing your answer to (a).
 \end{enumerate}
 
 % ---------------------------------------------------------------
-\section*{Problem 3 --- Design a gain to meet a steady-state spec}
+\section*{Exercise 3 --- Design a Gain to Meet a Steady-State Spec}
 
-The forward-path transfer function of a unity-feedback position-control
-system is
+You will design a proportional-only controller for a position-control
+plant.  The plant is
 \[
-  G(s) = \frac{K(s+5)}{s\,(s+8)(s+12)}.
+  G_p(s) = \frac{s+5}{s\,(s+8)(s+12)},
 \]
+and the controller is $C(s) = K_p$.  The system is closed with unity
+feedback.
 
-% CLAUDE: Phrase this as designing a proportional only controller.  Give them to TFs, plant (G(s)) and controller (C(s) = K_p).  Add a hint to keep track of what is the open-loop (forward path) transfer function and what is the closed-loop transfer function.  
+\emph{Hint:} keep careful track of which transfer function you are working
+with at each step --- the \emph{open-loop, forward path} or the \emph{closed loop}.
 
 \begin{enumerate}[label=(\alph*)]
   \item What is the system Type?
-  \item Find the value of $K$ such that the steady-state error to a unit
+  \item Find the value of $K_p$ such that the steady-state error to a unit
     ramp input is 4\,\%.
-  \item Use MATLAB to compute the closed-loop poles for your value of $K$.
-    Are they all in the left half-plane?
+  \item Use MATLAB to compute the closed-loop poles for your value of
+    $K_p$.  Are they all in the left half-plane?
   \item What single assumption from the chapter makes (b) a meaningful
     answer?  In one sentence, what would you check before deploying this
     controller?
 \end{enumerate}
 
+\iffalse
 % ---------------------------------------------------------------
-\section*{Problem 4 --- Fill the table}
-% CLAUDE: comment out this section.
-For each of the two open-loop transfer functions below in unity feedback, fill in the steady-state
-error: a number, $0$, or $\infty$.
+\section*{Exercise 4 --- Fill the Table}
+% (Hidden via \iffalse...\fi --- kept in source for reference.)
+
+For each of the two open-loop transfer functions below in unity feedback,
+fill in the steady-state error: a number, $0$, or $\infty$.
 \[
   G_a(s) = \frac{20}{(s+2)(s+10)},
   \qquad
@@ -129,9 +140,10 @@ error: a number, $0$, or $\infty$.
   \item In one sentence, what is the structural difference between $G_a$ and
     $G_b$ that explains the entire pattern in your table?
 \end{enumerate}
+\fi
 
 % ---------------------------------------------------------------
-\section*{Problem 5 --- USV Surge: Predict before you simulate} % CLAUDE: Make all section titles use this capitalization style.
+\section*{Exercise 4 --- USV Surge: Predict Before You Simulate}
 
 The USV surge (forward-speed) plant, identified from the lab data, is
 \[
@@ -153,22 +165,22 @@ plotting the step response.
 \end{enumerate}
 
 % ---------------------------------------------------------------
-\section*{Problem 6 --- USV yaw: ramp tracking design}
+\section*{Exercise 5 --- USV Yaw: Ramp Tracking Design}
 
 The USV's yaw-rate plant, identified from the lab data, is
 \[
   G_\mathrm{yaw\text{-}rate}(s) = \frac{0.82}{0.61\,s + 1}.
 \]
-Heading is the integral of yaw rate, so the plant from rudder input to
-\emph{heading angle} picks up an extra factor of $1/s$:
-\[
-  G_r(s) = \frac{0.82}{s\,(0.61\,s + 1)}. % CLAUDE: Have students find this.
-\]
-A proportional controller $C(s) = K_r$ is used in a unity-feedback heading
-loop.  The heading reference ramps at $5^\circ$/s (a constant turn-rate
-command).
+We want to control \emph{heading angle}, not yaw rate.  Heading is the
+integral of yaw rate.  A proportional controller $C(s) = K_r$ is used in a
+unity-feedback heading loop.  The heading reference ramps at $5^\circ$/s
+(a constant turn-rate command).
 
 \begin{enumerate}[label=(\alph*)]
+  \item Write the plant transfer function from rudder input to
+    \emph{heading angle}, $G_r(s)$.  (Hint: heading is the integral of yaw
+    rate, so $G_r(s)$ picks up an extra factor relative to the yaw-rate
+    plant above.)
   \item What is the system Type of the closed loop?  Justify in one phrase.
   \item Find the velocity error constant $K_v$ in terms of $K_r$, and write
     the steady-state heading lag in degrees as a function of $K_r$.
