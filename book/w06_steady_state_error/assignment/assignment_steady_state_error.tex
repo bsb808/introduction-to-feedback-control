@@ -39,6 +39,11 @@ The unity-feedback system has open-loop transfer function
 \[
   G(s) = \frac{600}{(s+10)(s^2 + 4s + 25)}.
 \]
+For example, $G(s)$ might represent a spacecraft attitude-control loop:
+a reaction-wheel actuator (the real pole at $s = -10$) driving a rigid
+spacecraft bus coupled to a lightly-damped flexible solar panel (the
+complex pole pair) --- recall from the chapter that $G(s)$ here is the
+\emph{combined} open-loop $C(s)\,P(s)$, not the plant alone.
 
 \begin{enumerate}[label=(\alph*)]
   \item Identify the system Type by inspection of $G(s)$.
@@ -55,11 +60,6 @@ The unity-feedback system has open-loop transfer function
     \end{itemize}
   \item Two of your answers in (b) are infinite.  In one sentence, explain
     what physical fact about $G(s)$ makes that so.
-  \item What kind of engineering system has dynamics like this --- one real
-    pole, two complex poles, no zeros?  Either give a one-sentence example,
-    or argue that $G(s)$ here is most naturally read as a \emph{plant --
-    controller cascade}, $G(s) = C(s)\,P(s)$.  (Recall the chapter's note on
-    overloaded notation.) % CLAUDE: No.  I meant to give a physical interpretation (one sentence) in the problem definition.
 \end{enumerate}
 
 % ---------------------------------------------------------------
@@ -70,8 +70,8 @@ The unity-feedback system has open-loop transfer function
   G(s) = \frac{4000}{s(s+60)}.
 \]
 
-For each computational part below, work the answer to each of eleement first \emph{analytically,
-by hand,}, then repeat and verify in MATLAB.
+For each computational part below, work the answer first \emph{analytically
+(by hand)}, then verify in MATLAB.
 
 \begin{enumerate}[label=(\alph*)]
   \item Find the percent overshoot of the closed-loop unit-step response,
@@ -79,7 +79,7 @@ by hand,}, then repeat and verify in MATLAB.
   \item Find the 2\,\% settling time, by hand.  Verify with the same
     \texttt{stepinfo} output.
   \item Find the steady-state error for the inputs $5u(t)$, $5t\,u(t)$, and
-    $5t^2 u(t)$, by hand.  Verify the each response with MATLAB. 
+    $5t^2 u(t)$, by hand.  Verify each response with MATLAB.
   \item Suppose you want to reduce the ramp error in (c) by raising the
     loop gain.  In one or two sentences, explain why this might be a bad
     idea --- referencing your answer to (a).
