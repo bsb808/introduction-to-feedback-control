@@ -20,6 +20,13 @@
 \usepackage{sectsty}
 \sectionfont{\fontsize{12}{8}\selectfont}
 
+% Auto-numbered exercise headings: \exercise{Title} -> "Exercise N --- Title"
+\newcounter{exercise}
+\newcommand{\exercise}[1]{%
+  \refstepcounter{exercise}%
+  \section*{Exercise \theexercise\ --- #1}%
+}
+
 \begin{document}
 
 \begin{center}
@@ -33,7 +40,7 @@ verification tool --- a sample script is in
 \texttt{code/assignment\_solutions.m}.
 
 % ---------------------------------------------------------------
-\section*{Exercise 1 --- Three Test Inputs}
+\exercise{Three Test Inputs}
 
 The unity-feedback system has open-loop transfer function
 \[
@@ -62,8 +69,10 @@ complex pole pair) --- recall from the chapter that $G(s)$ here is the
     what physical fact about $G(s)$ makes that so.
 \end{enumerate}
 
+\iffalse
 % ---------------------------------------------------------------
-\section*{Exercise 2 --- Speed (Transient) and Accuracy (Steady-State) Together}
+\exercise{Speed (Transient) and Accuracy (Steady-State) Together}
+% (Hidden via \iffalse...\fi --- kept in source for reference.)
 
 The unity-feedback system has open-loop transfer function
 \[
@@ -84,9 +93,10 @@ For each computational part below, work the answer first \emph{analytically
     loop gain.  In one or two sentences, explain why this might be a bad
     idea --- referencing your answer to (a).
 \end{enumerate}
+\fi
 
 % ---------------------------------------------------------------
-\section*{Exercise 3 --- Design a Gain to Meet a Steady-State Spec}
+\exercise{Design a P-Only Velocity Tracking Compensator}
 
 You will design a proportional-only controller for a position-control
 plant.  The plant is
@@ -96,8 +106,14 @@ plant.  The plant is
 and the controller is $C(s) = K_p$.  The system is closed with unity
 feedback.
 
-\emph{Hint:} keep careful track of which transfer function you are working
-with at each step --- the \emph{open-loop, forward path} or the \emph{closed loop}.
+For example, $G_p(s)$ might model a DC-motor positioning stage: the
+integrator $1/s$ converts angular velocity to angular position, the real
+poles  are the motor's electrical and mechanical
+time constants, and the zero comes from a tachometer-feedback
+element built into the plant. % CLAUDE: Brainstorm applciations that would need accurate velocity control.}
+
+Keep track of which transfer function you are working
+with at each step: the \emph{open-loop, forward path} or the \emph{closed loop}.
 
 \begin{enumerate}[label=(\alph*)]
   \item What is the system Type?
@@ -105,14 +121,11 @@ with at each step --- the \emph{open-loop, forward path} or the \emph{closed loo
     ramp input is 4\,\%.
   \item Use MATLAB to compute the closed-loop poles for your value of
     $K_p$.  Are they all in the left half-plane?
-  \item What single assumption from the chapter makes (b) a meaningful
-    answer?  In one sentence, what would you check before deploying this
-    controller?
 \end{enumerate}
 
 \iffalse
 % ---------------------------------------------------------------
-\section*{Exercise 4 --- Fill the Table}
+\exercise{Fill the Table}
 % (Hidden via \iffalse...\fi --- kept in source for reference.)
 
 For each of the two open-loop transfer functions below in unity feedback,
@@ -143,7 +156,7 @@ fill in the steady-state error: a number, $0$, or $\infty$.
 \fi
 
 % ---------------------------------------------------------------
-\section*{Exercise 4 --- USV Surge: Predict Before You Simulate}
+\exercise{USV Surge: Predict Before You Simulate}
 
 The USV surge (forward-speed) plant, identified from the lab data, is
 \[
@@ -152,7 +165,7 @@ The USV surge (forward-speed) plant, identified from the lab data, is
 For each controller architecture below, predict the steady-state error
 analytically for a unit-step (1\,m/s) speed command.  Then verify each
 prediction in MATLAB by computing the closed-loop transfer function and
-plotting the step response.
+plotting the step response. % CLAUDE: Allow students to use analytical and matlab tools as appropriate. 
 
 \begin{enumerate}[label=(\alph*)]
   \item \textbf{P only}: $K_P = 0.5$.
@@ -165,15 +178,15 @@ plotting the step response.
 \end{enumerate}
 
 % ---------------------------------------------------------------
-\section*{Exercise 5 --- USV Yaw: Ramp Tracking Design}
+\exercise{USV Yaw: Ramp Tracking Design}
 
 The USV's yaw-rate plant, identified from the lab data, is
 \[
   G_\mathrm{yaw\text{-}rate}(s) = \frac{0.82}{0.61\,s + 1}.
 \]
-We want to control \emph{heading angle}, not yaw rate.  Heading is the
+We want to control \emph{heading angle}, not yaw rate, to follow a course.  Heading is the
 integral of yaw rate.  A proportional controller $C(s) = K_r$ is used in a
-unity-feedback heading loop.  The heading reference ramps at $5^\circ$/s
+unity-feedback heading loop.  The heading reference (the command) ramps at $5^\circ$/s
 (a constant turn-rate command).
 
 \begin{enumerate}[label=(\alph*)]
@@ -182,15 +195,12 @@ unity-feedback heading loop.  The heading reference ramps at $5^\circ$/s
     rate, so $G_r(s)$ picks up an extra factor relative to the yaw-rate
     plant above.)
   \item What is the system Type of the closed loop?  Justify in one phrase.
-  \item Find the velocity error constant $K_v$ in terms of $K_r$, and write
-    the steady-state heading lag in degrees as a function of $K_r$.
-  \item The design spec is a heading lag $\le 1^\circ$.  Find the minimum
+  \item Write
+    the steady-state heading error in degrees as a function of $K_r$.
+  \item The design spec is an absolute heading error $\le 1^\circ$.  Find the minimum
     $K_r$ that meets the spec.
   \item Verify your $K_r$ in MATLAB by simulating the closed-loop ramp
     response and checking the steady-state error.
-  \item Your collaborator says: ``The plant already has a $1/s$ in it, so
-    it's Type~1.  Increasing $K_r$ makes it Type~2, which gives us zero
-    ramp error.''  Critique this statement in one or two sentences.
 \end{enumerate}
 
 \end{document}
