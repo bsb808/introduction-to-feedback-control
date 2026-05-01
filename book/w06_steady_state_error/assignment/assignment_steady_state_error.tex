@@ -10,6 +10,7 @@
 \usepackage{amsmath, amsfonts, amsthm, fouriernc}
 \usepackage{IEEEtrantools}
 \usepackage{parskip}
+\usepackage{booktabs}
 
 \pagestyle{fancy}
 \addtolength{\headheight}{2em}
@@ -25,74 +26,159 @@
   \Large{\bf{Assignment: Steady-State Error}}
 \end{center}
 
-The textbook exercises, designated with the word ``Nise'', are from the
-``Problems'' section at the end of the chapter in \emph{Control System
-Engineering} by Norman Nise, 7th edition.
+This assignment exercises the steady-state error analysis from the chapter.
+All computations assume \emph{unity negative feedback} and a \emph{stable}
+closed loop unless stated otherwise.  MATLAB is encouraged throughout as a
+verification tool --- a sample script is in
+\texttt{code/assignment\_solutions.m}.
 
 % ---------------------------------------------------------------
-\section*{Nise 7.5}
-
-Given the open-loop transfer function, predict the steady-state error for step
-(position), ramp (velocity), and parabolic (acceleration) test inputs.  By
-inspection of $G(s)$ you should be able to anticipate the type of steady-state
-error (zero, constant, or infinite) for each input type before computing it.
-
-% ---------------------------------------------------------------
-\section*{Nise 7.10}
-
-Use the \emph{Key Equations} (inside back cover of the Nise textbook) to find
-the answers by hand.  Optionally, check with MATLAB.
-
-% ---------------------------------------------------------------
-\section*{Nise 7.17}
-
-This exercise revisits the derivation of the steady-state error equations for
-step, ramp, and parabolic inputs to deepen understanding of system type.
-
-% ---------------------------------------------------------------
-\section*{USV Case Study}
-
-From the previous assignment, you developed proportional-only unity-feedback
-controllers for surge (speed) and yaw, and evaluated the closed-loop response
-to step inputs.  You may have observed that the two controllers had different
-steady-state error behavior.  Here you will use system-type analysis to explain
-that difference.
-
-\subsection*{Plant models}
-
-Surge (speed) plant:
+\section*{Problem 1 --- Three test inputs}
+% CLAUDE: Change "Problem" to "Exercise" for all.
+The unity-feedback system has open-loop transfer function
 \[
-  G_u(s) = \frac{1}{Ms + D}
+  G(s) = \frac{600}{(s+10)(s^2 + 4s + 25)}.
 \]
-Proportional feedback gain: $K_u$.
 
-Yaw (heading) plant:
+% CLAUDE: Is there any type of engineering system that a transfer function with this form of dynamics: 1 real pole, 2 complex and no zeros?  If so, give an example in one sentence.  If not, explain why not.  Maybe this is both a plant and controller for something?   Good to highlight G(s) in this context is both controller and plant.
+
+
+\begin{enumerate}[label=(\alph*)]
+  \item Identify the system Type by inspection of $G(s)$.
+  \item Compute the static error constants $K_x$, $K_v$, and $K_a$. % CLAUDE: I don't like these as ane end.  We treat these as just named variables - intermediate steps in the general expression and used in the process of finding the steady-state error
+  \item Find the steady-state error for the inputs $u(t)$, $t\,u(t)$, and
+    $\tfrac{1}{2}\,t^2 u(t)$. % CLAUDE: Provide a little note about why the factor of 1/2 is there.  It's just to make the math simpler, but it might be confusing to students.
+  \item In MATLAB, verify your step-input answer in (c) two ways:
+  \begin{itemize}
+    \item Calculate: compute the closed-loop transfer function and evaluate its DC gain.
+    \item Simulate: generate the step response and check the final value of the error signal.
+  \end{itemize}
+  \item Two of your answers in (c) are infinite.  In one sentence, explain
+    what physical fact about $G(s)$ makes that so.
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Speed (transient) and accuracy (steady-state) together}
+
+The unity-feedback system has an open-loop transfer function
 \[
-  G_r(s) = \frac{1}{s\,(Is + d)}
+  G(s) = \frac{4000}{s(s+60)}.
 \]
-Proportional feedback gain: $K_r$.
 
-\subsection*{Exercises}
+\begin{enumerate}[label=(\alph*)]
+  \item What is the percent overshoot for a unit step input?  (Recall the
+    second-order formulas from the time-response chapter.) % CLAUDE: Open-loop or closed-loop?  be specific
+  \item What is the 2\,\% settling time?
+  \item Find the steady-state error for the inputs $5u(t)$, $5tu(t)$, and
+    $5t^2 u(t)$. % CLAUDE:  somehow say they need to do this analytically, by-and 
+  \item Verify (a)--(c) in MATLAB using \texttt{stepinfo} and a closed-loop
+    \texttt{lsim} on the ramp. 
+    % CLAUDE: Refactor the above where the question is to dothe same thing twice, once with pen and paper and once with matlab.
+  \item Suppose you want to reduce the ramp error in (c) by raising the loop
+    gain.  In one or two sentences, explain why this might be a bad idea ---
+    referencing your answer to (a).
+\end{enumerate}
 
-Work through the following steps independently for each degree of freedom
-(surge and yaw).
+% ---------------------------------------------------------------
+\section*{Problem 3 --- Design a gain to meet a steady-state spec}
 
-\begin{itemize}
+The forward-path transfer function of a unity-feedback position-control
+system is
+\[
+  G(s) = \frac{K(s+5)}{s\,(s+8)(s+12)}.
+\]
 
-  \item What is the system Type for each closed loop?
+% CLAUDE: Phrase this as designing a proportional only controller.  Give them to TFs, plant (G(s)) and controller (C(s) = K_p).  Add a hint to keep track of what is the open-loop (forward path) transfer function and what is the closed-loop transfer function.  
 
-  \item Based on the system Type, which input (step, ramp, or parabolic)
-    produces a non-zero, finite steady-state error?
+\begin{enumerate}[label=(\alph*)]
+  \item What is the system Type?
+  \item Find the value of $K$ such that the steady-state error to a unit
+    ramp input is 4\,\%.
+  \item Use MATLAB to compute the closed-loop poles for your value of $K$.
+    Are they all in the left half-plane?
+  \item What single assumption from the chapter makes (b) a meaningful
+    answer?  In one sentence, what would you check before deploying this
+    controller?
+\end{enumerate}
 
-  \item For that input type, find an expression for the constant steady-state
-    error in terms of the relevant physical and control parameters
-    ($K_u$, $K_r$, $M$, $D$, $I$, $d$).
-    \begin{itemize}
-      \item How do the physical model parameters affect (increase or decrease)
-        steady-state error?
-      \item How does the control gain affect steady-state error?
-    \end{itemize}
+% ---------------------------------------------------------------
+\section*{Problem 4 --- Fill the table}
+% CLAUDE: comment out this section.
+For each of the two open-loop transfer functions below in unity feedback, fill in the steady-state
+error: a number, $0$, or $\infty$.
+\[
+  G_a(s) = \frac{20}{(s+2)(s+10)},
+  \qquad
+  G_b(s) = \frac{40}{s\,(s+8)}.
+\]
 
-\end{itemize}
+\begin{enumerate}[label=(\alph*)]
+  \item Identify the Type of each plant before computing.
+  \item Fill in the six cells.
+  \begin{center}
+  \renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{l|ccc}
+    \toprule
+    & $r(t) = u(t)$ & $r(t) = t\,u(t)$ & $r(t) = \tfrac12 t^2 u(t)$ \\
+    \midrule
+    $G_a(s)$ & \rule{2.5cm}{0pt} & \rule{2.5cm}{0pt} & \rule{2.5cm}{0pt} \\
+    $G_b(s)$ & & & \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  \item In one sentence, what is the structural difference between $G_a$ and
+    $G_b$ that explains the entire pattern in your table?
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Problem 5 --- USV Surge: Predict before you simulate} % CLAUDE: Make all section titles use this capitalization style.
+
+The USV surge (forward-speed) plant, identified from the lab data, is
+\[
+  G_\mathrm{surge}(s) = \frac{5.1}{1.3\,s + 1}.
+\]
+For each controller architecture below, predict the steady-state error
+analytically for a unit-step (1\,m/s) speed command.  Then verify each
+prediction in MATLAB by computing the closed-loop transfer function and
+plotting the step response.
+
+\begin{enumerate}[label=(\alph*)]
+  \item \textbf{P only}: $K_P = 0.5$.
+  \item \textbf{PI}: $K_P = 0.5$, $K_I = 0.4$.
+  \item \textbf{P + feedforward}: $K_P = 0.5$, $K_{\!f\!f} = 1/K_\mathrm{plant}$.
+  \item \textbf{PI + feedforward}: same $K_P, K_I$ as (b), and $K_{\!f\!f}$ as (c).
+  \item Use the \emph{adaptation argument} from the chapter (not the
+    steady-state error formula) to explain in one or two sentences why the
+    PI controller in (b) drives the error to zero.
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section*{Problem 6 --- USV yaw: ramp tracking design}
+
+The USV's yaw-rate plant, identified from the lab data, is
+\[
+  G_\mathrm{yaw\text{-}rate}(s) = \frac{0.82}{0.61\,s + 1}.
+\]
+Heading is the integral of yaw rate, so the plant from rudder input to
+\emph{heading angle} picks up an extra factor of $1/s$:
+\[
+  G_r(s) = \frac{0.82}{s\,(0.61\,s + 1)}. % CLAUDE: Have students find this.
+\]
+A proportional controller $C(s) = K_r$ is used in a unity-feedback heading
+loop.  The heading reference ramps at $5^\circ$/s (a constant turn-rate
+command).
+
+\begin{enumerate}[label=(\alph*)]
+  \item What is the system Type of the closed loop?  Justify in one phrase.
+  \item Find the velocity error constant $K_v$ in terms of $K_r$, and write
+    the steady-state heading lag in degrees as a function of $K_r$.
+  \item The design spec is a heading lag $\le 1^\circ$.  Find the minimum
+    $K_r$ that meets the spec.
+  \item Verify your $K_r$ in MATLAB by simulating the closed-loop ramp
+    response and checking the steady-state error.
+  \item Your collaborator says: ``The plant already has a $1/s$ in it, so
+    it's Type~1.  Increasing $K_r$ makes it Type~2, which gives us zero
+    ramp error.''  Critique this statement in one or two sentences.
+\end{enumerate}
 
 \end{document}
