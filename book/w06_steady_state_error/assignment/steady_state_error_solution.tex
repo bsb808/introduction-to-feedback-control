@@ -1,0 +1,197 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage{amsmath, amsfonts, amsthm, fouriernc}
+\usepackage{IEEEtrantools}
+\usepackage{parskip}
+\usepackage{booktabs}
+
+\pagestyle{fancy}
+\addtolength{\headheight}{2em}
+\addtolength{\headsep}{1.5em}
+\lhead{\large{ME 2801}}
+\rhead{\large{Solutions}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{8}\selectfont}
+
+% Auto-numbered exercise headings: \exercise{Title} -> "Exercise N --- Title"
+\newcounter{exercise}
+\newcommand{\exercise}[1]{%
+  \refstepcounter{exercise}%
+  \section*{Exercise \theexercise\ --- #1}%
+}
+
+\begin{document}
+
+\begin{center}
+  \Large{\bf{Solutions: Steady-State Error}}
+\end{center}
+
+Numerical verification for every exercise is in
+\texttt{code/assignment\_solutions.m}.  Run section-by-section.
+
+% ---------------------------------------------------------------
+\exercise{Three Test Inputs}
+
+\textbf{(a)}  $G(s)$ has no factors of $s$ in the denominator
+$\Rightarrow$ \textbf{Type 0}.
+
+\textbf{(b)}  Steady-state errors follow from the master equation
+\[
+e(\infty) = \lim_{s \to 0} s \frac{R(s)}{(1+G(s))},
+\] with each input
+$R(s) = 1/s,\ 1/s^2,\ 1/s^3$ in turn.  The relevant DC limits of $G(s)$ are
+\[
+  K_x \equiv \lim_{s \to 0} G(s) = \frac{600}{(10)(25)} = 2.4,
+  \qquad
+  \lim_{s \to 0} s\,G(s) = 0,
+  \qquad
+  \lim_{s \to 0} s^2\,G(s) = 0,
+\]
+giving
+\[
+  e_\mathrm{step} = \frac{1}{1 + K_x} = \frac{1}{3.4} \approx \boxed{0.294},
+  \qquad
+  e_\mathrm{ramp} = \boxed{\infty},
+  \qquad
+  e_\mathrm{para} = \boxed{\infty}.
+\]
+
+\textbf{(c)}  In MATLAB:
+\begin{itemize}
+  \item \emph{Calculate.}  \texttt{T = feedback(G,1); 1 - dcgain(T)}
+    returns 0.2941.
+  \item \emph{Simulate.}  \texttt{step(T)} settles at
+    $0.706 = 1 - 0.294$, so the error signal $r - y$ settles at $0.294$.
+\end{itemize}
+Both match the analytical answer.
+
+\textbf{(d)}  $G(s)$ contains \emph{no integrators} (no factor of $s$ in the
+denominator).  Without integration in the forward path, the controller
+cannot accumulate the unbounded bias required to keep up with an unbounded
+reference; the error grows without limit for the ramp and parabola.
+
+% ---------------------------------------------------------------
+\exercise{Design a P-Only Velocity Tracking Compensator}
+
+\textbf{(a)}  The combined open-loop (forward path) is
+$G(s) = C(s)\,G_p(s) = \frac{K_p\,(s+5)}{s\,(s+8)(s+12)}$, % CLAUDE: Write as standalone and use \frac
+which has one factor of $s$
+in the denominator $\Rightarrow$ \textbf{Type 1}.
+
+\textbf{(b)}  Velocity constant: % CLAUDE:  Don't use the velcity constant.   Just use the master formula for the ramp error.
+\[
+  K_v = \lim_{s \to 0} s\,C(s)\,G_p(s)
+      = \lim_{s \to 0} \frac{K_p\,s\,(s+5)}{s\,(s+8)(s+12)}
+      = \frac{5\,K_p}{96}.
+\]
+A 4\,\% ramp error requires $1/K_v = 0.04$, i.e.\ $K_v = 25$:
+\[
+  \frac{5\,K_p}{96} = 25
+  \;\Longrightarrow\;
+  \boxed{K_p = 480}.
+\]
+
+\textbf{(c)}  The closed-loop characteristic polynomial is
+\[
+  \Delta(s) = s\,(s+8)(s+12) + 480\,(s+5)
+            = s^3 + 20\,s^2 + 576\,s + 2400.
+\]
+\texttt{pole(feedback(Kp*Gp, 1))} with $K_p = 480$ returns roots near
+$-4.46 \pm 14.2j$ and $-11.1$ --- all in the left half-plane, so the
+closed loop is stable.  Because the chapter's general SSE formula assumes
+stability of the closed loop, the result in (b) is meaningful.
+
+% CLAUDE: instead just say "Use MATLAB to compute the closed-loop poles for your value of Kp.  Are they all in the left half-plane?" 
+
+% ---------------------------------------------------------------
+\exercise{USV Surge: Predict Before You Simulate}
+
+Let $C(s)$ denote the controller (P or PI), $G_p(s) = 5.1/(1.3s+1)$ the
+plant, and $K_{\!f\!f} = 1/G_p(0) = 1/5.1$ the feedforward gain.  With
+feedforward the closed-loop transfer function is
+\[
+  T(s) = \frac{G_p(s)\bigl(C(s) + K_{\!f\!f}\bigr)}{1 + C(s)\,G_p(s)},
+\]
+and the step error is $e_\mathrm{ss} = 1 - T(0)$.
+
+\textbf{(a) P only.}  $C(s) = K_P = 0.5$.  The forward TF $K_P\,G_p(s)$ is
+Type~0 with $K_x = K_P \cdot G_p(0) = 0.5 \cdot 5.1 = 2.55$:
+\[
+  e_\mathrm{ss} = \frac{1}{1 + K_x} = \frac{1}{3.55} \approx \boxed{0.282\;\mathrm{m/s}}.
+\]
+
+\textbf{(b) PI.}  Adding $K_I/s$ to the controller introduces an integrator
+$\Rightarrow$ Type~1, so
+\[
+  e_\mathrm{ss} = \boxed{0}.
+\]
+
+\textbf{(c) P + FF.}  $C(0) = 0.5$, so
+\[
+  T(0) = \frac{5.1\,(0.5 + 1/5.1)}{1 + 5.1 \cdot 0.5}
+       = \frac{5.1 \cdot 0.696}{3.55}
+       = \frac{3.55}{3.55}
+       = 1
+  \;\Longrightarrow\;
+  e_\mathrm{ss} = \boxed{0}.
+\]
+
+\textbf{(d) PI + FF.}  $C(s) \to \infty$ as $s \to 0$ (the $K_I/s$ term
+dominates), so $T(0) = 1$ as in (c) and
+\[
+  e_\mathrm{ss} = \boxed{0}.
+\]
+
+\textbf{(e)}  At steady state in a stable closed loop, every signal is
+constant, so $\dot{u}_I(t) = 0$.  But $\dot{u}_I = K_I\,e(t)$, so
+$\dot{u}_I = 0$ forces $e = 0$ (assuming $K_I \neq 0$).  The integrator
+\emph{adapts} until the error has been driven to zero --- it does not need
+to know $K_\mathrm{plant}$ to do so.
+
+% ---------------------------------------------------------------
+\exercise{USV Yaw: Ramp Tracking Design}
+
+\textbf{(a)}  Heading is the integral of yaw rate, so the heading plant
+picks up an extra factor of $1/s$ relative to the yaw-rate plant:
+\[
+  G_r(s) = \frac{1}{s}\,G_\mathrm{yaw\text{-}rate}(s)
+         = \frac{0.82}{s\,(0.61\,s + 1)}.
+\]
+
+\textbf{(b)}  $G_r(s)$ has one factor of $s$ in the denominator, and
+$C(s) = K_r$ is just a scalar gain.  The combined open-loop $K_r\,G_r(s)$
+has the same number of integrators as $G_r$ alone $\Rightarrow$
+\textbf{Type 1}.
+
+\textbf{(c)}  Velocity constant:
+\[
+  K_v = \lim_{s \to 0} s\,K_r\,G_r(s)
+      = \lim_{s \to 0} \frac{0.82\,K_r}{0.61\,s + 1}
+      = 0.82\,K_r.
+\]
+For a ramp slope of $5^\circ$/s, the steady-state heading error is
+\[
+  e_\mathrm{ss} = \frac{5}{K_v} = \frac{5}{0.82\,K_r}\;\;[\text{degrees}].
+\]
+
+\textbf{(d)}  Spec: $|e_\mathrm{ss}| \le 1^\circ$:
+\[
+  \frac{5}{0.82\,K_r} \le 1
+  \;\Longrightarrow\;
+  K_r \ge \frac{5}{0.82}
+        \approx \boxed{6.10}.
+\]
+
+\textbf{(e)}  In MATLAB, \texttt{lsim} on the closed loop with $K_r = 6.10$
+and a $5t$ reference shows the output settling parallel to the reference
+with a constant error of $1.0^\circ$, confirming the spec.
+
+\end{document}

@@ -1,0 +1,74 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="SSE Method 1: Cascade Integrator" id="sse_method1">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="520" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== (a) DIRECT STEP RESPONSE ===== -->
+        <mxCell id="title_a" value="(a) Direct step response — drive Gcl(s) with a unit step" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="700" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_in" value="u(t) = 1&#xa;(unit step)" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="105" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_T" value="Gcl(s)&#xa;closed-loop" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="110" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_out" value="c(t)" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="540" y="105" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_e1" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="a_in" target="a_T">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e2" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="a_T" target="a_out">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_caption" value="MATLAB:  step(Gcl, t)" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="200" y="195" width="320" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- ===== (b) RAMP RESPONSE VIA CASCADED 1/s ===== -->
+        <mxCell id="title_b" value="(b) Ramp response — cascade an integrator so the step becomes r(t) = t before entering Gcl(s)" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="290" width="820" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b_in" value="u(t) = 1&#xa;(unit step)" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="355" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b_int" value="1 / s&#xa;integrator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="360" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b_T" value="Gcl(s)&#xa;closed-loop" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="360" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b_out" value="c(t)" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="720" y="355" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b_e1" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="b_in" target="b_int">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_e2" value="r(t) = t&#xa;(ramp)" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=11;fontStyle=2;verticalAlign=bottom;" edge="1" parent="1" source="b_int" target="b_T">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_e3" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="b_T" target="b_out">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b_caption" value="MATLAB:  step(Gcl * tf(1,[1 0]), t)    ≡    step(Gcl/s, t)" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="160" y="445" width="520" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
