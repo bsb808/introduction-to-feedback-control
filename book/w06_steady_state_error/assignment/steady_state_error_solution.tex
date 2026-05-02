@@ -82,34 +82,38 @@ reference; the error grows without limit for the ramp and parabola.
 \exercise{Design a P-Only Velocity Tracking Compensator}
 
 \textbf{(a)}  The combined open-loop (forward path) is
-$G(s) = C(s)\,G_p(s) = \frac{K_p\,(s+5)}{s\,(s+8)(s+12)}$, % CLAUDE: Write as standalone and use \frac
-which has one factor of $s$
-in the denominator $\Rightarrow$ \textbf{Type 1}.
-
-\textbf{(b)}  Velocity constant: % CLAUDE:  Don't use the velcity constant.   Just use the master formula for the ramp error.
 \[
-  K_v = \lim_{s \to 0} s\,C(s)\,G_p(s)
-      = \lim_{s \to 0} \frac{K_p\,s\,(s+5)}{s\,(s+8)(s+12)}
-      = \frac{5\,K_p}{96}.
+  G(s) = C(s)\,G_p(s) = \frac{K_p\,(s+5)}{s\,(s+8)(s+12)},
 \]
-A 4\,\% ramp error requires $1/K_v = 0.04$, i.e.\ $K_v = 25$:
+which has one factor of $s$ in the denominator $\Rightarrow$ \textbf{Type 1}.
+
+\textbf{(b)}  For a unit ramp input, $R(s) = 1/s^2$, so the master formula
+gives
 \[
-  \frac{5\,K_p}{96} = 25
-  \;\Longrightarrow\;
-  \boxed{K_p = 480}.
+  e_\mathrm{ramp} = \lim_{s \to 0} \frac{s\,R(s)}{1 + G(s)}
+                  = \lim_{s \to 0} \frac{1/s}{1 + G(s)}.
+\]
+As $s \to 0$, the open-loop transfer function is dominated by its
+integrator,
+\[
+  G(s) = \frac{K_p\,(s+5)}{s\,(s+8)(s+12)}
+       \;\xrightarrow{s \to 0}\;
+       \frac{5\,K_p}{96\,s},
+\]
+which is large compared to $1$, so
+\[
+  e_\mathrm{ramp} = \lim_{s \to 0} \frac{1/s}{5\,K_p/(96\,s)}
+                  = \frac{96}{5\,K_p}.
+\]
+A 4\,\% ramp error requires $96/(5\,K_p) = 0.04$:
+\[
+  \boxed{K_p = \frac{96}{5 \cdot 0.04} = 480}.
 \]
 
-\textbf{(c)}  The closed-loop characteristic polynomial is
-\[
-  \Delta(s) = s\,(s+8)(s+12) + 480\,(s+5)
-            = s^3 + 20\,s^2 + 576\,s + 2400.
-\]
-\texttt{pole(feedback(Kp*Gp, 1))} with $K_p = 480$ returns roots near
-$-4.46 \pm 14.2j$ and $-11.1$ --- all in the left half-plane, so the
-closed loop is stable.  Because the chapter's general SSE formula assumes
-stability of the closed loop, the result in (b) is meaningful.
-
-% CLAUDE: instead just say "Use MATLAB to compute the closed-loop poles for your value of Kp.  Are they all in the left half-plane?" 
+\textbf{(c)}  \texttt{pole(feedback(Kp*Gp, 1))} with $K_p = 480$ returns
+roots near $-4.46 \pm 14.2j$ and $-11.1$ --- all in the left half-plane,
+so the closed loop is stable.  This is what makes the SSE result in (b)
+meaningful: the chapter's formula assumes a stable closed loop.
 
 % ---------------------------------------------------------------
 \exercise{USV Surge: Predict Before You Simulate}
