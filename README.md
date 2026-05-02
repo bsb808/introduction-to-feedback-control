@@ -37,6 +37,9 @@ sudo apt install -y \
 
 Session history for this repo is stored in the paired private repository
 [introduction-to-feedback-control-claude](https://github.com/bsb808/introduction-to-feedback-control-claude).
+The repo holds the `.jsonl` conversation logs and the `memory/` subdirectory
+of persistent auto-memory (user preferences, project context, feedback that
+Claude carries across sessions).
 
 To restore sessions on a new machine:
 
@@ -49,3 +52,13 @@ git clone git@github.com:bsb808/introduction-to-feedback-control-claude.git ~/Wo
 ln -s ~/WorkingCopies/introduction-to-feedback-control-claude \
       ~/.claude/projects/-home-bsb-WorkingCopies-introduction-to-feedback-control
 ```
+
+To checkpoint your session history to GitHub:
+
+```bash
+cd ~/WorkingCopies/introduction-to-feedback-control-claude
+git add -A && git commit -m "sync sessions" && git push
+```
+
+Or use `make sync-all` from this repo's root to push public, private, and
+session history in one step.

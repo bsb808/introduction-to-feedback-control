@@ -39,6 +39,17 @@ If `./private/SESSION_NOTES.md` exists, read it at the start of every session. I
 
 A `Makefile` at the repo root coordinates both repos. Prefer `make pull` / `make push` / `make sync` / `make status` over running `git` twice manually. `make clone-private` is the one-time-per-machine setup target.
 
+### Session portability (`-claude` companion repo)
+
+A third companion repo, `bsb808/introduction-to-feedback-control-claude`, holds Claude Code's session jsonl logs and persistent auto-memory for this project. It is cloned as a sibling of this repo (e.g. `~/WorkingCopies/introduction-to-feedback-control-claude/`) and symlinked into Claude Code's project directory:
+
+```bash
+ln -s ~/WorkingCopies/introduction-to-feedback-control-claude \
+      ~/.claude/projects/-home-bsb-WorkingCopies-introduction-to-feedback-control
+```
+
+The `memory/` subdirectory inside that repo is the destination for the auto-memory writes described later in this file (user preferences, project context, feedback). The root `Makefile` extends to this repo too — `make status-all`, `make push-all`, `make sync-all` operate on all three repos (public, private, claude).
+
 ## Plain-Text Live Script Format (.m files)
 
 Live scripts in this repo use MATLAB's plain-text format (`.m` with special markers), **not** binary `.mlx`. The `.gitattributes` marks `.mlx` as binary — do not create or edit `.mlx` files.
