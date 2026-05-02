@@ -106,11 +106,11 @@ plant.  The plant is
 and the controller is $C(s) = K_p$.  The system is closed with unity
 feedback.
 
-For example, $G_p(s)$ might model a DC-motor positioning stage: the
-integrator $1/s$ converts angular velocity to angular position, the real
-poles  are the motor's electrical and mechanical
-time constants, and the zero comes from a tachometer-feedback
-element built into the plant. % CLAUDE: Brainstorm applciations that would need accurate velocity control.}
+For example, $G_p(s)$ might model a machine-tool feed drive, where
+accurate constant feed velocity is required: the integrator $1/s$ converts the motor's angular velocity
+to linear position, the real poles are the motor's electrical
+and mechanical time constants, and the zero comes from a tachometer-feedback
+element built into the plant.
 
 Keep track of which transfer function you are working
 with at each step: the \emph{open-loop, forward path} or the \emph{closed loop}.
@@ -162,10 +162,8 @@ The USV surge (forward-speed) plant, identified from the lab data, is
 \[
   G_\mathrm{surge}(s) = \frac{5.1}{1.3\,s + 1}.
 \]
-For each controller architecture below, predict the steady-state error
-analytically for a unit-step (1\,m/s) speed command.  Then verify each
-prediction in MATLAB by computing the closed-loop transfer function and
-plotting the step response. % CLAUDE: Allow students to use analytical and matlab tools as appropriate. 
+For each controller architecture below, find the steady-state error to a
+unit-step (1\,m/s) speed command.  Use analytical methods, MATLAB, or both.
 
 \begin{enumerate}[label=(\alph*)]
   \item \textbf{P only}: $K_P = 0.5$.
