@@ -8,7 +8,7 @@ exercise dropped; USV exercises moved to current week-5 numerical plant.
 
 ## 1. Current assignment
 
-The committed [assignment_steady_state_error.tex](assignment_steady_state_error.tex)
+The committed [assign_steady_state_error.tex](assign_steady_state_error.tex)
 contains four exercises (Nise 7.5, 7.10, 7.17, plus a symbolic USV case
 study). Per the v1 review, **all four will be replaced** — the textbook
 exercises with custom problems modeled on the same concepts, and the symbolic

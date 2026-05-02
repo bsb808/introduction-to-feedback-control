@@ -1,0 +1,82 @@
+% Standalone TikZ diagram: minimal unity-feedback closed-loop system.
+% Only the input R and output Y are labeled; intermediate signals
+% (error, control effort) and the controller block are absorbed into a
+% single forward-path TF G.
+% Build:  pdflatex closed_loop_minimal.tex
+
+% ---- Preamble ------------------------------------------------------------
+% standalone: crops the output PDF tightly to the picture (no page chrome).
+% border=4pt: leaves a small margin around the figure.
+\documentclass[border=4pt]{standalone}
+\usepackage{tikz}
+
+% TikZ libraries used below:
+%   positioning  -- enables `right=1.4cm of rin`-style relative placement
+%   calc         -- enables coordinate arithmetic, e.g. ($(a)!0.5!(b)$)
+%   arrows.meta  -- modern arrow-tip system; provides Latex[length=,width=]
+\usetikzlibrary{positioning, calc, arrows.meta}
+
+\begin{document}
+
+% ---- Picture options -----------------------------------------------------
+% Options inside [ ... ] apply to every node and edge in this tikzpicture.
+\begin{tikzpicture}[
+  % Default arrow tip for any `->` edge below.
+  >={Latex[length=1.5mm, width=1.2mm]},
+  thick,                                                          % default line weight
+
+  % Re-usable named styles, referenced via `style=block` / `style=sum`
+  % (or simply `block` / `sum` since pgf accepts the bare style name).
+  block/.style = {draw, rectangle, minimum height=2.5em, minimum width=4.5em},
+  sum/.style   = {draw, circle, inner sep=0pt, minimum size=1.2em},
+]
+
+  % ---- Nodes -------------------------------------------------------------
+  % `coordinate` = an invisible point (no shape, no border, no label),
+  % used as an anchor for arrow endpoints outside any visible block.
+  \node[coordinate]                    (rin)   {};
+
+  % `right=1.4cm of rin` (from the `positioning` library) places this
+  % node 1.4 cm to the right of node `rin`'s east edge.
+  % The summing junction is just an empty circle; the +/- polarity
+  % labels are added separately below so they sit outside the circle.
+  \node[sum,   right=1.4cm of rin]     (sum)   {};
+
+  % The forward-path block.  Label is plain math `$G$`.
+  \node[block, right=1.6cm of sum]     (G)     {$G$};
+
+  % Anchor point for the output arrow's tip, just to the right of G.
+  \node[coordinate, right=1.4cm of G]  (yout)  {};
+
+  % ---- Sum polarity labels ----------------------------------------------
+  % Small `+` and `-` text nodes anchored at the NW and SW corners of `sum`.
+  % `anchor=south east at (sum.north west)` means: place the south-east
+  % corner of this label at sum's north-west corner.  Net effect: the
+  % label sits just outside the circle, hugging the upper-left.
+  \node[font=\scriptsize, inner sep=0pt, anchor=south east] at (sum.north west) {$+$};
+  \node[font=\scriptsize, inner sep=0pt, anchor=north east] at (sum.south west) {$-$};
+
+  % ---- Edges (signal arrows) --------------------------------------------
+  % `--` draws a straight line between the two endpoints.
+  % `->` uses the default arrow tip configured in the picture options.
+  % `node[above]{...}` places a text label centered above the line.
+  \draw[->] (rin) -- node[above]{$R$} (sum);   % reference R into summing junction
+  \draw[->] (sum) -- (G);                      % error signal (unlabeled here)
+  \draw[->] (G)   -- node[above]{$Y$} (yout);  % plant output Y
+
+  % ---- Feedback path ----------------------------------------------------
+  % `calc` syntax: ($A!t!B$) is the point at fractional distance t (0..1)
+  % along the segment from A to B.  Here t=0.5 → `fbk` is the midpoint
+  % between G's east edge and `yout`.  This is where the feedback tap
+  % branches off the output line.
+  \coordinate (fbk) at ($(G.east)!0.5!(yout)$);
+
+  % Feedback wire: starting at `fbk`,
+  %   `-- ++(0,-1.4)`  draws a straight segment by a *relative* offset of
+  %                    (0, -1.4 cm) — i.e. straight down 1.4 cm.
+  %   `-| (sum.south)` routes the rest orthogonally: first horizontal,
+  %                    then vertical, ending at the south side of `sum`.
+  \draw[->] (fbk) -- ++(0,-1.4) -| (sum.south);
+
+\end{tikzpicture}
+\end{document}

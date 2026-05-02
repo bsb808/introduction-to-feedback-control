@@ -17,6 +17,12 @@
 
 - [ ] Review first draft of chapter (`week09_freq_response_part2/chapter/freq_response_p2.tex`) and companion script (`freq_response_p2_companion.m`).
 
+## Notation cleanup
+
+- [ ] **SSE chapter (`w06_steady_state_error/chapter/steady_state_error.tex`)** uses bare `G(s)` for the combined forward-path TF (`C·P`).  Per `book/CONVENTIONS.md`, `G(s)` is reserved for the plant; the forward-path / open-loop TF should be `G_{ol}(s)`.  Update the chapter (and any matching block diagrams, derivations, and code references) to use `G_{ol}(s)` for the forward path and reserve `G(s)` for the plant alone.
+
+- [ ] **Convention sweep — all chapters.**  Walk the book chapter by chapter and reconcile each against `book/CONVENTIONS.md` (signal names `R/E/U/Y`, TF names `G/C/F/G_{ol}/G_{cl}`, MATLAB variable names, block-diagram styles in any inline TikZ).  For each chapter: list the violations, then fix them in a focused pass.  Update `CONVENTIONS.md` if a chapter reveals a convention we haven't yet decided on.  Recommended order: w02 → w04 → w05 → w06 → w07 → w08 → w09 → w10 (chronological so cross-chapter references stay consistent as you go).
+
 ## Terminology: ArduPilot / ArduRover / autopilot
 
 - [ ] Audit all lab documents for consistent use of ArduPilot vocabulary.  Verify the community standard (ArduPilot = the project; ArduRover = the rover/boat firmware; autopilot = the hardware board) and apply uniformly across Lab 1 (`lab_usv_sysid.tex`), Lab 2 (`lab_usv_pid.tex`), and any future lab documents.

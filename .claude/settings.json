@@ -68,7 +68,25 @@
       "Bash(ln -s ~/WorkingCopies/claude-global-claude ~/.claude/projects/-home-bsb-WorkingCopies-claude-global)",
       "Bash(git -C ~/WorkingCopies/claude-global status)",
       "Bash(git -C ~/WorkingCopies/claude-global log --oneline -3)",
-      "Bash(git -C ~/WorkingCopies/claude-global log --oneline --all)"
+      "Bash(git -C ~/WorkingCopies/claude-global log --oneline --all)",
+      "Bash(git -C /home/bsb/WorkingCopies/me2801 status --short)",
+      "Bash(git -C /home/bsb/WorkingCopies/introduction-to-feedback-control status --short)",
+      "Bash(mkdir -p .trash)",
+      "Bash(mv week05_blockdiagrams_pid .trash/)",
+      "Bash(mv week06_steady_state_error .trash/)",
+      "Bash(echo \".trash/\")",
+      "Bash(git pull *)",
+      "Bash(pip3 --version)",
+      "Read(//data/Downloads/42926_boat_tests_2801/**)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Read(//opt/**)",
+      "Bash(flatpak list *)",
+      "Bash(snap list *)",
+      "Bash(drawio --export --format svg --output atc_pid_architecture.svg atc_pid_architecture.drawio)",
+      "Bash(git check-ignore *)",
+      "Bash(gh auth *)",
+      "Bash(make help *)",
+      "Bash(make status *)"
     ],
     "additionalDirectories": [
       "/home/bsb/.config/Code/User",
@@ -85,7 +103,8 @@
       "/home/bsb/WorkingCopies/claude_local",
       "/home/bsb/.claude",
       "/home/bsb/WorkingCopies/claude-global",
-      "/home/bsb/WorkingCopies/claude-global-claude"
+      "/home/bsb/WorkingCopies/claude-global-claude",
+      "/home/bsb/WorkingCopies/introduction-to-feedback-control/week01_laplace_part1"
     ]
   }
 }

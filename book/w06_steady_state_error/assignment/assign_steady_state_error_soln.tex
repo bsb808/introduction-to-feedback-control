@@ -35,7 +35,7 @@
 \end{center}
 
 Numerical verification for every exercise is in
-\texttt{code/assignment\_solutions.m}.  Run section-by-section.
+\texttt{assignment\_solutions.m}.  
 
 \textbf{Notation.}  Throughout these solutions:
 \begin{itemize}
@@ -76,9 +76,9 @@ giving
 
 \textbf{(c)}  In MATLAB:
 \begin{itemize}
-  \item \emph{Calculate.}  \texttt{Gcl = feedback(G,1); 1 - dcgain(Gcl)}
+  \item \emph{Calculate.}  \texttt{G\_cl = feedback(G\_ol,1); 1 - dcgain(G\_cl)}
     returns 0.2941.
-  \item \emph{Simulate.}  \texttt{step(Gcl)} settles at
+  \item \emph{Simulate.}  \texttt{step(G\_cl)} settles at
     $0.706 = 1 - 0.294$, so the error signal $r - y$ settles at $0.294$.
 \end{itemize}
 Both match the analytical answer.
@@ -120,10 +120,11 @@ A 4\,\% ramp error requires $96/(5\,K_p) = 0.04$:
   \boxed{K_p = \frac{96}{5 \cdot 0.04} = 480}.
 \]
 
-\textbf{(c)}  \texttt{pole(feedback(Kp*Gp, 1))} with $K_p = 480$ returns
-roots near $-4.46 \pm 14.2j$ and $-11.1$ --- all in the left half-plane,
-so the closed loop is stable.  This is what makes the SSE result in (b)
-meaningful: the chapter's formula assumes a stable closed loop.
+\textbf{(c)}  In the script, \texttt{G\_cl = feedback(Kp*G\_p, 1)};
+\texttt{pole(G\_cl)} with $K_p = 480$ returns roots near
+$-4.46 \pm 14.2j$ and $-11.1$ --- all in the left half-plane, so the closed
+loop is stable.  This is what makes the SSE result in (b) meaningful: the
+chapter's formula assumes a stable closed loop.
 
 % ---------------------------------------------------------------
 \exercise{USV Surge: Predict Before You Simulate}
