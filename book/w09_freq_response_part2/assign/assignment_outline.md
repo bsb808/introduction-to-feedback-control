@@ -1,7 +1,7 @@
 # Assignment Outline — Frequency Response, Part 2 (Week 9)
 
 Working draft (v1). The companion outline for Week 8 lives at
-[../../w08_freq_response_part1/assignment/assignment_outline.md](../../w08_freq_response_part1/assignment/assignment_outline.md).
+[../../w08_freq_response_part1/assign/assignment_outline.md](../../w08_freq_response_part1/assign/assignment_outline.md).
 
 The two weeks split the chapter content as follows:
 

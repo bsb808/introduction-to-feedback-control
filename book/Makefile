@@ -5,9 +5,9 @@
 
 LATEXMK := latexmk -pdf -interaction=nonstopmode -f
 
-CHAPTERS_TEX    := $(wildcard week*/chapter/*.tex)
+CHAPTERS_TEX    := $(wildcard w*/chapter/*.tex)
 CHAPTERS_PDF    := $(CHAPTERS_TEX:.tex=.pdf)
-ASSIGNMENTS_TEX := $(wildcard week*/assignment/*.tex)
+ASSIGNMENTS_TEX := $(wildcard w*/assign/*.tex)
 ASSIGNMENTS_PDF := $(ASSIGNMENTS_TEX:.tex=.pdf)
 
 WEEK_NUMS    := 01 02 03 04 05 06 07 08 09 10
@@ -39,8 +39,8 @@ $(CHAPTERS_PDF) $(ASSIGNMENTS_PDF): %.pdf: %.tex
 
 # Per-week shortcut: make w01, make w02, ...
 define week_rule
-w$(1): $(patsubst %.tex,%.pdf,$(wildcard week$(1)_*/chapter/*.tex)) \
-       $(patsubst %.tex,%.pdf,$(wildcard week$(1)_*/assignment/*.tex))
+w$(1): $(patsubst %.tex,%.pdf,$(wildcard w$(1)_*/chapter/*.tex)) \
+       $(patsubst %.tex,%.pdf,$(wildcard w$(1)_*/assign/*.tex))
 endef
 $(foreach n,$(WEEK_NUMS),$(eval $(call week_rule,$(n))))
 

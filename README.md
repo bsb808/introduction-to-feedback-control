@@ -4,9 +4,9 @@ Course materials for ME 2801 — Introduction to Feedback Control.
 
 ## Contents
 
-Each `weekNN_<topic>/` directory contains:
+Each `wNN_<topic>/` directory under `book/` contains:
 - `chapter/` — LaTeX source for the chapter document
-- `assignment/` — LaTeX source for the assignment (`assignment_<topic>.tex`)
+- `assign/` — LaTeX source for the assignment
 - `code/` — MATLAB companion scripts
 - `refs/` — reference materials
 
