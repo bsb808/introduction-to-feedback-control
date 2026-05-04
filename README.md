@@ -33,32 +33,47 @@ sudo apt install -y \
     texlive-plain-generic
 ```
 
-## Claude Code session history
+## Three-repo layout
 
-Session history for this repo is stored in the paired private repository
-[introduction-to-feedback-control-claude](https://github.com/bsb808/introduction-to-feedback-control-claude).
-The repo holds the `.jsonl` conversation logs and the `memory/` subdirectory
-of persistent auto-memory (user preferences, project context, feedback that
-Claude carries across sessions).
+This repo is one of three siblings cloned under an umbrella directory of your choice:
 
-To restore sessions on a new machine:
-
-```bash
-# Clone both repos to the same parent directory
-git clone git@github.com:bsb808/introduction-to-feedback-control.git ~/WorkingCopies/introduction-to-feedback-control
-git clone git@github.com:bsb808/introduction-to-feedback-control-claude.git ~/WorkingCopies/introduction-to-feedback-control-claude
-
-# Symlink the session repo into Claude Code's project directory
-ln -s ~/WorkingCopies/introduction-to-feedback-control-claude \
-      ~/.claude/projects/-home-bsb-WorkingCopies-introduction-to-feedback-control
+```
+<umbrella>/                                      # e.g. ~/WorkingCopies/me2801/
+  introduction-to-feedback-control/              # public — this repo
+  introduction-to-feedback-control-private/      # instructor-only notes
+  introduction-to-feedback-control-claude/       # Claude Code session logs + memory
 ```
 
-To checkpoint your session history to GitHub:
+Claude Code is launched from `<umbrella>/`, not from this repo. That makes all three repos reachable as siblings, and lets the `-claude` repo back its session/memory directory (which Claude Code locates by encoding the umbrella's absolute path).
+
+### Setup on a new machine
 
 ```bash
-cd ~/WorkingCopies/introduction-to-feedback-control-claude
-git add -A && git commit -m "sync sessions" && git push
+# 1. Pick an umbrella dir name and clone all three repos into it
+UMBRELLA=~/WorkingCopies/me2801
+mkdir -p "$UMBRELLA" && cd "$UMBRELLA"
+git clone git@github.com:bsb808/introduction-to-feedback-control.git
+git clone git@github.com:bsb808/introduction-to-feedback-control-private.git
+git clone git@github.com:bsb808/introduction-to-feedback-control-claude.git
+
+# 2. Replace Claude's auto-created project dir with a symlink into the -claude repo
+cd introduction-to-feedback-control
+make link-claude
+
+# 3. Verify
+make doctor
 ```
 
-Or use `make sync-all` from this repo's root to push public, private, and
-session history in one step.
+`make link-claude` derives the slug `~/.claude/projects/<umbrella-path-with-/-as->/` from the current umbrella path, so it works regardless of OS, username, or umbrella name.
+
+### Day-to-day git ops
+
+From inside the public repo:
+
+| Command | Effect |
+|---------|--------|
+| `make status-all` | git status of public, private, and claude |
+| `make pull-all`   | git pull on all three |
+| `make push-all`   | git push on all three (auto-commits session sync in `-claude`) |
+| `make sync-all`   | pull then push on all three |
+| `make doctor`     | sanity-check layout invariants on this machine |

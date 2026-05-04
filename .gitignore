@@ -34,8 +34,9 @@ octave-workspace
 .venv/
 venv/
 
-# Private notes (personal reminders, oral-exam prep, etc.)
-# Lives in a sibling private GitHub repo cloned into ./private/
+# Private notes live in a sibling repo (../introduction-to-feedback-control-private/)
+# under the umbrella directory -- see CLAUDE.md. The line below is a safety net
+# for the older nested-clone layout; harmless under the umbrella convention.
 private/
 
 

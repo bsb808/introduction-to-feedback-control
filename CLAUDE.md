@@ -6,49 +6,51 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ME 2801 — Controls Engineering course materials. Content includes MATLAB live scripts, LaTeX exam/homework documents, reusable MATLAB utilities, and USV (Unmanned Surface Vehicle) lab materials for system identification.
 
-## Public / Private split
+## Repository layout (three-repo umbrella)
 
-This repo is **public**. A sibling **private** repo is cloned into `./private/` for instructor-only content (oral-exam reminders, internal notes, working drafts not ready to publish, anything inappropriate for a public course repo).
+This repo is one of three siblings that travel together. The canonical layout is an **umbrella directory** containing all three as siblings:
+
+```
+<umbrella>/                                      # any name; e.g. me2801/
+  introduction-to-feedback-control/              # public — this repo
+  introduction-to-feedback-control-private/      # instructor-only
+  introduction-to-feedback-control-claude/       # Claude session history + memory
+```
 
 - **Public:** `bsb808/introduction-to-feedback-control` — the directory you're reading.
-- **Private:** `bsb808/introduction-to-feedback-control-private` — cloned at `./private/` (gitignored as a directory in the public repo's `.gitignore`).
-- The private tree **mirrors** the public structure: `private/book/wXX_*/notes/oral_exam_questions.md` corresponds to public `book/wXX_*/notes/`.
-- Each repo has its own git history. Commit/push from the corresponding directory:
+- **Private:** `bsb808/introduction-to-feedback-control-private` — sibling at `../introduction-to-feedback-control-private/`. Holds instructor-only content (oral-exam reminders, internal notes, working drafts not ready to publish, anything inappropriate for a public course repo).
+- **Claude session history:** `bsb808/introduction-to-feedback-control-claude` — sibling at `../introduction-to-feedback-control-claude/`. Holds session `.jsonl` logs and the persistent `memory/` directory.
+- The private tree **mirrors** the public structure: `../introduction-to-feedback-control-private/book/wXX_*/notes/oral_exam_questions.md` corresponds to public `book/wXX_*/notes/`.
+- Each repo has its own git history. Use the root `Makefile` for coordinated git ops (`make status-all`, `make pull-all`, `make push-all`, `make sync-all`) or operate on each repo individually.
 
-  ```bash
-  # Public changes
-  git add ... && git commit && git push
+### Why the umbrella matters
 
-  # Private changes
-  cd private && git add ... && git commit && git push
-  ```
+Claude Code is launched from the umbrella directory, *not* from this public repo. That means:
+
+- `pwd` is the umbrella; `./` paths in this file refer to the umbrella, not the public repo.
+- Claude's session/memory directory is `~/.claude/projects/<umbrella-path-with-/-as->/` (the slug is the absolute umbrella path with `/` replaced by `-`). The `-claude` repo is symlinked there so all session writes are version-controlled.
+- All three repos are reachable as `./<repo-name>/` from the umbrella, or as `../<sibling>/` from inside any one of them.
 
 ### When to route content to private
 
-During any review or note-taking workflow (including the `% CLAUDE:` PMR review process), if the user marks something as private — e.g. "this is a private note", "save as private", "remind me privately", or asks for content that's clearly for personal study (oral exam prep, gripes about colleagues, draft material the user isn't ready to publish) — write it to `./private/` mirroring the public file's location. Do **not** put it in the public file.
+During any review or note-taking workflow (including the `% CLAUDE:` PMR review process), if the user marks something as private — e.g. "this is a private note", "save as private", "remind me privately", or asks for content that's clearly for personal study (oral exam prep, gripes about colleagues, draft material the user isn't ready to publish) — write it to `../introduction-to-feedback-control-private/` mirroring the public file's location. Do **not** put it in the public file.
 
 If a public file would benefit from referencing a private note, prefer **omitting the link** rather than embedding a path that breaks for anyone cloning only the public repo. The user knows where to find their private notes.
 
-If the user has not yet cloned the private repo on this machine (no `./private/.git` directory), tell them how to clone it before writing private content. Do not silently create files into a non-git-tracked directory thinking they're being saved.
+If the user has not yet cloned the private repo on this machine (no `../introduction-to-feedback-control-private/.git` directory), tell them how to clone it (`make clone-private` from this repo) before writing private content. Do not silently create files into a non-git-tracked directory thinking they're being saved.
 
 ### Session pickup notes
 
-If `./private/SESSION_NOTES.md` exists, read it at the start of every session. It contains the user's hand-off context — what they were working on last session, where to resume, any pending decisions. The user maintains it themselves; you can also update it when stopping work, if the user asks. It is **not** a substitute for the public CLAUDE.md guidance above; treat it as supplementary state for the active session.
+If `../introduction-to-feedback-control-private/SESSION_NOTES.md` exists, read it at the start of every session. It contains the user's hand-off context — what they were working on last session, where to resume, any pending decisions. The user maintains it themselves; you can also update it when stopping work, if the user asks. It is **not** a substitute for the public CLAUDE.md guidance above; treat it as supplementary state for the active session.
 
 ### Repo plumbing
 
-A `Makefile` at the repo root coordinates both repos. Prefer `make pull` / `make push` / `make sync` / `make status` over running `git` twice manually. `make clone-private` is the one-time-per-machine setup target.
+A `Makefile` at the root of this public repo coordinates all three repos. Prefer `make pull-all` / `make push-all` / `make sync-all` / `make status-all` over running `git` three times manually. One-time-per-machine setup targets:
 
-### Session portability (`-claude` companion repo)
-
-A third companion repo, `bsb808/introduction-to-feedback-control-claude`, holds Claude Code's session jsonl logs and persistent auto-memory for this project. It is cloned as a sibling of this repo (e.g. `~/WorkingCopies/introduction-to-feedback-control-claude/`) and symlinked into Claude Code's project directory:
-
-```bash
-ln -s ~/WorkingCopies/introduction-to-feedback-control-claude \
-      ~/.claude/projects/-home-bsb-WorkingCopies-introduction-to-feedback-control
-```
-
-The `memory/` subdirectory inside that repo is the destination for the auto-memory writes described later in this file (user preferences, project context, feedback). The root `Makefile` extends to this repo too — `make status-all`, `make push-all`, `make sync-all` operate on all three repos (public, private, claude).
+- `make clone-private` — clones the private sibling next to this repo
+- `make clone-claude` — clones the `-claude` sibling next to this repo
+- `make link-claude` — creates the `~/.claude/projects/...` symlink into the `-claude` repo (so session writes are version-controlled)
+- `make doctor` — checks layout invariants on a new machine (siblings present, symlink in place, etc.)
 
 ## Plain-Text Live Script Format (.m files)
 
