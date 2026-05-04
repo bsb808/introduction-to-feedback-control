@@ -162,7 +162,7 @@ clone-claude:
 
 link-claude:
 	@UMBRELLA=$$(cd .. && pwd -P); \
-	SLUG=$$(printf '%s' "$$UMBRELLA" | sed 's|/|-|g'); \
+	SLUG=$$(printf '%s' "$$UMBRELLA" | sed 's|[/.]|-|g'); \
 	TARGET="$$HOME/.claude/projects/$$SLUG"; \
 	if [ ! -d $(CLAUDE_DIR)/.git ]; then \
 	  echo "ERROR: $(CLAUDE_DIR) is not a git repo. Run 'make clone-claude' first."; \
@@ -215,7 +215,7 @@ link-claude:
 
 doctor:
 	@UMBRELLA=$$(cd .. && pwd -P); \
-	SLUG=$$(printf '%s' "$$UMBRELLA" | sed 's|/|-|g'); \
+	SLUG=$$(printf '%s' "$$UMBRELLA" | sed 's|[/.]|-|g'); \
 	TARGET="$$HOME/.claude/projects/$$SLUG"; \
 	echo "Umbrella    : $$UMBRELLA"; \
 	echo "Public repo : $$(pwd -P)"; \
