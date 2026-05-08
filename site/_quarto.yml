@@ -3,11 +3,17 @@ project:
   output-dir: _site
   render:
     - "*.qmd"
+    - "weeks/*.qmd"
+  resources:
+    - CNAME
 
 website:
   title: "ME 2801 — Controls Engineering"
+  site-url: https://controls-intro.bbingham.dev
+  repo-url: https://github.com/bsb808/introduction-to-feedback-control
   search: false
   navbar:
+    pinned: true
     left:
       - href: index.qmd
         text: Home
@@ -17,6 +23,13 @@ website:
         text: Schedule
       - href: assignments.qmd
         text: Assignments
+    right:
+      - icon: github
+        href: https://github.com/bsb808/introduction-to-feedback-control
+        aria-label: Source on GitHub
+  page-footer:
+    left: "© Brian Bingham · [Source on GitHub](https://github.com/bsb808/introduction-to-feedback-control)"
+    right: "Built with [Quarto](https://quarto.org/)"
 
 format:
   html:
