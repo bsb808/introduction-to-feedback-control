@@ -2,6 +2,8 @@
 
 Course materials for ME 2801 — Introduction to Feedback Control.
 
+**Course site:** [controls-intro.bbingham.dev](https://controls-intro.bbingham.dev) — Quarto site under `site/`, deployed to GitHub Pages on push to `main`. Local preview: `quarto preview site`.
+
 ## Contents
 
 Each `wNN_<topic>/` directory under `book/` contains:
