@@ -1,0 +1,309 @@
+<mxfile host="app.diagrams.net" version="21.0.0">
+  <diagram name="USV Control Architecture" id="usv-control-arch">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!--  SURGE / SPEED CONTROLLER                                   -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+
+        <!-- Section title -->
+        <mxCell id="10" value="Surge Speed Controller  (ATC_SPEED_*)"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="450" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Rate note -->
+        <mxCell id="11" value="Signal rates: verify from bin2mat.py output  |  GPS limited by GPS1_RATE_MS (default 200 ms = 5 Hz)"
+          style="text;html=1;strokeColor=none;fillColor=#fffde7;align=left;verticalAlign=middle;fontSize=9;fontStyle=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="48" width="680" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- RC Throttle Stick -->
+        <mxCell id="12" value="RC Throttle&#xa;Stick&#xa;[−1, +1]"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;"
+          vertex="1" parent="1">
+          <mxGeometry x="10" y="148" width="80" height="64" as="geometry" />
+        </mxCell>
+
+        <!-- × CRUISE_SPEED -->
+        <mxCell id="13" value="× CRUISE_SPEED&#xa;[m/s per unit stick]"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="110" y="155" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ATC_ACCEL_MAX limiter -->
+        <mxCell id="14" value="ATC_ACCEL_MAX&#xa;(cmd accel limit, m/s²)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="280" y="155" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ATC_SPEED_FLTT -->
+        <mxCell id="15" value="LPF: ATC_SPEED_FLTT&#xa;(target speed filter, Hz)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="460" y="155" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Error summing junction -->
+        <mxCell id="16" value="⊕"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=20;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="672" y="160" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Minus label (feedback side of error junction) -->
+        <mxCell id="17" value="−"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=15;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="683" y="207" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ATC_SPEED_FLTE -->
+        <mxCell id="18" value="LPF: ATC_SPEED_FLTE&#xa;(error filter, Hz)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="754" y="155" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Speed PID block -->
+        <mxCell id="19" value="&lt;b&gt;PID Controller&lt;/b&gt;&#xa;FF :  ATC_SPEED_FF&#xa;P   :  ATC_SPEED_P&#xa;I    :  ATC_SPEED_I        IMAX: ATC_SPEED_IMAX&#xa;D   :  ATC_SPEED_D       LPF:  ATC_SPEED_FLTD"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;"
+          vertex="1" parent="1">
+          <mxGeometry x="954" y="120" width="300" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- CRUISE_THROTTLE baseline feedforward -->
+        <mxCell id="20" value="CRUISE_THROTTLE&#xa;(throttle baseline FF)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="1110" y="30" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Output summing junction -->
+        <mxCell id="21" value="⊕"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=20;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="1302" y="160" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- USV Surge Dynamics (plant) -->
+        <mxCell id="22" value="USV Surge Dynamics&#xa;(thruster + hull)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="1400" y="155" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- PIDT log annotation -->
+        <mxCell id="23" value="Log: PIDT message&#xa;Fields: Tar, Act, P, I, D, FF, Dmod, Out&#xa;Rate: ~25 Hz"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=4;"
+          vertex="1" parent="1">
+          <mxGeometry x="954" y="270" width="240" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ── Speed controller edges ── -->
+
+        <mxCell id="30" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="12" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="13" target="14" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="14" target="15" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- FLTT → error sum  [labeled: THR_DesSpeed] -->
+        <mxCell id="33" value="THR_DesSpeed&#xa;THR msg, ~25 Hz"
+          style="edgeStyle=orthogonalEdgeStyle;fontSize=9;"
+          edge="1" source="15" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="34" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="16" target="18" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="18" target="19" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- PID → output sum -->
+        <mxCell id="36" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="19" target="21" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- CRUISE_THROTTLE → output sum -->
+        <mxCell id="37" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="20" target="21" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- output sum → plant  [labeled: RCOU_C3] -->
+        <mxCell id="38" value="RCOU_C3 (PWM)&#xa;RCOU msg, ~25 Hz"
+          style="edgeStyle=orthogonalEdgeStyle;fontSize=9;"
+          edge="1" source="21" target="22" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- feedback: plant → error junction (bottom path) [labeled: GPS_Spd] -->
+        <mxCell id="39" value="GPS_Spd  |  GPS msg, 5 Hz"
+          style="edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;"
+          edge="1" source="22" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1475" y="330" />
+              <mxPoint x="697" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- dashed link: PID block → PIDT note -->
+        <mxCell id="40" value=""
+          style="edgeStyle=none;dashed=1;strokeColor=#82b366;endArrow=none;startArrow=none;"
+          edge="1" source="19" target="23" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!--  YAW-RATE / STEERING CONTROLLER                             -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+
+        <!-- Section title -->
+        <mxCell id="50" value="Yaw-Rate Controller  (ATC_STR_RAT_*)"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="400" width="450" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- RC Steering Stick -->
+        <mxCell id="51" value="RC Steering&#xa;Stick&#xa;[−1, +1]"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;"
+          vertex="1" parent="1">
+          <mxGeometry x="10" y="518" width="80" height="64" as="geometry" />
+        </mxCell>
+
+        <!-- × ACRO_TURN_RATE -->
+        <mxCell id="52" value="× ACRO_TURN_RATE&#xa;[deg/s per unit stick]"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="110" y="525" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ATC_STR_ACC_MAX limiter -->
+        <mxCell id="53" value="ATC_STR_ACC_MAX&#xa;(cmd accel limit, deg/s²)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="280" y="525" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ATC_STR_RAT_FLTT -->
+        <mxCell id="54" value="LPF: ATC_STR_RAT_FLTT&#xa;(target rate filter, Hz)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="460" y="525" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Error summing junction (yaw) -->
+        <mxCell id="55" value="⊕"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=20;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="672" y="530" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Minus label (yaw error junction) -->
+        <mxCell id="56" value="−"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=15;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="683" y="577" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ATC_STR_RAT_FLTE -->
+        <mxCell id="57" value="LPF: ATC_STR_RAT_FLTE&#xa;(error filter, Hz)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="754" y="525" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Yaw PID block -->
+        <mxCell id="58" value="&lt;b&gt;PID Controller&lt;/b&gt;&#xa;FF :  ATC_STR_RAT_FF&#xa;P   :  ATC_STR_RAT_P&#xa;I    :  ATC_STR_RAT_I        IMAX: ATC_STR_RAT_IMAX&#xa;D   :  ATC_STR_RAT_D       LPF:  ATC_STR_RAT_FLTD"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;"
+          vertex="1" parent="1">
+          <mxGeometry x="954" y="490" width="300" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- USV Yaw Dynamics (plant) -->
+        <mxCell id="59" value="USV Yaw Dynamics&#xa;(rudder + hull)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="1320" y="525" width="150" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- PIDS log annotation -->
+        <mxCell id="60" value="Log: PIDS message&#xa;Fields: Tar, Act, P, I, D, FF, Dmod, Out&#xa;Rate: ~25 Hz"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=4;"
+          vertex="1" parent="1">
+          <mxGeometry x="954" y="640" width="240" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ── Yaw controller edges ── -->
+
+        <mxCell id="70" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="51" target="52" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="71" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="52" target="53" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="72" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="53" target="54" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- FLTT → error sum  [labeled: STER_DesTurnRate] -->
+        <mxCell id="73" value="STER_DesTurnRate&#xa;STER msg, ~25 Hz"
+          style="edgeStyle=orthogonalEdgeStyle;fontSize=9;"
+          edge="1" source="54" target="55" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="74" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="55" target="57" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="75" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="57" target="58" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- PID → plant  [labeled: RCOU_C1] -->
+        <mxCell id="76" value="RCOU_C1 (PWM)&#xa;RCOU msg, ~25 Hz"
+          style="edgeStyle=orthogonalEdgeStyle;fontSize=9;"
+          edge="1" source="58" target="59" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- feedback: plant → error junction (bottom path) [labeled: STER_TurnRate] -->
+        <mxCell id="77" value="STER_TurnRate  |  STER msg, ~25 Hz"
+          style="edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;"
+          edge="1" source="59" target="55" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1395" y="700" />
+              <mxPoint x="697" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- dashed link: Yaw PID block → PIDS note -->
+        <mxCell id="78" value=""
+          style="edgeStyle=none;dashed=1;strokeColor=#82b366;endArrow=none;startArrow=none;"
+          edge="1" source="58" target="60" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
