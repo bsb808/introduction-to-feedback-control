@@ -2,7 +2,17 @@
 
 Course materials for ME 2801 — Introduction to Feedback Control.
 
-**Course site:** [controls-intro.bbingham.dev](https://controls-intro.bbingham.dev) — Quarto site under `site/`, deployed to GitHub Pages on push to `main`. Local preview: `quarto preview site`.
+## Course site
+
+[controls-intro.bbingham.dev](https://controls-intro.bbingham.dev) — Quarto site under `site/`, deployed to GitHub Pages by `.github/workflows/publish-site.yml` on every push to `main` that touches `site/**`.
+
+To preview locally, run from this repo's root:
+
+```bash
+quarto preview site
+```
+
+Quarto renders the site, prints a `http://localhost:NNNN/` URL, opens it in your browser, and live-reloads on file changes. `Ctrl+C` to stop.
 
 ## Contents
 
