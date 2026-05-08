@@ -1,0 +1,63 @@
+---
+title: "Lab 2 — USV PID Tuning"
+subtitle: "Week 7 · {{< var quarter >}}"
+---
+
+::: {.callout-note appearance="simple"}
+**Status:** in progress through Week 7. This week is data collection; analysis and performance characterization happen in Week 8.
+:::
+
+## Objectives
+
+Tune the autopilot's closed-loop control to maximize speed and yaw-rate tracking performance. By the end of this week each team has step-response data for **three experiments × two channels = six datasets**.
+
+| Experiment | What changes | What stays the same |
+|---|---|---|
+| **A — Baseline** | Lab preset tweaks (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains | — |
+| **B — FF** | Feedforward term restored | Stock PID gains |
+| **C — Tuned** | Students tune PID gains for best response | Feedforward kept on |
+
+For each experiment, both the **speed (surge)** loop and the **yaw-rate (steering)** loop are exercised with step inputs, and the resulting closed-loop responses are logged and quality-checked.
+
+**This week's deliverable:** clean step-response logs for all six cases, with a brief quality-check note per dataset.
+
+**Next week:** process the data with `closedloop_stepinfo.m` to quantify rise time, settling time, overshoot, and steady-state error — and use those metrics to compare the three experiments.
+
+## Architecture overview
+
+The lab tunes the two innermost feedback loops in ArduRover's ACRO mode:
+
+- **Speed (surge) loop** — PID under `ATC_SPEED_*`, target from RC throttle scaled by `CRUISE_SPEED`, measurement from GPS.
+- **Yaw-rate loop** — PID under `ATC_STR_RAT_*`, target from RC steering scaled by `ACRO_TURN_RATE`, measurement from EKF/IMU.
+
+Block diagram, parameter list, and logging channels are in **[Architecture details](architecture.qmd)**.
+
+## Procedure overview
+
+_Working draft — see **[Procedure details](procedure.qmd)**._
+
+At a high level:
+
+1. Confirm preset parameters and the experiment-specific tuning state on the boat.
+2. Run a series of throttle and steering step inputs in ACRO mode.
+3. Pull the `.BIN` log, convert with `bin2mat.py`, and inspect with `proc_closedloop_response.m`.
+4. Verify the data passes the quality check before returning to the dock.
+
+## End state — what "done" looks like this week
+
+For each of the six datasets, you should be able to plot — using [`closedloop_stepinfo.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_stepinfo.m) — a step-response figure that shows:
+
+- **Setpoint** (commanded step) overlaid on **measured response**
+- **Control effort** (normalized throttle or rudder) on a linked time axis
+- **PID internals** (`PIDT_*` for speed, `PIDS_*` for yaw rate) showing target, actual, P/I/D/FF terms, and total output
+
+If those plots look clean — clear step, response settles, no clipping, no logging gaps — the dataset is good. If anything looks off, plan to recollect before leaving the field.
+
+## Materials
+
+- Lab chapter PDF (build pending) — `book/w07_lab_usv_pid/chapter/lab_usv_pid.pdf`
+- ArduPilot Rover doc references — see [`ardupilot_references.md`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md)
+- MATLAB scripts — `book/w07_lab_usv_pid/code/`
+  - [`proc_closedloop_response.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/proc_closedloop_response.m) — visual inspection
+  - [`closedloop_stepinfo.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_stepinfo.m) — step-response metrics
+- Log conversion — [`bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py)

@@ -1,0 +1,21 @@
+---
+title: "Procedure"
+---
+
+[← Back to Lab 2 overview](index.qmd)
+
+::: {.callout-note appearance="simple"}
+**Working draft.** Procedure being refined as the lab is run this quarter.
+:::
+
+## Pre-Lab Preparation
+
+_TBD_
+
+## Field Session
+
+_TBD — for each of experiments A (Baseline), B (FF), C (Tuned), and for both the speed and yaw-rate loops, the sequence of step inputs and the parameter changes between cases._
+
+## Quality Check (Before Leaving the Field)
+
+_TBD — what to confirm in the timeseries plot before deciding the dataset is good enough to keep._
