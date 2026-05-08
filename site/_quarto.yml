@@ -8,7 +8,7 @@ project:
     - CNAME
 
 website:
-  title: "ME 2801 — Controls Engineering"
+  title: "ME 2801 — Introduction to Feedback Control"
   site-url: https://controls-intro.bbingham.dev
   repo-url: https://github.com/bsb808/introduction-to-feedback-control
   search: false
