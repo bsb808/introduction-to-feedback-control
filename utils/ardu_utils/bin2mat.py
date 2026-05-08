@@ -54,15 +54,47 @@ def convert(input_file):
         d['timestamp'] = msg._timestamp
         data[msg_type].append(d)
 
-    print(f"Found {len(data)} message types:")
-    for msg_type, messages in sorted(data.items()):
-        print(f"  {msg_type}: {len(messages)} records")
-
     # ── Convert to DataFrames ──────────────────────────────────────────────
     frames = {}
     for msg_type, messages in data.items():
         if messages:
             frames[msg_type] = pd.DataFrame(messages)
+
+    # ── General message listing with sample rates ──────────────────────────
+    def sample_rate_hz(df):
+        if 'timestamp' not in df.columns or len(df) < 2:
+            return None
+        dt = np.diff(df['timestamp'].values)
+        dt = dt[dt > 0]
+        return 1.0 / np.mean(dt) if len(dt) > 0 else None
+
+    print(f"Found {len(data)} message types:")
+    for msg_type in sorted(frames):
+        n = len(frames[msg_type])
+        hz = sample_rate_hz(frames[msg_type])
+        rate_str = f"{hz:6.1f} Hz" if hz is not None else "       —"
+        print(f"  {msg_type:<12} {n:>7} records  {rate_str}")
+
+    # ── Lab-channel sample rate summary ───────────────────────────────────
+    LAB_CHANNELS = [
+        ('RCIN',  'RC input channels'),
+        ('RCOU',  'RC output / control effort'),
+        ('CTUN',  'Control tuning (PID commands/feedback)'),
+        ('GPS',   'GPS position and speed'),
+        ('IMU',   'IMU (gyro and accelerometer)'),
+        ('XKF1',  'EKF3 output (position/velocity estimate)'),
+        ('NKF1',  'EKF2 output (position/velocity estimate)'),
+    ]
+    print("\nSample rates — lab-relevant channels:")
+    print(f"  {'Message':<12} {'Rate':>9}  Description")
+    print(f"  {'-'*12} {'-'*9}  {'-'*40}")
+    for msg_type, description in LAB_CHANNELS:
+        if msg_type in frames:
+            hz = sample_rate_hz(frames[msg_type])
+            rate_str = f"{hz:7.1f} Hz" if hz is not None else "       n/a"
+        else:
+            rate_str = "  not found"
+        print(f"  {msg_type:<12} {rate_str}  {description}")
 
     # ── Build output filename with timestamp ───────────────────────────────
     min_ts = None
@@ -116,14 +148,14 @@ def convert(input_file):
         if 'C1' in rcou.columns:
             mat_data['RCOU_C1_pct_throttle'] = pwm_to_pct_unidirectional(rcou['C1'])
         if 'C3' in rcou.columns:
-            mat_data['RCOU_C3_pct_rudder'] = pwm_to_pct(rcou['C2'])
+            mat_data['RCOU_C3_pct_rudder'] = pwm_to_pct(rcou['C3'])
 
     if 'RCIN' in frames:
         rcin = frames['RCIN']
         if 'C1' in rcin.columns:
             mat_data['RCIN_C1_pct_throttle'] = pwm_to_pct_unidirectional(rcin['C1'])
         if 'C3' in rcin.columns:
-            mat_data['RCIN_C3_pct_rudder'] = pwm_to_pct(rcin['C2'])
+            mat_data['RCIN_C3_pct_rudder'] = pwm_to_pct(rcin['C3'])
 
     # ── Save ───────────────────────────────────────────────────────────────
     scipy.io.savemat(output_file, mat_data)

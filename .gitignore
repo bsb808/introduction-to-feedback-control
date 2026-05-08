@@ -57,3 +57,5 @@ private/
 !**/chapter/images/*.pdf
 
 .trash/
+
+.DS_Store

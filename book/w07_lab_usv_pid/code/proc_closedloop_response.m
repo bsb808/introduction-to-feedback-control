@@ -19,9 +19,10 @@ clear;
 %fname = "/data/Downloads/42926_boat_tests_2801/LOGS/00000007.BIN_20260429_194748.mat";
 fname = "/data/Downloads/42926_boat_tests_2801/LOGS/00000012.BIN_20260429_200429.mat";
 fname = "/data/Downloads/42926_boat_tests_2801/LOGS/00000012.BIN_20260429_200014.mat";
+fname = "/Users/brian.bingham/WorkingCopies/me2801/00000003.BIN_20260506_204834.mat";
 
 
-fname = "/data/Downloads/42926_boat_tests_2801/LOGS/00000017.BIN_20260429_200911.mat";
+%fname = "/data/Downloads/42926_boat_tests_2801/LOGS/00000017.BIN_20260429_200911.mat";
 
 % Yaw rate response: 
 % Default CRUISE speeed and throttle
@@ -29,9 +30,24 @@ fname = "/data/Downloads/42926_boat_tests_2801/LOGS/00000017.BIN_20260429_200911
 % Default rate limiters on
 %fname = "/data/Downloads/42926_boat_tests_2801/LOGS/00000016.BIN_20260429_200517.mat";
 
+%fname = "/Users/brian.bingham/WorkingCopies/me2801/2026_05_06_baseline1/00000007.BIN_20260506_213445.mat";
+fname = "/Users/brian.bingham/WorkingCopies/me2801/2026_05_06_baseline2/00000008.BIN_20260506_215513.mat"
+%fname = "/Users/brian.bingham/WorkingCopies/me2801/2026_05_06_baseline2/00000006.BIN_20260506_215403.mat";
 % Windows path
 % fname = "C:\Users\bsb\Downloads\00000001.BIN.mat";
+fname = "00000011.BIN_20260506_223549.mat";
 
+% Tuning
+% A - FF only
+% Speed 
+fname = "/Users/brian.bingham/WorkingCopies/me2801/2026_05_06_tuning/00000011.BIN_20260506_223549.mat";
+% Yaw-rate
+fname = "/Users/brian.bingham/WorkingCopies/me2801/2026_05_06_tuning/00000013.BIN_20260506_223627.mat";
+%  B - FF and PID
+% Speed
+fname = "/Users/brian.bingham/WorkingCopies/me2801/2026_05_06_tuning/00000015.BIN_20260506_223900.mat"
+% Yaw
+fname = "/Users/brian.bingham/WorkingCopies/me2801/2026_05_06_tuning/00000017.BIN_20260506_223937.mat"
 fprintf('Loading %s...\n', fname);
 d = load(fname);
 
