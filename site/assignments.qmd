@@ -1,0 +1,24 @@
+---
+title: "Assignments and Labs"
+---
+
+*Quarter:* {{< var quarter >}}
+
+::: {.callout-tip appearance="simple"}
+Placeholder. Per-assignment pages will live in `assignments/`; this index page will be rendered from `data/assignments.yml`.
+:::
+
+## Homework
+
+- _HW1 — TBD_
+- _HW2 — TBD_
+
+## Labs
+
+- _Lab 1 — USV System Identification (Week 3)_
+- _Lab 2 — USV PID Tuning (Week 7)_
+- _Lab 3 — USV Navigation Tuning (Week 10)_
+
+## Exams
+
+- _Final Oral Exams (Week 11)_

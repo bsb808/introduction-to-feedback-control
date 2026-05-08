@@ -1,0 +1,13 @@
+---
+title: "ME 2801 — Introduction to Control Systems"
+---
+
+::: {.callout-note}
+**Current quarter:** {{< var quarter >}} ({{< var term_start >}} – {{< var term_end >}})
+:::
+
+Welcome.
+
+- [Syllabus](syllabus.qmd)
+- [Schedule](schedule.qmd)
+- [Assignments](assignments.qmd)

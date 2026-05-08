@@ -1,0 +1,24 @@
+---
+title: "Schedule"
+page-layout: full
+---
+
+*Quarter:* {{< var quarter >}}  ·  *Class days this quarter:* Monday – Thursday
+
+::: {.callout-tip appearance="simple"}
+**Placeholder skeleton.** The grid will be rendered from `data/schedule.yml` in Phase 2a; per-day columns are configurable per quarter (this quarter happens to be Mon–Thu).
+:::
+
+| Week        | Mon — In Person | Tue — Async | Wed | Thu — Async |
+|-------------|-----------------|-------------|-----|-------------|
+| **1**<br>30 Mar | _Lecture topic — TBD_ | _Async videos — TBD_ | _No in-person class_ | _Reading / due — TBD_ |
+| **2**<br>6 Apr  | _Lecture topic — TBD_ | _Async videos — TBD_ | _No in-person class_ | _Reading / due — TBD_ |
+| **3**<br>13 Apr | **Lab 1 — USV System Identification** | Lab 1 | Lab 1 | Lab 1 |
+| **4**<br>20 Apr | _Lecture topic — TBD_ | _Async videos — TBD_ | _Lecture topic — TBD_ | _Reading / due — TBD_ |
+| **5**<br>27 Apr | _Lecture topic — TBD_ | _Async videos — TBD_ | _Lecture topic — TBD_ | _Reading / due — TBD_ |
+| **6**<br>4 May  | _Lecture topic — TBD_ | _Async videos — TBD_ | _Lecture topic — TBD_ | _Reading / due — TBD_ |
+| **7**<br>11 May | **[Lab 2 — USV PID Tuning](weeks/w07_lab_usv_pid.qmd)** | Lab 2 | Lab 2 | Lab 2 |
+| **8**<br>18 May | _Guest lecture — TBD_ | _Lecture topic — TBD_ | _Async — TBD_ | _Reading / due — TBD_ |
+| **9**<br>25 May | _Memorial Day — no class_ | _Lecture topic — TBD_ | — | _Reading / due — TBD_ |
+| **10**<br>1 Jun | **Lab 3 — USV Navigation Tuning** | Lab 3 | Lab 3 | Lab 3 |
+| **11**<br>8 Jun | _Final Oral Exams_ | _MAE Retreat — no class_ | — | _Last class_ |

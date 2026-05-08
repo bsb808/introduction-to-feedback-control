@@ -1,0 +1,42 @@
+---
+title: "Syllabus and Course Policies"
+---
+
+*Quarter:* {{< var quarter >}}
+
+## Course Information
+
+| | |
+|---|---|
+| **Schedule** | _TBD — meeting days, times, room_ |
+| **Instructor** | {{< var instructor >}} <{{< var instructor_email >}}> |
+| **Office Hours** | _TBD_ |
+| **Textbook** | _TBD_ |
+| **Prerequisites** | _TBD_ |
+
+## Course Catalog Description
+
+_TBD_
+
+## Grading
+
+| Assignment | How many | Weight |
+|---|---|---|
+| Reading Quizzes | _TBD_ | _TBD_ |
+| Homework | _TBD_ | _TBD_ |
+| Exams | _TBD_ | _TBD_ |
+| Labs | _TBD_ | _TBD_ |
+
+_Notes on quiz / homework / exam grading rules — TBD._
+
+## Late Work
+
+_TBD_
+
+## Collaboration and Generative AI
+
+_TBD — Reasonable / Not Reasonable table goes here._
+
+## NPS Honor Code
+
+_TBD_

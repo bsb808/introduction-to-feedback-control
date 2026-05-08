@@ -59,3 +59,13 @@ private/
 .trash/
 
 .DS_Store
+
+## Quarto site build output
+site/_site/
+site/.quarto/
+
+## Draw.io editor temp files
+**/.$*.drawio.dtmp
+
+## Local-only working material (wiki migration source, etc.)
+current_wiki_samples

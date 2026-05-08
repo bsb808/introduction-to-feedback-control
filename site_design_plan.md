@@ -26,7 +26,7 @@ introduction-to-feedback-control/
   misc/                    # existing
   site/                    # NEW
     _quarto.yml            # site-wide config (theme, navbar, output dir)
-    _variables.yml         # per-quarter values (quarter, term, dates, sakai links)
+    _variables.yml         # per-quarter values (quarter, term, dates)
     index.qmd              # landing page
     syllabus.qmd
     schedule.qmd           # rendered from data/schedule.yml
@@ -57,7 +57,7 @@ introduction-to-feedback-control/
 The umbrella has a `-private` sibling that mirrors the public structure. Site implications:
 
 - **Authoritative answer keys, oral-exam questions, instructor notes** stay in the private repo. The public site never links to them.
-- **Solution PDFs released after a deadline** can either (a) move into the public repo at release time, or (b) live in the private repo and get distributed via Sakai. Default is (b) — keeps the public site stable.
+- **Solution PDFs released after a deadline** can either (a) move into the public repo at release time, or (b) live in the private repo and get distributed to students directly. Default is (b) — keeps the public site stable.
 - **No build-time secrets.** The Action only reads from the public repo. If a future need crosses that line we add a deploy key, not before.
 
 ---
@@ -70,19 +70,16 @@ The umbrella has a `-private` sibling that mirrors the public structure. Site im
 |------|-----------------|---------------------|
 | `index.qmd` | hand-edited | Welcome message, current-quarter banner |
 | `syllabus.qmd` | hand-edited + `_variables.yml` | Term dates, meeting times, instructor info |
-| `schedule.qmd` | rendered from `data/schedule.yml` | Dates, topics, assigned reading, due items |
+| `schedule.qmd` | rendered from `data/schedule.yml` | Calendar/index table — date, topic, link to week page, due items, week type (lab/lecture/holiday). Does **not** carry the rich week content. |
 | `assignments.qmd` | rendered from `data/assignments.yml` | Due dates, links to assignment pages |
-| `weeks/wXX_*.qmd` | hand-edited | Stable across quarters; small per-quarter notes via includes |
+| `weeks/wXX_*.qmd` | hand-edited | **Per-quarter content owner.** Holds the day-by-day rich material currently embedded in wiki schedule cells: topic, video-lecture links (Vimeo / Sharepoint / OneDrive) with titles and durations, slides (annotated and not), handouts, "before class" / "due" sub-blocks, optional notes. Updated each quarter. |
 | `assignments/hwNN.qmd` | hand-edited | Stable across quarters; due date pulled from data |
+
+**Why per-week pages own content rather than the schedule:** the existing wiki packs the entire weekly rhythm (videos, slides, handouts, notes) into schedule cells. That is hard to author, hard to read on mobile, and forces the data file to carry rich nested content. Letting `weeks/wXX_*.qmd` own the content keeps the schedule scannable and lets each week's page evolve in plain Markdown.
 
 ### Reusable includes
 
-Snippets in `site/includes/` are pulled into pages with `{{< include >}}`:
-
-- `_office_hours.qmd` — current term's hours (one place to edit) % CLAUDE: Not needed - I don't do office hours
-- `_sakai_links.qmd` — Sakai gradebook, submission portal, quizzes (one place to edit)  % CLAUDE: No need to integrate with sakai.  Students know were the sakai site is and what is there.
-- `_academic_integrity.qmd` — boilerplate that rarely changes % CLAUDE: This boilerplate will be folded into the syllabus
-- `_contact.qmd` — instructor contact block % CLAUDE: Not really needed.  They know how to find me.
+No reusable includes anticipated at this stage. The `site/includes/` directory is reserved for snippets that emerge organically — add one only when the same paragraph would otherwise appear in two places. Academic-integrity boilerplate lives inside `syllabus.qmd`, not as an include. Sakai, contact, and office-hours blocks are not needed.
 
 ### Variables (`_variables.yml`)
 
@@ -90,8 +87,6 @@ Snippets in `site/includes/` are pulled into pages with `{{< include >}}`:
 quarter: "Spring 2026"
 term_start: "2026-04-06"
 term_end:   "2026-06-12"
-sakai_course_url: "https://sakai.example.edu/portal/site/..."
-gradebook_url:    "..."
 ```
 
 Used in pages as `{{< var quarter >}}`. One file to edit at the start of each term.
@@ -100,7 +95,7 @@ Used in pages as `{{< var quarter >}}`. One file to edit at the start of each te
 
 ## 5. Per-quarter remix mechanism
 
-**Recommended:** single-branch model with Git tags for historical snapshots.  % CLAUDE: Approved
+**Recommended:** single-branch model with Git tags for historical snapshots.
 
 - `main` always reflects the *current* quarter. Updating `_variables.yml`, `schedule.yml`, and `assignments.yml` is the per-quarter ritual.
 - After a quarter ends, tag the commit: `git tag site-2026-spring && git push --tags`.
@@ -115,22 +110,37 @@ Rejected alternatives:
 
 ## 6. Schedule data shape
 
-`site/data/schedule.yml` drives both `schedule.qmd` and any "this week" widgets. % CLAUDE: Let's discuss the schedule separately.  I can show you an example.
+`site/data/schedule.yml` drives `schedule.qmd`. The data file is intentionally **slim** — it carries only what's needed to render the calendar/index table. Rich content (videos, slides, handouts, notes) lives on the per-week page and is reached via the `page` link.
+
+Schema:
 
 ```yaml
 - week: 1
-  date: 2026-04-06
-  topic: "Laplace transforms, part 1"
-  reading:
-    - { label: "Book §1", file: "book/w01_laplace_part1/chapter.pdf" }
-    - { label: "Notes",    url: "..." }
-  assigned:
-    - hw01
-  due: []
-  draft_after: 2026-04-06   # hides links to material before this date
+  start_date: "2026-03-30"
+  topic: "Course Introduction and Laplace Introduction"
+  type: lecture          # lecture | lab | holiday | guest
+  page: weeks/w01_laplace_part1.qmd
+  due:
+    - { what: "HW1",      when: "Friday 1700" }
+    - { what: "Quiz #1",  when: "Before Mon class" }
+
+- week: 3
+  start_date: "2026-04-13"
+  topic: "Lab 1 — USV System Identification"
+  type: lab
+  page: weeks/w03_usv_sysid.qmd
+
+- week: 9
+  start_date: "2026-05-25"
+  topic: "Memorial Day (Mon) | Compensation Design (Wed)"
+  type: holiday
 ```
 
-Quarto template walks the list and emits a table. `draft_after` lets the whole quarter be edited in advance and revealed week-by-week.
+`type` drives row coloring in the rendered table (yellow=lecture, blue=lab, grey=holiday/no-class) — preserves the wiki's color-coding semantics.
+
+Per-day rhythm (Mon/Tue/Wed/Thu in-person vs. async) is **not** in the data file. It lives on the week page in whatever structure suits that week.
+
+Gradual reveal: a `published: true|false` flag per week, or — simpler — a `reveal_after` date checked at render time. Defer until a real need.
 
 ---
 
@@ -140,13 +150,23 @@ Three classes of attachment, each handled differently:
 
 | Type | Where it lives | How the site links to it |
 |------|---------------|--------------------------|
-| Small static PDFs (1-pagers, handouts) | `site/assets/` in the repo | Direct relative link |
+| Per-week handouts, slides, MATLAB files (PDF / PPTX / MLX / M) | `site/assets/wXX/` mirroring the week structure | Relative link from the week page |
 | Built chapter PDFs (`book/wXX_*/chapter.pdf`, `book.pdf`) | Not in `site/`; built by CI | Action copies into `_site/book/...` during render |
-| Large or rarely-changing PDFs | GitHub Release on the repo | Link to release asset URL |
+| Large or rarely-changing PDFs (legacy lecture videos that need rehosting, full textbook scans, etc.) | GitHub Release on the repo | Link to release asset URL |
 
 The `book/` LaTeX build is already wired through `Makefile`. The publish workflow runs `make` before `quarto render` and copies built PDFs into the site output directory.
 
-External links (papers, MathWorks docs, vendor sites) stay as plain URLs — no caching or rehosting.
+External links (papers, MathWorks docs, vendor sites, Vimeo / Sharepoint / OneDrive video hosting) stay as plain URLs — no caching or rehosting.
+
+### Migrating attachments from the existing wiki
+
+The current Confluence content references **30+ attachments per quarter** (lecture slides plus annotated versions, handouts, .mlx live scripts, .m scripts, .pptx). One-time migration before the wiki goes dark:
+
+1. Inventory: enumerate attachment URLs across the wiki pages we're keeping.
+2. Bulk download to `site/assets/wXX/` using a small script (Confluence supports REST attachment download with cookie-auth).
+3. Rewrite links in the rebuilt `weeks/wXX_*.qmd` pages to the local relative paths.
+
+Skip downloading attachments tied to pages we're dropping. After migration, the wiki can go dark without breaking the site.
 
 ---
 
@@ -180,47 +200,42 @@ Local preview during authoring: `cd site && quarto preview`. No CI needed for dr
 
 **Start of a new quarter:**
 1. Tag the previous quarter (`git tag site-2026-spring`)
-2. Update `_variables.yml` (term, dates, Sakai URLs)
+2. Update `_variables.yml` (term, dates)
 3. Update `schedule.yml` (dates, possibly topic order)
 4. Refresh `assignments.yml` due dates
-5. Skim `index.qmd` and `syllabus.qmd` for stale references
+5. Skim `index.qmd` and `syllabus.qmd` for stale references (term, dates, links)
 6. Push
 
 The "start of quarter" should be a checklist file (`site/QUARTER_CHECKLIST.md`) that lives next to the data files.
 
 ---
 
-## 10. Migration from Confluence  % CLAUDE: We can use the existing Confluence content as a model, but don't need to reproduce it.  Fine to refactor as we change tooling. 
+## 10. Confluence as a model, not a migration target
 
-Order of operations, approximately:
+The existing Confluence space is a reference for *what kinds of pages have proven useful* — not a thing to reproduce one-for-one. Expect the site to refactor structure and drop pages that were workarounds for wiki limitations rather than genuine course content.
 
-1. **Inventory** — list every Confluence page that's currently linked from any class artifact. Mark each as: keep / archive / drop.
-2. **Export attachments** — Confluence's space export gives an HTML+attachment bundle. Extract just the PDFs/images we want to preserve and drop them in `site/assets/` or a release. 
-3. **Convert pages** — for each "keep" page, convert to `.qmd`. Confluence-to-markdown converters exist but the output usually needs cleanup; for a small page count, hand-conversion is faster.
-4. **Redirect strategy** — if old Confluence URLs are linked from external places (LMS, syllabi PDFs, emails), capture the old URL → new URL mapping in a `redirects.yml` and let the host (Pages doesn't do redirects natively, so use a meta-refresh stub page or document the mapping for users).
+Practical use of the old Confluence content:
+- **Skim and inventory** — note which pages are actually load-bearing (linked from class artifacts, referenced in lectures). Drop the rest.
+- **Salvage attachments worth keeping** — pull PDFs/images that aren't already in the repo.
+- **Rebuild, don't import** — write the new pages fresh, using Confluence content as raw material when convenient.
 
-Confluence decommission timeline determines how aggressive step 4 needs to be.
-
----
-
-## 11. Sakai handoff
-
-Sakai stays the system of record for: submissions, gradebook, online quizzes, anything that needs auth.
-
-The site links **into** Sakai via the `_sakai_links.qmd` include and the `sakai_course_url` variable. No content duplication. When Sakai URLs change quarter-to-quarter, they update in `_variables.yml` and propagate everywhere through the include.
+No Confluence-URL redirect strategy is planned. External pointers (LMS, old syllabi) will be allowed to break; the new site URL becomes the authoritative one going forward.
 
 ---
 
-## 12. Phased rollout
+## 11. Phased rollout
 
 **Phase 1 — Skeleton (1 sitting).**
 Stand up `site/` with `_quarto.yml`, `index.qmd`, `syllabus.qmd`, `schedule.qmd` (hard-coded table to start), the workflow, and Pages enabled. Publish a "coming soon" page.
 
-**Phase 2 — Data-driven (1 sitting).**
-Move the schedule into `data/schedule.yml`. Add `_variables.yml` and the includes pattern. Wire in the existing `book.pdf` as a download.
+**Phase 2a — Calendar-only schedule (1 sitting).**
+Move the schedule into `data/schedule.yml` using the slim schema in §6. `schedule.qmd` renders the calendar table with topic, due items, and (initially dead) links to per-week pages. Add `_variables.yml`. Wire in the existing `book.pdf` as a download. No per-week pages exist yet.
 
-**Phase 3 — Migrate Confluence (incremental).**
-Move the highest-traffic Confluence pages first. Per-week pages can be empty stubs that link to the chapter PDF until there's reason to flesh them out.
+**Phase 2b — One end-to-end week page.**
+Pick one concrete week (suggest **Week 1**, since it's mostly settled and exercises video links + slides + handouts + due-items) and build the full `weeks/w01_*.qmd` page. Decide the per-week page format here, on a real week, before scaling. Resolve: how to lay out Mon/Tue/Wed/Thu rhythm; where attachments go; how to label optional vs. required content; how the page links back to the schedule.
+
+**Phase 3 — Migrate remaining weeks (incremental).**
+Apply the format chosen in 2b to each remaining week. Run the attachment download script (§7) once before this phase begins. Pages can land in any order — schedule already links to them.
 
 **Phase 4 — Polish.**
 Theme tweaks, search, custom landing-page hero, anything cosmetic.
@@ -229,30 +244,50 @@ Each phase ends with a working, deployed site. Nothing in this plan requires fin
 
 ---
 
-## 13. Open questions
+## 12. Open questions
 
-These need answers before scaffolding (or are flagged as TBD-on-first-encounter):
+Decided during first review:
 
-- [ ] **Custom domain?** `bsb808.github.io/introduction-to-feedback-control/` works out of the box. A custom domain (e.g., `me2801.bsb808.dev`) needs a CNAME and a DNS record.  % CLAUDE: I aldready have a domain we can use. 
-- [ ] **Search.** Quarto's built-in search is adequate; Algolia is overkill. Confirm.  % CLAUDE: No search needed. 
-- [ ] **Math rendering.** MathJax (default) vs. KaTeX. MathJax handles more LaTeX corners; KaTeX is faster. Default to MathJax unless page-load matters. % CLAUDE: approved
-- [ ] **Comments / discussion?** Probably no — Sakai handles class discussion. Confirm. % CLAUDE: confirmed
-- [ ] **Analytics?** None by default. If desired, Cloudflare Web Analytics is privacy-friendly. % CLAUDE: none needed
+- [x] **Custom domain** — yes, use a custom domain the user already owns. Specific domain name TBD; needs CNAME + DNS record once chosen.
+- [x] **Search** — disabled. Set `search: false` in `_quarto.yml`.
+- [x] **Math rendering** — MathJax (Quarto default). Handles more LaTeX corners than KaTeX; page-load is acceptable.
+- [x] **Comments / discussion** — none on the site.
+- [x] **Analytics** — none.
+- [x] **PDF chapter strategy** — build in CI. Plan on TeX Live caching to keep build time tolerable.
+
+Still open:
+
 - [ ] **Past quarters live?** Default plan is "no, only the current quarter is published; past quarters live as Git tags." Override if there's a real need.
-- [ ] **PDF chapter strategy.** Build in CI vs. release vs. commit. Default is "build in CI." Confirm the CI build time is acceptable (TeX Live install is the slow part — caching helps). % CLAUDE: confirmed
+- [ ] **Schedule schema** — to be designed from a concrete example you provide (§6).
+- [ ] **Custom domain name** — pick the actual hostname when ready to wire it up.
 
 ---
 
-## 14. Risks
+## 13. Risks
 
 - **CI build time.** TeX Live + figure rendering can push past 5 minutes. Mitigate with cache actions and Quarto's `_freeze`.
-- **Per-quarter ritual gets skipped.** If `_variables.yml` isn't updated, Sakai links go stale and the syllabus shows last term. Mitigated by the QUARTER_CHECKLIST file and by surfacing the term name prominently on the home page so a stale value is visible.
-- **LaTeX-to-qmd migration drag.** Avoid this by *not* migrating chapters until there's a reason. Weeks pages link to PDFs from day one; convert only the ones that benefit from being web-native (e.g., interactive plots, embedded videos).  % CLAUDE:  We can keep the web-native and PDF bits fairly separate.
+- **Per-quarter ritual gets skipped.** If `_variables.yml` isn't updated, the syllabus shows last term. Mitigated by the QUARTER_CHECKLIST file and by surfacing the term name prominently on the home page so a stale value is visible.
+- **Operating principle: keep web-native and PDF content separate.** The LaTeX book and the web site are two delivery channels with different ergonomics; we won't try to make them share source. Web pages are authored as `.qmd`; chapters stay as `.tex`. The site links to built chapter PDFs rather than re-rendering chapter content as HTML. This sidesteps LaTeX-to-qmd conversion drag entirely.
 
 ---
 
 ## Refinement notes
 
-Use this section to capture decisions and questions as the plan firms up.
+Decisions made during first review (2026-05-08):
 
-- _(empty — to fill during review)_
+- **No reusable-include set up front.** Office hours, contact, Sakai, academic-integrity boilerplate all dropped or absorbed into `syllabus.qmd`.
+- **No Sakai integration on the site.** Students already know where Sakai lives; the site won't link in or surface course URLs.
+- **No Confluence migration.** Existing Confluence is a reference, not a target — rebuild fresh, refactor freely, allow old URLs to break.
+- **Web vs. PDF stay separate.** `.tex` chapters render to PDF; web pages are authored as `.qmd`. No shared source; no conversion pipeline.
+- **Open questions resolved:** custom domain (yes, TBD which), search (off), math (MathJax), comments (none), analytics (none), PDF strategy (build in CI). See §12.
+
+Still to resolve before scaffolding:
+
+- Hostname for the custom domain.
+
+Decisions made during second review (2026-05-08), after seeing wiki samples:
+
+- **Per-week pages own rich content; schedule is a slim calendar/index.** §4 page roles updated: `weeks/wXX_*.qmd` is now the per-quarter content owner (videos, slides, handouts, daily rhythm). `schedule.qmd` becomes a scannable calendar that links to it.
+- **Schedule schema defined** (§6). Slim YAML — week, start_date, topic, type, page link, due items. `type` (lecture/lab/holiday/guest) drives row coloring.
+- **Attachment volume planned for** (§7). `site/assets/wXX/` mirrors the week structure; one-time Confluence download script before the wiki goes dark.
+- **Phase 2 split into 2a/2b** (§11). Stand up the calendar first, then format-find on a single concrete week (suggest Week 1) before scaling to the remaining weeks.
