@@ -1,0 +1,170 @@
+[
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html",
+    "href": "weeks/w07_lab_usv_pid.html",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "",
+    "text": "Status: in-progress page. Material added and revised through the week."
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#overview",
+    "href": "weeks/w07_lab_usv_pid.html#overview",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "Overview",
+    "text": "Overview\nTBD — one paragraph: what the lab is, what students will produce, and how it ties to the closed-loop control material covered in lecture."
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#learning-objectives",
+    "href": "weeks/w07_lab_usv_pid.html#learning-objectives",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "Learning Objectives",
+    "text": "Learning Objectives\nBy the end of Lab 2, you should be able to:\n\nTBD\nTBD\nTBD"
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#background",
+    "href": "weeks/w07_lab_usv_pid.html#background",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "Background",
+    "text": "Background\n\nClosed-loop control architecture\nTBD — embed or link the Speed + Yaw-Rate controller architecture diagram (book/w07_lab_usv_pid/chapter/usv_control_architecture.drawio).\n\n\nKey signals and parameters\nTBD — short table: ArduPilot parameter names you will tune (ATC_SPEED, ATC_STR_RAT_) and the log channels you will look at (THR, STER, GPS, RCOU, PIDS, PIDT)._"
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#vehicle-setup",
+    "href": "weeks/w07_lab_usv_pid.html#vehicle-setup",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "Vehicle Setup",
+    "text": "Vehicle Setup\n\nPreset parameters\nTBD — link to the baseline .param file and call out the preset values that should not be changed (ATC_ACCEL_MAX = 0, ATC_STR_ACC_MAX = 0, ATC_STR_RAT_FF = 0, CRUISE_THROTTLE = 0).\n\n\nTunable parameters\nTBD — list the parameters students will adjust during the lab."
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#pre-lab-preparation",
+    "href": "weeks/w07_lab_usv_pid.html#pre-lab-preparation",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "Pre-Lab Preparation",
+    "text": "Pre-Lab Preparation\n\nTBD\nTBD"
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#in-lab-procedure",
+    "href": "weeks/w07_lab_usv_pid.html#in-lab-procedure",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "In-Lab Procedure",
+    "text": "In-Lab Procedure\n\nSpeed step responses\nTBD — sequence of steps the student team performs at the boat ramp.\n\n\nYaw-rate step responses\nTBD\n\n\nLogging\nTBD — confirm logging is active, note arming/disarming behavior (LOG_FILE_DSRMROT)."
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#data-analysis",
+    "href": "weeks/w07_lab_usv_pid.html#data-analysis",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "Data Analysis",
+    "text": "Data Analysis\nAfter the field session, process the logs locally:\n\nConvert .BIN → .mat using utils/ardu_utils/bin2mat.py.\nInspect timeseries with book/w07_lab_usv_pid/code/proc_closedloop_response.m.\nCompute step metrics with book/w07_lab_usv_pid/code/closedloop_stepinfo.m — rise time, settling time, overshoot, steady-state error."
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#deliverables",
+    "href": "weeks/w07_lab_usv_pid.html#deliverables",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "Deliverables",
+    "text": "Deliverables\nTBD — what each team submits and where."
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#references",
+    "href": "weeks/w07_lab_usv_pid.html#references",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "References",
+    "text": "References\n\nLab chapter PDF (build pending) — book/w07_lab_usv_pid/chapter/lab_usv_pid.pdf\nArduPilot Rover documentation — see book/w07_lab_usv_pid/refs/ardupilot_references.md for curated links"
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid.html#notes-updates",
+    "href": "weeks/w07_lab_usv_pid.html#notes-updates",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "Notes & Updates",
+    "text": "Notes & Updates\nLive notes during the week — questions raised in lab, parameter values that worked, gotchas, etc."
+  },
+  {
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Quarter: Spring 2026 · Class days this quarter: Monday – Thursday\n\n\n\n\n\n\nPlaceholder skeleton. The grid will be rendered from data/schedule.yml in Phase 2a; per-day columns are configurable per quarter (this quarter happens to be Mon–Thu).\n\n\n\n\n\n\nWeek\nMon — In Person\nTue — Async\nWed\nThu — Async\n\n\n\n\n130 Mar\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n26 Apr\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n313 Apr\nLab 1 — USV System Identification\nLab 1\nLab 1\nLab 1\n\n\n420 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n527 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n64 May\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n711 May\nLab 2 — USV PID Tuning\nLab 2\nLab 2\nLab 2\n\n\n818 May\nGuest lecture — TBD\nLecture topic — TBD\nAsync — TBD\nReading / due — TBD\n\n\n925 May\nMemorial Day — no class\nLecture topic — TBD\n—\nReading / due — TBD\n\n\n101 Jun\nLab 3 — USV Navigation Tuning\nLab 3\nLab 3\nLab 3\n\n\n118 Jun\nFinal Oral Exams\nMAE Retreat — no class\n—\nLast class"
+  },
+  {
+    "objectID": "assignments.html",
+    "href": "assignments.html",
+    "title": "Assignments and Labs",
+    "section": "",
+    "text": "Quarter: Spring 2026"
+  },
+  {
+    "objectID": "assignments.html#homework",
+    "href": "assignments.html#homework",
+    "title": "Assignments and Labs",
+    "section": "Homework",
+    "text": "Homework\n\nHW1 — TBD\nHW2 — TBD"
+  },
+  {
+    "objectID": "assignments.html#labs",
+    "href": "assignments.html#labs",
+    "title": "Assignments and Labs",
+    "section": "Labs",
+    "text": "Labs\n\nLab 1 — USV System Identification (Week 3)\nLab 2 — USV PID Tuning (Week 7)\nLab 3 — USV Navigation Tuning (Week 10)"
+  },
+  {
+    "objectID": "assignments.html#exams",
+    "href": "assignments.html#exams",
+    "title": "Assignments and Labs",
+    "section": "Exams",
+    "text": "Exams\n\nFinal Oral Exams (Week 11)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ME 2801 — Introduction to Control Systems",
+    "section": "",
+    "text": "Note\n\n\n\nCurrent quarter: Spring 2026 (2026-03-30 – 2026-06-12)\n\n\nWelcome.\n\nSyllabus\nSchedule\nAssignments"
+  },
+  {
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "Syllabus and Course Policies",
+    "section": "",
+    "text": "Quarter: Spring 2026"
+  },
+  {
+    "objectID": "syllabus.html#course-information",
+    "href": "syllabus.html#course-information",
+    "title": "Syllabus and Course Policies",
+    "section": "Course Information",
+    "text": "Course Information\n\n\n\n\n\n\n\nSchedule\nTBD — meeting days, times, room\n\n\nInstructor\nBrian Bingham &lt;bbingham@nps.edu&gt;\n\n\nOffice Hours\nTBD\n\n\nTextbook\nTBD\n\n\nPrerequisites\nTBD"
+  },
+  {
+    "objectID": "syllabus.html#course-catalog-description",
+    "href": "syllabus.html#course-catalog-description",
+    "title": "Syllabus and Course Policies",
+    "section": "Course Catalog Description",
+    "text": "Course Catalog Description\nTBD"
+  },
+  {
+    "objectID": "syllabus.html#grading",
+    "href": "syllabus.html#grading",
+    "title": "Syllabus and Course Policies",
+    "section": "Grading",
+    "text": "Grading\n\n\n\nAssignment\nHow many\nWeight\n\n\n\n\nReading Quizzes\nTBD\nTBD\n\n\nHomework\nTBD\nTBD\n\n\nExams\nTBD\nTBD\n\n\nLabs\nTBD\nTBD\n\n\n\nNotes on quiz / homework / exam grading rules — TBD."
+  },
+  {
+    "objectID": "syllabus.html#late-work",
+    "href": "syllabus.html#late-work",
+    "title": "Syllabus and Course Policies",
+    "section": "Late Work",
+    "text": "Late Work\nTBD"
+  },
+  {
+    "objectID": "syllabus.html#collaboration-and-generative-ai",
+    "href": "syllabus.html#collaboration-and-generative-ai",
+    "title": "Syllabus and Course Policies",
+    "section": "Collaboration and Generative AI",
+    "text": "Collaboration and Generative AI\nTBD — Reasonable / Not Reasonable table goes here."
+  },
+  {
+    "objectID": "syllabus.html#nps-honor-code",
+    "href": "syllabus.html#nps-honor-code",
+    "title": "Syllabus and Course Policies",
+    "section": "NPS Honor Code",
+    "text": "NPS Honor Code\nTBD"
+  }
+]
