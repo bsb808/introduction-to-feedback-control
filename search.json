@@ -70,6 +70,55 @@
     "text": "Quarter: Spring 2026 · Class days this quarter: Monday – Thursday\n\n\n\n\n\n\nPlaceholder skeleton. The grid will be rendered from data/schedule.yml in Phase 2a; per-day columns are configurable per quarter (this quarter happens to be Mon–Thu).\n\n\n\n\n\n\nWeek\nMon — In Person\nTue — Async\nWed\nThu — Async\n\n\n\n\n130 Mar\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n26 Apr\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n313 Apr\nLab 1 — USV System Identification\nLab 1\nLab 1\nLab 1\n\n\n420 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n527 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n64 May\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n711 May\nLab 2 — USV PID Tuning\nLab 2\nLab 2\nLab 2\n\n\n818 May\nGuest lecture — TBD\nLecture topic — TBD\nAsync — TBD\nReading / due — TBD\n\n\n925 May\nMemorial Day — no class\nLecture topic — TBD\n—\nReading / due — TBD\n\n\n101 Jun\nLab 3 — USV Navigation Tuning\nLab 3\nLab 3\nLab 3\n\n\n118 Jun\nFinal Oral Exams\nMAE Retreat — no class\n—\nLast class"
   },
   {
+    "objectID": "autopilot/index.html",
+    "href": "autopilot/index.html",
+    "title": "Autopilot",
+    "section": "",
+    "text": "Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, Lab 2 PID tuning, Lab 3 navigation)."
+  },
+  {
+    "objectID": "autopilot/index.html#what-we-use",
+    "href": "autopilot/index.html#what-we-use",
+    "title": "Autopilot",
+    "section": "What we use",
+    "text": "What we use\n\n\n\nVehicle\n1.1 m single-screw USV, ~5 kg\n\n\nAutopilot software\nArduRover V4.6.3 (commit 3fc7011a)\n\n\nGPS\nHERE3 via DroneCAN\n\n\nGround station\nMission Planner"
+  },
+  {
+    "objectID": "autopilot/index.html#documentation",
+    "href": "autopilot/index.html#documentation",
+    "title": "Autopilot",
+    "section": "Documentation",
+    "text": "Documentation\n\nArduPilot doc references — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis).\nControl architecture — speed and yaw-rate loop block diagram. Source at book/w07_lab_usv_pid/chapter/usv_control_architecture.drawio."
+  },
+  {
+    "objectID": "autopilot/index.html#parameters",
+    "href": "autopilot/index.html#parameters",
+    "title": "Autopilot",
+    "section": "Parameters",
+    "text": "Parameters\nThe vehicle parameter snapshots (.param files) and per-lab baseline configurations live in utils/ardu_params/. See the README there for which file corresponds to which lab and how to load it via Mission Planner."
+  },
+  {
+    "objectID": "autopilot/index.html#log-processing-pipeline",
+    "href": "autopilot/index.html#log-processing-pipeline",
+    "title": "Autopilot",
+    "section": "Log Processing Pipeline",
+    "text": "Log Processing Pipeline\nField-collected ArduPilot .BIN logs are processed in two stages before MATLAB analysis:\n\n.BIN → .mat — utils/ardu_utils/bin2mat.py extracts every numeric field from every message type into a MATLAB .mat file. Field names follow {MSGTYPE}_{field} (e.g. GPS_Spd, RCOU_C3, PIDS_Tar). Logged ArduPilot parameters are saved as a params struct.\nMATLAB analysis — per-lab scripts under book/wXX_*/code/ load the .mat and produce timeseries and metrics."
+  },
+  {
+    "objectID": "autopilot/index.html#key-log-channels",
+    "href": "autopilot/index.html#key-log-channels",
+    "title": "Autopilot",
+    "section": "Key Log Channels",
+    "text": "Key Log Channels\nSignals analyzed across the labs:\n\n\n\nChannel\nVariable\nUnits\nUsed in\n\n\n\n\nGPS_Spd\nGround speed\nm/s\nSysid (Lab 1), PID tuning (Lab 2)\n\n\nIMU_GyrZ\nYaw rate (raw)\nrad/s\nSysid (Lab 1)\n\n\nSTER_TurnRate\nYaw rate (EKF)\nrad/s\nPID tuning (Lab 2)\n\n\nRCOU_C3\nThrottle command\nPWM\nSurge input\n\n\nRCOU_C1\nRudder command\nPWM\nYaw input\n\n\nTHR_DesSpeed\nSpeed setpoint\nm/s\nPID tuning (Lab 2)\n\n\nSTER_DesTurnRate\nYaw-rate setpoint\nrad/s\nPID tuning (Lab 2)\n\n\nPIDT_*\nSpeed PID internals\n—\nPID tuning (Lab 2)\n\n\nPIDS_*\nYaw-rate PID internals\n—\nPID tuning (Lab 2)"
+  },
+  {
+    "objectID": "autopilot/index.html#more",
+    "href": "autopilot/index.html#more",
+    "title": "Autopilot",
+    "section": "More",
+    "text": "More\nSub-pages added as labs need them:\n\nSetup / connecting to the vehicle — TBD\nMission Planner cheatsheet — TBD\nCommon log analysis recipes — TBD"
+  },
+  {
     "objectID": "assignments.html",
     "href": "assignments.html",
     "title": "Assignments and Labs",

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Schedule – ME 2801 — Introduction to Feedback Control</title>
+<title>Autopilot – ME 2801 — Introduction to Feedback Control</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,18 +26,18 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4897d45d2f75ed4f519693be625836c5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-4897d45d2f75ed4f519693be625836c5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -64,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">ME 2801 — Introduction to Feedback Control</span>
     </a>
   </div>
@@ -74,23 +74,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./schedule.html" aria-current="page"> 
+    <a class="nav-link" href="../schedule.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./assignments.html"> 
+    <a class="nav-link" href="../assignments.html"> 
 <span class="menu-text">Assignments</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./autopilot/index.html"> 
+    <a class="nav-link active" href="../autopilot/index.html" aria-current="page"> 
 <span class="menu-text">Autopilot</span></a>
   </li>  
 </ul>
@@ -108,23 +108,35 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-we-use" id="toc-what-we-use" class="nav-link active" data-scroll-target="#what-we-use">What we use</a></li>
+  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
+  <li><a href="#log-processing-pipeline" id="toc-log-processing-pipeline" class="nav-link" data-scroll-target="#log-processing-pipeline">Log Processing Pipeline</a></li>
+  <li><a href="#key-log-channels" id="toc-key-log-channels" class="nav-link" data-scroll-target="#key-log-channels">Key Log Channels</a></li>
+  <li><a href="#more" id="toc-more" class="nav-link" data-scroll-target="#more">More</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Schedule</h1>
+<h1 class="title">Autopilot</h1>
+<p class="subtitle lead">Reference material for the USV labs</p>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta">
 
     
   
@@ -136,109 +148,139 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><em>Quarter:</em> Spring 2026 · <em>Class days this quarter:</em> Monday – Thursday</p>
-<div class="callout callout-style-simple callout-tip">
+<div class="callout callout-style-simple callout-note">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Placeholder skeleton.</strong> The grid will be rendered from <code>data/schedule.yml</code> in Phase 2a; per-day columns are configurable per quarter (this quarter happens to be Mon–Thu).</p>
+<p>Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, Lab 2 PID tuning, Lab 3 navigation).</p>
 </div>
 </div>
 </div>
+<section id="what-we-use" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-use">What we use</h2>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><strong>Vehicle</strong></td>
+<td>1.1 m single-screw USV, ~5 kg</td>
+</tr>
+<tr class="even">
+<td><strong>Autopilot software</strong></td>
+<td>ArduRover V4.6.3 (commit <code>3fc7011a</code>)</td>
+</tr>
+<tr class="odd">
+<td><strong>GPS</strong></td>
+<td>HERE3 via DroneCAN</td>
+</tr>
+<tr class="even">
+<td><strong>Ground station</strong></td>
+<td>Mission Planner</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="documentation" class="level2">
+<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
+<ul>
+<li><strong><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md">ArduPilot doc references</a></strong> — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis).</li>
+<li><strong>Control architecture</strong> — speed and yaw-rate loop block diagram. Source at <code>book/w07_lab_usv_pid/chapter/usv_control_architecture.drawio</code>.</li>
+</ul>
+</section>
+<section id="parameters" class="level2">
+<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<p>The vehicle parameter snapshots (<code>.param</code> files) and per-lab baseline configurations live in <a href="https://github.com/bsb808/introduction-to-feedback-control/tree/main/utils/ardu_params"><code>utils/ardu_params/</code></a>. See the <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md">README</a> there for which file corresponds to which lab and how to load it via Mission Planner.</p>
+</section>
+<section id="log-processing-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="log-processing-pipeline">Log Processing Pipeline</h2>
+<p>Field-collected ArduPilot <code>.BIN</code> logs are processed in two stages before MATLAB analysis:</p>
+<ol type="1">
+<li><strong><code>.BIN</code> → <code>.mat</code></strong> — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>utils/ardu_utils/bin2mat.py</code></a> extracts every numeric field from every message type into a MATLAB <code>.mat</code> file. Field names follow <code>{MSGTYPE}_{field}</code> (e.g.&nbsp;<code>GPS_Spd</code>, <code>RCOU_C3</code>, <code>PIDS_Tar</code>). Logged ArduPilot parameters are saved as a <code>params</code> struct.</li>
+<li><strong>MATLAB analysis</strong> — per-lab scripts under <code>book/wXX_*/code/</code> load the <code>.mat</code> and produce timeseries and metrics.</li>
+</ol>
+</section>
+<section id="key-log-channels" class="level2">
+<h2 class="anchored" data-anchor-id="key-log-channels">Key Log Channels</h2>
+<p>Signals analyzed across the labs:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Week</th>
-<th>Mon — In Person</th>
-<th>Tue — Async</th>
-<th>Wed</th>
-<th>Thu — Async</th>
+<th>Channel</th>
+<th>Variable</th>
+<th>Units</th>
+<th>Used in</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>1</strong><br>30 Mar</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>No in-person class</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><code>GPS_Spd</code></td>
+<td>Ground speed</td>
+<td>m/s</td>
+<td>Sysid (Lab 1), PID tuning (Lab 2)</td>
 </tr>
 <tr class="even">
-<td><strong>2</strong><br>6 Apr</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>No in-person class</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><code>IMU_GyrZ</code></td>
+<td>Yaw rate (raw)</td>
+<td>rad/s</td>
+<td>Sysid (Lab 1)</td>
 </tr>
 <tr class="odd">
-<td><strong>3</strong><br>13 Apr</td>
-<td><strong>Lab 1 — USV System Identification</strong></td>
-<td>Lab 1</td>
-<td>Lab 1</td>
-<td>Lab 1</td>
+<td><code>STER_TurnRate</code></td>
+<td>Yaw rate (EKF)</td>
+<td>rad/s</td>
+<td>PID tuning (Lab 2)</td>
 </tr>
 <tr class="even">
-<td><strong>4</strong><br>20 Apr</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><code>RCOU_C3</code></td>
+<td>Throttle command</td>
+<td>PWM</td>
+<td>Surge input</td>
 </tr>
 <tr class="odd">
-<td><strong>5</strong><br>27 Apr</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><code>RCOU_C1</code></td>
+<td>Rudder command</td>
+<td>PWM</td>
+<td>Yaw input</td>
 </tr>
 <tr class="even">
-<td><strong>6</strong><br>4 May</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><code>THR_DesSpeed</code></td>
+<td>Speed setpoint</td>
+<td>m/s</td>
+<td>PID tuning (Lab 2)</td>
 </tr>
 <tr class="odd">
-<td><strong>7</strong><br>11 May</td>
-<td><strong><a href="./weeks/w07_lab_usv_pid/index.html">Lab 2 — USV PID Tuning</a></strong></td>
-<td>Lab 2</td>
-<td>Lab 2</td>
-<td>Lab 2</td>
+<td><code>STER_DesTurnRate</code></td>
+<td>Yaw-rate setpoint</td>
+<td>rad/s</td>
+<td>PID tuning (Lab 2)</td>
 </tr>
 <tr class="even">
-<td><strong>8</strong><br>18 May</td>
-<td><em>Guest lecture — TBD</em></td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async — TBD</em></td>
-<td><em>Reading / due — TBD</em></td>
-</tr>
-<tr class="odd">
-<td><strong>9</strong><br>25 May</td>
-<td><em>Memorial Day — no class</em></td>
-<td><em>Lecture topic — TBD</em></td>
+<td><code>PIDT_*</code></td>
+<td>Speed PID internals</td>
 <td>—</td>
-<td><em>Reading / due — TBD</em></td>
-</tr>
-<tr class="even">
-<td><strong>10</strong><br>1 Jun</td>
-<td><strong>Lab 3 — USV Navigation Tuning</strong></td>
-<td>Lab 3</td>
-<td>Lab 3</td>
-<td>Lab 3</td>
+<td>PID tuning (Lab 2)</td>
 </tr>
 <tr class="odd">
-<td><strong>11</strong><br>8 Jun</td>
-<td><em>Final Oral Exams</em></td>
-<td><em>MAE Retreat — no class</em></td>
+<td><code>PIDS_*</code></td>
+<td>Yaw-rate PID internals</td>
 <td>—</td>
-<td><em>Last class</em></td>
+<td>PID tuning (Lab 2)</td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="more" class="level2">
+<h2 class="anchored" data-anchor-id="more">More</h2>
+<p><em>Sub-pages added as labs need them:</em></p>
+<ul>
+<li><em>Setup / connecting to the vehicle — TBD</em></li>
+<li><em>Mission Planner cheatsheet — TBD</em></li>
+<li><em>Common log analysis recipes — TBD</em></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
