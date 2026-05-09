@@ -1,9 +1,17 @@
-function print_pid_params(d)
+function print_pid_params(fname)
 % PRINT_PID_PARAMS  Print ArduPilot ATC_SPEED_* and ATC_STR_RAT_* PID gains.
-%   print_pid_params(d)
+%   print_pid_params(fname)
 %
-%   d is the struct returned by load() on the .mat log.  If d does not
+%   fname is the path to a .mat log produced by bin2mat.py.  Loads the
+%   file and prints the saved PID parameters.  If the file does not
 %   contain a `params` field (older bin2mat.py output), prints a warning.
+arguments
+    fname (1,1) string
+end
+
+d = load(fname);
+
+fprintf("\nPID parameters in %s\n", fname);
 
 if isfield(d, "params")
     p = d.params;

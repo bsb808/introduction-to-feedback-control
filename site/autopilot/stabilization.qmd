@@ -104,7 +104,7 @@ ArduPilot does **not** log a separate `Out` field — the total controller outpu
 |---|---:|---|
 | `ATC_ACCEL_MAX` | **0** | Disable rate limiter — let the setpoint be a true step |
 | `CRUISE_THROTTLE` | **0** | Strip the baseline FF so the response is from the PID alone |
-| `ATC_SPEED_FF` | **0** for baseline | FF restored in experiment B; tuned with PID in experiment C |
+| `ATC_SPEED_FF` | **0** for Base | FF restored in **FeedForward**; tuned with PID in **Tuned** |
 
 ---
 
@@ -176,7 +176,7 @@ As with the speed PID, no `Out` field is logged — total output is `P + I + D +
 | Setting | Lab value | Why |
 |---|---:|---|
 | `ATC_STR_ACC_MAX` | **0** | Disable rate limiter — let the setpoint be a true step |
-| `ATC_STR_RAT_FF` | **0** for baseline | FF restored in experiment B; tuned with PID in experiment C |
+| `ATC_STR_RAT_FF` | **0** for Base | FF restored in **FeedForward**; tuned with PID in **Tuned** |
 | `ATC_STR_RAT_MAX` | left at 36 deg/s | Determines the achievable step amplitude |
 
 ---

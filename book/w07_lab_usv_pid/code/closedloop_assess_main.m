@@ -1,42 +1,133 @@
-% Closed-Loop Step Response Analysis
-%
-% This example illustrates the processing of the Lab 2 log files to do the
-% following:
-% - Report the 
-% - Plot the entire experiment so the user can identify the step
-% properties.
-% - Isolate the desired step response
-%
-% This script uses custom functions from the same directory.  See the
-% individual function documentation for details. 
 
-%% Specify the data file and the experiment type
 clear;
-close("all");
+
 set(0, 'DefaultFigureWindowStyle', 'normal')
-fdir = "/home/bsb/WorkingCopies/me2801/data/2026_05_06_lab2_proto/2026_05_06_tuning/";
-fname      = fullfile(fdir, "00000015.BIN_20260506_223900.mat");
-experiment = "speed";   % "speed"  ->  surge (m/s)  |  "yaw"  ->  yaw rate (rad/s)
+set(groot, 'defaultAxesFontName','Helvetica', 'defaultAxesFontSize',10);
 
-% Available logs:
-%   A - FF only
-%     Speed: 00000011.BIN_20260506_223549.mat
-%     Yaw:   00000013.BIN_20260506_223627.mat
-%   B - FF and PID
-%     Speed: 00000015.BIN_20260506_223900.mat
-%     Yaw:   00000017.BIN_20260506_223937.mat
+export_figs = false;
+if export_figs
+    close("all");
+end
 
-% Plot Full Response and Print PID Parameters
-plot_full_response(fname, experiment);
+% For manually looking through logs
+matfiles = dir(fullfile("/home/bsb/WorkingCopies/me2801/data/2026_05_06_lab2_proto/2026_05_06_baseline3/", "*.mat"));
+exp = struct('label', {}, 'fname', {}, 'fdir', {}, 'experiment', {}, 't_step_start', {}, 't_step_end', {}, 'tar_amplitude', {}, 'act_steady_state', {});
+% Manually increment the index
+%exp(1).fname = matfiles(5).name;
 
-% From the generated figures above, find the step boundaries (in elapsed seconds)
-% and the observed steady-state value of the measurement.
-t_step_start = 3.2;     % elapsed seconds at step onset
-t_step_end   = 13.84;   % elapsed seconds when response has settled
-yss          = 2.0;     % observed steady-state value
+exp(1).label = "base_speed";
+exp(1).fname = "00000005.BIN_20260506_213337.mat";
+exp(1).fdir = "/home/bsb/WorkingCopies/me2801/data/2026_05_06_lab2_proto/2026_05_06_baseline3/";
+exp(1).experiment = "speed";
+exp(1).t_step_start = 4.82;    
+exp(1).t_step_end   = 25.33;  
+exp(1).tar_amplitude = 0.89;  
+exp(1).act_steady_state = 0.89; 
 
-%% 4 - Step Metrics and Isolated Plot
-% By default the plot window starts X = 2.0 s before t_step_start. Override
-% with a sixth argument, e.g.:
-%   step_response_metrics(fname, experiment, t_step_start, t_step_end, yss, 1.0);
-step_response_metrics(fname, experiment, t_step_start, t_step_end, yss);
+
+exp(1).label = "base_yaw";
+exp(1).fname = "00000015.BIN_20260506_222221.mat";
+exp(1).fdir = "/home/bsb/WorkingCopies/me2801/data/2026_05_06_lab2_proto/2026_05_06_baseline3/";
+exp(1).experiment = "yaw";
+exp(1).t_step_start = 29.9789;    
+exp(1).t_step_end   = 38.8;  
+exp(1).tar_amplitude = 2.0944;  
+exp(1).act_steady_state = 0.7930; 
+
+% This is a repeat - hack to illustrate integrator windup in heading
+% without feedforward.
+exp(1).label = "base_yaw_windup";
+exp(1).fname = "00000015.BIN_20260506_222221.mat";
+exp(1).fdir = "/home/bsb/WorkingCopies/me2801/data/2026_05_06_lab2_proto/2026_05_06_baseline3/";
+exp(1).experiment = "yaw";
+exp(1).t_step_start = 0;    
+exp(1).t_step_end   = 53;  
+exp(1).tar_amplitude = 2.0944;  
+exp(1).act_steady_state = 0.7930; 
+
+exp(1).label = "ff_speed";
+exp(1).fname = "00000011.BIN_20260506_223549.mat";
+exp(1).fdir = "/home/bsb/WorkingCopies/me2801/data/2026_05_06_lab2_proto/2026_05_06_tuning/";
+exp(1).experiment = "speed";
+exp(1).t_step_start = 4.02;    
+exp(1).t_step_end   = 15.24;  
+exp(1).tar_amplitude = 1.95;  
+exp(1).act_steady_state = 1.97; 
+
+% fdir = "/home/bsb/WorkingCopies/me2801/data/2026_05_06_lab2_proto/2026_05_06_tuning/";
+% 
+% % FF, Yaw:   00000013.BIN_20260506_223627.mat
+% fname      = fullfile(fdir, "00000013.BIN_20260506_223627.mat");
+% experiment = "yaw";
+% t_step_start = 21.52;    
+% t_step_end   = 30;  
+% tar_amplitude = -2.1;  
+% act_steady_state = -0.669; 
+
+
+% %   Tuned, Speed: 00000015.BIN_20260506_223900.mat
+% fname      = fullfile(fdir, "00000015.BIN_20260506_223900.mat");
+% experiment = "speed";
+% t_step_start = 3.28;    
+% t_step_end   = 14.0;  
+% tar_amplitude = 2.15;  
+% act_steady_state = 1.99; 
+% 
+% % Tuned, Yaw
+% fname      = fullfile(fdir, "00000017.BIN_20260506_223937.mat");
+% experiment = "yaw"
+% t_step_start = 19.879;
+% t_step_end = 27.4;
+% tar_amplitude = -2.0944;
+% act_steady_state = -0.7333;
+
+for ii = 1:length(exp)
+    ff = fullfile(exp(ii).fdir, exp(ii).fname);
+    d = load(ff);
+    [dirpath, name, ext] = fileparts(ff);
+    [~, lastDir] = fileparts(dirpath);
+    flabel = fullfile(lastDir, sprintf("%s.%s", name, ext));
+
+
+    %% Print the pertinent controller parameters
+    p = d.params;
+    fprintf("\n--- Surge speed PID (ATC_SPEED_*) ---\n");
+    fprintf("  P: %g    I: %g    D: %g    FF: %g\n", ...
+        p.ATC_SPEED_P, p.ATC_SPEED_I, p.ATC_SPEED_D, p.ATC_SPEED_FF);
+    fprintf("\n--- Yaw-rate PID (ATC_STR_RAT_*) ---\n");
+    fprintf("  P: %g    I: %g    D: %g    FF: %g\n", ...
+        p.ATC_STR_RAT_P, p.ATC_STR_RAT_I, p.ATC_STR_RAT_D, p.ATC_STR_RAT_FF);
+
+
+    %% Plot the full response for both controllers.
+    t0 = min([d.PIDA_timestamp(1), d.PIDS_timestamp(1)]);
+
+    f1 = figure(1); 
+    plot_response(d, t0, flabel, textbox_fontsize=8)
+    if export_figs
+        set(f1, 'Units','inches', 'Position',[1 1 8 5]);
+
+        exportgraphics(f1, sprintf("images/%s_response.pdf",exp(ii).label),...
+            'ContentType','vector');
+        textbox_fontsize = 9;
+        plot_response(d, t0, flabel, textbox_fontsize=8)
+        exportgraphics(f1, sprintf("images/%s_response.png",exp(ii).label),...
+            'Resolution', 300);
+    end
+
+    f2 = figure(2);
+    step_response_metrics(d, exp(ii).experiment, t0, exp(ii).t_step_start, exp(ii).t_step_end, ...
+                      exp(ii).tar_amplitude, exp(ii).act_steady_state, ...
+                      textbox_fontsize=7);
+    if export_figs
+        set(f2, 'Units','inches', 'Position',[1 1 8 6]);
+        
+        exportgraphics(f2, sprintf("images/%s_pids.pdf",exp(ii).label),...
+            'ContentType','vector');
+           step_response_metrics(d, exp(ii).experiment, t0, exp(ii).t_step_start, exp(ii).t_step_end, ...
+                          exp(ii).tar_amplitude, exp(ii).act_steady_state, ...
+                          textbox_fontsize=6);
+        exportgraphics(f2, sprintf("images/%s_pids.png",exp(ii).label),...
+            'Resolution', 300);
+    end
+end

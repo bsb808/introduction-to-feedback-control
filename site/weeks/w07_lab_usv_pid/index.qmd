@@ -13,9 +13,9 @@ Tune the autopilot's closed-loop control to maximize speed and yaw-rate tracking
 
 | Experiment | What changes | What stays the same |
 |---|---|---|
-| **A — Baseline** | Lab preset configuration (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains | Other settings unchanged |
-| **B — Feedforward** | Add feedforward gain to both speed and yaw-rate control loops.  Gain values from our open-loop system identification lab. | Stock PID gains |
-| **C — Tuned** | Tune PID gains for "best" response | Feedforward kept on |
+| **Base** | Lab preset configuration (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains | Other settings unchanged |
+| **FeedForward** | Add feedforward gain to both speed and yaw-rate control loops.  Gain values from our open-loop system identification lab. | Stock PID gains |
+| **Tuned** | Tune PID gains for "best" response | Feedforward kept on |
 
 For each experiment, both the **speed (surge/throttle)** loop and the **yaw-rate (steering/rudder)** loop are exercised with manual step inputs, and the resulting closed-loop responses are logged and quality-checked.
 
@@ -52,6 +52,10 @@ For each of the six datasets, you should be able to plot — using [`closedloop_
 - **PID internals** (`PIDA_*` for speed, `PIDS_*` for yaw rate — naming is unintuitive; see the [Stabilization Layer](../../autopilot/stabilization.qmd) page) showing target, actual, error, and the P/I/D/FF terms. Total controller output is `P + I + D + FF`; ArduPilot does not log a separate `Out` field.
 
 If those plots look clean — clear step, response settles, no clipping, no logging gaps — the dataset is good. If anything looks off, plan to recollect before leaving the field.
+
+## Example results
+
+See **[Example Results](results.qmd)** — step-response figures from each of the three experiments (A, B, C) for both speed and yaw-rate, with brief observations and a summary metrics table.
 
 ## Materials
 

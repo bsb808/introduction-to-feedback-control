@@ -1,0 +1,75 @@
+---
+title: "Lab 2 — Example Results"
+subtitle: "Week 7 · {{< var quarter >}}"
+page-layout: full
+---
+
+[← Back to Lab 2 overview](index.qmd)
+
+::: {.callout-note appearance="simple"}
+**Working draft.** Example step-response figures from the three experiments (Base, FeedForward, Tuned), with the speed and yaw-rate channels side by side. Figures are exported from `step_response_metrics.m`.
+:::
+
+## Base
+
+Lab preset configuration: ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. Establishes the un-tuned reference against which **FeedForward** and **Tuned** are compared.
+
+:::: {.columns}
+::: {.column width="50%"}
+![Speed step response — Base](images/base_speed.png)
+
+_Observations — TBD (rise time, overshoot, SS error, control-effort behavior)._
+:::
+::: {.column width="50%"}
+![Yaw-rate step response — Base](images/base_yaw.png)
+
+_Observations — TBD._
+:::
+::::
+
+## FeedForward
+
+Restored `ATC_SPEED_FF` and `ATC_STR_RAT_FF` to lab values; PID gains unchanged from **Base**.
+
+:::: {.columns}
+::: {.column width="50%"}
+![Speed step response — FeedForward](images/feedforward_speed.png)
+
+_Observations — TBD._
+:::
+::: {.column width="50%"}
+![Yaw-rate step response — FeedForward](images/feedforward_yaw.png)
+
+_Observations — TBD._
+:::
+::::
+
+## Tuned
+
+Adjusted `ATC_SPEED_P/I/D` and `ATC_STR_RAT_P/I/D` for best response; FF kept on.
+
+:::: {.columns}
+::: {.column width="50%"}
+![Speed step response — Tuned](images/tuned_speed.png)
+
+_Observations — TBD._
+:::
+::: {.column width="50%"}
+![Yaw-rate step response — Tuned](images/tuned_yaw.png)
+
+_Observations — TBD._
+:::
+::::
+
+## Summary
+
+_TBD — comparison table across the three experiments for both channels:_
+
+| Experiment | Channel | Rise time (s) | Settling (s) | Overshoot (%) | SS error |
+|---|---|---:|---:|---:|---:|
+| Base        | Speed | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
+| Base        | Yaw   | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
+| FeedForward | Speed | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
+| FeedForward | Yaw   | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
+| Tuned       | Speed | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
+| Tuned       | Yaw   | _TBD_ | _TBD_ | _TBD_ | _TBD_ |

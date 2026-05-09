@@ -7,11 +7,10 @@ function L = load_and_prep(fname)
 %     fileLabel      - "<lastDir>/<name>.<ext>" string for plot titles
 %     t_thr, t_gps,
 %     t_ster, t_rcou - elapsed-time vectors (seconds from earliest message)
-%     has_pids,
-%     has_pida       - logical flags for optional PID log channels
-%                        PIDS_* = speed PID
-%                        PIDA_* = attitude (yaw-rate) PID
-%     t_pids, t_pida - elapsed-time vectors for those channels (if present)
+%     t_pids, t_pida - elapsed-time vectors for the PID log channels
+%                        PIDS_* = steering (yaw-rate) PID
+%                        PIDA_* = throttle (speed) PID
+%                      Errors if either timestamp field is missing.
 %     throttle_norm  - RCOU_C3 PWM scaled to normalized effort (-1..+1)
 %     rudder_norm    - RCOU_C1 PWM scaled to normalized effort (-1..+1)
 arguments
@@ -33,11 +32,9 @@ L.t_gps  = L.d.GPS_timestamp  - t0;
 L.t_ster = L.d.STER_timestamp - t0;
 L.t_rcou = L.d.RCOU_timestamp - t0;
 
-% PID internal log messages (PIDS = speed, PIDA = attitude/yaw-rate)
-L.has_pids = isfield(L.d, "PIDS_timestamp");
-L.has_pida = isfield(L.d, "PIDA_timestamp");
-if L.has_pids, L.t_pids = L.d.PIDS_timestamp - t0; end
-if L.has_pida, L.t_pida = L.d.PIDA_timestamp - t0; end
+% PID internal log messages (PIDS = steering / yaw-rate, PIDA = throttle / speed)
+L.t_pids = L.d.PIDS_timestamp - t0;
+L.t_pida = L.d.PIDA_timestamp - t0;
 
 % PWM -> normalized effort (piecewise; adjust to match vehicle params)
 inzero = 1500;  inmax = 1900;  inmin = 1100;

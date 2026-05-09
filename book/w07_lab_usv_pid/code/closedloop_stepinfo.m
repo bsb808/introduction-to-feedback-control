@@ -6,7 +6,7 @@
 % overshoot, and steady-state error.
 %
 % Calls (all in this directory):
-%   plot_full_response(fname, experiment)
+%   plot_speed_response(fname)   or   plot_yaw_response(fname)
 %   step_response_metrics(fname, experiment, t_step_start, t_step_end, yss[, X])
 
 %% 1 - User Input
@@ -27,7 +27,11 @@ fname      = fullfile(fdir, "00000015.BIN_20260506_223900.mat");
 experiment = "speed";   % "speed"  ->  surge (m/s)  |  "yaw"  ->  yaw rate (rad/s)
 
 %% 2 - Plot Full Response and Print PID Parameters
-plot_full_response(fname, experiment);
+if experiment == "speed"
+    plot_speed_response(fname);
+else
+    plot_yaw_response(fname);
+end
 
 %% 3 - Step Isolation
 % From the figures above, read off the step boundaries (in elapsed seconds)
