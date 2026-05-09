@@ -116,9 +116,22 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#base" id="toc-base" class="nav-link active" data-scroll-target="#base">Base</a></li>
-  <li><a href="#feedforward" id="toc-feedforward" class="nav-link" data-scroll-target="#feedforward">FeedForward</a></li>
-  <li><a href="#tuned" id="toc-tuned" class="nav-link" data-scroll-target="#tuned">Tuned</a></li>
+  <li><a href="#base" id="toc-base" class="nav-link active" data-scroll-target="#base">Base</a>
+  <ul class="collapse">
+  <li><a href="#speed-channel" id="toc-speed-channel" class="nav-link" data-scroll-target="#speed-channel">Speed channel</a></li>
+  <li><a href="#yaw-rate-channel" id="toc-yaw-rate-channel" class="nav-link" data-scroll-target="#yaw-rate-channel">Yaw-rate channel</a></li>
+  <li><a href="#yaw-rate-integrator-windup-demonstration" id="toc-yaw-rate-integrator-windup-demonstration" class="nav-link" data-scroll-target="#yaw-rate-integrator-windup-demonstration">Yaw-rate — integrator windup demonstration</a></li>
+  </ul></li>
+  <li><a href="#feedforward" id="toc-feedforward" class="nav-link" data-scroll-target="#feedforward">FeedForward</a>
+  <ul class="collapse">
+  <li><a href="#speed-channel-1" id="toc-speed-channel-1" class="nav-link" data-scroll-target="#speed-channel-1">Speed channel</a></li>
+  <li><a href="#yaw-rate-channel-1" id="toc-yaw-rate-channel-1" class="nav-link" data-scroll-target="#yaw-rate-channel-1">Yaw-rate channel</a></li>
+  </ul></li>
+  <li><a href="#tuned" id="toc-tuned" class="nav-link" data-scroll-target="#tuned">Tuned</a>
+  <ul class="collapse">
+  <li><a href="#speed-channel-2" id="toc-speed-channel-2" class="nav-link" data-scroll-target="#speed-channel-2">Speed channel</a></li>
+  <li><a href="#yaw-rate-channel-2" id="toc-yaw-rate-channel-2" class="nav-link" data-scroll-target="#yaw-rate-channel-2">Yaw-rate channel</a></li>
+  </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
 </nav>
@@ -153,82 +166,171 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Working draft.</strong> Example step-response figures from the three experiments (Base, FeedForward, Tuned), with the speed and yaw-rate channels side by side. Figures are exported from <code>step_response_metrics.m</code>.</p>
+<p><strong>Working draft.</strong> Example step-response figures from the three experiments (Base, FeedForward, Tuned) for the speed and yaw-rate channels. Each case has two figures:</p>
+<ul>
+<li><strong>Timeseries</strong> — setpoint, measured response, and actuator command across the full step window.</li>
+<li><strong>PID internals</strong> — <code>Tar</code> / <code>Act</code> with metrics text box (top), and the per-term breakdown (<code>P</code>, <code>I</code>, <code>D</code>, <code>FF</code>) plus the actuator command (bottom).</li>
+</ul>
+<p>A separate <strong>integrator-windup</strong> demonstration on the Base/yaw run shows what happens when the controller is allowed to hold the step long enough for the I term to wind up.</p>
 </div>
 </div>
 </div>
 <section id="base" class="level2">
 <h2 class="anchored" data-anchor-id="base">Base</h2>
-<p>Lab preset configuration: ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. Establishes the un-tuned reference against which <strong>FeedForward</strong> and <strong>Tuned</strong> are compared.</p>
+<p>ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The reference against which <strong>FeedForward</strong> and <strong>Tuned</strong> are compared.</p>
+<section id="speed-channel" class="level3">
+<h3 class="anchored" data-anchor-id="speed-channel">Speed channel</h3>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/base_speed.png" class="img-fluid figure-img"></p>
-<figcaption>Speed step response — Base</figcaption>
+<p><img src="images/base_speed_response.png" class="img-fluid figure-img"></p>
+<figcaption>Base / speed — timeseries (setpoint, measured GPS speed, throttle command)</figcaption>
 </figure>
 </div>
-<p><em>Observations — TBD (rise time, overshoot, SS error, control-effort behavior).</em></p>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/base_yaw.png" class="img-fluid figure-img"></p>
-<figcaption>Yaw-rate step response — Base</figcaption>
+<p><img src="images/base_speed_pids.png" class="img-fluid figure-img"></p>
+<figcaption>Base / speed — PID internals (Tar/Act with metrics; P/I/D/FF terms with actuator command)</figcaption>
 </figure>
 </div>
-<p><em>Observations — TBD.</em></p>
 </div>
 </div>
+</section>
+<section id="yaw-rate-channel" class="level3">
+<h3 class="anchored" data-anchor-id="yaw-rate-channel">Yaw-rate channel</h3>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/base_yaw_response.png" class="img-fluid figure-img"></p>
+<figcaption>Base / yaw — timeseries (setpoint, measured EKF yaw rate, rudder command)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/base_yaw_pids.png" class="img-fluid figure-img"></p>
+<figcaption>Base / yaw — PID internals (Tar/Act with metrics; P/I/D/FF terms with rudder command)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="yaw-rate-integrator-windup-demonstration" class="level3">
+<h3 class="anchored" data-anchor-id="yaw-rate-integrator-windup-demonstration">Yaw-rate — integrator windup demonstration</h3>
+<p>The same Base/yaw configuration as above, but the step input is held long enough for the integrator to wind up. The delayed recovery on the step-back illustrates classic I-term windup.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/base_yaw_windup_response.png" class="img-fluid figure-img"></p>
+<figcaption>Base / yaw / windup — timeseries with extended step hold</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/base_yaw_windup_pids.png" class="img-fluid figure-img"></p>
+<figcaption>Base / yaw / windup — PID internals; note the I term grows for the duration of the step and dominates the recovery transient</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="feedforward" class="level2">
 <h2 class="anchored" data-anchor-id="feedforward">FeedForward</h2>
 <p>Restored <code>ATC_SPEED_FF</code> and <code>ATC_STR_RAT_FF</code> to lab values; PID gains unchanged from <strong>Base</strong>.</p>
+<section id="speed-channel-1" class="level3">
+<h3 class="anchored" data-anchor-id="speed-channel-1">Speed channel</h3>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/feedforward_speed.png" class="img-fluid figure-img"></p>
-<figcaption>Speed step response — FeedForward</figcaption>
+<p><img src="images/ff_speed_response.png" class="img-fluid figure-img"></p>
+<figcaption>FeedForward / speed — timeseries</figcaption>
 </figure>
 </div>
-<p><em>Observations — TBD.</em></p>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/feedforward_yaw.png" class="img-fluid figure-img"></p>
-<figcaption>Yaw-rate step response — FeedForward</figcaption>
+<p><img src="images/ff_speed_pids.png" class="img-fluid figure-img"></p>
+<figcaption>FeedForward / speed — PID internals</figcaption>
 </figure>
 </div>
-<p><em>Observations — TBD.</em></p>
 </div>
 </div>
+</section>
+<section id="yaw-rate-channel-1" class="level3">
+<h3 class="anchored" data-anchor-id="yaw-rate-channel-1">Yaw-rate channel</h3>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/ff_yaw_response.png" class="img-fluid figure-img"></p>
+<figcaption>FeedForward / yaw — timeseries</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/ff_yaw_pids.png" class="img-fluid figure-img"></p>
+<figcaption>FeedForward / yaw — PID internals</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="tuned" class="level2">
 <h2 class="anchored" data-anchor-id="tuned">Tuned</h2>
 <p>Adjusted <code>ATC_SPEED_P/I/D</code> and <code>ATC_STR_RAT_P/I/D</code> for best response; FF kept on.</p>
+<section id="speed-channel-2" class="level3">
+<h3 class="anchored" data-anchor-id="speed-channel-2">Speed channel</h3>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/tuned_speed.png" class="img-fluid figure-img"></p>
-<figcaption>Speed step response — Tuned</figcaption>
+<p><img src="images/tuned_speed_response.png" class="img-fluid figure-img"></p>
+<figcaption>Tuned / speed — timeseries</figcaption>
 </figure>
 </div>
-<p><em>Observations — TBD.</em></p>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/tuned_yaw.png" class="img-fluid figure-img"></p>
-<figcaption>Yaw-rate step response — Tuned</figcaption>
+<p><img src="images/tuned_speed_pids.png" class="img-fluid figure-img"></p>
+<figcaption>Tuned / speed — PID internals</figcaption>
 </figure>
 </div>
-<p><em>Observations — TBD.</em></p>
 </div>
 </div>
 </section>
+<section id="yaw-rate-channel-2" class="level3">
+<h3 class="anchored" data-anchor-id="yaw-rate-channel-2">Yaw-rate channel</h3>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/tuned_yaw_response.png" class="img-fluid figure-img"></p>
+<figcaption>Tuned / yaw — timeseries</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/tuned_yaw_pids.png" class="img-fluid figure-img"></p>
+<figcaption>Tuned / yaw — PID internals</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p><em>TBD — comparison table across the three experiments for both channels:</em></p>
+<p><em>TBD — comparison table across the three experiments for both channels. Numbers come from the metrics text box in each PID-internals figure.</em></p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 13%">

@@ -11,28 +11,28 @@
     "href": "weeks/w07_lab_usv_pid/results.html#base",
     "title": "Lab 2 — Example Results",
     "section": "Base",
-    "text": "Base\nLab preset configuration: ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. Establishes the un-tuned reference against which FeedForward and Tuned are compared.\n\n\n\n\n\nSpeed step response — Base\n\n\nObservations — TBD (rise time, overshoot, SS error, control-effort behavior).\n\n\n\n\nYaw-rate step response — Base\n\n\nObservations — TBD."
+    "text": "Base\nArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The reference against which FeedForward and Tuned are compared.\n\nSpeed channel\n\n\n\n\n\nBase / speed — timeseries (setpoint, measured GPS speed, throttle command)\n\n\n\n\n\n\nBase / speed — PID internals (Tar/Act with metrics; P/I/D/FF terms with actuator command)\n\n\n\n\n\n\nYaw-rate channel\n\n\n\n\n\nBase / yaw — timeseries (setpoint, measured EKF yaw rate, rudder command)\n\n\n\n\n\n\nBase / yaw — PID internals (Tar/Act with metrics; P/I/D/FF terms with rudder command)\n\n\n\n\n\n\nYaw-rate — integrator windup demonstration\nThe same Base/yaw configuration as above, but the step input is held long enough for the integrator to wind up. The delayed recovery on the step-back illustrates classic I-term windup.\n\n\n\n\n\nBase / yaw / windup — timeseries with extended step hold\n\n\n\n\n\n\nBase / yaw / windup — PID internals; note the I term grows for the duration of the step and dominates the recovery transient"
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/results.html#feedforward",
     "href": "weeks/w07_lab_usv_pid/results.html#feedforward",
     "title": "Lab 2 — Example Results",
     "section": "FeedForward",
-    "text": "FeedForward\nRestored ATC_SPEED_FF and ATC_STR_RAT_FF to lab values; PID gains unchanged from Base.\n\n\n\n\n\nSpeed step response — FeedForward\n\n\nObservations — TBD.\n\n\n\n\nYaw-rate step response — FeedForward\n\n\nObservations — TBD."
+    "text": "FeedForward\nRestored ATC_SPEED_FF and ATC_STR_RAT_FF to lab values; PID gains unchanged from Base.\n\nSpeed channel\n\n\n\n\n\nFeedForward / speed — timeseries\n\n\n\n\n\n\nFeedForward / speed — PID internals\n\n\n\n\n\n\nYaw-rate channel\n\n\n\n\n\nFeedForward / yaw — timeseries\n\n\n\n\n\n\nFeedForward / yaw — PID internals"
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/results.html#tuned",
     "href": "weeks/w07_lab_usv_pid/results.html#tuned",
     "title": "Lab 2 — Example Results",
     "section": "Tuned",
-    "text": "Tuned\nAdjusted ATC_SPEED_P/I/D and ATC_STR_RAT_P/I/D for best response; FF kept on.\n\n\n\n\n\nSpeed step response — Tuned\n\n\nObservations — TBD.\n\n\n\n\nYaw-rate step response — Tuned\n\n\nObservations — TBD."
+    "text": "Tuned\nAdjusted ATC_SPEED_P/I/D and ATC_STR_RAT_P/I/D for best response; FF kept on.\n\nSpeed channel\n\n\n\n\n\nTuned / speed — timeseries\n\n\n\n\n\n\nTuned / speed — PID internals\n\n\n\n\n\n\nYaw-rate channel\n\n\n\n\n\nTuned / yaw — timeseries\n\n\n\n\n\n\nTuned / yaw — PID internals"
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/results.html#summary",
     "href": "weeks/w07_lab_usv_pid/results.html#summary",
     "title": "Lab 2 — Example Results",
     "section": "Summary",
-    "text": "Summary\nTBD — comparison table across the three experiments for both channels:\n\n\n\n\n\n\n\n\n\n\n\nExperiment\nChannel\nRise time (s)\nSettling (s)\nOvershoot (%)\nSS error\n\n\n\n\nBase\nSpeed\nTBD\nTBD\nTBD\nTBD\n\n\nBase\nYaw\nTBD\nTBD\nTBD\nTBD\n\n\nFeedForward\nSpeed\nTBD\nTBD\nTBD\nTBD\n\n\nFeedForward\nYaw\nTBD\nTBD\nTBD\nTBD\n\n\nTuned\nSpeed\nTBD\nTBD\nTBD\nTBD\n\n\nTuned\nYaw\nTBD\nTBD\nTBD\nTBD"
+    "text": "Summary\nTBD — comparison table across the three experiments for both channels. Numbers come from the metrics text box in each PID-internals figure.\n\n\n\n\n\n\n\n\n\n\n\nExperiment\nChannel\nRise time (s)\nSettling (s)\nOvershoot (%)\nSS error\n\n\n\n\nBase\nSpeed\nTBD\nTBD\nTBD\nTBD\n\n\nBase\nYaw\nTBD\nTBD\nTBD\nTBD\n\n\nFeedForward\nSpeed\nTBD\nTBD\nTBD\nTBD\n\n\nFeedForward\nYaw\nTBD\nTBD\nTBD\nTBD\n\n\nTuned\nSpeed\nTBD\nTBD\nTBD\nTBD\n\n\nTuned\nYaw\nTBD\nTBD\nTBD\nTBD"
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/index.html",
