@@ -116,9 +116,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#pre-lab-preparation" id="toc-pre-lab-preparation" class="nav-link active" data-scroll-target="#pre-lab-preparation">Pre-Lab Preparation</a></li>
-  <li><a href="#field-session" id="toc-field-session" class="nav-link" data-scroll-target="#field-session">Field Session</a></li>
-  <li><a href="#quality-check-before-leaving-the-field" id="toc-quality-check-before-leaving-the-field" class="nav-link" data-scroll-target="#quality-check-before-leaving-the-field">Quality Check (Before Leaving the Field)</a></li>
+  <li><a href="#pre-lab-preparation" id="toc-pre-lab-preparation" class="nav-link active" data-scroll-target="#pre-lab-preparation">1. Pre-lab preparation</a></li>
+  <li><a href="#field-setup" id="toc-field-setup" class="nav-link" data-scroll-target="#field-setup">2. Field setup</a></li>
+  <li><a href="#experiment-execution" id="toc-experiment-execution" class="nav-link" data-scroll-target="#experiment-execution">3. Experiment execution</a></li>
+  <li><a href="#step-input-technique" id="toc-step-input-technique" class="nav-link" data-scroll-target="#step-input-technique">4. Step-input technique</a>
+  <ul class="collapse">
+  <li><a href="#speed-throttle-steps" id="toc-speed-throttle-steps" class="nav-link" data-scroll-target="#speed-throttle-steps">4.1 Speed (throttle) steps</a></li>
+  <li><a href="#yaw-rate-steering-steps" id="toc-yaw-rate-steering-steps" class="nav-link" data-scroll-target="#yaw-rate-steering-steps">4.2 Yaw-rate (steering) steps</a></li>
+  <li><a href="#common-gotchas" id="toc-common-gotchas" class="nav-link" data-scroll-target="#common-gotchas">4.3 Common gotchas</a></li>
+  </ul></li>
+  <li><a href="#quality-check-before-leaving-the-field" id="toc-quality-check-before-leaving-the-field" class="nav-link" data-scroll-target="#quality-check-before-leaving-the-field">5. Quality check (before leaving the field)</a></li>
+  <li><a href="#end-of-day" id="toc-end-of-day" class="nav-link" data-scroll-target="#end-of-day">6. End-of-day</a></li>
+  <li><a href="#hand-off-to-next-week" id="toc-hand-off-to-next-week" class="nav-link" data-scroll-target="#hand-off-to-next-week">7. Hand-off to next week</a></li>
   </ul>
 </nav>
     </div>
@@ -151,21 +160,133 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Working draft.</strong> Procedure being refined as the lab is run this quarter.</p>
+<p><strong>Working draft.</strong> Procedure is being refined as the lab runs this quarter; expect updates day-to-day.</p>
 </div>
 </div>
 </div>
+<p>The lab collects six step-response datasets — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate). The same field workflow runs three times; only the parameter set changes between cases. Quality is checked at the field before each parameter-set move, so problems are caught while the boat is still in the water.</p>
 <section id="pre-lab-preparation" class="level2">
-<h2 class="anchored" data-anchor-id="pre-lab-preparation">Pre-Lab Preparation</h2>
-<p><em>TBD</em></p>
+<h2 class="anchored" data-anchor-id="pre-lab-preparation">1. Pre-lab preparation</h2>
+<p>Get the team, software, and vehicle ready before going to the field.</p>
+<ul>
+<li><strong>Team roles</strong> — pilot, ground-station operator, log curator, safety/observer.</li>
+<li><strong>Ground laptop ready</strong> — Mission Planner installed and connected to the radio.</li>
+<li><strong>Parameter files staged</strong> — three <code>.param</code> files corresponding to experiments A / B / C, located under <code>utils/ardu_params/</code>.</li>
+<li><strong>Vehicle ready</strong> — battery charged, props/rudder clear, RC bound, GPS lock confirmed.</li>
+<li><strong>Test card / data sheet</strong> — one row per dataset (six total) for noting parameter values, observations, and quality-check verdict.</li>
+</ul>
 </section>
-<section id="field-session" class="level2">
-<h2 class="anchored" data-anchor-id="field-session">Field Session</h2>
-<p><em>TBD — for each of experiments A (Baseline), B (FF), C (Tuned), and for both the speed and yaw-rate loops, the sequence of step inputs and the parameter changes between cases.</em></p>
+<section id="field-setup" class="level2">
+<h2 class="anchored" data-anchor-id="field-setup">2. Field setup</h2>
+<p>Steps to confirm at the launch site, before any data collection.</p>
+<ul>
+<li>Launch and recover the USV safely; clear of swimmers and obstructions.</li>
+<li>Establish telemetry link (Mission Planner connected at expected baud).</li>
+<li>Confirm flight mode is <strong>ACRO</strong>.</li>
+<li>Confirm logging is enabled and a new log file starts on each arm (<code>LOG_FILE_DSRMROT = 1</code>).</li>
+<li>Trim and zero check on RC sticks (no commanded motion at center stick).</li>
+</ul>
+</section>
+<section id="experiment-execution" class="level2">
+<h2 class="anchored" data-anchor-id="experiment-execution">3. Experiment execution</h2>
+<p>For each of the three experiments (A → B → C), repeat the same field workflow:</p>
+<ol type="1">
+<li><strong>Load the parameter set</strong> for this experiment via Mission Planner (Config → Full Parameter Tree → Load from file).</li>
+<li><strong>Verify</strong> the relevant <code>ATC_*</code> parameters at the vehicle (Mission Planner shows live values).</li>
+<li><strong>Speed step responses</strong> — see §4.1 for stick technique.</li>
+<li><strong>Yaw-rate step responses</strong> — see §4.2.</li>
+<li><strong>Field quality check</strong> — pull the log, plot the candidate steps, decide keep / repeat (§5).</li>
+<li><strong>Save and label</strong> — note the log filename and parameter values on the test card.</li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Experiment</th>
+<th>Parameter changes from previous</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A — Baseline</strong></td>
+<td>Lab preset configuration; ArduRover stock PID gains; FF off; rate limiters off; throttle baseline off</td>
+<td>First case — fully load the lab baseline <code>.param</code></td>
+</tr>
+<tr class="even">
+<td><strong>B — Feedforward</strong></td>
+<td>Restore <code>ATC_SPEED_FF</code> and <code>ATC_STR_RAT_FF</code> to lab values</td>
+<td>Same PID gains as A</td>
+</tr>
+<tr class="odd">
+<td><strong>C — Tuned</strong></td>
+<td>Adjust <code>ATC_SPEED_P/I/D</code> and <code>ATC_STR_RAT_P/I/D</code> for best response</td>
+<td>FF kept on</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="step-input-technique" class="level2">
+<h2 class="anchored" data-anchor-id="step-input-technique">4. Step-input technique</h2>
+<p>Manual step inputs from the RC stick, with quiet hold periods on either side of each step so the response is clean.</p>
+<section id="speed-throttle-steps" class="level3">
+<h3 class="anchored" data-anchor-id="speed-throttle-steps">4.1 Speed (throttle) steps</h3>
+<ul>
+<li><em>TBD — magnitudes (e.g.&nbsp;50%, 75% stick), hold time before/after, number of repeats per dataset.</em></li>
+<li><em>TBD — open-water distance required for each run.</em></li>
+</ul>
+</section>
+<section id="yaw-rate-steering-steps" class="level3">
+<h3 class="anchored" data-anchor-id="yaw-rate-steering-steps">4.2 Yaw-rate (steering) steps</h3>
+<ul>
+<li><em>TBD — magnitudes (left, right, full deflection), hold time, number of repeats.</em></li>
+<li><em>TBD — pre-step heading and forward speed (does the boat need to be moving?).</em></li>
+</ul>
+</section>
+<section id="common-gotchas" class="level3">
+<h3 class="anchored" data-anchor-id="common-gotchas">4.3 Common gotchas</h3>
+<ul>
+<li><em>TBD — wind / current effect on speed steps</em></li>
+<li><em>TBD — saturation behavior (full stick → control effort clipping)</em></li>
+<li><em>TBD — minimum inter-step gap for the response to settle</em></li>
+</ul>
+</section>
 </section>
 <section id="quality-check-before-leaving-the-field" class="level2">
-<h2 class="anchored" data-anchor-id="quality-check-before-leaving-the-field">Quality Check (Before Leaving the Field)</h2>
-<p><em>TBD — what to confirm in the timeseries plot before deciding the dataset is good enough to keep.</em></p>
+<h2 class="anchored" data-anchor-id="quality-check-before-leaving-the-field">5. Quality check (before leaving the field)</h2>
+<p>Run the visual inspection on the laptop while the boat is still launched, so any failed dataset can be recollected on the spot.</p>
+<ol type="1">
+<li>Pull the latest <code>.BIN</code> log from the autopilot SD card or via Mission Planner.</li>
+<li>Run <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>bin2mat.py</code></a> to convert: produces a <code>.mat</code> file alongside the <code>.BIN</code>.</li>
+<li>Run <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/proc_closedloop_response.m"><code>proc_closedloop_response.m</code></a> in MATLAB to plot the timeseries.</li>
+<li>Check each step in the figure:
+<ul>
+<li><strong>Setpoint reaches the commanded value</strong> (no rate-limited ramp instead of a step)</li>
+<li><strong>Measured response settles</strong> to a steady value within ~10 s</li>
+<li><strong>Control effort is not pinned</strong> at ±1 for an extended period (saturation)</li>
+<li><strong>PIDT / PIDS log channels are present</strong> (PID-internal logging is on)</li>
+<li><strong>No long gaps</strong> in the GPS or STER sample stream</li>
+</ul></li>
+</ol>
+<p>If any check fails for the dataset just collected → recollect before moving on. If it’s a parameter or vehicle issue → resolve, then continue.</p>
+</section>
+<section id="end-of-day" class="level2">
+<h2 class="anchored" data-anchor-id="end-of-day">6. End-of-day</h2>
+<p>Wrap up the field session.</p>
+<ul>
+<li>All six <code>.mat</code> files transferred to the team’s shared location.</li>
+<li>Test card filled in (one row per dataset, with quality-check verdict).</li>
+<li>Vehicle returned to nominal parameter configuration (rate limiters restored, FF restored, throttle baseline restored) — load a <code>.param</code> file with the post-lab nominal values.</li>
+<li>Battery on charger, vehicle stowed.</li>
+</ul>
+</section>
+<section id="hand-off-to-next-week" class="level2">
+<h2 class="anchored" data-anchor-id="hand-off-to-next-week">7. Hand-off to next week</h2>
+<p>Datasets and notes are the input to the Week-8 analysis: process each <code>.mat</code> with <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_stepinfo.m"><code>closedloop_stepinfo.m</code></a> to extract rise time, settling time, overshoot, and steady-state error, then compare across the three experiments.</p>
 
 
 </section>

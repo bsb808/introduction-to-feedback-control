@@ -4,28 +4,56 @@
     "href": "weeks/w07_lab_usv_pid/procedure.html",
     "title": "Procedure",
     "section": "",
-    "text": "← Back to Lab 2 overview"
+    "text": "← Back to Lab 2 overview\nThe lab collects six step-response datasets — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate). The same field workflow runs three times; only the parameter set changes between cases. Quality is checked at the field before each parameter-set move, so problems are caught while the boat is still in the water."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/procedure.html#pre-lab-preparation",
     "href": "weeks/w07_lab_usv_pid/procedure.html#pre-lab-preparation",
     "title": "Procedure",
-    "section": "Pre-Lab Preparation",
-    "text": "Pre-Lab Preparation\nTBD"
+    "section": "1. Pre-lab preparation",
+    "text": "1. Pre-lab preparation\nGet the team, software, and vehicle ready before going to the field.\n\nTeam roles — pilot, ground-station operator, log curator, safety/observer.\nGround laptop ready — Mission Planner installed and connected to the radio.\nParameter files staged — three .param files corresponding to experiments A / B / C, located under utils/ardu_params/.\nVehicle ready — battery charged, props/rudder clear, RC bound, GPS lock confirmed.\nTest card / data sheet — one row per dataset (six total) for noting parameter values, observations, and quality-check verdict."
   },
   {
-    "objectID": "weeks/w07_lab_usv_pid/procedure.html#field-session",
-    "href": "weeks/w07_lab_usv_pid/procedure.html#field-session",
+    "objectID": "weeks/w07_lab_usv_pid/procedure.html#field-setup",
+    "href": "weeks/w07_lab_usv_pid/procedure.html#field-setup",
     "title": "Procedure",
-    "section": "Field Session",
-    "text": "Field Session\nTBD — for each of experiments A (Baseline), B (FF), C (Tuned), and for both the speed and yaw-rate loops, the sequence of step inputs and the parameter changes between cases."
+    "section": "2. Field setup",
+    "text": "2. Field setup\nSteps to confirm at the launch site, before any data collection.\n\nLaunch and recover the USV safely; clear of swimmers and obstructions.\nEstablish telemetry link (Mission Planner connected at expected baud).\nConfirm flight mode is ACRO.\nConfirm logging is enabled and a new log file starts on each arm (LOG_FILE_DSRMROT = 1).\nTrim and zero check on RC sticks (no commanded motion at center stick)."
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid/procedure.html#experiment-execution",
+    "href": "weeks/w07_lab_usv_pid/procedure.html#experiment-execution",
+    "title": "Procedure",
+    "section": "3. Experiment execution",
+    "text": "3. Experiment execution\nFor each of the three experiments (A → B → C), repeat the same field workflow:\n\nLoad the parameter set for this experiment via Mission Planner (Config → Full Parameter Tree → Load from file).\nVerify the relevant ATC_* parameters at the vehicle (Mission Planner shows live values).\nSpeed step responses — see §4.1 for stick technique.\nYaw-rate step responses — see §4.2.\nField quality check — pull the log, plot the candidate steps, decide keep / repeat (§5).\nSave and label — note the log filename and parameter values on the test card.\n\n\n\n\n\n\n\n\n\nExperiment\nParameter changes from previous\nNotes\n\n\n\n\nA — Baseline\nLab preset configuration; ArduRover stock PID gains; FF off; rate limiters off; throttle baseline off\nFirst case — fully load the lab baseline .param\n\n\nB — Feedforward\nRestore ATC_SPEED_FF and ATC_STR_RAT_FF to lab values\nSame PID gains as A\n\n\nC — Tuned\nAdjust ATC_SPEED_P/I/D and ATC_STR_RAT_P/I/D for best response\nFF kept on"
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid/procedure.html#step-input-technique",
+    "href": "weeks/w07_lab_usv_pid/procedure.html#step-input-technique",
+    "title": "Procedure",
+    "section": "4. Step-input technique",
+    "text": "4. Step-input technique\nManual step inputs from the RC stick, with quiet hold periods on either side of each step so the response is clean.\n\n4.1 Speed (throttle) steps\n\nTBD — magnitudes (e.g. 50%, 75% stick), hold time before/after, number of repeats per dataset.\nTBD — open-water distance required for each run.\n\n\n\n4.2 Yaw-rate (steering) steps\n\nTBD — magnitudes (left, right, full deflection), hold time, number of repeats.\nTBD — pre-step heading and forward speed (does the boat need to be moving?).\n\n\n\n4.3 Common gotchas\n\nTBD — wind / current effect on speed steps\nTBD — saturation behavior (full stick → control effort clipping)\nTBD — minimum inter-step gap for the response to settle"
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/procedure.html#quality-check-before-leaving-the-field",
     "href": "weeks/w07_lab_usv_pid/procedure.html#quality-check-before-leaving-the-field",
     "title": "Procedure",
-    "section": "Quality Check (Before Leaving the Field)",
-    "text": "Quality Check (Before Leaving the Field)\nTBD — what to confirm in the timeseries plot before deciding the dataset is good enough to keep."
+    "section": "5. Quality check (before leaving the field)",
+    "text": "5. Quality check (before leaving the field)\nRun the visual inspection on the laptop while the boat is still launched, so any failed dataset can be recollected on the spot.\n\nPull the latest .BIN log from the autopilot SD card or via Mission Planner.\nRun bin2mat.py to convert: produces a .mat file alongside the .BIN.\nRun proc_closedloop_response.m in MATLAB to plot the timeseries.\nCheck each step in the figure:\n\nSetpoint reaches the commanded value (no rate-limited ramp instead of a step)\nMeasured response settles to a steady value within ~10 s\nControl effort is not pinned at ±1 for an extended period (saturation)\nPIDT / PIDS log channels are present (PID-internal logging is on)\nNo long gaps in the GPS or STER sample stream\n\n\nIf any check fails for the dataset just collected → recollect before moving on. If it’s a parameter or vehicle issue → resolve, then continue."
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid/procedure.html#end-of-day",
+    "href": "weeks/w07_lab_usv_pid/procedure.html#end-of-day",
+    "title": "Procedure",
+    "section": "6. End-of-day",
+    "text": "6. End-of-day\nWrap up the field session.\n\nAll six .mat files transferred to the team’s shared location.\nTest card filled in (one row per dataset, with quality-check verdict).\nVehicle returned to nominal parameter configuration (rate limiters restored, FF restored, throttle baseline restored) — load a .param file with the post-lab nominal values.\nBattery on charger, vehicle stowed."
+  },
+  {
+    "objectID": "weeks/w07_lab_usv_pid/procedure.html#hand-off-to-next-week",
+    "href": "weeks/w07_lab_usv_pid/procedure.html#hand-off-to-next-week",
+    "title": "Procedure",
+    "section": "7. Hand-off to next week",
+    "text": "7. Hand-off to next week\nDatasets and notes are the input to the Week-8 analysis: process each .mat with closedloop_stepinfo.m to extract rise time, settling time, overshoot, and steady-state error, then compare across the three experiments."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/architecture.html",
