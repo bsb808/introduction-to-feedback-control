@@ -1,0 +1,173 @@
+<mxfile host="Electron">
+  <diagram name="USV Control Architecture" id="usv-control-arch">
+    <mxGraphModel dx="1764" dy="963" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="10" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;" value="Surge Speed Controller  (ATC_SPEED_*)" vertex="1">
+          <mxGeometry height="30" width="450" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="text;html=1;strokeColor=none;fillColor=#fffde7;align=left;verticalAlign=middle;fontSize=9;fontStyle=2;" value="Signal rates: verify from bin2mat.py output  |  GPS limited by GPS1_RATE_MS (default 200 ms = 5 Hz)" vertex="1">
+          <mxGeometry height="22" width="680" x="20" y="48" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;" value="RC Throttle&#xa;Stick&#xa;[−1, +1]" vertex="1">
+          <mxGeometry height="64" width="80" x="10" y="148" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="× CRUISE_SPEED&#xa;[m/s per unit stick]" vertex="1">
+          <mxGeometry height="50" width="140" x="110" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="ATC_ACCEL_MAX&#xa;(cmd accel limit, m/s²)" vertex="1">
+          <mxGeometry height="50" width="150" x="280" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="LPF: ATC_SPEED_FLTT&#xa;(target speed filter, Hz)" vertex="1">
+          <mxGeometry height="50" width="160" x="460" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=20;fontStyle=1;" value="" vertex="1">
+          <mxGeometry height="20" width="20" x="672" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="17" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=15;fontStyle=1;" value="−" vertex="1">
+          <mxGeometry height="20" width="20" x="652" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="LPF: ATC_SPEED_FLTE&#xa;(error filter, Hz)" vertex="1">
+          <mxGeometry height="50" width="160" x="754" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" value="&lt;b&gt;PID Controller&lt;/b&gt;&#xa;FF :  ATC_SPEED_FF&#xa;P   :  ATC_SPEED_P&#xa;I    :  ATC_SPEED_I        IMAX: ATC_SPEED_IMAX&#xa;D   :  ATC_SPEED_D       LPF:  ATC_SPEED_FLTD" vertex="1">
+          <mxGeometry height="120" width="300" x="954" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="CRUISE_THROTTLE&#xa;(throttle baseline FF)" vertex="1">
+          <mxGeometry height="50" width="150" x="1110" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="21" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=20;fontStyle=1;" value="" vertex="1">
+          <mxGeometry height="25" width="25" x="1302" y="167.5" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;" value="USV Surge Dynamics&#xa;(thruster + hull)" vertex="1">
+          <mxGeometry height="50" width="150" x="1400" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=4;" value="Log: PIDT message&#xa;Fields: Tar, Act, P, I, D, FF, Dmod, Out&#xa;Rate: ~25 Hz" vertex="1">
+          <mxGeometry height="55" width="240" x="984" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="30" edge="1" parent="1" source="12" style="edgeStyle=orthogonalEdgeStyle;" target="13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="31" edge="1" parent="1" source="13" style="edgeStyle=orthogonalEdgeStyle;" target="14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="32" edge="1" parent="1" source="14" style="edgeStyle=orthogonalEdgeStyle;" target="15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="33" edge="1" parent="1" source="15" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="16" value="THR_DesSpeed&#xa;THR msg, ~25 Hz">
+          <mxGeometry relative="1" x="0.1538" y="40" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="34" edge="1" parent="1" source="16" style="edgeStyle=orthogonalEdgeStyle;" target="18" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="35" edge="1" parent="1" source="18" style="edgeStyle=orthogonalEdgeStyle;" target="19" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="36" edge="1" parent="1" source="19" style="edgeStyle=orthogonalEdgeStyle;" target="21" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="37" edge="1" parent="1" source="20" style="edgeStyle=orthogonalEdgeStyle;" target="21" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="38" edge="1" parent="1" source="21" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="22" value="RCOU_C3 (PWM)&#xa;RCOU msg, ~25 Hz">
+          <mxGeometry relative="1" x="-0.0959" y="50" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="39" edge="1" parent="1" source="22" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="16" value="GPS_Spd  |  GPS msg, 5 Hz">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1475" y="350" />
+              <mxPoint x="682" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="40" edge="1" parent="1" source="19" style="edgeStyle=none;dashed=1;strokeColor=#82b366;endArrow=none;startArrow=none;" target="23" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="50" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;" value="Yaw-Rate Controller  (ATC_STR_RAT_*)" vertex="1">
+          <mxGeometry height="30" width="450" x="20" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="51" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;" value="RC Steering&#xa;Stick&#xa;[−1, +1]" vertex="1">
+          <mxGeometry height="64" width="80" x="10" y="518" as="geometry" />
+        </mxCell>
+        <mxCell id="52" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="× ACRO_TURN_RATE&#xa;[deg/s per unit stick]" vertex="1">
+          <mxGeometry height="50" width="140" x="110" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="53" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="ATC_STR_ACC_MAX&#xa;(cmd accel limit, deg/s²)" vertex="1">
+          <mxGeometry height="50" width="150" x="280" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="54" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="LPF: ATC_STR_RAT_FLTT&#xa;(target rate filter, Hz)" vertex="1">
+          <mxGeometry height="50" width="160" x="460" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="55" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=20;fontStyle=1;" value="" vertex="1">
+          <mxGeometry height="25" width="25" x="675" y="537.5" as="geometry" />
+        </mxCell>
+        <mxCell id="56" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=15;fontStyle=1;" value="−" vertex="1">
+          <mxGeometry height="20" width="20" x="655" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="57" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="LPF: ATC_STR_RAT_FLTE&#xa;(error filter, Hz)" vertex="1">
+          <mxGeometry height="50" width="160" x="754" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="58" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" value="&lt;b&gt;PID Controller&lt;/b&gt;&#xa;FF :  ATC_STR_RAT_FF&#xa;P   :  ATC_STR_RAT_P&#xa;I    :  ATC_STR_RAT_I        IMAX: ATC_STR_RAT_IMAX&#xa;D   :  ATC_STR_RAT_D       LPF:  ATC_STR_RAT_FLTD" vertex="1">
+          <mxGeometry height="120" width="300" x="954" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="59" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;arcSize=50;" value="USV Yaw Dynamics&#xa;(rudder + hull)" vertex="1">
+          <mxGeometry height="50" width="150" x="1353" y="518" as="geometry" />
+        </mxCell>
+        <mxCell id="60" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=4;" value="Log: PIDS message&#xa;Fields: Tar, Act, P, I, D, FF, Dmod, Out&#xa;Rate: ~25 Hz" vertex="1">
+          <mxGeometry height="55" width="240" x="984" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="70" edge="1" parent="1" source="51" style="edgeStyle=orthogonalEdgeStyle;" target="52" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="71" edge="1" parent="1" source="52" style="edgeStyle=orthogonalEdgeStyle;" target="53" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="72" edge="1" parent="1" source="53" style="edgeStyle=orthogonalEdgeStyle;" target="54" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="73" edge="1" parent="1" source="54" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="55" value="STER_DesTurnRate&#xa;STER msg, ~25 Hz">
+          <mxGeometry relative="1" x="0.1538" y="40" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="74" edge="1" parent="1" source="55" style="edgeStyle=orthogonalEdgeStyle;" target="57" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="75" edge="1" parent="1" source="57" style="edgeStyle=orthogonalEdgeStyle;" target="58" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="76" edge="1" parent="1" source="58" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="59" value="RCOU_C1 (PWM)&#xa;RCOU msg, ~25 Hz">
+          <mxGeometry relative="1" x="0.3333" y="50" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1380" y="550" />
+              <mxPoint x="1380" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="77" edge="1" parent="1" source="59" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.451;exitY=1.001;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.429;entryY=1.099;entryDx=0;entryDy=0;entryPerimeter=0;" target="55" value="STER_TurnRate  |  STER msg, ~25 Hz">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1421" y="740" />
+              <mxPoint x="686" y="740" />
+              <mxPoint x="686" y="600" />
+            </Array>
+            <mxPoint x="1460" y="568" as="sourcePoint" />
+            <mxPoint x="697" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="78" edge="1" parent="1" source="58" style="edgeStyle=none;dashed=1;strokeColor=#82b366;endArrow=none;startArrow=none;" target="60" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ErFI3WnD5XGcJGhHysFP-79" edge="1" parent="1" source="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

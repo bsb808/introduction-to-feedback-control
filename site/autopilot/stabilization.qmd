@@ -10,7 +10,7 @@ The stabilization layer is the lowest level of ArduRover's control hierarchy. Tw
 ## Architecture
 
 ::: {.callout-note appearance="simple"}
-**Diagram under construction.** Source: `book/w07_lab_usv_pid/chapter/usv_control_architecture.drawio` (edit in [diagrams.net](https://app.diagrams.net)). The SVG below is regenerated from the source.
+**Diagram under construction.** Source: [`site/autopilot/images/usv_stabilization_arch.drawio`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/site/autopilot/images/usv_stabilization_arch.drawio) (edit in [diagrams.net](https://app.diagrams.net) or the VS Code "Draw.io Integration" extension). After editing, re-export the SVG with `drawio --export --format svg --output site/autopilot/images/usv_stabilization_arch.svg site/autopilot/images/usv_stabilization_arch.drawio`.
 :::
 
 ![Speed and yaw-rate stabilization loops](images/usv_stabilization_arch.svg){fig-alt="USV stabilization layer block diagram showing speed and yaw-rate PID loops"}
