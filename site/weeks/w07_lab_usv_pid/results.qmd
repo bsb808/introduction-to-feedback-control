@@ -7,23 +7,50 @@ page-layout: full
 [← Back to Lab 2 overview](index.qmd)
 
 ::: {.callout-note appearance="simple"}
-**Working draft.** Example step-response figures from the three experiments (Base, FeedForward, Tuned), with the speed and yaw-rate channels side by side. Figures are exported from `step_response_metrics.m`.
+**Working draft.** Example step-response figures from the three experiments (Base, FeedForward, Tuned) for the speed and yaw-rate channels. Each case has two figures:
+
+- **Timeseries** — setpoint, measured response, and actuator command across the full step window.
+- **PID internals** — `Tar` / `Act` with metrics text box (top), and the per-term breakdown (`P`, `I`, `D`, `FF`) plus the actuator command (bottom).
+
+A separate **integrator-windup** demonstration on the Base/yaw run shows what happens when the controller is allowed to hold the step long enough for the I term to wind up.
 :::
 
 ## Base
 
-Lab preset configuration: ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. Establishes the un-tuned reference against which **FeedForward** and **Tuned** are compared.
+ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The reference against which **FeedForward** and **Tuned** are compared.
+
+### Speed channel
 
 :::: {.columns}
 ::: {.column width="50%"}
-![Speed step response — Base](images/base_speed.png)
-
-_Observations — TBD (rise time, overshoot, SS error, control-effort behavior)._
+![Base / speed — timeseries (setpoint, measured GPS speed, throttle command)](images/base_speed_response.png)
 :::
 ::: {.column width="50%"}
-![Yaw-rate step response — Base](images/base_yaw.png)
+![Base / speed — PID internals (Tar/Act with metrics; P/I/D/FF terms with actuator command)](images/base_speed_pids.png)
+:::
+::::
 
-_Observations — TBD._
+### Yaw-rate channel
+
+:::: {.columns}
+::: {.column width="50%"}
+![Base / yaw — timeseries (setpoint, measured EKF yaw rate, rudder command)](images/base_yaw_response.png)
+:::
+::: {.column width="50%"}
+![Base / yaw — PID internals (Tar/Act with metrics; P/I/D/FF terms with rudder command)](images/base_yaw_pids.png)
+:::
+::::
+
+### Yaw-rate — integrator windup demonstration
+
+The same Base/yaw configuration as above, but the step input is held long enough for the integrator to wind up. The delayed recovery on the step-back illustrates classic I-term windup.
+
+:::: {.columns}
+::: {.column width="50%"}
+![Base / yaw / windup — timeseries with extended step hold](images/base_yaw_windup_response.png)
+:::
+::: {.column width="50%"}
+![Base / yaw / windup — PID internals; note the I term grows for the duration of the step and dominates the recovery transient](images/base_yaw_windup_pids.png)
 :::
 ::::
 
@@ -31,16 +58,25 @@ _Observations — TBD._
 
 Restored `ATC_SPEED_FF` and `ATC_STR_RAT_FF` to lab values; PID gains unchanged from **Base**.
 
+### Speed channel
+
 :::: {.columns}
 ::: {.column width="50%"}
-![Speed step response — FeedForward](images/feedforward_speed.png)
-
-_Observations — TBD._
+![FeedForward / speed — timeseries](images/ff_speed_response.png)
 :::
 ::: {.column width="50%"}
-![Yaw-rate step response — FeedForward](images/feedforward_yaw.png)
+![FeedForward / speed — PID internals](images/ff_speed_pids.png)
+:::
+::::
 
-_Observations — TBD._
+### Yaw-rate channel
+
+:::: {.columns}
+::: {.column width="50%"}
+![FeedForward / yaw — timeseries](images/ff_yaw_response.png)
+:::
+::: {.column width="50%"}
+![FeedForward / yaw — PID internals](images/ff_yaw_pids.png)
 :::
 ::::
 
@@ -48,22 +84,31 @@ _Observations — TBD._
 
 Adjusted `ATC_SPEED_P/I/D` and `ATC_STR_RAT_P/I/D` for best response; FF kept on.
 
+### Speed channel
+
 :::: {.columns}
 ::: {.column width="50%"}
-![Speed step response — Tuned](images/tuned_speed.png)
-
-_Observations — TBD._
+![Tuned / speed — timeseries](images/tuned_speed_response.png)
 :::
 ::: {.column width="50%"}
-![Yaw-rate step response — Tuned](images/tuned_yaw.png)
+![Tuned / speed — PID internals](images/tuned_speed_pids.png)
+:::
+::::
 
-_Observations — TBD._
+### Yaw-rate channel
+
+:::: {.columns}
+::: {.column width="50%"}
+![Tuned / yaw — timeseries](images/tuned_yaw_response.png)
+:::
+::: {.column width="50%"}
+![Tuned / yaw — PID internals](images/tuned_yaw_pids.png)
 :::
 ::::
 
 ## Summary
 
-_TBD — comparison table across the three experiments for both channels:_
+_TBD — comparison table across the three experiments for both channels. Numbers come from the metrics text box in each PID-internals figure._
 
 | Experiment | Channel | Rise time (s) | Settling (s) | Overshoot (%) | SS error |
 |---|---|---:|---:|---:|---:|
