@@ -1,5 +1,6 @@
 ---
 title: "Stabilization Layer — Speed and Yaw-Rate PID"
+page-layout: full
 ---
 
 [← Back to Autopilot](index.qmd)

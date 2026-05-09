@@ -41,3 +41,7 @@ format:
     html-math-method: mathjax
     link-external-newwindow: true
     link-external-icon: true
+    grid:
+      body-width: 1400px       # default 800; raise the cap so wide monitors are used
+      margin-width: 200px
+      sidebar-width: 200px
