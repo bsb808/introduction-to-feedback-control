@@ -88,7 +88,7 @@ Run the following sequence three times, once per experiment (A → B → C).
     - **Setpoint reaches the commanded value** (no rate-limited ramp instead of a step).
     - **Measured response settles** to a steady value within ~10 s.
     - **Control effort is not pinned** at ±1 for an extended period (saturation).
-    - **PIDS / PIDA log channels are present** (PID-internal logging is on; `PIDS` for speed, `PIDA` for yaw-rate).
+    - **PIDA / PIDS log channels are present** (PID-internal logging is on; `PIDA` for speed, `PIDS` for yaw-rate — the naming is counterintuitive).
     - **No long gaps** in the GPS or STER sample stream.
 16. **If a check fails → recollect that run before changing parameters or moving on.** If it's a parameter or vehicle issue → resolve, then continue.
 17. Save and label both `.mat` files on the test card: filename, parameter values, quality-check verdict.

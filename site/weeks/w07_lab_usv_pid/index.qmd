@@ -49,7 +49,7 @@ For each of the six datasets, you should be able to plot — using [`closedloop_
 
 - **Setpoint** (commanded step) overlaid on **measured response**
 - **Control effort** (normalized throttle or rudder) on a linked time axis
-- **PID internals** (`PIDS_*` for speed, `PIDA_*` for yaw rate) showing target, actual, error, and the P/I/D/FF terms (total controller output is `P + I + D + FF`; ArduPilot does not log a separate `Out` field)
+- **PID internals** (`PIDA_*` for speed, `PIDS_*` for yaw rate — naming is unintuitive; see the [Stabilization Layer](../../autopilot/stabilization.qmd) page) showing target, actual, error, and the P/I/D/FF terms. Total controller output is `P + I + D + FF`; ArduPilot does not log a separate `Out` field.
 
 If those plots look clean — clear step, response settles, no clipping, no logging gaps — the dataset is good. If anything looks off, plan to recollect before leaving the field.
 

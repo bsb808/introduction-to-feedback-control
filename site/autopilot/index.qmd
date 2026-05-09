@@ -29,7 +29,7 @@ The vehicle parameter snapshots (`.param` files) and per-lab baseline configurat
 
 Field-collected ArduPilot `.BIN` logs are processed in two stages before MATLAB analysis:
 
-1. **`.BIN` → `.mat`** — [`utils/ardu_utils/bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py) extracts every numeric field from every message type into a MATLAB `.mat` file. Field names follow `{MSGTYPE}_{field}` (e.g. `GPS_Spd`, `RCOU_C3`, `PIDS_Tar`). Logged ArduPilot parameters are saved as a `params` struct.
+1. **`.BIN` → `.mat`** — [`utils/ardu_utils/bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py) extracts every numeric field from every message type into a MATLAB `.mat` file. Field names follow `{MSGTYPE}_{field}` (e.g. `GPS_Spd`, `RCOU_C3`, `PIDA_Tar`). Logged ArduPilot parameters are saved as a `params` struct.
 2. **MATLAB analysis** — per-lab scripts under `book/wXX_*/code/` load the `.mat` and produce timeseries and metrics.
 
 ## Key Log Channels
@@ -45,8 +45,8 @@ Signals analyzed across the labs:
 | `RCOU_C1` | Rudder command | PWM | Yaw input |
 | `THR_DesSpeed` | Speed setpoint | m/s | PID tuning (Lab 2) |
 | `STER_DesTurnRate` | Yaw-rate setpoint | rad/s | PID tuning (Lab 2) |
-| `PIDS_*` | Speed PID internals | — | PID tuning (Lab 2) |
-| `PIDA_*` | Yaw-rate (attitude) PID internals | — | PID tuning (Lab 2) |
+| `PIDA_*` | Throttle / speed PID internals | — | PID tuning (Lab 2) |
+| `PIDS_*` | Steering / yaw-rate PID internals | — | PID tuning (Lab 2) |
 
 ## More
 

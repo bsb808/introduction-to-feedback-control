@@ -43,7 +43,7 @@
         <mxCell id="22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;" value="USV Surge Dynamics&#xa;(thruster + hull)" vertex="1">
           <mxGeometry height="50" width="150" x="1400" y="155" as="geometry" />
         </mxCell>
-        <mxCell id="23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=4;" value="Log: PIDT message&#xa;Fields: Tar, Act, P, I, D, FF, Dmod, Out&#xa;Rate: ~25 Hz" vertex="1">
+        <mxCell id="23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=4;" value="Log: PIDA message  (Throttle / Speed PID)&#xa;Fields: Tar, Act, Err, P, I, D, FF, DFF, Dmod, SRate, Flags&#xa;Output: P + I + D + FF (no Out field)&#xa;Rate: ~25 Hz" vertex="1">
           <mxGeometry height="55" width="240" x="984" y="260" as="geometry" />
         </mxCell>
         <mxCell id="30" edge="1" parent="1" source="12" style="edgeStyle=orthogonalEdgeStyle;" target="13" value="">
@@ -118,7 +118,7 @@
         <mxCell id="59" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;arcSize=50;" value="USV Yaw Dynamics&#xa;(rudder + hull)" vertex="1">
           <mxGeometry height="50" width="150" x="1353" y="518" as="geometry" />
         </mxCell>
-        <mxCell id="60" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=4;" value="Log: PIDS message&#xa;Fields: Tar, Act, P, I, D, FF, Dmod, Out&#xa;Rate: ~25 Hz" vertex="1">
+        <mxCell id="60" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=4;" value="Log: PIDS message  (Steering / Yaw-Rate PID)&#xa;Fields: Tar, Act, Err, P, I, D, FF, DFF, Dmod, SRate, Flags&#xa;Output: P + I + D + FF (no Out field)&#xa;Rate: ~25 Hz" vertex="1">
           <mxGeometry height="55" width="240" x="984" y="640" as="geometry" />
         </mxCell>
         <mxCell id="70" edge="1" parent="1" source="51" style="edgeStyle=orthogonalEdgeStyle;" target="52" value="">
