@@ -1,20 +1,22 @@
 % Closed-Loop Step Response Analysis
 %
-% Loads an ArduPilot .mat log, plots the setpoint, measured response, control
-% effort, and PID controller internals for a speed or yaw-rate step
-% experiment, then applies stepinfo to quantify rise time, settling time,
-% overshoot, and steady-state error.
+% This example illustrates the processing of the Lab 2 log files to do the
+% following:
+% - Report the 
+% - Plot the entire experiment so the user can identify the step
+% properties.
+% - Isolate the desired step response
 %
-% Calls (all in this directory):
-%   plot_full_response(fname, experiment)
-%   step_response_metrics(fname, experiment, t_step_start, t_step_end, yss[, X])
+% This script uses custom functions from the same directory.  See the
+% individual function documentation for details. 
 
-%% 1 - User Input
+%% Specify the data file and the experiment type
 clear;
 close("all");
 set(0, 'DefaultFigureWindowStyle', 'normal')
-
 fdir = "/home/bsb/WorkingCopies/me2801/data/2026_05_06_lab2_proto/2026_05_06_tuning/";
+fname      = fullfile(fdir, "00000015.BIN_20260506_223900.mat");
+experiment = "speed";   % "speed"  ->  surge (m/s)  |  "yaw"  ->  yaw rate (rad/s)
 
 % Available logs:
 %   A - FF only
@@ -23,14 +25,11 @@ fdir = "/home/bsb/WorkingCopies/me2801/data/2026_05_06_lab2_proto/2026_05_06_tun
 %   B - FF and PID
 %     Speed: 00000015.BIN_20260506_223900.mat
 %     Yaw:   00000017.BIN_20260506_223937.mat
-fname      = fullfile(fdir, "00000015.BIN_20260506_223900.mat");
-experiment = "speed";   % "speed"  ->  surge (m/s)  |  "yaw"  ->  yaw rate (rad/s)
 
-%% 2 - Plot Full Response and Print PID Parameters
+% Plot Full Response and Print PID Parameters
 plot_full_response(fname, experiment);
 
-%% 3 - Step Isolation
-% From the figures above, read off the step boundaries (in elapsed seconds)
+% From the generated figures above, find the step boundaries (in elapsed seconds)
 % and the observed steady-state value of the measurement.
 t_step_start = 3.2;     % elapsed seconds at step onset
 t_step_end   = 13.84;   % elapsed seconds when response has settled

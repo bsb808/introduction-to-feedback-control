@@ -45,8 +45,8 @@ Signals analyzed across the labs:
 | `RCOU_C1` | Rudder command | PWM | Yaw input |
 | `THR_DesSpeed` | Speed setpoint | m/s | PID tuning (Lab 2) |
 | `STER_DesTurnRate` | Yaw-rate setpoint | rad/s | PID tuning (Lab 2) |
-| `PIDT_*` | Speed PID internals | — | PID tuning (Lab 2) |
-| `PIDS_*` | Yaw-rate PID internals | — | PID tuning (Lab 2) |
+| `PIDS_*` | Speed PID internals | — | PID tuning (Lab 2) |
+| `PIDA_*` | Yaw-rate (attitude) PID internals | — | PID tuning (Lab 2) |
 
 ## More
 

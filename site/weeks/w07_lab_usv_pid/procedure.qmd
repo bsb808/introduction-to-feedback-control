@@ -12,6 +12,10 @@ title: "Procedure"
 - The same field workflow runs three times; only the parameter set changes between cases.
 - **Quality is checked at the field** before each parameter-set change, so problems are caught while the boat is still in the water.
 
+::: {.callout-tip appearance="simple"}
+**Plan for two field sessions.** Getting clean step responses on the first day is rare — the first session typically surfaces issues (vehicle setup, parameter staging, pilot/scribe rhythm) that need fixing before clean data lands on a second day. Build in time between sessions for laptop-side processing.
+:::
+
 ## 1. Pre-lab preparation
 
 ### 1.1 Day before
@@ -24,9 +28,9 @@ title: "Procedure"
 - **Test card / data sheet printed** — one row per dataset (six total) for parameter values, observations, and quality-check verdict.
 - **Parameter files staged on the laptop.** You are given the **baseline** `.param` for experiment A.
 - **Roles:**
-  - **Planner** — drives Mission Planner;
-  - **Scribe** — keeps the test card; records UTC time and intent at every arming event.
-  - **Pilot** — drives the boat with the RC transmitter; executes the step inputs.
+  - **Planner** — drives Mission Planner: monitors ARM and mode state, watches the real-time tuning graphs, and saves a timestamped parameter export at the start of each run.
+  - **Scribe** — keeps the test card and records UTC time + intent at every arming event. The scribe's notes are what makes the resulting tens of `.mat` files navigable during post-processing.
+  - **Pilot** — drives the boat with the RC transmitter and executes the step inputs that exercise the closed-loop controllers.
 
 ## 2. Shore setup
 
@@ -57,7 +61,7 @@ Run the following sequence three times, once per experiment (A → B → C).
 #### Speed (throttle) step run — one arm-disarm cycle
 
 3. Pilot brings the USV to **open water** and to **rest**.
-4. Pilot **disarms then re-arms** (closes the previous log, opens a fresh one). Scribe records UTC time + intent (e.g. *"Experiment A, surge step"*).
+4. **Planner saves the current parameter file** to the laptop with a timestamp in the filename (Mission Planner → Config → Full Parameter Tree → Save). Pilot then **disarms and re-arms** (closes the previous log, opens a fresh one). Scribe records UTC time + intent (e.g. *"Experiment A, surge step"*).
 5. Pilot switches the autopilot into **ACRO** mode. **Planner confirms ACRO** in Mission Planner before the pilot proceeds.
 6. **Repeat 3–5 times:**
    - Apply a step throttle command at **~50% of full stick deflection** (mid-range — keeps the actuator out of saturation while staying visible above noise).
@@ -67,11 +71,11 @@ Run the following sequence three times, once per experiment (A → B → C).
 
 #### Yaw-rate (steering) step run — one arm-disarm cycle
 
-8. Pilot brings the boat to a **low, approximately constant surge speed**. The rudder needs forward water flow to produce a turning moment — at zero surge speed a steering command does nothing useful.
-9. Pilot **disarms then re-arms**. Scribe records UTC time + intent (e.g. *"Experiment A, yaw step"*).
+8. Pilot brings the boat to a **low, approximately constant surge speed** — typically around **~50% throttle** so the rudder has flow but the boat isn't fighting acceleration during the test. (At zero surge speed a steering command does nothing useful — the rudder needs forward water flow to produce a turning moment.)
+9. **Planner saves the current parameter file** with a timestamp. Pilot then **disarms and re-arms**. Scribe records UTC time + intent (e.g. *"Experiment A, yaw step"*).
 10. Pilot switches the autopilot into **ACRO** mode. **Planner confirms ACRO** before the pilot proceeds.
 11. **Repeat 3–5 times, alternating direction** (positive then negative stick deflection so any asymmetry is visible):
-    - Apply a step steering command. Use the **same step fraction** in every experiment (A, B, C) so the metrics are directly comparable.
+    - Apply a step steering command at roughly **~50% rudder**. Use the **same step fraction** in every experiment (A, B, C) so the metrics are directly comparable.
     - **Hold until the yaw rate settles** to a steady value.
     - Scribe records the surge speed at the time of each step, the step fraction, and the direction.
 12. Pilot **disarms** to close the yaw-trial log.
@@ -84,7 +88,7 @@ Run the following sequence three times, once per experiment (A → B → C).
     - **Setpoint reaches the commanded value** (no rate-limited ramp instead of a step).
     - **Measured response settles** to a steady value within ~10 s.
     - **Control effort is not pinned** at ±1 for an extended period (saturation).
-    - **PIDT / PIDS log channels are present** (PID-internal logging is on).
+    - **PIDS / PIDA log channels are present** (PID-internal logging is on; `PIDS` for speed, `PIDA` for yaw-rate).
     - **No long gaps** in the GPS or STER sample stream.
 16. **If a check fails → recollect that run before changing parameters or moving on.** If it's a parameter or vehicle issue → resolve, then continue.
 17. Save and label both `.mat` files on the test card: filename, parameter values, quality-check verdict.
@@ -95,14 +99,17 @@ Run the following sequence three times, once per experiment (A → B → C).
 |---|---|---|
 | **A — Baseline** | Lab preset configuration; ArduRover stock PID gains; FF off; rate limiters off; throttle baseline off | First case — fully load the lab baseline `.param` |
 | **B — Feedforward** | Restore `ATC_SPEED_FF` and `ATC_STR_RAT_FF` to lab values | Same PID gains as A |
-| **C — Tuned** | Adjust `ATC_SPEED_P/I/D` and `ATC_STR_RAT_P/I/D` for best response | FF kept on |
+| **C — Tuned** | Adjust `ATC_SPEED_P/I/D` and `ATC_STR_RAT_P/I/D` for best response | FF kept on. Use Mission Planner's real-time tuning graphs to iterate on candidate gains; only execute the full arm-disarm logging cycle (steps 3–17) for the gain values you decide to keep. |
 
 ### 3.4 Common gotchas
 
+- **Don't change parameters while ARMed.** Parameter changes get baked into the active log in a way that makes it hard to verify what was active when. Disarm, change, save the new param file, then re-arm.
+- **It's easy to forget ACRO.** A test in MANUAL looks identical to one in ACRO from the pilot's perspective, but the closed-loop controllers aren't engaged. The planner's ACRO confirmation in step 5 / step 10 is the safety net — don't skip it.
 - **Inter-step gap too short.** Between repeats within a run, allow the response to fully settle (return to rest, or to baseline yaw rate) before the next step. A short gap mixes one step's tail into the next step's start.
 - **Saturation.** If the control effort pins at ±1 (full PWM) for an extended period, what you're measuring is the *saturated* dynamics, not the linear closed-loop response. Drop the step magnitude — or, in experiment C, gain authority through tuning.
 - **Same step fraction across A / B / C.** Comparing rise time, overshoot, and steady-state error across experiments only makes sense if the input is the same magnitude every time.
 - **One channel per arm-disarm cycle.** Don't intermingle speed and yaw steps in the same log — it makes the MATLAB inspection harder than it needs to be.
+- **Two timezones.** ArduPilot logs and the post-processed `.mat` filenames are in **UTC**. Scribe notes are in local time. The post-processing step adds the UTC stamp to the filename automatically; the scribe should record UTC at the field too so the two match without arithmetic later.
 
 ## 4. End-of-day
 
