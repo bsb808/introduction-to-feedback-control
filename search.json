@@ -4,56 +4,42 @@
     "href": "weeks/w07_lab_usv_pid/procedure.html",
     "title": "Procedure",
     "section": "",
-    "text": "← Back to Lab 2 overview\nThe lab collects six step-response datasets — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate)% CLAUDE: Change to a bullet point list. The same field workflow runs three times; only the parameter set changes between cases. Quality is checked at the field before each parameter-set move, so problems are caught while the boat is still in the water."
+    "text": "← Back to Lab 2 overview"
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/procedure.html#pre-lab-preparation",
     "href": "weeks/w07_lab_usv_pid/procedure.html#pre-lab-preparation",
     "title": "Procedure",
     "section": "1. Pre-lab preparation",
-    "text": "1. Pre-lab preparation\n% CLAUDE: We need two things here. Day before and day-of prep. The former is to make sure you have your boat, 900 MHz radio, and R/C transmitter and ground laptop ready to go.\n- Team roles — planner (Mission Planner operator) scribe and pilot. - Ground laptop ready — Mission Planner installed and connected to the radio. - Parameter files staged — three .param files corresponding to experiments A / B / C, located under utils/ardu_params/. % CLAUDE: They are only given the baseline .param file; they have to edit it to create the other two. - Vehicle ready — battery charged, props/rudder clear, RC bound, GPS lock confirmed. - Test card / data sheet — one row per dataset (six total) for noting parameter values, observations, and quality-check verdict."
+    "text": "1. Pre-lab preparation\n\n1.1 Day before\n\nCollect: Boat, 900 MHz radio, R/C transmitter, ground laptop (with Mission Planner).\nCharge: Batteries for vehicle propulsion, autopilot, R/C transmitter, ground laptop.\n\n\n\n1.2 Day of\n\nTest card / data sheet printed — one row per dataset (six total) for parameter values, observations, and quality-check verdict.\nParameter files staged on the laptop. You are given the baseline .param for experiment A.\nRoles:\n\nPlanner — drives Mission Planner;\nScribe — keeps the test card; records UTC time and intent at every arming event.\nPilot — drives the boat with the RC transmitter; executes the step inputs."
   },
   {
-    "objectID": "weeks/w07_lab_usv_pid/procedure.html#field-setup",
-    "href": "weeks/w07_lab_usv_pid/procedure.html#field-setup",
+    "objectID": "weeks/w07_lab_usv_pid/procedure.html#shore-setup",
+    "href": "weeks/w07_lab_usv_pid/procedure.html#shore-setup",
     "title": "Procedure",
-    "section": "2. Field setup",
-    "text": "2. Field setup\nSteps to confirm at the launch site, before any data collection.\n\nLaunch and recover the USV safely; clear of swimmers and obstructions.\nEstablish telemetry link (Mission Planner connected at expected baud).\nConfirm flight mode is ACRO.\nConfirm logging is enabled and a new log file starts on each arm (LOG_FILE_DSRMROT = 1).\nTrim and zero check on RC sticks (no commanded motion at center stick)."
+    "section": "2. Shore setup",
+    "text": "2. Shore setup\nSteps to confirm at the launch site, before any data collection.\n\nEstablish telemetry link with Mission Planner.\nLoad the baseline .param file and confirm the relevant ATC_* parameters are at the expected values. See the Stabilization Layer reference for what each parameter does.\nConfirm you can ARM and switch from MANUAL to ACRO modes.\nYou may need to re-bind the RC transmitter and/or calibrate sensors."
   },
   {
-    "objectID": "weeks/w07_lab_usv_pid/procedure.html#experiment-execution",
-    "href": "weeks/w07_lab_usv_pid/procedure.html#experiment-execution",
+    "objectID": "weeks/w07_lab_usv_pid/procedure.html#setup-and-execute-experiments",
+    "href": "weeks/w07_lab_usv_pid/procedure.html#setup-and-execute-experiments",
     "title": "Procedure",
-    "section": "3. Experiment execution",
-    "text": "3. Experiment execution\nFor each of the three experiments (A → B → C), repeat the same field workflow:\n\nLoad the parameter set for this experiment via Mission Planner (Config → Full Parameter Tree → Load from file).\nVerify the relevant ATC_* parameters at the vehicle (Mission Planner shows live values).\nSpeed step responses — see §4.1 for stick technique.\nYaw-rate step responses — see §4.2.\nField quality check — pull the log, plot the candidate steps, decide keep / repeat (§5).\nSave and label — note the log filename and parameter values on the test card.\n\n\n\n\n\n\n\n\n\nExperiment\nParameter changes from previous\nNotes\n\n\n\n\nA — Baseline\nLab preset configuration; ArduRover stock PID gains; FF off; rate limiters off; throttle baseline off\nFirst case — fully load the lab baseline .param\n\n\nB — Feedforward\nRestore ATC_SPEED_FF and ATC_STR_RAT_FF to lab values\nSame PID gains as A\n\n\nC — Tuned\nAdjust ATC_SPEED_P/I/D and ATC_STR_RAT_P/I/D for best response\nFF kept on"
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/procedure.html#step-input-technique",
-    "href": "weeks/w07_lab_usv_pid/procedure.html#step-input-technique",
-    "title": "Procedure",
-    "section": "4. Step-input technique",
-    "text": "4. Step-input technique\nManual step inputs from the RC stick, with quiet hold periods on either side of each step so the response is clean.\n\n4.1 Speed (throttle) steps\n\nTBD — magnitudes (e.g. 50%, 75% stick), hold time before/after, number of repeats per dataset.\nTBD — open-water distance required for each run.\n\n\n\n4.2 Yaw-rate (steering) steps\n\nTBD — magnitudes (left, right, full deflection), hold time, number of repeats.\nTBD — pre-step heading and forward speed (does the boat need to be moving?).\n\n\n\n4.3 Common gotchas\n\nTBD — wind / current effect on speed steps\nTBD — saturation behavior (full stick → control effort clipping)\nTBD — minimum inter-step gap for the response to settle"
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/procedure.html#quality-check-before-leaving-the-field",
-    "href": "weeks/w07_lab_usv_pid/procedure.html#quality-check-before-leaving-the-field",
-    "title": "Procedure",
-    "section": "5. Quality check (before leaving the field)",
-    "text": "5. Quality check (before leaving the field)\nRun the visual inspection on the laptop while the boat is still launched, so any failed dataset can be recollected on the spot.\n\nPull the latest .BIN log from the autopilot SD card or via Mission Planner.\nRun bin2mat.py to convert: produces a .mat file alongside the .BIN.\nRun proc_closedloop_response.m in MATLAB to plot the timeseries.\nCheck each step in the figure:\n\nSetpoint reaches the commanded value (no rate-limited ramp instead of a step)\nMeasured response settles to a steady value within ~10 s\nControl effort is not pinned at ±1 for an extended period (saturation)\nPIDT / PIDS log channels are present (PID-internal logging is on)\nNo long gaps in the GPS or STER sample stream\n\n\nIf any check fails for the dataset just collected → recollect before moving on. If it’s a parameter or vehicle issue → resolve, then continue."
+    "section": "3. Setup and execute experiments",
+    "text": "3. Setup and execute experiments\nThe lab cycles through three experiments — A (Baseline), B (Feedforward), C (Tuned) — applying the same procedure to each. Only the parameter set changes between cases (§3.4).\n\n3.1 Per-arm rhythm and logging\nThe autopilot starts a new log file every time the pilot arms it. Treat each arm-disarm cycle as one experimental purpose — one cycle for the speed step trials, one for the yaw-rate trials. This keeps each .mat file scoped to a single channel, which makes the MATLAB time-series easier to inspect. Expect to accumulate dozens of .mat files over a session; the scribe’s notes — UTC time (with seconds) plus a brief intent description at every arm — are how you map each .mat back to what was being tested. The post-processed .mat filename includes the UTC timestamp.\n\n\n3.2 Procedure for each experiment\nRun the following sequence three times, once per experiment (A → B → C).\n\nSet up the experiment\n\nChange the parameter set for this experiment via Mission Planner (Config → Full Parameter Tree). For experiment A, load the baseline .param. For B and C, load the edited copies you prepared during pre-lab prep.\nVerify the relevant ATC_* parameters at the vehicle. Mission Planner shows live values — see the Stabilization Layer reference for what each parameter does and which ones change between experiments.\n\n\n\nSpeed (throttle) step run — one arm-disarm cycle\n\nPilot brings the USV to open water and to rest.\nPilot disarms then re-arms (closes the previous log, opens a fresh one). Scribe records UTC time + intent (e.g. “Experiment A, surge step”).\nPilot switches the autopilot into ACRO mode. Planner confirms ACRO in Mission Planner before the pilot proceeds.\nRepeat 3–5 times:\n\nApply a step throttle command at ~50% of full stick deflection (mid-range — keeps the actuator out of saturation while staying visible above noise).\nHold for 20–30 s so the surge response settles into a clear steady value.\nReturn throttle to zero; allow the boat to come back to rest before the next repeat.\n\nPilot disarms to close the speed-trial log.\n\n\n\nYaw-rate (steering) step run — one arm-disarm cycle\n\nPilot brings the boat to a low, approximately constant surge speed. The rudder needs forward water flow to produce a turning moment — at zero surge speed a steering command does nothing useful.\nPilot disarms then re-arms. Scribe records UTC time + intent (e.g. “Experiment A, yaw step”).\nPilot switches the autopilot into ACRO mode. Planner confirms ACRO before the pilot proceeds.\nRepeat 3–5 times, alternating direction (positive then negative stick deflection so any asymmetry is visible):\n\nApply a step steering command. Use the same step fraction in every experiment (A, B, C) so the metrics are directly comparable.\nHold until the yaw rate settles to a steady value.\nScribe records the surge speed at the time of each step, the step fraction, and the direction.\n\nPilot disarms to close the yaw-trial log.\n\n\n\nField quality check (before changing parameters or leaving the field)\n\nPull both .BIN logs (SD card or via Mission Planner). Convert each with bin2mat.py.\nPlot in MATLAB with proc_closedloop_response.m.\nFor each step in the figure, verify:\n\nSetpoint reaches the commanded value (no rate-limited ramp instead of a step).\nMeasured response settles to a steady value within ~10 s.\nControl effort is not pinned at ±1 for an extended period (saturation).\nPIDT / PIDS log channels are present (PID-internal logging is on).\nNo long gaps in the GPS or STER sample stream.\n\nIf a check fails → recollect that run before changing parameters or moving on. If it’s a parameter or vehicle issue → resolve, then continue.\nSave and label both .mat files on the test card: filename, parameter values, quality-check verdict.\n\n\n\n\n3.3 What changes between experiments\n\n\n\n\n\n\n\n\nExperiment\nParameter changes from previous\nNotes\n\n\n\n\nA — Baseline\nLab preset configuration; ArduRover stock PID gains; FF off; rate limiters off; throttle baseline off\nFirst case — fully load the lab baseline .param\n\n\nB — Feedforward\nRestore ATC_SPEED_FF and ATC_STR_RAT_FF to lab values\nSame PID gains as A\n\n\nC — Tuned\nAdjust ATC_SPEED_P/I/D and ATC_STR_RAT_P/I/D for best response\nFF kept on\n\n\n\n\n\n3.4 Common gotchas\n\nInter-step gap too short. Between repeats within a run, allow the response to fully settle (return to rest, or to baseline yaw rate) before the next step. A short gap mixes one step’s tail into the next step’s start.\nSaturation. If the control effort pins at ±1 (full PWM) for an extended period, what you’re measuring is the saturated dynamics, not the linear closed-loop response. Drop the step magnitude — or, in experiment C, gain authority through tuning.\nSame step fraction across A / B / C. Comparing rise time, overshoot, and steady-state error across experiments only makes sense if the input is the same magnitude every time.\nOne channel per arm-disarm cycle. Don’t intermingle speed and yaw steps in the same log — it makes the MATLAB inspection harder than it needs to be."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/procedure.html#end-of-day",
     "href": "weeks/w07_lab_usv_pid/procedure.html#end-of-day",
     "title": "Procedure",
-    "section": "6. End-of-day",
-    "text": "6. End-of-day\nWrap up the field session.\n\nAll six .mat files transferred to the team’s shared location.\nTest card filled in (one row per dataset, with quality-check verdict).\nVehicle returned to nominal parameter configuration (rate limiters restored, FF restored, throttle baseline restored) — load a .param file with the post-lab nominal values.\nBattery on charger, vehicle stowed."
+    "section": "4. End-of-day",
+    "text": "4. End-of-day\nWrap up the field session.\n\nAll six .mat files transferred to the team’s shared location.\nTest card filled in (one row per dataset, with quality-check verdict).\nVehicle returned to nominal parameter configuration (rate limiters restored, FF restored, throttle baseline restored) — load a .param file with the post-lab nominal values.\nBattery on charger, vehicle stowed."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/procedure.html#hand-off-to-next-week",
     "href": "weeks/w07_lab_usv_pid/procedure.html#hand-off-to-next-week",
     "title": "Procedure",
-    "section": "7. Hand-off to next week",
-    "text": "7. Hand-off to next week\nDatasets and notes are the input to the Week-8 analysis: process each .mat with closedloop_stepinfo.m to extract rise time, settling time, overshoot, and steady-state error, then compare across the three experiments."
+    "section": "5. Hand-off to next week",
+    "text": "5. Hand-off to next week\nDatasets and notes are the input to the Week-8 analysis: process each .mat with closedloop_stepinfo.m to extract rise time, settling time, overshoot, and steady-state error, then compare across the three experiments."
   },
   {
     "objectID": "syllabus.html",
