@@ -30,7 +30,7 @@ The lab tunes the two innermost feedback loops in ArduRover's ACRO mode:
 - **Speed (surge) loop** — PID under `ATC_SPEED_*`, target from RC throttle scaled by `CRUISE_SPEED`, measurement from GPS.
 - **Yaw-rate loop** — PID under `ATC_STR_RAT_*`, target from RC steering scaled by `ACRO_TURN_RATE`, measurement from EKF/IMU.
 
-Block diagram, parameter list, and logging channels are in **[Architecture details](architecture.qmd)**.
+For the block diagram, full parameter tables, and DataFlash log channel reference, see the centralized **[Autopilot → Stabilization Layer](../../autopilot/stabilization.qmd)** page. The lab-specific framing — which `ATC_*` parameters change between experiments A / B / C, and which stay fixed — is in §3 of the [Procedure](procedure.qmd).
 
 ## Procedure overview
 

@@ -8,15 +8,15 @@ title: "Procedure"
 **Working draft.** Procedure is being refined as the lab runs this quarter; expect updates day-to-day.
 :::
 
-The lab collects six step-response datasets — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate). The same field workflow runs three times; only the parameter set changes between cases. Quality is checked at the field before each parameter-set move, so problems are caught while the boat is still in the water.
+The lab collects six step-response datasets — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate)% CLAUDE: Change to a bullet point list. 
+The same field workflow runs three times; only the parameter set changes between cases. Quality is checked at the field before each parameter-set move, so problems are caught while the boat is still in the water.
 
 ## 1. Pre-lab preparation
 
-Get the team, software, and vehicle ready before going to the field.
-
-- **Team roles** — pilot, ground-station operator, log curator, safety/observer.
+% CLAUDE: We need two things here.   Day before and day-of prep.  The former is to make sure you have your boat, 900 MHz radio, and R/C transmitter and ground laptop ready to go.  
+- **Team roles** — planner (Mission Planner operator) scribe and pilot. 
 - **Ground laptop ready** — Mission Planner installed and connected to the radio.
-- **Parameter files staged** — three `.param` files corresponding to experiments A / B / C, located under `utils/ardu_params/`.
+- **Parameter files staged** — three `.param` files corresponding to experiments A / B / C, located under `utils/ardu_params/`. % CLAUDE: They are only given the baseline `.param` file; they have to edit it to create the other two.
 - **Vehicle ready** — battery charged, props/rudder clear, RC bound, GPS lock confirmed.
 - **Test card / data sheet** — one row per dataset (six total) for noting parameter values, observations, and quality-check verdict.
 
