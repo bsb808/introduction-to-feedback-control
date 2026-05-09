@@ -4,6 +4,7 @@ project:
   render:
     - "*.qmd"
     - "weeks/**/*.qmd"
+    - "autopilot/**/*.qmd"
   resources:
     - CNAME
 
@@ -23,6 +24,8 @@ website:
         text: Schedule
       - href: assignments.qmd
         text: Assignments
+      - href: autopilot/index.qmd
+        text: Autopilot
     right:
       - icon: github
         href: https://github.com/bsb808/introduction-to-feedback-control

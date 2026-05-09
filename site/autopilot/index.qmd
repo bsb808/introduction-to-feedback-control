@@ -1,0 +1,57 @@
+---
+title: "Autopilot"
+subtitle: "Reference material for the USV labs"
+---
+
+::: {.callout-note appearance="simple"}
+Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, Lab 2 PID tuning, Lab 3 navigation).
+:::
+
+## What we use
+
+| | |
+|---|---|
+| **Vehicle** | 1.1 m single-screw USV, ~5 kg |
+| **Autopilot software** | ArduRover V4.6.3 (commit `3fc7011a`) |
+| **GPS** | HERE3 via DroneCAN |
+| **Ground station** | Mission Planner |
+
+## Documentation
+
+- **[ArduPilot doc references](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md)** — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis).
+- **Control architecture** — speed and yaw-rate loop block diagram. Source at `book/w07_lab_usv_pid/chapter/usv_control_architecture.drawio`.
+
+## Parameters
+
+The vehicle parameter snapshots (`.param` files) and per-lab baseline configurations live in [`utils/ardu_params/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/utils/ardu_params). See the [README](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md) there for which file corresponds to which lab and how to load it via Mission Planner.
+
+## Log Processing Pipeline
+
+Field-collected ArduPilot `.BIN` logs are processed in two stages before MATLAB analysis:
+
+1. **`.BIN` → `.mat`** — [`utils/ardu_utils/bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py) extracts every numeric field from every message type into a MATLAB `.mat` file. Field names follow `{MSGTYPE}_{field}` (e.g. `GPS_Spd`, `RCOU_C3`, `PIDS_Tar`). Logged ArduPilot parameters are saved as a `params` struct.
+2. **MATLAB analysis** — per-lab scripts under `book/wXX_*/code/` load the `.mat` and produce timeseries and metrics.
+
+## Key Log Channels
+
+Signals analyzed across the labs:
+
+| Channel | Variable | Units | Used in |
+|---|---|---|---|
+| `GPS_Spd` | Ground speed | m/s | Sysid (Lab 1), PID tuning (Lab 2) |
+| `IMU_GyrZ` | Yaw rate (raw) | rad/s | Sysid (Lab 1) |
+| `STER_TurnRate` | Yaw rate (EKF) | rad/s | PID tuning (Lab 2) |
+| `RCOU_C3` | Throttle command | PWM | Surge input |
+| `RCOU_C1` | Rudder command | PWM | Yaw input |
+| `THR_DesSpeed` | Speed setpoint | m/s | PID tuning (Lab 2) |
+| `STER_DesTurnRate` | Yaw-rate setpoint | rad/s | PID tuning (Lab 2) |
+| `PIDT_*` | Speed PID internals | — | PID tuning (Lab 2) |
+| `PIDS_*` | Yaw-rate PID internals | — | PID tuning (Lab 2) |
+
+## More
+
+_Sub-pages added as labs need them:_
+
+- _Setup / connecting to the vehicle — TBD_
+- _Mission Planner cheatsheet — TBD_
+- _Common log analysis recipes — TBD_
