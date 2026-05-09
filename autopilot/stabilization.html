@@ -194,12 +194,12 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="logged-channels-a-clarification-on-naming" class="level2">
 <h2 class="anchored" data-anchor-id="logged-channels-a-clarification-on-naming">Logged channels — a clarification on naming</h2>
-<p>The signal names referenced throughout this page (<code>THR_DesSpeed</code>, <code>STER_TurnRate</code>, <code>RCOU_C3</code>, <code>PIDS_*</code>, <code>PIDA_*</code>) are <strong>ArduPilot DataFlash log message types</strong> — the binary <code>.BIN</code> log format that ArduPilot writes to the SD card during a flight/run. They are <em>not</em> MAVLink message names, although several MAVLink messages carry overlapping data.</p>
+<p>The signal names referenced throughout this page (<code>THR_DesSpeed</code>, <code>STER_TurnRate</code>, <code>RCOU_C3</code>, <code>PIDA_*</code>, <code>PIDS_*</code>) are <strong>ArduPilot DataFlash log message types</strong> — the binary <code>.BIN</code> log format that ArduPilot writes to the SD card during a flight/run. They are <em>not</em> MAVLink message names, although several MAVLink messages carry overlapping data.</p>
 <ul>
 <li><strong>DataFlash log (BIN file)</strong> — onboard binary log, complete record of internal state. We extract these with <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>bin2mat.py</code></a> and analyze them in MATLAB.</li>
 <li><strong>MAVLink</strong> — telemetry/command protocol between vehicle and ground station (Mission Planner). Subset of the same data, sent over the radio link.</li>
 </ul>
-<p>For the PID-tuning labs we use the DataFlash log: it has higher rate, more channels, and full PID-internal state via <code>PIDS_*</code> (speed) and <code>PIDA_*</code> (yaw-rate / attitude).</p>
+<p>For the PID-tuning labs we use the DataFlash log: it has higher rate, more channels, and full PID-internal state via <code>PIDA_*</code> (throttle / speed) and <code>PIDS_*</code> (steering / yaw-rate). The naming is unintuitive — <code>PIDS</code> is <em>steering</em>, not speed — and traces back to the way Rover’s PID logging slots were defined in <a href="https://github.com/ArduPilot/ardupilot/blob/master/Rover/Log.cpp"><code>Rover/Log.cpp</code></a>. An older <code>PIDT_*</code> prefix appeared in earlier firmware but is no longer emitted.</p>
 <hr>
 </section>
 <section id="speed-surge-control" class="level2">
@@ -421,33 +421,33 @@ ul.task-list li input[type="checkbox"] {
 <td>PWM</td>
 </tr>
 <tr class="even">
-<td><code>PIDS_Tar</code></td>
+<td><code>PIDA_Tar</code></td>
 <td>PID’s internal target (after rate limiting, when active)</td>
 <td>m/s</td>
 </tr>
 <tr class="odd">
-<td><code>PIDS_Act</code></td>
+<td><code>PIDA_Act</code></td>
 <td>PID’s input measurement</td>
 <td>m/s</td>
 </tr>
 <tr class="even">
-<td><code>PIDS_Err</code></td>
+<td><code>PIDA_Err</code></td>
 <td>Target − Act, after error filter</td>
 <td>m/s</td>
 </tr>
 <tr class="odd">
-<td><code>PIDS_P</code>, <code>_I</code>, <code>_D</code>, <code>_FF</code></td>
+<td><code>PIDA_P</code>, <code>_I</code>, <code>_D</code>, <code>_FF</code></td>
 <td>Individual PID term outputs</td>
 <td>normalized</td>
 </tr>
 <tr class="even">
-<td><code>PIDS_DFF</code>, <code>_Dmod</code>, <code>_SRate</code>, <code>_Flags</code></td>
+<td><code>PIDA_DFF</code>, <code>_Dmod</code>, <code>_SRate</code>, <code>_Flags</code></td>
 <td>Auxiliary fields (advanced features and limiters)</td>
 <td>—</td>
 </tr>
 </tbody>
 </table>
-<p>ArduPilot does <strong>not</strong> log a separate <code>Out</code> field — the total controller output is <code>P + I + D + FF</code> (optionally <code>+ DFF</code>). <code>THR_DesSpeed</code> and <code>PIDS_Tar</code> differ only when an upstream filter or rate limiter is active. With the lab settings (acceleration limiters disabled, FLTT off), the two are essentially identical.</p>
+<p>ArduPilot does <strong>not</strong> log a separate <code>Out</code> field — the total controller output is <code>P + I + D + FF</code> (optionally <code>+ DFF</code>). <code>THR_DesSpeed</code> and <code>PIDA_Tar</code> differ only when an upstream filter or rate limiter is active. With the lab settings (acceleration limiters disabled, FLTT off), the two are essentially identical.</p>
 </section>
 <section id="step-response-setup-for-this-lab" class="level3">
 <h3 class="anchored" data-anchor-id="step-response-setup-for-this-lab">Step-response setup for this lab</h3>
@@ -705,27 +705,27 @@ ul.task-list li input[type="checkbox"] {
 <td>PWM</td>
 </tr>
 <tr class="even">
-<td><code>PIDA_Tar</code></td>
+<td><code>PIDS_Tar</code></td>
 <td>PID’s internal target (after rate limiting, when active)</td>
 <td>rad/s</td>
 </tr>
 <tr class="odd">
-<td><code>PIDA_Act</code></td>
+<td><code>PIDS_Act</code></td>
 <td>PID’s input measurement</td>
 <td>rad/s</td>
 </tr>
 <tr class="even">
-<td><code>PIDA_Err</code></td>
+<td><code>PIDS_Err</code></td>
 <td>Target − Act, after error filter</td>
 <td>rad/s</td>
 </tr>
 <tr class="odd">
-<td><code>PIDA_P</code>, <code>_I</code>, <code>_D</code>, <code>_FF</code></td>
+<td><code>PIDS_P</code>, <code>_I</code>, <code>_D</code>, <code>_FF</code></td>
 <td>Individual PID term outputs</td>
 <td>normalized</td>
 </tr>
 <tr class="even">
-<td><code>PIDA_DFF</code>, <code>_Dmod</code>, <code>_SRate</code>, <code>_Flags</code></td>
+<td><code>PIDS_DFF</code>, <code>_Dmod</code>, <code>_SRate</code>, <code>_Flags</code></td>
 <td>Auxiliary fields</td>
 <td>—</td>
 </tr>

@@ -196,7 +196,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="log-processing-pipeline">Log Processing Pipeline</h2>
 <p>Field-collected ArduPilot <code>.BIN</code> logs are processed in two stages before MATLAB analysis:</p>
 <ol type="1">
-<li><strong><code>.BIN</code> → <code>.mat</code></strong> — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>utils/ardu_utils/bin2mat.py</code></a> extracts every numeric field from every message type into a MATLAB <code>.mat</code> file. Field names follow <code>{MSGTYPE}_{field}</code> (e.g.&nbsp;<code>GPS_Spd</code>, <code>RCOU_C3</code>, <code>PIDS_Tar</code>). Logged ArduPilot parameters are saved as a <code>params</code> struct.</li>
+<li><strong><code>.BIN</code> → <code>.mat</code></strong> — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>utils/ardu_utils/bin2mat.py</code></a> extracts every numeric field from every message type into a MATLAB <code>.mat</code> file. Field names follow <code>{MSGTYPE}_{field}</code> (e.g.&nbsp;<code>GPS_Spd</code>, <code>RCOU_C3</code>, <code>PIDA_Tar</code>). Logged ArduPilot parameters are saved as a <code>params</code> struct.</li>
 <li><strong>MATLAB analysis</strong> — per-lab scripts under <code>book/wXX_*/code/</code> load the <code>.mat</code> and produce timeseries and metrics.</li>
 </ol>
 </section>
@@ -262,14 +262,14 @@ ul.task-list li input[type="checkbox"] {
 <td>PID tuning (Lab 2)</td>
 </tr>
 <tr class="even">
-<td><code>PIDS_*</code></td>
-<td>Speed PID internals</td>
+<td><code>PIDA_*</code></td>
+<td>Throttle / speed PID internals</td>
 <td>—</td>
 <td>PID tuning (Lab 2)</td>
 </tr>
 <tr class="odd">
-<td><code>PIDA_*</code></td>
-<td>Yaw-rate (attitude) PID internals</td>
+<td><code>PIDS_*</code></td>
+<td>Steering / yaw-rate PID internals</td>
 <td>—</td>
 <td>PID tuning (Lab 2)</td>
 </tr>
