@@ -195,7 +195,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="day-of">1.2 Day of</h3>
 <ul>
 <li><strong>Test card / data sheet printed</strong> — one row per dataset (six total) for parameter values, observations, and quality-check verdict.</li>
-<li><strong>Parameter files staged on the laptop.</strong> You are given the <strong>baseline</strong> <code>.param</code> for experiment A.</li>
+<li><strong>Parameter files staged on the laptop.</strong> You are given the <strong>baseline</strong> <code>.param</code> for the <strong>Base</strong> experiment.</li>
 <li><strong>Roles:</strong>
 <ul>
 <li><strong>Planner</strong> — drives Mission Planner: monitors ARM and mode state, watches the real-time tuning graphs, and saves a timestamped parameter export at the start of each run.</li>
@@ -217,18 +217,18 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="setup-and-execute-experiments" class="level2">
 <h2 class="anchored" data-anchor-id="setup-and-execute-experiments">3. Setup and execute experiments</h2>
-<p>The lab cycles through three experiments — <strong>A (Baseline)</strong>, <strong>B (Feedforward)</strong>, <strong>C (Tuned)</strong> — applying the same procedure to each. Only the parameter set changes between cases (§3.4).</p>
+<p>The lab cycles through three experiments — <strong>Base</strong>, <strong>FeedForward</strong>, <strong>Tuned</strong> — applying the same procedure to each. Only the parameter set changes between cases (§3.4).</p>
 <section id="per-arm-rhythm-and-logging" class="level3">
 <h3 class="anchored" data-anchor-id="per-arm-rhythm-and-logging">3.1 Per-arm rhythm and logging</h3>
 <p>The autopilot starts a <strong>new log file every time the pilot arms it</strong>. Treat each arm-disarm cycle as one experimental purpose — one cycle for the speed step trials, one for the yaw-rate trials. This keeps each <code>.mat</code> file scoped to a single channel, which makes the MATLAB time-series easier to inspect. Expect to accumulate dozens of <code>.mat</code> files over a session; the <strong>scribe’s notes — UTC time (with seconds) plus a brief intent description at every arm</strong> — are how you map each <code>.mat</code> back to what was being tested. The post-processed <code>.mat</code> filename includes the UTC timestamp.</p>
 </section>
 <section id="procedure-for-each-experiment" class="level3">
 <h3 class="anchored" data-anchor-id="procedure-for-each-experiment">3.2 Procedure for each experiment</h3>
-<p>Run the following sequence three times, once per experiment (A → B → C).</p>
+<p>Run the following sequence three times, once per experiment (Base → FeedForward → Tuned).</p>
 <section id="set-up-the-experiment" class="level4">
 <h4 class="anchored" data-anchor-id="set-up-the-experiment">Set up the experiment</h4>
 <ol type="1">
-<li><strong>Change the parameter set</strong> for this experiment via Mission Planner (Config → Full Parameter Tree). For experiment A, load the baseline <code>.param</code>. For B and C, load the edited copies you prepared during <a href="#day-of">pre-lab prep</a>.</li>
+<li><strong>Change the parameter set</strong> for this experiment via Mission Planner (Config → Full Parameter Tree). For <strong>Base</strong>, load the baseline <code>.param</code>. For <strong>FeedForward</strong> and <strong>Tuned</strong>, load the edited copies you prepared during <a href="#day-of">pre-lab prep</a>.</li>
 <li><strong>Verify the relevant <code>ATC_*</code> parameters</strong> at the vehicle. Mission Planner shows live values — see the <a href="../../autopilot/stabilization.html">Stabilization Layer</a> reference for what each parameter does and which ones change between experiments.</li>
 </ol>
 </section>
@@ -236,7 +236,7 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="speed-throttle-step-run-one-arm-disarm-cycle">Speed (throttle) step run — one arm-disarm cycle</h4>
 <ol start="3" type="1">
 <li>Pilot brings the USV to <strong>open water</strong> and to <strong>rest</strong>.</li>
-<li><strong>Planner saves the current parameter file</strong> to the laptop with a timestamp in the filename (Mission Planner → Config → Full Parameter Tree → Save). Pilot then <strong>disarms and re-arms</strong> (closes the previous log, opens a fresh one). Scribe records UTC time + intent (e.g.&nbsp;<em>“Experiment A, surge step”</em>).</li>
+<li><strong>Planner saves the current parameter file</strong> to the laptop with a timestamp in the filename (Mission Planner → Config → Full Parameter Tree → Save). Pilot then <strong>disarms and re-arms</strong> (closes the previous log, opens a fresh one). Scribe records UTC time + intent (e.g.&nbsp;<em>“Base, surge step”</em>).</li>
 <li>Pilot switches the autopilot into <strong>ACRO</strong> mode. <strong>Planner confirms ACRO</strong> in Mission Planner before the pilot proceeds.</li>
 <li><strong>Repeat 3–5 times:</strong>
 <ul>
@@ -251,7 +251,7 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="yaw-rate-steering-step-run-one-arm-disarm-cycle">Yaw-rate (steering) step run — one arm-disarm cycle</h4>
 <ol start="8" type="1">
 <li>Pilot brings the boat to a <strong>low, approximately constant surge speed</strong> — typically around <strong>~50% throttle</strong> so the rudder has flow but the boat isn’t fighting acceleration during the test. (At zero surge speed a steering command does nothing useful — the rudder needs forward water flow to produce a turning moment.)</li>
-<li><strong>Planner saves the current parameter file</strong> with a timestamp. Pilot then <strong>disarms and re-arms</strong>. Scribe records UTC time + intent (e.g.&nbsp;<em>“Experiment A, yaw step”</em>).</li>
+<li><strong>Planner saves the current parameter file</strong> with a timestamp. Pilot then <strong>disarms and re-arms</strong>. Scribe records UTC time + intent (e.g.&nbsp;<em>“Base, yaw step”</em>).</li>
 <li>Pilot switches the autopilot into <strong>ACRO</strong> mode. <strong>Planner confirms ACRO</strong> before the pilot proceeds.</li>
 <li><strong>Repeat 3–5 times, alternating direction</strong> (positive then negative stick deflection so any asymmetry is visible):
 <ul>
@@ -297,17 +297,17 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>A — Baseline</strong></td>
+<td><strong>Base</strong></td>
 <td>Lab preset configuration; ArduRover stock PID gains; FF off; rate limiters off; throttle baseline off</td>
 <td>First case — fully load the lab baseline <code>.param</code></td>
 </tr>
 <tr class="even">
-<td><strong>B — Feedforward</strong></td>
+<td><strong>FeedForward</strong></td>
 <td>Restore <code>ATC_SPEED_FF</code> and <code>ATC_STR_RAT_FF</code> to lab values</td>
-<td>Same PID gains as A</td>
+<td>Same PID gains as Base</td>
 </tr>
 <tr class="odd">
-<td><strong>C — Tuned</strong></td>
+<td><strong>Tuned</strong></td>
 <td>Adjust <code>ATC_SPEED_P/I/D</code> and <code>ATC_STR_RAT_P/I/D</code> for best response</td>
 <td>FF kept on. Use Mission Planner’s real-time tuning graphs to iterate on candidate gains; only execute the full arm-disarm logging cycle (steps 3–17) for the gain values you decide to keep.</td>
 </tr>
@@ -320,8 +320,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Don’t change parameters while ARMed.</strong> Parameter changes get baked into the active log in a way that makes it hard to verify what was active when. Disarm, change, save the new param file, then re-arm.</li>
 <li><strong>It’s easy to forget ACRO.</strong> A test in MANUAL looks identical to one in ACRO from the pilot’s perspective, but the closed-loop controllers aren’t engaged. The planner’s ACRO confirmation in step 5 / step 10 is the safety net — don’t skip it.</li>
 <li><strong>Inter-step gap too short.</strong> Between repeats within a run, allow the response to fully settle (return to rest, or to baseline yaw rate) before the next step. A short gap mixes one step’s tail into the next step’s start.</li>
-<li><strong>Saturation.</strong> If the control effort pins at ±1 (full PWM) for an extended period, what you’re measuring is the <em>saturated</em> dynamics, not the linear closed-loop response. Drop the step magnitude — or, in experiment C, gain authority through tuning.</li>
-<li><strong>Same step fraction across A / B / C.</strong> Comparing rise time, overshoot, and steady-state error across experiments only makes sense if the input is the same magnitude every time.</li>
+<li><strong>Saturation.</strong> If the control effort pins at ±1 (full PWM) for an extended period, what you’re measuring is the <em>saturated</em> dynamics, not the linear closed-loop response. Drop the step magnitude — or, in <strong>Tuned</strong>, gain authority through tuning.</li>
+<li><strong>Same step fraction across Base / FeedForward / Tuned.</strong> Comparing rise time, overshoot, and steady-state error across experiments only makes sense if the input is the same magnitude every time.</li>
 <li><strong>One channel per arm-disarm cycle.</strong> Don’t intermingle speed and yaw steps in the same log — it makes the MATLAB inspection harder than it needs to be.</li>
 <li><strong>Two timezones.</strong> ArduPilot logs and the post-processed <code>.mat</code> filenames are in <strong>UTC</strong>. Scribe notes are in local time. The post-processing step adds the UTC stamp to the filename automatically; the scribe should record UTC at the field too so the two match without arithmetic later.</li>
 </ul>
