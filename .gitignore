@@ -64,8 +64,9 @@ private/
 site/_site/
 site/.quarto/
 
-## Draw.io editor temp files
+## Draw.io editor temp/backup files
 **/.$*.drawio.dtmp
+**/.$*.drawio.bkp
 
 ## Local-only working material (wiki migration source, etc.)
 current_wiki_samples
