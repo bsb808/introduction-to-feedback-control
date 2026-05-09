@@ -13,11 +13,11 @@ Tune the autopilot's closed-loop control to maximize speed and yaw-rate tracking
 
 | Experiment | What changes | What stays the same |
 |---|---|---|
-| **A — Baseline** | Lab preset tweaks (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains | — |
-| **B — FF** | Feedforward term restored | Stock PID gains |
-| **C — Tuned** | Students tune PID gains for best response | Feedforward kept on |
+| **A — Baseline** | Lab preset configuration (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains | Other settings unchanged |
+| **B — Feedforward** | Add feedforward gain to both speed and yaw-rate control loops.  Gain values from our open-loop system identification lab. | Stock PID gains |
+| **C — Tuned** | Tune PID gains for "best" response | Feedforward kept on |
 
-For each experiment, both the **speed (surge)** loop and the **yaw-rate (steering)** loop are exercised with step inputs, and the resulting closed-loop responses are logged and quality-checked.
+For each experiment, both the **speed (surge/throttle)** loop and the **yaw-rate (steering/rudder)** loop are exercised with manual step inputs, and the resulting closed-loop responses are logged and quality-checked.
 
 **This week's deliverable:** clean step-response logs for all six cases, with a brief quality-check note per dataset.
 

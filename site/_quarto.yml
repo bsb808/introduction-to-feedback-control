@@ -36,3 +36,5 @@ format:
     theme: cosmo
     toc: true
     html-math-method: mathjax
+    link-external-newwindow: true
+    link-external-icon: true
