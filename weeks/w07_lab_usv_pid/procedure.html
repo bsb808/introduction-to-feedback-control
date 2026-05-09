@@ -172,6 +172,16 @@ ul.task-list li input[type="checkbox"] {
 <li>The same field workflow runs three times; only the parameter set changes between cases.</li>
 <li><strong>Quality is checked at the field</strong> before each parameter-set change, so problems are caught while the boat is still in the water.</li>
 </ul>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Plan for two field sessions.</strong> Getting clean step responses on the first day is rare — the first session typically surfaces issues (vehicle setup, parameter staging, pilot/scribe rhythm) that need fixing before clean data lands on a second day. Build in time between sessions for laptop-side processing.</p>
+</div>
+</div>
+</div>
 <section id="pre-lab-preparation" class="level2">
 <h2 class="anchored" data-anchor-id="pre-lab-preparation">1. Pre-lab preparation</h2>
 <section id="day-before" class="level3">
@@ -188,9 +198,9 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Parameter files staged on the laptop.</strong> You are given the <strong>baseline</strong> <code>.param</code> for experiment A.</li>
 <li><strong>Roles:</strong>
 <ul>
-<li><strong>Planner</strong> — drives Mission Planner;</li>
-<li><strong>Scribe</strong> — keeps the test card; records UTC time and intent at every arming event.</li>
-<li><strong>Pilot</strong> — drives the boat with the RC transmitter; executes the step inputs.</li>
+<li><strong>Planner</strong> — drives Mission Planner: monitors ARM and mode state, watches the real-time tuning graphs, and saves a timestamped parameter export at the start of each run.</li>
+<li><strong>Scribe</strong> — keeps the test card and records UTC time + intent at every arming event. The scribe’s notes are what makes the resulting tens of <code>.mat</code> files navigable during post-processing.</li>
+<li><strong>Pilot</strong> — drives the boat with the RC transmitter and executes the step inputs that exercise the closed-loop controllers.</li>
 </ul></li>
 </ul>
 </section>
@@ -226,7 +236,7 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="speed-throttle-step-run-one-arm-disarm-cycle">Speed (throttle) step run — one arm-disarm cycle</h4>
 <ol start="3" type="1">
 <li>Pilot brings the USV to <strong>open water</strong> and to <strong>rest</strong>.</li>
-<li>Pilot <strong>disarms then re-arms</strong> (closes the previous log, opens a fresh one). Scribe records UTC time + intent (e.g.&nbsp;<em>“Experiment A, surge step”</em>).</li>
+<li><strong>Planner saves the current parameter file</strong> to the laptop with a timestamp in the filename (Mission Planner → Config → Full Parameter Tree → Save). Pilot then <strong>disarms and re-arms</strong> (closes the previous log, opens a fresh one). Scribe records UTC time + intent (e.g.&nbsp;<em>“Experiment A, surge step”</em>).</li>
 <li>Pilot switches the autopilot into <strong>ACRO</strong> mode. <strong>Planner confirms ACRO</strong> in Mission Planner before the pilot proceeds.</li>
 <li><strong>Repeat 3–5 times:</strong>
 <ul>
@@ -240,12 +250,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="yaw-rate-steering-step-run-one-arm-disarm-cycle" class="level4">
 <h4 class="anchored" data-anchor-id="yaw-rate-steering-step-run-one-arm-disarm-cycle">Yaw-rate (steering) step run — one arm-disarm cycle</h4>
 <ol start="8" type="1">
-<li>Pilot brings the boat to a <strong>low, approximately constant surge speed</strong>. The rudder needs forward water flow to produce a turning moment — at zero surge speed a steering command does nothing useful.</li>
-<li>Pilot <strong>disarms then re-arms</strong>. Scribe records UTC time + intent (e.g.&nbsp;<em>“Experiment A, yaw step”</em>).</li>
+<li>Pilot brings the boat to a <strong>low, approximately constant surge speed</strong> — typically around <strong>~50% throttle</strong> so the rudder has flow but the boat isn’t fighting acceleration during the test. (At zero surge speed a steering command does nothing useful — the rudder needs forward water flow to produce a turning moment.)</li>
+<li><strong>Planner saves the current parameter file</strong> with a timestamp. Pilot then <strong>disarms and re-arms</strong>. Scribe records UTC time + intent (e.g.&nbsp;<em>“Experiment A, yaw step”</em>).</li>
 <li>Pilot switches the autopilot into <strong>ACRO</strong> mode. <strong>Planner confirms ACRO</strong> before the pilot proceeds.</li>
 <li><strong>Repeat 3–5 times, alternating direction</strong> (positive then negative stick deflection so any asymmetry is visible):
 <ul>
-<li>Apply a step steering command. Use the <strong>same step fraction</strong> in every experiment (A, B, C) so the metrics are directly comparable.</li>
+<li>Apply a step steering command at roughly <strong>~50% rudder</strong>. Use the <strong>same step fraction</strong> in every experiment (A, B, C) so the metrics are directly comparable.</li>
 <li><strong>Hold until the yaw rate settles</strong> to a steady value.</li>
 <li>Scribe records the surge speed at the time of each step, the step fraction, and the direction.</li>
 </ul></li>
@@ -262,7 +272,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Setpoint reaches the commanded value</strong> (no rate-limited ramp instead of a step).</li>
 <li><strong>Measured response settles</strong> to a steady value within ~10 s.</li>
 <li><strong>Control effort is not pinned</strong> at ±1 for an extended period (saturation).</li>
-<li><strong>PIDT / PIDS log channels are present</strong> (PID-internal logging is on).</li>
+<li><strong>PIDS / PIDA log channels are present</strong> (PID-internal logging is on; <code>PIDS</code> for speed, <code>PIDA</code> for yaw-rate).</li>
 <li><strong>No long gaps</strong> in the GPS or STER sample stream.</li>
 </ul></li>
 <li><strong>If a check fails → recollect that run before changing parameters or moving on.</strong> If it’s a parameter or vehicle issue → resolve, then continue.</li>
@@ -299,7 +309,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><strong>C — Tuned</strong></td>
 <td>Adjust <code>ATC_SPEED_P/I/D</code> and <code>ATC_STR_RAT_P/I/D</code> for best response</td>
-<td>FF kept on</td>
+<td>FF kept on. Use Mission Planner’s real-time tuning graphs to iterate on candidate gains; only execute the full arm-disarm logging cycle (steps 3–17) for the gain values you decide to keep.</td>
 </tr>
 </tbody>
 </table>
@@ -307,10 +317,13 @@ ul.task-list li input[type="checkbox"] {
 <section id="common-gotchas" class="level3">
 <h3 class="anchored" data-anchor-id="common-gotchas">3.4 Common gotchas</h3>
 <ul>
+<li><strong>Don’t change parameters while ARMed.</strong> Parameter changes get baked into the active log in a way that makes it hard to verify what was active when. Disarm, change, save the new param file, then re-arm.</li>
+<li><strong>It’s easy to forget ACRO.</strong> A test in MANUAL looks identical to one in ACRO from the pilot’s perspective, but the closed-loop controllers aren’t engaged. The planner’s ACRO confirmation in step 5 / step 10 is the safety net — don’t skip it.</li>
 <li><strong>Inter-step gap too short.</strong> Between repeats within a run, allow the response to fully settle (return to rest, or to baseline yaw rate) before the next step. A short gap mixes one step’s tail into the next step’s start.</li>
 <li><strong>Saturation.</strong> If the control effort pins at ±1 (full PWM) for an extended period, what you’re measuring is the <em>saturated</em> dynamics, not the linear closed-loop response. Drop the step magnitude — or, in experiment C, gain authority through tuning.</li>
 <li><strong>Same step fraction across A / B / C.</strong> Comparing rise time, overshoot, and steady-state error across experiments only makes sense if the input is the same magnitude every time.</li>
 <li><strong>One channel per arm-disarm cycle.</strong> Don’t intermingle speed and yaw steps in the same log — it makes the MATLAB inspection harder than it needs to be.</li>
+<li><strong>Two timezones.</strong> ArduPilot logs and the post-processed <code>.mat</code> filenames are in <strong>UTC</strong>. Scribe notes are in local time. The post-processing step adds the UTC stamp to the filename automatically; the scribe should record UTC at the field too so the two match without arithmetic later.</li>
 </ul>
 </section>
 </section>

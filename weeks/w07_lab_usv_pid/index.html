@@ -221,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>Setpoint</strong> (commanded step) overlaid on <strong>measured response</strong></li>
 <li><strong>Control effort</strong> (normalized throttle or rudder) on a linked time axis</li>
-<li><strong>PID internals</strong> (<code>PIDT_*</code> for speed, <code>PIDS_*</code> for yaw rate) showing target, actual, P/I/D/FF terms, and total output</li>
+<li><strong>PID internals</strong> (<code>PIDS_*</code> for speed, <code>PIDA_*</code> for yaw rate) showing target, actual, error, and the P/I/D/FF terms (total controller output is <code>P + I + D + FF</code>; ArduPilot does not log a separate <code>Out</code> field)</li>
 </ul>
 <p>If those plots look clean — clear step, response settles, no clipping, no logging gaps — the dataset is good. If anything looks off, plan to recollect before leaving the field.</p>
 </section>
