@@ -1,0 +1,188 @@
+---
+title: "Stabilization Layer — Speed and Yaw-Rate PID"
+---
+
+[← Back to Autopilot](index.qmd)
+
+The stabilization layer is the lowest level of ArduRover's control hierarchy. Two independent PID loops — one for **speed** (throttle channel), one for **yaw rate** (steering channel) — translate the pilot's high-level commands into actuator outputs. Higher-level autonomous modes (HOLD, LOITER, AUTO) wrap additional outer loops around these, but in **ACRO mode** the pilot's stick deflections become the setpoints to the stabilization PIDs directly. That makes ACRO the right mode for closed-loop step-response testing.
+
+## Architecture
+
+::: {.callout-note appearance="simple"}
+**Diagram under construction.** Source: `book/w07_lab_usv_pid/chapter/usv_control_architecture.drawio` (edit in [diagrams.net](https://app.diagrams.net)). The SVG below is regenerated from the source.
+:::
+
+![Speed and yaw-rate stabilization loops](images/usv_stabilization_arch.svg){fig-alt="USV stabilization layer block diagram showing speed and yaw-rate PID loops"}
+
+Both loops share the same structure:
+
+1. **Stick → setpoint scaling** (`CRUISE_SPEED` for throttle, `ACRO_TURN_RATE` for steering)
+2. **Acceleration limiter** on the commanded setpoint (`ATC_ACCEL_MAX` / `ATC_STR_ACC_MAX`)
+3. **Target low-pass filter** (`*_FLTT`) — softens setpoint steps before they enter the loop
+4. **Error junction** subtracting the measured value from the (filtered) setpoint
+5. **Error low-pass filter** (`*_FLTE`) — attenuates measurement noise on the error
+6. **PID controller** with separate P, I, D, and FF terms
+7. **Output sum** — speed loop adds an additional `CRUISE_THROTTLE` baseline; yaw loop does not
+
+For **closed-loop step-response experiments**, several of these features are intentionally disabled (acceleration limiters off, throttle baseline off, FF off) so that the response captures the PID dynamics alone. See the per-channel quick references below.
+
+## Logged channels — a clarification on naming
+
+The signal names referenced throughout this page (`THR_DesSpeed`, `STER_TurnRate`, `RCOU_C3`, `PIDS_*`, `PIDT_*`) are **ArduPilot DataFlash log message types** — the binary `.BIN` log format that ArduPilot writes to the SD card during a flight/run. They are *not* MAVLink message names, although several MAVLink messages carry overlapping data.
+
+- **DataFlash log (BIN file)** — onboard binary log, complete record of internal state. We extract these with [`bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py) and analyze them in MATLAB.
+- **MAVLink** — telemetry/command protocol between vehicle and ground station (Mission Planner). Subset of the same data, sent over the radio link.
+
+For the PID-tuning labs we use the DataFlash log: it has higher rate, more channels, and full PID-internal state via `PIDT_*` (speed) and `PIDS_*` (steering).
+
+---
+
+## Speed (Surge) Control
+
+### Design
+
+Single-input, single-output PID + feedforward + baseline feedforward.
+
+| Loop element | Source / value |
+|---|---|
+| Setpoint | RC throttle stick (`[−1, +1]`) × `CRUISE_SPEED` (m/s) |
+| Measurement | `GPS_Spd` — GPS ground speed (m/s, ~5 Hz) |
+| Output | Throttle command, normalized `[−1, +1]` → PWM via `RCOU_C3` |
+| Plant | USV surge dynamics (thruster + hull drag) |
+
+Why these inputs/outputs make sense for the marine vehicle:
+
+- **GPS speed as feedback** — boats lack a wheel encoder, and the body-frame velocity from the IMU drifts. GPS gives a clean, slow ground-truth measurement. The 5 Hz update rate is one of the dominant time constants in this loop and shapes what kinds of dynamics the PID can possibly track.
+- **Reversible throttle** — with `ATC_BRAKE = 1`, the controller can command negative motor output to actively decelerate. Without it, deceleration relies entirely on hydrodynamic drag.
+
+### Parameters — `ATC_SPEED_*` group
+
+PID gains and filter cutoffs:
+
+| Parameter | Description | Default | Vehicle | Units |
+|---|---|---:|---:|---|
+| `ATC_SPEED_P` | Proportional gain | 0.20 | 1.0 | (motor)/(m/s) |
+| `ATC_SPEED_I` | Integral gain — drives steady-state error to zero | 0.20 | 0.2 | (motor)/(m/s·s) |
+| `ATC_SPEED_D` | Derivative gain — rarely useful (GPS-noisy) | 0.00 | 0 | (motor·s)/(m/s) |
+| `ATC_SPEED_FF` | Feed-forward, output ∝ setpoint | 0.0 | 0 | (motor)/(m/s) |
+| `ATC_SPEED_IMAX` | Anti-windup clamp on I-term contribution | 1.00 | 1.0 | normalized |
+| `ATC_SPEED_FLTT` | Low-pass cutoff on **target** | 0 (off) | 0 | Hz |
+| `ATC_SPEED_FLTE` | Low-pass cutoff on **error** | 10 | 10 | Hz |
+| `ATC_SPEED_FLTD` | Low-pass cutoff on **derivative** | 0 (off) | 0 | Hz |
+| `ATC_SPEED_SMAX` | Slew-rate limit on PID output (anti-oscillation) | 0 (disabled) | 0 | — |
+
+Setpoint shaping and actuator behavior:
+
+| Parameter | Description | Default | Vehicle | Units |
+|---|---|---:|---:|---|
+| `ATC_ACCEL_MAX` | Acceleration limiter on the commanded speed setpoint | 1.0 | 1.0 | m/s² |
+| `ATC_DECEL_MAX` | Deceleration limit; if 0, falls back to `ATC_ACCEL_MAX` | 0 | 0 | m/s² |
+| `ATC_BRAKE` | Allow negative motor output for active braking | 1 | 1 | bool |
+| `ATC_STOP_SPEED` | Below this speed, motor output is forced to zero | 0.1 | 0.1 | m/s |
+| `CRUISE_SPEED` | Stick-to-speed scaling (sets full-stick speed in ACRO) | — | — | m/s |
+| `CRUISE_THROTTLE` | Baseline throttle FF added at the output sum | — | — | normalized |
+
+### DataFlash log channels
+
+| Channel | Description | Units |
+|---|---|---|
+| `THR_DesSpeed` | Speed setpoint (after input filter) | m/s |
+| `GPS_Spd` | Measured speed (GPS) | m/s |
+| `RCOU_C3` | Throttle command sent to actuator | PWM |
+| `PIDT_Tar` | PID's internal target (after rate limiting, when active) | m/s |
+| `PIDT_Act` | PID's input measurement | m/s |
+| `PIDT_P`, `_I`, `_D`, `_FF` | Individual PID term outputs | normalized |
+| `PIDT_Out` | Total PID output (= P + I + D + FF) | normalized |
+
+`THR_DesSpeed` and `PIDT_Tar` differ only when an upstream filter or rate limiter is active. With the lab settings (acceleration limiters disabled, FLTT off), the two are essentially identical.
+
+### Step-response setup for this lab
+
+| Setting | Lab value | Why |
+|---|---:|---|
+| `ATC_ACCEL_MAX` | **0** | Disable rate limiter — let the setpoint be a true step |
+| `CRUISE_THROTTLE` | **0** | Strip the baseline FF so the response is from the PID alone |
+| `ATC_SPEED_FF` | **0** for baseline | FF restored in experiment B; tuned with PID in experiment C |
+
+---
+
+## Yaw-Rate (Steering) Control
+
+### Design
+
+Single-input, single-output PID + feedforward. Same structure as the speed loop, with rudder/skid-steer command in place of throttle.
+
+| Loop element | Source / value |
+|---|---|
+| Setpoint | RC steering stick (`[−1, +1]`) × `ACRO_TURN_RATE` (deg/s, internally rad/s) |
+| Measurement | `STER_TurnRate` — body-frame yaw rate from EKF (rad/s) |
+| Output | Steering command, normalized `[−1, +1]` → PWM via `RCOU_C1` |
+| Plant | USV yaw dynamics (rudder + hull) |
+
+Why these matter for the marine vehicle:
+
+- **EKF yaw rate as feedback** — the IMU gyro provides a fast, accurate yaw rate measurement; the EKF (`STER_*`) blends gyro with magnetometer/GPS heading to suppress bias drift. Yaw rate updates much faster than the GPS speed signal in the surge loop, so the bandwidth ceiling of the yaw loop is set by vehicle dynamics, not measurement.
+- **Strong feedforward by default** — for a single-rudder boat, the steady rudder needed to hold a given yaw rate is approximately linear in the desired rate. The vehicle ships with `ATC_STR_RAT_FF = 2.0` (10× the source default), reflecting that this contributes the majority of the open-loop control authority.
+
+### Cascaded heading controller (not in ACRO)
+
+In autonomous modes (HOLD, LOITER, AUTO), an outer-loop heading controller (`ATC_STR_ANG_P`) wraps the yaw-rate loop, converting heading error to a desired yaw rate. **ACRO bypasses that outer loop** — the pilot stick commands yaw rate directly, so we tune only the inner rate loop in this lab.
+
+### Parameters — `ATC_STR_RAT_*` group
+
+PID gains and filter cutoffs:
+
+| Parameter | Description | Default | Vehicle | Units |
+|---|---|---:|---:|---|
+| `ATC_STR_RAT_P` | Proportional gain | 0.20 | 0.2 | (motor)/(rad/s) |
+| `ATC_STR_RAT_I` | Integral gain — eliminates steady-state offset | 0.20 | 0.2 | (motor)/(rad/s·s) |
+| `ATC_STR_RAT_D` | Derivative gain — use sparingly, yaw rate is already a derivative of heading | 0.00 | 0 | (motor·s)/(rad/s) |
+| `ATC_STR_RAT_FF` | Feed-forward, output ∝ desired rate | 0.20 | 2.0 | (motor)/(rad/s) |
+| `ATC_STR_RAT_IMAX` | Anti-windup clamp on I-term | 1.00 | 1.0 | normalized |
+| `ATC_STR_RAT_FLTT` | Low-pass cutoff on **target** | 0 (off) | 0 | Hz |
+| `ATC_STR_RAT_FLTE` | Low-pass cutoff on **error** | 10 | 10 | Hz |
+| `ATC_STR_RAT_FLTD` | Low-pass cutoff on **derivative** | 0 (off) | 0 | Hz |
+
+Setpoint shaping and limits:
+
+| Parameter | Description | Default | Vehicle | Units |
+|---|---|---:|---:|---|
+| `ATC_STR_ACC_MAX` | Yaw-acceleration limiter on the commanded yaw rate | 120 | 120 | deg/s² |
+| `ATC_STR_DEC_MAX` | Yaw deceleration limit; 0 → falls back to ACC_MAX | 0 | 0 | deg/s² |
+| `ATC_STR_RAT_MAX` | Hard cap on commanded yaw rate | 120 | 36 | deg/s |
+| `ATC_TURN_MAX_G` | Coordinated-turn lateral g cap (only active in higher modes) | 0.6 | 0.6 | g |
+| `ACRO_TURN_RATE` | Stick-to-rate scaling at full deflection | — | 36 | deg/s |
+| `ATC_STR_ANG_P` | Outer-loop heading P gain (HOLD/AUTO only — not active in ACRO) | 2.0 | 2.0 | — |
+
+### DataFlash log channels
+
+| Channel | Description | Units |
+|---|---|---|
+| `STER_DesTurnRate` | Yaw-rate setpoint (after input filter) | rad/s |
+| `STER_TurnRate` | Measured yaw rate (EKF) | rad/s |
+| `RCOU_C1` | Steering/rudder command sent to actuator | PWM |
+| `PIDS_Tar` | PID's internal target (after rate limiting, when active) | rad/s |
+| `PIDS_Act` | PID's input measurement | rad/s |
+| `PIDS_P`, `_I`, `_D`, `_FF` | Individual PID term outputs | normalized |
+| `PIDS_Out` | Total PID output (= P + I + D + FF) | normalized |
+
+### Step-response setup for this lab
+
+| Setting | Lab value | Why |
+|---|---:|---|
+| `ATC_STR_ACC_MAX` | **0** | Disable rate limiter — let the setpoint be a true step |
+| `ATC_STR_RAT_FF` | **0** for baseline | FF restored in experiment B; tuned with PID in experiment C |
+| `ATC_STR_RAT_MAX` | left at 36 deg/s | Determines the achievable step amplitude |
+
+---
+
+## Restoring normal operation
+
+The lab disables several features (`ATC_ACCEL_MAX = 0`, `ATC_STR_ACC_MAX = 0`, `ATC_STR_RAT_FF = 0`, `CRUISE_THROTTLE = 0`) only to expose the closed-loop PID dynamics in step-response data. **Restore these to their nominal values when the lab is finished** — they're useful in normal operation and required for the autonomous modes used in Lab 3.
+
+## Source references
+
+- [`AR_AttitudeControl.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp) — parameter definitions and PID call sites
+- [`AC_PID.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp) — the underlying PID implementation that all `_P`, `_I`, `_D`, `_FF`, `_FLT*`, `_IMAX`, `_SMAX`, `_PDMX` parameters configure
+- [Rover ACRO mode docs](https://ardupilot.org/rover/docs/rover-acro-mode.html) — official explanation of stick-to-rate mapping
+- [Rover speed and steering tuning guide](https://ardupilot.org/rover/docs/rover-tuning-throttle-and-steering-rate.html) — official tuning recipe (different in tone from a controls-class treatment but useful for cross-reference)

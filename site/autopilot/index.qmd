@@ -18,8 +18,8 @@ Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, L
 
 ## Documentation
 
+- **[Stabilization layer — speed and yaw-rate PID](stabilization.qmd)** — design and implementation of the lowest-level control loops, with full parameter and log-channel reference.
 - **[ArduPilot doc references](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md)** — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis).
-- **Control architecture** — speed and yaw-rate loop block diagram. Source at `book/w07_lab_usv_pid/chapter/usv_control_architecture.drawio`.
 
 ## Parameters
 
