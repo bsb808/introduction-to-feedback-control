@@ -13,30 +13,27 @@ The same field workflow runs three times; only the parameter set changes between
 
 ## 1. Pre-lab preparation
 
-% CLAUDE: We need two things here.   Day before and day-of prep.  The former is to make sure you have your boat, 900 MHz radio, and R/C transmitter and ground laptop ready to go.  
+% CLAUDE: We need two things here.   Day before and day-of prep.  The former is to make sure you have your boat, 900 MHz radio, and R/C transmitter and ground laptop ready to go.  AND to make sure your batteries (vehicle propulsion, autopilot, R/C transmitter, ground laptop) are all charged.  The day-of prep is to make sure you have your test card printed  out and ready to go, and that you have the parameter files staged on the laptop.
 - **Team roles** — planner (Mission Planner operator) scribe and pilot. 
 - **Ground laptop ready** — Mission Planner installed and connected to the radio.
 - **Parameter files staged** — three `.param` files corresponding to experiments A / B / C, located under `utils/ardu_params/`. % CLAUDE: They are only given the baseline `.param` file; they have to edit it to create the other two.
-- **Vehicle ready** — battery charged, props/rudder clear, RC bound, GPS lock confirmed.
 - **Test card / data sheet** — one row per dataset (six total) for noting parameter values, observations, and quality-check verdict.
 
-## 2. Field setup
+## 2. Shore setup
 
 Steps to confirm at the launch site, before any data collection.
 
-- Launch and recover the USV safely; clear of swimmers and obstructions.
 - Establish telemetry link (Mission Planner connected at expected baud).
-- Confirm flight mode is **ACRO**.
-- Confirm logging is enabled and a new log file starts on each arm (`LOG_FILE_DSRMROT = 1`).
-- Trim and zero check on RC sticks (no commanded motion at center stick).
+- Confirm can ARM and switch from MANAUL to ACRO modes 
+
 
 ## 3. Experiment execution
 
 For each of the three experiments (A → B → C), repeat the same field workflow:
 
 1. **Load the parameter set** for this experiment via Mission Planner (Config → Full Parameter Tree → Load from file).
-2. **Verify** the relevant `ATC_*` parameters at the vehicle (Mission Planner shows live values).
-3. **Speed step responses** — see §4.1 for stick technique.
+2. **Verify** the relevant `ATC_*` parameters at the vehicle (Mission Planner shows live values). % CLAUDE:  Add link to our documentation in introduction-to-feedback-control/site/autopilot/stabilization.qmd
+3. **Speed step responses** — see §4.1 for stick technique. % CLAUDE: This documentation will move from the chapter latex file here.   Move the relevant material from introduction-to-feedback-control/book/w07_lab_usv_pid/chapter/lab_usv_pid.tex to this file.   
 4. **Yaw-rate step responses** — see §4.2.
 5. **Field quality check** — pull the log, plot the candidate steps, decide keep / repeat (§5).
 6. **Save and label** — note the log filename and parameter values on the test card.
@@ -49,11 +46,19 @@ For each of the three experiments (A → B → C), repeat the same field workflo
 
 ## 4. Step-input technique
 
-Manual step inputs from the RC stick, with quiet hold periods on either side of each step so the response is clean.
+Manual step inputs from the RC stick.  The concept is to have the pilot approximate an instantaeous step change in the setpoint, then hold it for long enough to capture the transient and settling behavior.  
+
+% CLAUDE: Here is an outline of the process.Notes for lab procedure:
+
+* Making sense of the vehicle logs can be tricky.  We recommend the following process
+    * Each time the pilot arms the autopilot it starts a new log file.  Think of this as one run of your experiment.   So you will need to correlate each log file with what was being tested and the corresponding set of experiment parameters.
+    * When the pilot arms, the scribe notes the UTC time (with seconds) and a description of the purpose of the experiment, e.g, "Baseline, run #2, didn't work".   When the log file is post-processed to MATLAB format, the UTC time is appended to the file name.  You will have 10's of log files, so knowing which to focus on 
+    * When the pilot switches the autopilot into ACRO mode (engaging the feedback controllers), the planner confirms ACRO mode in Mission Planner before the pilot executes the test.
+    * When the experiment is over, pilot de-ARMs and re-ARMs the autopilot to close the experiment.  This keeps the time series you will be processing in MATLAB easier to visualize.
 
 ### 4.1 Speed (throttle) steps
 
-- _TBD — magnitudes (e.g. 50%, 75% stick), hold time before/after, number of repeats per dataset._
+- _TBD — magnitudes (e.g. 50%, 75% stick), hold time before/after, number of repeats per dataset._ % CLAUDE: Need just one magnitude and it should be in the mid-range (e.g. 50% stick) to avoid  Hold time should be long enough to capture the transient and settling behavior, maybe around 20-30 seconds.  Number of repeats can be 3-5 per dataset to get a good average response.
 - _TBD — open-water distance required for each run._
 
 ### 4.2 Yaw-rate (steering) steps
@@ -63,9 +68,8 @@ Manual step inputs from the RC stick, with quiet hold periods on either side of 
 
 ### 4.3 Common gotchas
 
-- _TBD — wind / current effect on speed steps_
 - _TBD — saturation behavior (full stick → control effort clipping)_
-- _TBD — minimum inter-step gap for the response to settle_
+- _TBD — inter-step is too short of a  gap for the response to settle_
 
 ## 5. Quality check (before leaving the field)
 
