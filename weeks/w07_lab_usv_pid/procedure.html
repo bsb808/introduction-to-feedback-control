@@ -164,17 +164,11 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>The lab collects six step-response datasets — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate). The same field workflow runs three times; only the parameter set changes between cases. Quality is checked at the field before each parameter-set move, so problems are caught while the boat is still in the water.</p>
+<p>The lab collects six step-response datasets — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate)% CLAUDE: Change to a bullet point list. The same field workflow runs three times; only the parameter set changes between cases. Quality is checked at the field before each parameter-set move, so problems are caught while the boat is still in the water.</p>
 <section id="pre-lab-preparation" class="level2">
 <h2 class="anchored" data-anchor-id="pre-lab-preparation">1. Pre-lab preparation</h2>
-<p>Get the team, software, and vehicle ready before going to the field.</p>
-<ul>
-<li><strong>Team roles</strong> — pilot, ground-station operator, log curator, safety/observer.</li>
-<li><strong>Ground laptop ready</strong> — Mission Planner installed and connected to the radio.</li>
-<li><strong>Parameter files staged</strong> — three <code>.param</code> files corresponding to experiments A / B / C, located under <code>utils/ardu_params/</code>.</li>
-<li><strong>Vehicle ready</strong> — battery charged, props/rudder clear, RC bound, GPS lock confirmed.</li>
-<li><strong>Test card / data sheet</strong> — one row per dataset (six total) for noting parameter values, observations, and quality-check verdict.</li>
-</ul>
+<p>% CLAUDE: We need two things here. Day before and day-of prep. The former is to make sure you have your boat, 900 MHz radio, and R/C transmitter and ground laptop ready to go.<br>
+- <strong>Team roles</strong> — planner (Mission Planner operator) scribe and pilot. - <strong>Ground laptop ready</strong> — Mission Planner installed and connected to the radio. - <strong>Parameter files staged</strong> — three <code>.param</code> files corresponding to experiments A / B / C, located under <code>utils/ardu_params/</code>. % CLAUDE: They are only given the baseline <code>.param</code> file; they have to edit it to create the other two. - <strong>Vehicle ready</strong> — battery charged, props/rudder clear, RC bound, GPS lock confirmed. - <strong>Test card / data sheet</strong> — one row per dataset (six total) for noting parameter values, observations, and quality-check verdict.</p>
 </section>
 <section id="field-setup" class="level2">
 <h2 class="anchored" data-anchor-id="field-setup">2. Field setup</h2>

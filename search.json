@@ -4,14 +4,14 @@
     "href": "weeks/w07_lab_usv_pid/procedure.html",
     "title": "Procedure",
     "section": "",
-    "text": "← Back to Lab 2 overview\nThe lab collects six step-response datasets — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate). The same field workflow runs three times; only the parameter set changes between cases. Quality is checked at the field before each parameter-set move, so problems are caught while the boat is still in the water."
+    "text": "← Back to Lab 2 overview\nThe lab collects six step-response datasets — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate)% CLAUDE: Change to a bullet point list. The same field workflow runs three times; only the parameter set changes between cases. Quality is checked at the field before each parameter-set move, so problems are caught while the boat is still in the water."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/procedure.html#pre-lab-preparation",
     "href": "weeks/w07_lab_usv_pid/procedure.html#pre-lab-preparation",
     "title": "Procedure",
     "section": "1. Pre-lab preparation",
-    "text": "1. Pre-lab preparation\nGet the team, software, and vehicle ready before going to the field.\n\nTeam roles — pilot, ground-station operator, log curator, safety/observer.\nGround laptop ready — Mission Planner installed and connected to the radio.\nParameter files staged — three .param files corresponding to experiments A / B / C, located under utils/ardu_params/.\nVehicle ready — battery charged, props/rudder clear, RC bound, GPS lock confirmed.\nTest card / data sheet — one row per dataset (six total) for noting parameter values, observations, and quality-check verdict."
+    "text": "1. Pre-lab preparation\n% CLAUDE: We need two things here. Day before and day-of prep. The former is to make sure you have your boat, 900 MHz radio, and R/C transmitter and ground laptop ready to go.\n- Team roles — planner (Mission Planner operator) scribe and pilot. - Ground laptop ready — Mission Planner installed and connected to the radio. - Parameter files staged — three .param files corresponding to experiments A / B / C, located under utils/ardu_params/. % CLAUDE: They are only given the baseline .param file; they have to edit it to create the other two. - Vehicle ready — battery charged, props/rudder clear, RC bound, GPS lock confirmed. - Test card / data sheet — one row per dataset (six total) for noting parameter values, observations, and quality-check verdict."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/procedure.html#field-setup",
@@ -54,181 +54,6 @@
     "title": "Procedure",
     "section": "7. Hand-off to next week",
     "text": "7. Hand-off to next week\nDatasets and notes are the input to the Week-8 analysis: process each .mat with closedloop_stepinfo.m to extract rise time, settling time, overshoot, and steady-state error, then compare across the three experiments."
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/architecture.html",
-    "href": "weeks/w07_lab_usv_pid/architecture.html",
-    "title": "Architecture — Speed and Yaw-Rate Loops",
-    "section": "",
-    "text": "← Back to Lab 2 overview"
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/architecture.html#speed-surge-loop",
-    "href": "weeks/w07_lab_usv_pid/architecture.html#speed-surge-loop",
-    "title": "Architecture — Speed and Yaw-Rate Loops",
-    "section": "Speed (Surge) Loop",
-    "text": "Speed (Surge) Loop\nTBD — block diagram, parameter table, logging channels.\nThe PID block tuned in this lab uses the ATC_SPEED_* parameter group. The target enters from the RC throttle stick scaled by CRUISE_SPEED; the measurement is GPS ground speed."
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/architecture.html#yaw-rate-steering-loop",
-    "href": "weeks/w07_lab_usv_pid/architecture.html#yaw-rate-steering-loop",
-    "title": "Architecture — Speed and Yaw-Rate Loops",
-    "section": "Yaw-Rate (Steering) Loop",
-    "text": "Yaw-Rate (Steering) Loop\nTBD — block diagram, parameter table, logging channels.\nThe PID block tuned in this lab uses the ATC_STR_RAT_* parameter group. The target enters from the RC steering stick scaled by ACRO_TURN_RATE; the measurement is the EKF estimate of body-frame yaw rate."
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/architecture.html#logging-channels",
-    "href": "weeks/w07_lab_usv_pid/architecture.html#logging-channels",
-    "title": "Architecture — Speed and Yaw-Rate Loops",
-    "section": "Logging Channels",
-    "text": "Logging Channels\nThe signals analyzed in this lab and their source log messages:\n\n\n\n\n\n\n\n\n\nSignal\nLog channel\nUnits\nNotes\n\n\n\n\nSpeed setpoint\nTHR_DesSpeed\nm/s\nOutput of the speed PID’s input filter\n\n\nSpeed (measured)\nGPS_Spd\nm/s\nGPS ground speed; rate set by GPS1_RATE_MS\n\n\nThrottle command\nRCOU_C3\nPWM\nNormalized to [−1, +1] in MATLAB analysis\n\n\nYaw-rate setpoint\nSTER_DesTurnRate\nrad/s\nOutput of the yaw-rate PID’s input filter\n\n\nYaw rate (measured)\nSTER_TurnRate\nrad/s\nEKF estimate\n\n\nRudder command\nRCOU_C1\nPWM\nNormalized to [−1, +1] in MATLAB analysis\n\n\nSpeed PID internals\nPIDT_*\n—\nTar, Act, P, I, D, FF, Out\n\n\nYaw-rate PID internals\nPIDS_*\n—\nTar, Act, P, I, D, FF, Out\n\n\n\nPIDT_Tar / PIDS_Tar are the controller-internal targets (after rate limiting, when active). PIDT_Act / PIDS_Act are the measured-value inputs to the PID. The four term fields decompose the controller output; their sum is Out."
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/architecture.html#tunable-parameters",
-    "href": "weeks/w07_lab_usv_pid/architecture.html#tunable-parameters",
-    "title": "Architecture — Speed and Yaw-Rate Loops",
-    "section": "Tunable Parameters",
-    "text": "Tunable Parameters\nTBD — distinguish between preset values that should not change during the lab and the gains students adjust in experiment C."
-  },
-  {
-    "objectID": "schedule.html",
-    "href": "schedule.html",
-    "title": "Schedule",
-    "section": "",
-    "text": "Quarter: Spring 2026 · Class days this quarter: Monday – Thursday\n\n\n\n\n\n\nPlaceholder skeleton. The grid will be rendered from data/schedule.yml in Phase 2a; per-day columns are configurable per quarter (this quarter happens to be Mon–Thu).\n\n\n\n\n\n\nWeek\nMon — In Person\nTue — Async\nWed\nThu — Async\n\n\n\n\n130 Mar\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n26 Apr\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n313 Apr\nLab 1 — USV System Identification\nLab 1\nLab 1\nLab 1\n\n\n420 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n527 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n64 May\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n711 May\nLab 2 — USV PID Tuning\nLab 2\nLab 2\nLab 2\n\n\n818 May\nGuest lecture — TBD\nLecture topic — TBD\nAsync — TBD\nReading / due — TBD\n\n\n925 May\nMemorial Day — no class\nLecture topic — TBD\n—\nReading / due — TBD\n\n\n101 Jun\nLab 3 — USV Navigation Tuning\nLab 3\nLab 3\nLab 3\n\n\n118 Jun\nFinal Oral Exams\nMAE Retreat — no class\n—\nLast class"
-  },
-  {
-    "objectID": "autopilot/stabilization.html",
-    "href": "autopilot/stabilization.html",
-    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
-    "section": "",
-    "text": "← Back to Autopilot\nThe stabilization layer is the lowest level of ArduRover’s control hierarchy. Two independent PID loops — one for speed (throttle channel), one for yaw rate (steering channel) — translate the pilot’s high-level commands into actuator outputs. Higher-level autonomous modes (HOLD, LOITER, AUTO) wrap additional outer loops around these, but in ACRO mode the pilot’s stick deflections become the setpoints to the stabilization PIDs directly. That makes ACRO the right mode for closed-loop step-response testing."
-  },
-  {
-    "objectID": "autopilot/stabilization.html#architecture",
-    "href": "autopilot/stabilization.html#architecture",
-    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
-    "section": "Architecture",
-    "text": "Architecture\n\n\n\n\n\n\nDiagram under construction. Source: book/w07_lab_usv_pid/chapter/usv_control_architecture.drawio (edit in diagrams.net). The SVG below is regenerated from the source.\n\n\n\n\n\n\nSpeed and yaw-rate stabilization loops\n\n\nBoth loops share the same structure:\n\nStick → setpoint scaling (CRUISE_SPEED for throttle, ACRO_TURN_RATE for steering)\nAcceleration limiter on the commanded setpoint (ATC_ACCEL_MAX / ATC_STR_ACC_MAX)\nTarget low-pass filter (*_FLTT) — softens setpoint steps before they enter the loop\nError junction subtracting the measured value from the (filtered) setpoint\nError low-pass filter (*_FLTE) — attenuates measurement noise on the error\nPID controller with separate P, I, D, and FF terms\nOutput sum — speed loop adds an additional CRUISE_THROTTLE baseline; yaw loop does not\n\nFor closed-loop step-response experiments, several of these features are intentionally disabled (acceleration limiters off, throttle baseline off, FF off) so that the response captures the PID dynamics alone. See the per-channel quick references below."
-  },
-  {
-    "objectID": "autopilot/stabilization.html#logged-channels-a-clarification-on-naming",
-    "href": "autopilot/stabilization.html#logged-channels-a-clarification-on-naming",
-    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
-    "section": "Logged channels — a clarification on naming",
-    "text": "Logged channels — a clarification on naming\nThe signal names referenced throughout this page (THR_DesSpeed, STER_TurnRate, RCOU_C3, PIDS_*, PIDT_*) are ArduPilot DataFlash log message types — the binary .BIN log format that ArduPilot writes to the SD card during a flight/run. They are not MAVLink message names, although several MAVLink messages carry overlapping data.\n\nDataFlash log (BIN file) — onboard binary log, complete record of internal state. We extract these with bin2mat.py and analyze them in MATLAB.\nMAVLink — telemetry/command protocol between vehicle and ground station (Mission Planner). Subset of the same data, sent over the radio link.\n\nFor the PID-tuning labs we use the DataFlash log: it has higher rate, more channels, and full PID-internal state via PIDT_* (speed) and PIDS_* (steering)."
-  },
-  {
-    "objectID": "autopilot/stabilization.html#speed-surge-control",
-    "href": "autopilot/stabilization.html#speed-surge-control",
-    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
-    "section": "Speed (Surge) Control",
-    "text": "Speed (Surge) Control\n\nDesign\nSingle-input, single-output PID + feedforward + baseline feedforward.\n\n\n\nLoop element\nSource / value\n\n\n\n\nSetpoint\nRC throttle stick ([−1, +1]) × CRUISE_SPEED (m/s)\n\n\nMeasurement\nGPS_Spd — GPS ground speed (m/s, ~5 Hz)\n\n\nOutput\nThrottle command, normalized [−1, +1] → PWM via RCOU_C3\n\n\nPlant\nUSV surge dynamics (thruster + hull drag)\n\n\n\nWhy these inputs/outputs make sense for the marine vehicle:\n\nGPS speed as feedback — boats lack a wheel encoder, and the body-frame velocity from the IMU drifts. GPS gives a clean, slow ground-truth measurement. The 5 Hz update rate is one of the dominant time constants in this loop and shapes what kinds of dynamics the PID can possibly track.\nReversible throttle — with ATC_BRAKE = 1, the controller can command negative motor output to actively decelerate. Without it, deceleration relies entirely on hydrodynamic drag.\n\n\n\nParameters — ATC_SPEED_* group\nPID gains and filter cutoffs:\n\n\n\n\n\n\n\n\n\n\nParameter\nDescription\nDefault\nVehicle\nUnits\n\n\n\n\nATC_SPEED_P\nProportional gain\n0.20\n1.0\n(motor)/(m/s)\n\n\nATC_SPEED_I\nIntegral gain — drives steady-state error to zero\n0.20\n0.2\n(motor)/(m/s·s)\n\n\nATC_SPEED_D\nDerivative gain — rarely useful (GPS-noisy)\n0.00\n0\n(motor·s)/(m/s)\n\n\nATC_SPEED_FF\nFeed-forward, output ∝ setpoint\n0.0\n0\n(motor)/(m/s)\n\n\nATC_SPEED_IMAX\nAnti-windup clamp on I-term contribution\n1.00\n1.0\nnormalized\n\n\nATC_SPEED_FLTT\nLow-pass cutoff on target\n0 (off)\n0\nHz\n\n\nATC_SPEED_FLTE\nLow-pass cutoff on error\n10\n10\nHz\n\n\nATC_SPEED_FLTD\nLow-pass cutoff on derivative\n0 (off)\n0\nHz\n\n\nATC_SPEED_SMAX\nSlew-rate limit on PID output (anti-oscillation)\n0 (disabled)\n0\n—\n\n\n\nSetpoint shaping and actuator behavior:\n\n\n\n\n\n\n\n\n\n\nParameter\nDescription\nDefault\nVehicle\nUnits\n\n\n\n\nATC_ACCEL_MAX\nAcceleration limiter on the commanded speed setpoint\n1.0\n1.0\nm/s²\n\n\nATC_DECEL_MAX\nDeceleration limit; if 0, falls back to ATC_ACCEL_MAX\n0\n0\nm/s²\n\n\nATC_BRAKE\nAllow negative motor output for active braking\n1\n1\nbool\n\n\nATC_STOP_SPEED\nBelow this speed, motor output is forced to zero\n0.1\n0.1\nm/s\n\n\nCRUISE_SPEED\nStick-to-speed scaling (sets full-stick speed in ACRO)\n—\n—\nm/s\n\n\nCRUISE_THROTTLE\nBaseline throttle FF added at the output sum\n—\n—\nnormalized\n\n\n\n\n\nDataFlash log channels\n\n\n\n\n\n\n\n\nChannel\nDescription\nUnits\n\n\n\n\nTHR_DesSpeed\nSpeed setpoint (after input filter)\nm/s\n\n\nGPS_Spd\nMeasured speed (GPS)\nm/s\n\n\nRCOU_C3\nThrottle command sent to actuator\nPWM\n\n\nPIDT_Tar\nPID’s internal target (after rate limiting, when active)\nm/s\n\n\nPIDT_Act\nPID’s input measurement\nm/s\n\n\nPIDT_P, _I, _D, _FF\nIndividual PID term outputs\nnormalized\n\n\nPIDT_Out\nTotal PID output (= P + I + D + FF)\nnormalized\n\n\n\nTHR_DesSpeed and PIDT_Tar differ only when an upstream filter or rate limiter is active. With the lab settings (acceleration limiters disabled, FLTT off), the two are essentially identical.\n\n\nStep-response setup for this lab\n\n\n\n\n\n\n\n\nSetting\nLab value\nWhy\n\n\n\n\nATC_ACCEL_MAX\n0\nDisable rate limiter — let the setpoint be a true step\n\n\nCRUISE_THROTTLE\n0\nStrip the baseline FF so the response is from the PID alone\n\n\nATC_SPEED_FF\n0 for baseline\nFF restored in experiment B; tuned with PID in experiment C"
-  },
-  {
-    "objectID": "autopilot/stabilization.html#yaw-rate-steering-control",
-    "href": "autopilot/stabilization.html#yaw-rate-steering-control",
-    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
-    "section": "Yaw-Rate (Steering) Control",
-    "text": "Yaw-Rate (Steering) Control\n\nDesign\nSingle-input, single-output PID + feedforward. Same structure as the speed loop, with rudder/skid-steer command in place of throttle.\n\n\n\n\n\n\n\nLoop element\nSource / value\n\n\n\n\nSetpoint\nRC steering stick ([−1, +1]) × ACRO_TURN_RATE (deg/s, internally rad/s)\n\n\nMeasurement\nSTER_TurnRate — body-frame yaw rate from EKF (rad/s)\n\n\nOutput\nSteering command, normalized [−1, +1] → PWM via RCOU_C1\n\n\nPlant\nUSV yaw dynamics (rudder + hull)\n\n\n\nWhy these matter for the marine vehicle:\n\nEKF yaw rate as feedback — the IMU gyro provides a fast, accurate yaw rate measurement; the EKF (STER_*) blends gyro with magnetometer/GPS heading to suppress bias drift. Yaw rate updates much faster than the GPS speed signal in the surge loop, so the bandwidth ceiling of the yaw loop is set by vehicle dynamics, not measurement.\nStrong feedforward by default — for a single-rudder boat, the steady rudder needed to hold a given yaw rate is approximately linear in the desired rate. The vehicle ships with ATC_STR_RAT_FF = 2.0 (10× the source default), reflecting that this contributes the majority of the open-loop control authority.\n\n\n\nCascaded heading controller (not in ACRO)\nIn autonomous modes (HOLD, LOITER, AUTO), an outer-loop heading controller (ATC_STR_ANG_P) wraps the yaw-rate loop, converting heading error to a desired yaw rate. ACRO bypasses that outer loop — the pilot stick commands yaw rate directly, so we tune only the inner rate loop in this lab.\n\n\nParameters — ATC_STR_RAT_* group\nPID gains and filter cutoffs:\n\n\n\n\n\n\n\n\n\n\nParameter\nDescription\nDefault\nVehicle\nUnits\n\n\n\n\nATC_STR_RAT_P\nProportional gain\n0.20\n0.2\n(motor)/(rad/s)\n\n\nATC_STR_RAT_I\nIntegral gain — eliminates steady-state offset\n0.20\n0.2\n(motor)/(rad/s·s)\n\n\nATC_STR_RAT_D\nDerivative gain — use sparingly, yaw rate is already a derivative of heading\n0.00\n0\n(motor·s)/(rad/s)\n\n\nATC_STR_RAT_FF\nFeed-forward, output ∝ desired rate\n0.20\n2.0\n(motor)/(rad/s)\n\n\nATC_STR_RAT_IMAX\nAnti-windup clamp on I-term\n1.00\n1.0\nnormalized\n\n\nATC_STR_RAT_FLTT\nLow-pass cutoff on target\n0 (off)\n0\nHz\n\n\nATC_STR_RAT_FLTE\nLow-pass cutoff on error\n10\n10\nHz\n\n\nATC_STR_RAT_FLTD\nLow-pass cutoff on derivative\n0 (off)\n0\nHz\n\n\n\nSetpoint shaping and limits:\n\n\n\n\n\n\n\n\n\n\nParameter\nDescription\nDefault\nVehicle\nUnits\n\n\n\n\nATC_STR_ACC_MAX\nYaw-acceleration limiter on the commanded yaw rate\n120\n120\ndeg/s²\n\n\nATC_STR_DEC_MAX\nYaw deceleration limit; 0 → falls back to ACC_MAX\n0\n0\ndeg/s²\n\n\nATC_STR_RAT_MAX\nHard cap on commanded yaw rate\n120\n36\ndeg/s\n\n\nATC_TURN_MAX_G\nCoordinated-turn lateral g cap (only active in higher modes)\n0.6\n0.6\ng\n\n\nACRO_TURN_RATE\nStick-to-rate scaling at full deflection\n—\n36\ndeg/s\n\n\nATC_STR_ANG_P\nOuter-loop heading P gain (HOLD/AUTO only — not active in ACRO)\n2.0\n2.0\n—\n\n\n\n\n\nDataFlash log channels\n\n\n\n\n\n\n\n\nChannel\nDescription\nUnits\n\n\n\n\nSTER_DesTurnRate\nYaw-rate setpoint (after input filter)\nrad/s\n\n\nSTER_TurnRate\nMeasured yaw rate (EKF)\nrad/s\n\n\nRCOU_C1\nSteering/rudder command sent to actuator\nPWM\n\n\nPIDS_Tar\nPID’s internal target (after rate limiting, when active)\nrad/s\n\n\nPIDS_Act\nPID’s input measurement\nrad/s\n\n\nPIDS_P, _I, _D, _FF\nIndividual PID term outputs\nnormalized\n\n\nPIDS_Out\nTotal PID output (= P + I + D + FF)\nnormalized\n\n\n\n\n\nStep-response setup for this lab\n\n\n\n\n\n\n\n\nSetting\nLab value\nWhy\n\n\n\n\nATC_STR_ACC_MAX\n0\nDisable rate limiter — let the setpoint be a true step\n\n\nATC_STR_RAT_FF\n0 for baseline\nFF restored in experiment B; tuned with PID in experiment C\n\n\nATC_STR_RAT_MAX\nleft at 36 deg/s\nDetermines the achievable step amplitude"
-  },
-  {
-    "objectID": "autopilot/stabilization.html#restoring-normal-operation",
-    "href": "autopilot/stabilization.html#restoring-normal-operation",
-    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
-    "section": "Restoring normal operation",
-    "text": "Restoring normal operation\nThe lab disables several features (ATC_ACCEL_MAX = 0, ATC_STR_ACC_MAX = 0, ATC_STR_RAT_FF = 0, CRUISE_THROTTLE = 0) only to expose the closed-loop PID dynamics in step-response data. Restore these to their nominal values when the lab is finished — they’re useful in normal operation and required for the autonomous modes used in Lab 3."
-  },
-  {
-    "objectID": "autopilot/stabilization.html#source-references",
-    "href": "autopilot/stabilization.html#source-references",
-    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
-    "section": "Source references",
-    "text": "Source references\n\nAR_AttitudeControl.cpp — parameter definitions and PID call sites\nAC_PID.cpp — the underlying PID implementation that all _P, _I, _D, _FF, _FLT*, _IMAX, _SMAX, _PDMX parameters configure\nRover ACRO mode docs — official explanation of stick-to-rate mapping\nRover speed and steering tuning guide — official tuning recipe (different in tone from a controls-class treatment but useful for cross-reference)"
-  },
-  {
-    "objectID": "assignments.html",
-    "href": "assignments.html",
-    "title": "Assignments and Labs",
-    "section": "",
-    "text": "Quarter: Spring 2026"
-  },
-  {
-    "objectID": "assignments.html#homework",
-    "href": "assignments.html#homework",
-    "title": "Assignments and Labs",
-    "section": "Homework",
-    "text": "Homework\n\nHW1 — TBD\nHW2 — TBD"
-  },
-  {
-    "objectID": "assignments.html#labs",
-    "href": "assignments.html#labs",
-    "title": "Assignments and Labs",
-    "section": "Labs",
-    "text": "Labs\n\nLab 1 — USV System Identification (Week 3)\nLab 2 — USV PID Tuning (Week 7)\nLab 3 — USV Navigation Tuning (Week 10)"
-  },
-  {
-    "objectID": "assignments.html#exams",
-    "href": "assignments.html#exams",
-    "title": "Assignments and Labs",
-    "section": "Exams",
-    "text": "Exams\n\nFinal Oral Exams (Week 11)"
-  },
-  {
-    "objectID": "autopilot/index.html",
-    "href": "autopilot/index.html",
-    "title": "Autopilot",
-    "section": "",
-    "text": "Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, Lab 2 PID tuning, Lab 3 navigation)."
-  },
-  {
-    "objectID": "autopilot/index.html#what-we-use",
-    "href": "autopilot/index.html#what-we-use",
-    "title": "Autopilot",
-    "section": "What we use",
-    "text": "What we use\n\n\n\nVehicle\n1.1 m single-screw USV, ~5 kg\n\n\nAutopilot software\nArduRover V4.6.3 (commit 3fc7011a)\n\n\nGPS\nHERE3 via DroneCAN\n\n\nGround station\nMission Planner"
-  },
-  {
-    "objectID": "autopilot/index.html#documentation",
-    "href": "autopilot/index.html#documentation",
-    "title": "Autopilot",
-    "section": "Documentation",
-    "text": "Documentation\n\nStabilization layer — speed and yaw-rate PID — design and implementation of the lowest-level control loops, with full parameter and log-channel reference.\nArduPilot doc references — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis)."
-  },
-  {
-    "objectID": "autopilot/index.html#parameters",
-    "href": "autopilot/index.html#parameters",
-    "title": "Autopilot",
-    "section": "Parameters",
-    "text": "Parameters\nThe vehicle parameter snapshots (.param files) and per-lab baseline configurations live in utils/ardu_params/. See the README there for which file corresponds to which lab and how to load it via Mission Planner."
-  },
-  {
-    "objectID": "autopilot/index.html#log-processing-pipeline",
-    "href": "autopilot/index.html#log-processing-pipeline",
-    "title": "Autopilot",
-    "section": "Log Processing Pipeline",
-    "text": "Log Processing Pipeline\nField-collected ArduPilot .BIN logs are processed in two stages before MATLAB analysis:\n\n.BIN → .mat — utils/ardu_utils/bin2mat.py extracts every numeric field from every message type into a MATLAB .mat file. Field names follow {MSGTYPE}_{field} (e.g. GPS_Spd, RCOU_C3, PIDS_Tar). Logged ArduPilot parameters are saved as a params struct.\nMATLAB analysis — per-lab scripts under book/wXX_*/code/ load the .mat and produce timeseries and metrics."
-  },
-  {
-    "objectID": "autopilot/index.html#key-log-channels",
-    "href": "autopilot/index.html#key-log-channels",
-    "title": "Autopilot",
-    "section": "Key Log Channels",
-    "text": "Key Log Channels\nSignals analyzed across the labs:\n\n\n\nChannel\nVariable\nUnits\nUsed in\n\n\n\n\nGPS_Spd\nGround speed\nm/s\nSysid (Lab 1), PID tuning (Lab 2)\n\n\nIMU_GyrZ\nYaw rate (raw)\nrad/s\nSysid (Lab 1)\n\n\nSTER_TurnRate\nYaw rate (EKF)\nrad/s\nPID tuning (Lab 2)\n\n\nRCOU_C3\nThrottle command\nPWM\nSurge input\n\n\nRCOU_C1\nRudder command\nPWM\nYaw input\n\n\nTHR_DesSpeed\nSpeed setpoint\nm/s\nPID tuning (Lab 2)\n\n\nSTER_DesTurnRate\nYaw-rate setpoint\nrad/s\nPID tuning (Lab 2)\n\n\nPIDT_*\nSpeed PID internals\n—\nPID tuning (Lab 2)\n\n\nPIDS_*\nYaw-rate PID internals\n—\nPID tuning (Lab 2)"
-  },
-  {
-    "objectID": "autopilot/index.html#more",
-    "href": "autopilot/index.html#more",
-    "title": "Autopilot",
-    "section": "More",
-    "text": "More\nSub-pages added as labs need them:\n\nSetup / connecting to the vehicle — TBD\nMission Planner cheatsheet — TBD\nCommon log analysis recipes — TBD"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "ME 2801 — Introduction to Control Systems",
-    "section": "",
-    "text": "Note\n\n\n\nCurrent quarter: Spring 2026 (2026-03-30 – 2026-06-12)\n\n\nWelcome.\n\nSyllabus\nSchedule\nAssignments"
   },
   {
     "objectID": "syllabus.html",
@@ -280,6 +105,146 @@
     "text": "NPS Honor Code\nTBD"
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ME 2801 — Introduction to Control Systems",
+    "section": "",
+    "text": "Note\n\n\n\nCurrent quarter: Spring 2026 (2026-03-30 – 2026-06-12)\n\n\nWelcome.\n\nSyllabus\nSchedule\nAssignments"
+  },
+  {
+    "objectID": "autopilot/index.html",
+    "href": "autopilot/index.html",
+    "title": "Autopilot",
+    "section": "",
+    "text": "Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, Lab 2 PID tuning, Lab 3 navigation)."
+  },
+  {
+    "objectID": "autopilot/index.html#what-we-use",
+    "href": "autopilot/index.html#what-we-use",
+    "title": "Autopilot",
+    "section": "What we use",
+    "text": "What we use\n\n\n\nVehicle\n1.1 m single-screw USV, ~5 kg\n\n\nAutopilot software\nArduRover V4.6.3 (commit 3fc7011a)\n\n\nGPS\nHERE3 via DroneCAN\n\n\nGround station\nMission Planner"
+  },
+  {
+    "objectID": "autopilot/index.html#documentation",
+    "href": "autopilot/index.html#documentation",
+    "title": "Autopilot",
+    "section": "Documentation",
+    "text": "Documentation\n\nStabilization layer — speed and yaw-rate PID — design and implementation of the lowest-level control loops, with full parameter and log-channel reference.\nArduPilot doc references — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis)."
+  },
+  {
+    "objectID": "autopilot/index.html#parameters",
+    "href": "autopilot/index.html#parameters",
+    "title": "Autopilot",
+    "section": "Parameters",
+    "text": "Parameters\nThe vehicle parameter snapshots (.param files) and per-lab baseline configurations live in utils/ardu_params/. See the README there for which file corresponds to which lab and how to load it via Mission Planner."
+  },
+  {
+    "objectID": "autopilot/index.html#log-processing-pipeline",
+    "href": "autopilot/index.html#log-processing-pipeline",
+    "title": "Autopilot",
+    "section": "Log Processing Pipeline",
+    "text": "Log Processing Pipeline\nField-collected ArduPilot .BIN logs are processed in two stages before MATLAB analysis:\n\n.BIN → .mat — utils/ardu_utils/bin2mat.py extracts every numeric field from every message type into a MATLAB .mat file. Field names follow {MSGTYPE}_{field} (e.g. GPS_Spd, RCOU_C3, PIDS_Tar). Logged ArduPilot parameters are saved as a params struct.\nMATLAB analysis — per-lab scripts under book/wXX_*/code/ load the .mat and produce timeseries and metrics."
+  },
+  {
+    "objectID": "autopilot/index.html#key-log-channels",
+    "href": "autopilot/index.html#key-log-channels",
+    "title": "Autopilot",
+    "section": "Key Log Channels",
+    "text": "Key Log Channels\nSignals analyzed across the labs:\n\n\n\nChannel\nVariable\nUnits\nUsed in\n\n\n\n\nGPS_Spd\nGround speed\nm/s\nSysid (Lab 1), PID tuning (Lab 2)\n\n\nIMU_GyrZ\nYaw rate (raw)\nrad/s\nSysid (Lab 1)\n\n\nSTER_TurnRate\nYaw rate (EKF)\nrad/s\nPID tuning (Lab 2)\n\n\nRCOU_C3\nThrottle command\nPWM\nSurge input\n\n\nRCOU_C1\nRudder command\nPWM\nYaw input\n\n\nTHR_DesSpeed\nSpeed setpoint\nm/s\nPID tuning (Lab 2)\n\n\nSTER_DesTurnRate\nYaw-rate setpoint\nrad/s\nPID tuning (Lab 2)\n\n\nPIDT_*\nSpeed PID internals\n—\nPID tuning (Lab 2)\n\n\nPIDS_*\nYaw-rate PID internals\n—\nPID tuning (Lab 2)"
+  },
+  {
+    "objectID": "autopilot/index.html#more",
+    "href": "autopilot/index.html#more",
+    "title": "Autopilot",
+    "section": "More",
+    "text": "More\nSub-pages added as labs need them:\n\nSetup / connecting to the vehicle — TBD\nMission Planner cheatsheet — TBD\nCommon log analysis recipes — TBD"
+  },
+  {
+    "objectID": "assignments.html",
+    "href": "assignments.html",
+    "title": "Assignments and Labs",
+    "section": "",
+    "text": "Quarter: Spring 2026"
+  },
+  {
+    "objectID": "assignments.html#homework",
+    "href": "assignments.html#homework",
+    "title": "Assignments and Labs",
+    "section": "Homework",
+    "text": "Homework\n\nHW1 — TBD\nHW2 — TBD"
+  },
+  {
+    "objectID": "assignments.html#labs",
+    "href": "assignments.html#labs",
+    "title": "Assignments and Labs",
+    "section": "Labs",
+    "text": "Labs\n\nLab 1 — USV System Identification (Week 3)\nLab 2 — USV PID Tuning (Week 7)\nLab 3 — USV Navigation Tuning (Week 10)"
+  },
+  {
+    "objectID": "assignments.html#exams",
+    "href": "assignments.html#exams",
+    "title": "Assignments and Labs",
+    "section": "Exams",
+    "text": "Exams\n\nFinal Oral Exams (Week 11)"
+  },
+  {
+    "objectID": "autopilot/stabilization.html",
+    "href": "autopilot/stabilization.html",
+    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
+    "section": "",
+    "text": "← Back to Autopilot\nThe stabilization layer is the lowest level of ArduRover’s control hierarchy. Two independent PID loops — one for speed (throttle channel), one for yaw rate (steering channel) — translate the pilot’s high-level commands into actuator outputs. Higher-level autonomous modes (HOLD, LOITER, AUTO) wrap additional outer loops around these, but in ACRO mode the pilot’s stick deflections become the setpoints to the stabilization PIDs directly. That makes ACRO the right mode for closed-loop step-response testing."
+  },
+  {
+    "objectID": "autopilot/stabilization.html#architecture",
+    "href": "autopilot/stabilization.html#architecture",
+    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
+    "section": "Architecture",
+    "text": "Architecture\n\n\n\n\n\n\nDiagram under construction. Source: book/w07_lab_usv_pid/chapter/usv_control_architecture.drawio (edit in diagrams.net). The SVG below is regenerated from the source.\n\n\n\n\n\n\nSpeed and yaw-rate stabilization loops\n\n\nBoth loops share the same structure:\n\nStick → setpoint scaling (CRUISE_SPEED for throttle, ACRO_TURN_RATE for steering)\nAcceleration limiter on the commanded setpoint (ATC_ACCEL_MAX / ATC_STR_ACC_MAX)\nTarget low-pass filter (*_FLTT) — softens setpoint steps before they enter the loop\nError junction subtracting the measured value from the (filtered) setpoint\nError low-pass filter (*_FLTE) — attenuates measurement noise on the error\nPID controller with separate P, I, D, and FF terms\nOutput sum — speed loop adds an additional CRUISE_THROTTLE baseline; yaw loop does not\n\nFor closed-loop step-response experiments, several of these features are intentionally disabled (acceleration limiters off, throttle baseline off, FF off) so that the response captures the PID dynamics alone. See the per-channel quick references below."
+  },
+  {
+    "objectID": "autopilot/stabilization.html#logged-channels-a-clarification-on-naming",
+    "href": "autopilot/stabilization.html#logged-channels-a-clarification-on-naming",
+    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
+    "section": "Logged channels — a clarification on naming",
+    "text": "Logged channels — a clarification on naming\nThe signal names referenced throughout this page (THR_DesSpeed, STER_TurnRate, RCOU_C3, PIDS_*, PIDT_*) are ArduPilot DataFlash log message types — the binary .BIN log format that ArduPilot writes to the SD card during a flight/run. They are not MAVLink message names, although several MAVLink messages carry overlapping data.\n\nDataFlash log (BIN file) — onboard binary log, complete record of internal state. We extract these with bin2mat.py and analyze them in MATLAB.\nMAVLink — telemetry/command protocol between vehicle and ground station (Mission Planner). Subset of the same data, sent over the radio link.\n\nFor the PID-tuning labs we use the DataFlash log: it has higher rate, more channels, and full PID-internal state via PIDT_* (speed) and PIDS_* (steering)."
+  },
+  {
+    "objectID": "autopilot/stabilization.html#speed-surge-control",
+    "href": "autopilot/stabilization.html#speed-surge-control",
+    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
+    "section": "Speed (Surge) Control",
+    "text": "Speed (Surge) Control\n\nDesign\nSingle-input, single-output PID + feedforward + baseline feedforward.\n\n\n\nLoop element\nSource / value\n\n\n\n\nSetpoint\nRC throttle stick ([−1, +1]) × CRUISE_SPEED (m/s)\n\n\nMeasurement\nGPS_Spd — GPS ground speed (m/s, ~5 Hz)\n\n\nOutput\nThrottle command, normalized [−1, +1] → PWM via RCOU_C3\n\n\nPlant\nUSV surge dynamics (thruster + hull drag)\n\n\n\nWhy these inputs/outputs make sense for the marine vehicle:\n\nGPS speed as feedback — boats lack a wheel encoder, and the body-frame velocity from the IMU drifts. GPS gives a clean, slow ground-truth measurement. The 5 Hz update rate is one of the dominant time constants in this loop and shapes what kinds of dynamics the PID can possibly track.\nReversible throttle — with ATC_BRAKE = 1, the controller can command negative motor output to actively decelerate. Without it, deceleration relies entirely on hydrodynamic drag.\n\n\n\nParameters — ATC_SPEED_* group\nPID gains and filter cutoffs:\n\n\n\n\n\n\n\n\n\n\nParameter\nDescription\nDefault\nVehicle\nUnits\n\n\n\n\nATC_SPEED_P\nProportional gain\n0.20\n1.0\n(motor)/(m/s)\n\n\nATC_SPEED_I\nIntegral gain — drives steady-state error to zero\n0.20\n0.2\n(motor)/(m/s·s)\n\n\nATC_SPEED_D\nDerivative gain — rarely useful (GPS-noisy)\n0.00\n0\n(motor·s)/(m/s)\n\n\nATC_SPEED_FF\nFeed-forward, output ∝ setpoint\n0.0\n0\n(motor)/(m/s)\n\n\nATC_SPEED_IMAX\nAnti-windup clamp on I-term contribution\n1.00\n1.0\nnormalized\n\n\nATC_SPEED_FLTT\nLow-pass cutoff on target\n0 (off)\n0\nHz\n\n\nATC_SPEED_FLTE\nLow-pass cutoff on error\n10\n10\nHz\n\n\nATC_SPEED_FLTD\nLow-pass cutoff on derivative\n0 (off)\n0\nHz\n\n\nATC_SPEED_SMAX\nSlew-rate limit on PID output (anti-oscillation)\n0 (disabled)\n0\n—\n\n\n\nSetpoint shaping and actuator behavior:\n\n\n\n\n\n\n\n\n\n\nParameter\nDescription\nDefault\nVehicle\nUnits\n\n\n\n\nATC_ACCEL_MAX\nAcceleration limiter on the commanded speed setpoint\n1.0\n1.0\nm/s²\n\n\nATC_DECEL_MAX\nDeceleration limit; if 0, falls back to ATC_ACCEL_MAX\n0\n0\nm/s²\n\n\nATC_BRAKE\nAllow negative motor output for active braking\n1\n1\nbool\n\n\nATC_STOP_SPEED\nBelow this speed, motor output is forced to zero\n0.1\n0.1\nm/s\n\n\nCRUISE_SPEED\nStick-to-speed scaling (sets full-stick speed in ACRO)\n—\n—\nm/s\n\n\nCRUISE_THROTTLE\nBaseline throttle FF added at the output sum\n—\n—\nnormalized\n\n\n\n\n\nDataFlash log channels\n\n\n\n\n\n\n\n\nChannel\nDescription\nUnits\n\n\n\n\nTHR_DesSpeed\nSpeed setpoint (after input filter)\nm/s\n\n\nGPS_Spd\nMeasured speed (GPS)\nm/s\n\n\nRCOU_C3\nThrottle command sent to actuator\nPWM\n\n\nPIDT_Tar\nPID’s internal target (after rate limiting, when active)\nm/s\n\n\nPIDT_Act\nPID’s input measurement\nm/s\n\n\nPIDT_P, _I, _D, _FF\nIndividual PID term outputs\nnormalized\n\n\nPIDT_Out\nTotal PID output (= P + I + D + FF)\nnormalized\n\n\n\nTHR_DesSpeed and PIDT_Tar differ only when an upstream filter or rate limiter is active. With the lab settings (acceleration limiters disabled, FLTT off), the two are essentially identical.\n\n\nStep-response setup for this lab\n\n\n\n\n\n\n\n\nSetting\nLab value\nWhy\n\n\n\n\nATC_ACCEL_MAX\n0\nDisable rate limiter — let the setpoint be a true step\n\n\nCRUISE_THROTTLE\n0\nStrip the baseline FF so the response is from the PID alone\n\n\nATC_SPEED_FF\n0 for baseline\nFF restored in experiment B; tuned with PID in experiment C"
+  },
+  {
+    "objectID": "autopilot/stabilization.html#yaw-rate-steering-control",
+    "href": "autopilot/stabilization.html#yaw-rate-steering-control",
+    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
+    "section": "Yaw-Rate (Steering) Control",
+    "text": "Yaw-Rate (Steering) Control\n\nDesign\nSingle-input, single-output PID + feedforward. Same structure as the speed loop, with rudder/skid-steer command in place of throttle.\n\n\n\n\n\n\n\nLoop element\nSource / value\n\n\n\n\nSetpoint\nRC steering stick ([−1, +1]) × ACRO_TURN_RATE (deg/s, internally rad/s)\n\n\nMeasurement\nSTER_TurnRate — body-frame yaw rate from EKF (rad/s)\n\n\nOutput\nSteering command, normalized [−1, +1] → PWM via RCOU_C1\n\n\nPlant\nUSV yaw dynamics (rudder + hull)\n\n\n\nWhy these matter for the marine vehicle:\n\nEKF yaw rate as feedback — the IMU gyro provides a fast, accurate yaw rate measurement; the EKF (STER_*) blends gyro with magnetometer/GPS heading to suppress bias drift. Yaw rate updates much faster than the GPS speed signal in the surge loop, so the bandwidth ceiling of the yaw loop is set by vehicle dynamics, not measurement.\nStrong feedforward by default — for a single-rudder boat, the steady rudder needed to hold a given yaw rate is approximately linear in the desired rate. The vehicle ships with ATC_STR_RAT_FF = 2.0 (10× the source default), reflecting that this contributes the majority of the open-loop control authority.\n\n\n\nCascaded heading controller (not in ACRO)\nIn autonomous modes (HOLD, LOITER, AUTO), an outer-loop heading controller (ATC_STR_ANG_P) wraps the yaw-rate loop, converting heading error to a desired yaw rate. ACRO bypasses that outer loop — the pilot stick commands yaw rate directly, so we tune only the inner rate loop in this lab.\n\n\nParameters — ATC_STR_RAT_* group\nPID gains and filter cutoffs:\n\n\n\n\n\n\n\n\n\n\nParameter\nDescription\nDefault\nVehicle\nUnits\n\n\n\n\nATC_STR_RAT_P\nProportional gain\n0.20\n0.2\n(motor)/(rad/s)\n\n\nATC_STR_RAT_I\nIntegral gain — eliminates steady-state offset\n0.20\n0.2\n(motor)/(rad/s·s)\n\n\nATC_STR_RAT_D\nDerivative gain — use sparingly, yaw rate is already a derivative of heading\n0.00\n0\n(motor·s)/(rad/s)\n\n\nATC_STR_RAT_FF\nFeed-forward, output ∝ desired rate\n0.20\n2.0\n(motor)/(rad/s)\n\n\nATC_STR_RAT_IMAX\nAnti-windup clamp on I-term\n1.00\n1.0\nnormalized\n\n\nATC_STR_RAT_FLTT\nLow-pass cutoff on target\n0 (off)\n0\nHz\n\n\nATC_STR_RAT_FLTE\nLow-pass cutoff on error\n10\n10\nHz\n\n\nATC_STR_RAT_FLTD\nLow-pass cutoff on derivative\n0 (off)\n0\nHz\n\n\n\nSetpoint shaping and limits:\n\n\n\n\n\n\n\n\n\n\nParameter\nDescription\nDefault\nVehicle\nUnits\n\n\n\n\nATC_STR_ACC_MAX\nYaw-acceleration limiter on the commanded yaw rate\n120\n120\ndeg/s²\n\n\nATC_STR_DEC_MAX\nYaw deceleration limit; 0 → falls back to ACC_MAX\n0\n0\ndeg/s²\n\n\nATC_STR_RAT_MAX\nHard cap on commanded yaw rate\n120\n36\ndeg/s\n\n\nATC_TURN_MAX_G\nCoordinated-turn lateral g cap (only active in higher modes)\n0.6\n0.6\ng\n\n\nACRO_TURN_RATE\nStick-to-rate scaling at full deflection\n—\n36\ndeg/s\n\n\nATC_STR_ANG_P\nOuter-loop heading P gain (HOLD/AUTO only — not active in ACRO)\n2.0\n2.0\n—\n\n\n\n\n\nDataFlash log channels\n\n\n\n\n\n\n\n\nChannel\nDescription\nUnits\n\n\n\n\nSTER_DesTurnRate\nYaw-rate setpoint (after input filter)\nrad/s\n\n\nSTER_TurnRate\nMeasured yaw rate (EKF)\nrad/s\n\n\nRCOU_C1\nSteering/rudder command sent to actuator\nPWM\n\n\nPIDS_Tar\nPID’s internal target (after rate limiting, when active)\nrad/s\n\n\nPIDS_Act\nPID’s input measurement\nrad/s\n\n\nPIDS_P, _I, _D, _FF\nIndividual PID term outputs\nnormalized\n\n\nPIDS_Out\nTotal PID output (= P + I + D + FF)\nnormalized\n\n\n\n\n\nStep-response setup for this lab\n\n\n\n\n\n\n\n\nSetting\nLab value\nWhy\n\n\n\n\nATC_STR_ACC_MAX\n0\nDisable rate limiter — let the setpoint be a true step\n\n\nATC_STR_RAT_FF\n0 for baseline\nFF restored in experiment B; tuned with PID in experiment C\n\n\nATC_STR_RAT_MAX\nleft at 36 deg/s\nDetermines the achievable step amplitude"
+  },
+  {
+    "objectID": "autopilot/stabilization.html#restoring-normal-operation",
+    "href": "autopilot/stabilization.html#restoring-normal-operation",
+    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
+    "section": "Restoring normal operation",
+    "text": "Restoring normal operation\nThe lab disables several features (ATC_ACCEL_MAX = 0, ATC_STR_ACC_MAX = 0, ATC_STR_RAT_FF = 0, CRUISE_THROTTLE = 0) only to expose the closed-loop PID dynamics in step-response data. Restore these to their nominal values when the lab is finished — they’re useful in normal operation and required for the autonomous modes used in Lab 3."
+  },
+  {
+    "objectID": "autopilot/stabilization.html#source-references",
+    "href": "autopilot/stabilization.html#source-references",
+    "title": "Stabilization Layer — Speed and Yaw-Rate PID",
+    "section": "Source references",
+    "text": "Source references\n\nAR_AttitudeControl.cpp — parameter definitions and PID call sites\nAC_PID.cpp — the underlying PID implementation that all _P, _I, _D, _FF, _FLT*, _IMAX, _SMAX, _PDMX parameters configure\nRover ACRO mode docs — official explanation of stick-to-rate mapping\nRover speed and steering tuning guide — official tuning recipe (different in tone from a controls-class treatment but useful for cross-reference)"
+  },
+  {
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Quarter: Spring 2026 · Class days this quarter: Monday – Thursday\n\n\n\n\n\n\nPlaceholder skeleton. The grid will be rendered from data/schedule.yml in Phase 2a; per-day columns are configurable per quarter (this quarter happens to be Mon–Thu).\n\n\n\n\n\n\nWeek\nMon — In Person\nTue — Async\nWed\nThu — Async\n\n\n\n\n130 Mar\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n26 Apr\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n313 Apr\nLab 1 — USV System Identification\nLab 1\nLab 1\nLab 1\n\n\n420 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n527 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n64 May\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n711 May\nLab 2 — USV PID Tuning\nLab 2\nLab 2\nLab 2\n\n\n818 May\nGuest lecture — TBD\nLecture topic — TBD\nAsync — TBD\nReading / due — TBD\n\n\n925 May\nMemorial Day — no class\nLecture topic — TBD\n—\nReading / due — TBD\n\n\n101 Jun\nLab 3 — USV Navigation Tuning\nLab 3\nLab 3\nLab 3\n\n\n118 Jun\nFinal Oral Exams\nMAE Retreat — no class\n—\nLast class"
+  },
+  {
     "objectID": "weeks/w07_lab_usv_pid/index.html",
     "href": "weeks/w07_lab_usv_pid/index.html",
     "title": "Lab 2 — USV PID Tuning",
@@ -298,7 +263,7 @@
     "href": "weeks/w07_lab_usv_pid/index.html#architecture-overview",
     "title": "Lab 2 — USV PID Tuning",
     "section": "Architecture overview",
-    "text": "Architecture overview\nThe lab tunes the two innermost feedback loops in ArduRover’s ACRO mode:\n\nSpeed (surge) loop — PID under ATC_SPEED_*, target from RC throttle scaled by CRUISE_SPEED, measurement from GPS.\nYaw-rate loop — PID under ATC_STR_RAT_*, target from RC steering scaled by ACRO_TURN_RATE, measurement from EKF/IMU.\n\nBlock diagram, parameter list, and logging channels are in Architecture details."
+    "text": "Architecture overview\nThe lab tunes the two innermost feedback loops in ArduRover’s ACRO mode:\n\nSpeed (surge) loop — PID under ATC_SPEED_*, target from RC throttle scaled by CRUISE_SPEED, measurement from GPS.\nYaw-rate loop — PID under ATC_STR_RAT_*, target from RC steering scaled by ACRO_TURN_RATE, measurement from EKF/IMU.\n\nFor the block diagram, full parameter tables, and DataFlash log channel reference, see the centralized Autopilot → Stabilization Layer page. The lab-specific framing — which ATC_* parameters change between experiments A / B / C, and which stay fixed — is in §3 of the Procedure."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/index.html#procedure-overview",

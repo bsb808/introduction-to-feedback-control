@@ -202,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Speed (surge) loop</strong> — PID under <code>ATC_SPEED_*</code>, target from RC throttle scaled by <code>CRUISE_SPEED</code>, measurement from GPS.</li>
 <li><strong>Yaw-rate loop</strong> — PID under <code>ATC_STR_RAT_*</code>, target from RC steering scaled by <code>ACRO_TURN_RATE</code>, measurement from EKF/IMU.</li>
 </ul>
-<p>Block diagram, parameter list, and logging channels are in <strong><a href="../../weeks/w07_lab_usv_pid/architecture.html">Architecture details</a></strong>.</p>
+<p>For the block diagram, full parameter tables, and DataFlash log channel reference, see the centralized <strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> page. The lab-specific framing — which <code>ATC_*</code> parameters change between experiments A / B / C, and which stay fixed — is in §3 of the <a href="../../weeks/w07_lab_usv_pid/procedure.html">Procedure</a>.</p>
 </section>
 <section id="procedure-overview" class="level2">
 <h2 class="anchored" data-anchor-id="procedure-overview">Procedure overview</h2>
