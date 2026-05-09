@@ -2,34 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/procedure.html</loc>
-    <lastmod>2026-05-09T00:32:28.594Z</lastmod>
+    <lastmod>2026-05-09T00:39:38.720Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/architecture.html</loc>
-    <lastmod>2026-05-09T00:32:28.593Z</lastmod>
+    <lastmod>2026-05-09T00:39:38.720Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/schedule.html</loc>
-    <lastmod>2026-05-09T00:32:28.593Z</lastmod>
+    <lastmod>2026-05-09T00:39:38.719Z</lastmod>
   </url>
   <url>
-    <loc>https://controls-intro.bbingham.dev/autopilot/index.html</loc>
-    <lastmod>2026-05-09T00:32:28.593Z</lastmod>
+    <loc>https://controls-intro.bbingham.dev/autopilot/stabilization.html</loc>
+    <lastmod>2026-05-09T00:39:38.719Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/assignments.html</loc>
-    <lastmod>2026-05-09T00:32:28.593Z</lastmod>
+    <lastmod>2026-05-09T00:39:38.718Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/autopilot/index.html</loc>
+    <lastmod>2026-05-09T00:39:38.719Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/index.html</loc>
-    <lastmod>2026-05-09T00:32:28.593Z</lastmod>
+    <lastmod>2026-05-09T00:39:38.719Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/syllabus.html</loc>
-    <lastmod>2026-05-09T00:32:28.593Z</lastmod>
+    <lastmod>2026-05-09T00:39:38.719Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/index.html</loc>
-    <lastmod>2026-05-09T00:32:28.594Z</lastmod>
+    <lastmod>2026-05-09T00:39:38.720Z</lastmod>
   </url>
 </urlset>
