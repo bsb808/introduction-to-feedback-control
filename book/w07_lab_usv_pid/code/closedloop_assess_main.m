@@ -4,7 +4,7 @@ clear;
 set(0, 'DefaultFigureWindowStyle', 'normal')
 set(groot, 'defaultAxesFontName','Helvetica', 'defaultAxesFontSize',10);
 
-export_figs = true;
+export_figs = false;
 if export_figs
     close("all");
 end
@@ -112,6 +112,7 @@ for ii = 1:length(exp)
 
         exportgraphics(f1, sprintf("images/%s_response.pdf",exp(ii).label),...
             'ContentType','vector');
+        % Redo this plot with a smaller text size for the PNG version
         plot_response(d, t0, flabel, textbox_fontsize=8)
         exportgraphics(f1, sprintf("images/%s_response.png",exp(ii).label),...
             'Resolution', 300);
@@ -142,10 +143,65 @@ for ii = 1:length(exp)
         
         exportgraphics(f2, sprintf("images/%s_pids.pdf",exp(ii).label),...
             'ContentType','vector');
-           step_response_metrics(d, exp(ii).experiment, t0, exp(ii).t_step_start, exp(ii).t_step_end, ...
+        % Redo this plot with a smaller text size for the PNG version
+        step_response_metrics(d, exp(ii).experiment, t0, exp(ii).t_step_start, exp(ii).t_step_end, ...
                           exp(ii).tar_amplitude, exp(ii).act_steady_state, ...
                           textbox_fontsize=6);
         exportgraphics(f2, sprintf("images/%s_pids.png",exp(ii).label),...
             'Resolution', 300);
     end
 end
+
+%% Summary CSV + Markdown — speed{base,ff,tuned} then yaw{base,ff,tuned}
+% Excludes base_yaw_windup (outside the base/ff/tuned triple).
+% CSV is the engineering artifact (kept under code/images/, uniquified to
+% preserve history). Markdown is the site asset (overwritten in place at
+% site/weeks/w07_lab_usv_pid/metrics_summary.md and pulled into results.qmd
+% via Quarto's {{< include >}} shortcode).
+report_order = ["base_speed", "ff_speed", "tuned_speed", ...
+                "base_yaw",   "ff_yaw",   "tuned_yaw"];
+
+csv_path = fullfile("images", "metrics_summary.csv");
+if isfile(csv_path)
+    [dirpath, name, ext] = fileparts(csv_path);
+    counter = 1;
+    while isfile(fullfile(dirpath, sprintf("%s_%d%s", name, counter, ext)))
+        counter = counter + 1;
+    end
+    csv_path = fullfile(dirpath, sprintf("%s_%d%s", name, counter, ext));
+end
+
+md_path = "/home/bsb/WorkingCopies/me2801/introduction-to-feedback-control/site/weeks/w07_lab_usv_pid/metrics_summary.md";
+
+csv_rows    = strings(numel(report_order) + 1, 1);
+csv_rows(1) = "label,P,I,D,FF,RiseTime,SettlingTime,Overshoot,SteadyStateError";
+md_rows     = strings(numel(report_order) + 2, 1);
+md_rows(1)  = "| label | P | I | D | FF | RiseTime (s) | SettlingTime (s) | Overshoot (%) | SS Error |";
+md_rows(2)  = "|---|---:|---:|---:|---:|---:|---:|---:|---:|";
+n_csv = 1;
+n_md  = 2;
+for k = 1:numel(report_order)
+    idx = find([S.label] == report_order(k), 1);
+    if isempty(idx)
+        fprintf("Warning: no metrics row for label %s — skipping.\n", ...
+                report_order(k));
+        continue;
+    end
+    s     = S(idx);
+    n_csv = n_csv + 1;
+    csv_rows(n_csv) = sprintf("%s,%g,%g,%g,%g,%.3f,%.3f,%.2f,%.4f", ...
+        s.label, s.P, s.I, s.D, s.FF, ...
+        s.RiseTime, s.SettlingTime, s.Overshoot, s.SteadyStateError);
+    n_md = n_md + 1;
+    md_rows(n_md) = sprintf("| %s | %g | %g | %g | %g | %.3f | %.3f | %.2f | %.4f |", ...
+        s.label, s.P, s.I, s.D, s.FF, ...
+        s.RiseTime, s.SettlingTime, s.Overshoot, s.SteadyStateError);
+end
+csv_rows = csv_rows(1:n_csv);
+md_rows  = md_rows(1:n_md);
+
+fprintf("\n%s\n", strjoin(csv_rows, newline));
+writelines(csv_rows, csv_path);
+writelines(md_rows,  md_path);
+fprintf("\nWrote CSV summary to %s\n", csv_path);
+fprintf("Wrote Markdown table for site to %s\n", md_path);
