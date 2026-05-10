@@ -119,9 +119,13 @@ for ii = 1:length(exp)
     end
 
     f2 = figure(2*ii);
-    step_response_metrics(d, exp(ii).experiment, t0, exp(ii).t_step_start, exp(ii).t_step_end, ...
+    S(ii) = step_response_metrics(d, exp(ii).experiment, t0, exp(ii).t_step_start, exp(ii).t_step_end, ...
                       exp(ii).tar_amplitude, exp(ii).act_steady_state, ...
                       textbox_fontsize=7);
+    % CLAUDE: Create a structure that includes the label, controller params
+    % (P, I, D, FF), risetime, settlingtime, peak, peaktime and
+    % steadystateerror
+    
     if export_figs
         set(f2, 'Units','inches', 'Position',[1 1 8 6]);
         

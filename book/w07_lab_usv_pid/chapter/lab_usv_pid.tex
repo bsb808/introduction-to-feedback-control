@@ -234,24 +234,24 @@ After tuning each channel, capture a clean set of step trials with the final gai
 
 \subsection{Relevant Log Channels}
 
-Use the same \texttt{bin2mat.py} pipeline as Lab~1 to convert the \texttt{.BIN} log to \texttt{.mat}.  The closed-loop analysis requires the speed and yaw-rate \emph{setpoints} in addition to the measured signals from Lab~1.  These appear in ArduRover's control-tuning log message:
+Use the same \texttt{bin2mat.py} pipeline as Lab~1 to convert the \texttt{.BIN} log to \texttt{.mat}.  The closed-loop analysis requires the speed and yaw-rate \emph{setpoints} in addition to the measured signals from Lab~1.  The setpoints appear in ArduRover's throttle and steering log messages:
 
 \vspace{6pt}
 \begin{center}
 \begin{tabular}{L{2.8cm} L{2.8cm} C{1.8cm} L{5.0cm}}
   \textbf{Log message} & \textbf{Field} & \textbf{Units} & \textbf{Description} \\
   \midrule
-  \texttt{CTUN} & \texttt{DesSpeed}    & m/s   & Speed setpoint (command to PID) \\[3pt]
+  \texttt{THR}  & \texttt{DesSpeed}    & m/s   & Speed setpoint (command to PID) \\[3pt]
   \texttt{GPS}  & \texttt{Spd}         & m/s   & Measured surge speed \\[3pt]
   \texttt{RCOU} & \texttt{C3}          & PWM   & Throttle command to ESC (surge control effort) \\[5pt]
-  \texttt{CTUN} & \texttt{DesTurnRate} & rad/s & Yaw-rate setpoint (command to PID) \\[3pt]
-  \texttt{IMU}  & \texttt{GyrZ}        & rad/s & Measured yaw rate \\[3pt]
+  \texttt{STER} & \texttt{DesTurnRate} & rad/s & Yaw-rate setpoint (command to PID) \\[3pt]
+  \texttt{STER} & \texttt{TurnRate}    & rad/s & Measured yaw rate (EKF estimate) \\[3pt]
   \texttt{RCOU} & \texttt{C1}          & PWM   & Rudder command to servo (yaw control effort) \\[3pt]
   \bottomrule
 \end{tabular}
 \end{center}
 \vspace{4pt}
-{\small Verify \texttt{CTUN} field names against your log using Mission Planner's log browser before scripting the analysis; field names may differ across ArduRover versions.}
+{\small Verify field names against your log using Mission Planner's log browser before scripting the analysis; ArduRover log message and field names can drift across firmware versions.  An older \texttt{CTUN} message carried both setpoints in earlier releases but is no longer the canonical source.}
 \vspace{6pt}
 
 \subsection{Plots to Produce}
