@@ -112,19 +112,30 @@ for ii = 1:length(exp)
 
         exportgraphics(f1, sprintf("images/%s_response.pdf",exp(ii).label),...
             'ContentType','vector');
-        textbox_fontsize = 9;
         plot_response(d, t0, flabel, textbox_fontsize=8)
         exportgraphics(f1, sprintf("images/%s_response.png",exp(ii).label),...
             'Resolution', 300);
     end
 
     f2 = figure(2*ii);
-    S(ii) = step_response_metrics(d, exp(ii).experiment, t0, exp(ii).t_step_start, exp(ii).t_step_end, ...
+    m = step_response_metrics(d, exp(ii).experiment, t0, exp(ii).t_step_start, exp(ii).t_step_end, ...
                       exp(ii).tar_amplitude, exp(ii).act_steady_state, ...
                       textbox_fontsize=7);
-    % CLAUDE: Create a structure that includes the label, controller params
-    % (P, I, D, FF), risetime, settlingtime, peak, peaktime and
-    % steadystateerror
+
+    % Augment with label + tuned PID gains so S(:) can drive a summary table
+    % downstream.  Build into a temp struct, then assign S(ii) once (avoids
+    % triggering SAGROW on every per-field assignment).
+    m.label = exp(ii).label;
+    if exp(ii).experiment == "speed"
+        pp = "ATC_SPEED";
+    else
+        pp = "ATC_STR_RAT";
+    end
+    m.P  = d.params.(sprintf("%s_P",  pp));
+    m.I  = d.params.(sprintf("%s_I",  pp));
+    m.D  = d.params.(sprintf("%s_D",  pp));
+    m.FF = d.params.(sprintf("%s_FF", pp));
+    S(ii) = m;
     
     if export_figs
         set(f2, 'Units','inches', 'Position',[1 1 8 6]);
