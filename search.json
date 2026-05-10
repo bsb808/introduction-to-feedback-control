@@ -39,49 +39,42 @@
     "href": "weeks/w07_lab_usv_pid/index.html",
     "title": "Lab 2 — USV PID Tuning",
     "section": "",
-    "text": "Status: in progress through Week 7. This week is data collection; analysis and performance characterization happen in Week 8."
+    "text": "Status: in progress through Week 7. Data collection this week; analysis and performance characterization in Week 8."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/index.html#objectives",
     "href": "weeks/w07_lab_usv_pid/index.html#objectives",
     "title": "Lab 2 — USV PID Tuning",
     "section": "Objectives",
-    "text": "Objectives\nTune the autopilot’s closed-loop control to maximize speed and yaw-rate tracking performance. By the end of this week each team has step-response data for three experiments × two channels = six datasets.\n\n\n\n\n\n\n\n\nExperiment\nWhat changes\nWhat stays the same\n\n\n\n\nBase\nLab preset configuration (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains\nOther settings unchanged\n\n\nFeedForward\nAdd feedforward gain to both speed and yaw-rate control loops. Gain values from our open-loop system identification lab.\nStock PID gains\n\n\nTuned\nTune PID gains for “best” response\nFeedforward kept on\n\n\n\nFor each experiment, both the speed (surge/throttle) loop and the yaw-rate (steering/rudder) loop are exercised with manual step inputs, and the resulting closed-loop responses are logged and quality-checked.\nThis week’s deliverable: clean step-response logs for all six cases, with a brief quality-check note per dataset.\nNext week: process the data with closedloop_stepinfo.m to quantify rise time, settling time, overshoot, and steady-state error — and use those metrics to compare the three experiments."
+    "text": "Objectives\nTune the autopilot’s closed-loop control to maximize speed and yaw-rate tracking performance. Compare three tuning configurations of the inner-loop controllers across both channels.\n\n\n\n\n\n\n\n\nExperiment\nWhat changes\nWhat stays the same\n\n\n\n\nBase\nLab preset configuration (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains\nOther settings unchanged\n\n\nFeedForward\nAdd feedforward gain to both speed and yaw-rate control loops. Gain values from our open-loop system identification lab.\nStock PID gains\n\n\nTuned\nTune PID gains for “best” response\nFeedforward kept on\n\n\n\nFor each experiment, both the speed (surge / throttle) loop and the yaw-rate (steering / rudder) loop are exercised with manual step inputs and the responses logged."
   },
   {
-    "objectID": "weeks/w07_lab_usv_pid/index.html#architecture-overview",
-    "href": "weeks/w07_lab_usv_pid/index.html#architecture-overview",
+    "objectID": "weeks/w07_lab_usv_pid/index.html#deliverables",
+    "href": "weeks/w07_lab_usv_pid/index.html#deliverables",
     "title": "Lab 2 — USV PID Tuning",
-    "section": "Architecture overview",
-    "text": "Architecture overview\nThe lab tunes the two innermost feedback loops in ArduRover’s ACRO mode:\n\nSpeed (surge) loop — PID under ATC_SPEED_*, target from RC throttle scaled by CRUISE_SPEED, measurement from GPS.\nYaw-rate loop — PID under ATC_STR_RAT_*, target from RC steering scaled by ACRO_TURN_RATE, measurement from EKF/IMU.\n\nFor the block diagram, full parameter tables, and DataFlash log channel reference, see the centralized Autopilot → Stabilization Layer page. The lab-specific framing — which ATC_* parameters change between experiments A / B / C, and which stay fixed — is in §3 of the Procedure."
+    "section": "Deliverables",
+    "text": "Deliverables\nThis week: clean step-response logs for all three experiments × two channels = six datasets, with a brief quality-check note per dataset.\nNext week: process the data with the closedloop_assess_main.m pipeline to quantify rise time, settling time, overshoot, and steady-state error, and compare across the three experiments."
   },
   {
-    "objectID": "weeks/w07_lab_usv_pid/index.html#procedure-overview",
-    "href": "weeks/w07_lab_usv_pid/index.html#procedure-overview",
+    "objectID": "weeks/w07_lab_usv_pid/index.html#sub-pages",
+    "href": "weeks/w07_lab_usv_pid/index.html#sub-pages",
     "title": "Lab 2 — USV PID Tuning",
-    "section": "Procedure overview",
-    "text": "Procedure overview\nWorking draft — see Procedure details.\nAt a high level:\n\nConfirm preset parameters and the experiment-specific tuning state on the boat.\nRun a series of throttle and steering step inputs in ACRO mode.\nPull the .BIN log, convert with bin2mat.py, and inspect with proc_closedloop_response.m.\nVerify the data passes the quality check before returning to the dock."
+    "section": "Sub-pages",
+    "text": "Sub-pages\nThis page is the assignment overview. The lab-specific detail lives in:\n\nProcedure — pre-lab checklist, field workflow, step-input technique, and the at-the-field quality-check criteria.\nExample Results — example timeseries and PID-internals figures for each of the six cases (plus an integrator-windup demonstration), and a summary metrics table generated from the analysis pipeline."
   },
   {
-    "objectID": "weeks/w07_lab_usv_pid/index.html#end-state-what-done-looks-like-this-week",
-    "href": "weeks/w07_lab_usv_pid/index.html#end-state-what-done-looks-like-this-week",
+    "objectID": "weeks/w07_lab_usv_pid/index.html#background-autopilot-architecture",
+    "href": "weeks/w07_lab_usv_pid/index.html#background-autopilot-architecture",
     "title": "Lab 2 — USV PID Tuning",
-    "section": "End state — what “done” looks like this week",
-    "text": "End state — what “done” looks like this week\nFor each of the six datasets, you should be able to plot — using closedloop_stepinfo.m — a step-response figure that shows:\n\nSetpoint (commanded step) overlaid on measured response\nControl effort (normalized throttle or rudder) on a linked time axis\nPID internals (PIDA_* for speed, PIDS_* for yaw rate — naming is unintuitive; see the Stabilization Layer page) showing target, actual, error, and the P/I/D/FF terms. Total controller output is P + I + D + FF; ArduPilot does not log a separate Out field.\n\nIf those plots look clean — clear step, response settles, no clipping, no logging gaps — the dataset is good. If anything looks off, plan to recollect before leaving the field."
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/index.html#example-results",
-    "href": "weeks/w07_lab_usv_pid/index.html#example-results",
-    "title": "Lab 2 — USV PID Tuning",
-    "section": "Example results",
-    "text": "Example results\nSee Example Results — step-response figures from each of the three experiments (A, B, C) for both speed and yaw-rate, with brief observations and a summary metrics table."
+    "section": "Background — autopilot architecture",
+    "text": "Background — autopilot architecture\nThe control loops being tuned are documented separately under the autopilot reference:\n\nAutopilot → Stabilization Layer — block diagram for the speed and yaw-rate PID loops, full ATC_* parameter tables, and DataFlash log-channel reference (PIDA_* / PIDS_*).\n\nWhich ATC_* parameters change between experiments (and which stay fixed) is summarized in §3 of the procedure."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/index.html#materials",
     "href": "weeks/w07_lab_usv_pid/index.html#materials",
     "title": "Lab 2 — USV PID Tuning",
     "section": "Materials",
-    "text": "Materials\n\nLab chapter PDF (build pending) — book/w07_lab_usv_pid/chapter/lab_usv_pid.pdf\nArduPilot Rover doc references — see ardupilot_references.md\nMATLAB scripts — book/w07_lab_usv_pid/code/\n\nproc_closedloop_response.m — visual inspection\nclosedloop_stepinfo.m — step-response metrics\n\nLog conversion — bin2mat.py"
+    "text": "Materials\n\nLab chapter PDF (build pending) — book/w07_lab_usv_pid/chapter/lab_usv_pid.pdf\nArduPilot Rover doc references — ardupilot_references.md\nAnalysis scripts — book/w07_lab_usv_pid/code/\n\nclosedloop_assess_main.m — main driver: loads each log, plots, runs metrics, writes CSV + Markdown summary\nstep_response_metrics.m — per-step PID-internals figure with metrics text box\nplot_speed_response.m, plot_yaw_response.m — per-channel timeseries\nload_and_prep.m — load a .mat and compute elapsed-time vectors\n\nLog conversion — bin2mat.py"
   },
   {
     "objectID": "schedule.html",

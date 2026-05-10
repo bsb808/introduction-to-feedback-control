@@ -117,10 +117,9 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
-  <li><a href="#architecture-overview" id="toc-architecture-overview" class="nav-link" data-scroll-target="#architecture-overview">Architecture overview</a></li>
-  <li><a href="#procedure-overview" id="toc-procedure-overview" class="nav-link" data-scroll-target="#procedure-overview">Procedure overview</a></li>
-  <li><a href="#end-state-what-done-looks-like-this-week" id="toc-end-state-what-done-looks-like-this-week" class="nav-link" data-scroll-target="#end-state-what-done-looks-like-this-week">End state — what “done” looks like this week</a></li>
-  <li><a href="#example-results" id="toc-example-results" class="nav-link" data-scroll-target="#example-results">Example results</a></li>
+  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables">Deliverables</a></li>
+  <li><a href="#sub-pages" id="toc-sub-pages" class="nav-link" data-scroll-target="#sub-pages">Sub-pages</a></li>
+  <li><a href="#background-autopilot-architecture" id="toc-background-autopilot-architecture" class="nav-link" data-scroll-target="#background-autopilot-architecture">Background — autopilot architecture</a></li>
   <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a></li>
   </ul>
 </nav>
@@ -154,13 +153,13 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Status:</strong> in progress through Week 7. This week is data collection; analysis and performance characterization happen in Week 8.</p>
+<p><strong>Status:</strong> in progress through Week 7. Data collection this week; analysis and performance characterization in Week 8.</p>
 </div>
 </div>
 </div>
 <section id="objectives" class="level2">
 <h2 class="anchored" data-anchor-id="objectives">Objectives</h2>
-<p>Tune the autopilot’s closed-loop control to maximize speed and yaw-rate tracking performance. By the end of this week each team has step-response data for <strong>three experiments × two channels = six datasets</strong>.</p>
+<p>Tune the autopilot’s closed-loop control to maximize speed and yaw-rate tracking performance. Compare three tuning configurations of the inner-loop controllers across both channels.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -192,53 +191,40 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>For each experiment, both the <strong>speed (surge/throttle)</strong> loop and the <strong>yaw-rate (steering/rudder)</strong> loop are exercised with manual step inputs, and the resulting closed-loop responses are logged and quality-checked.</p>
-<p><strong>This week’s deliverable:</strong> clean step-response logs for all six cases, with a brief quality-check note per dataset.</p>
-<p><strong>Next week:</strong> process the data with <code>closedloop_stepinfo.m</code> to quantify rise time, settling time, overshoot, and steady-state error — and use those metrics to compare the three experiments.</p>
+<p>For each experiment, both the <strong>speed (surge / throttle)</strong> loop and the <strong>yaw-rate (steering / rudder)</strong> loop are exercised with manual step inputs and the responses logged.</p>
 </section>
-<section id="architecture-overview" class="level2">
-<h2 class="anchored" data-anchor-id="architecture-overview">Architecture overview</h2>
-<p>The lab tunes the two innermost feedback loops in ArduRover’s ACRO mode:</p>
+<section id="deliverables" class="level2">
+<h2 class="anchored" data-anchor-id="deliverables">Deliverables</h2>
+<p><strong>This week:</strong> clean step-response logs for all <strong>three experiments × two channels = six datasets</strong>, with a brief quality-check note per dataset.</p>
+<p><strong>Next week:</strong> process the data with the <code>closedloop_assess_main.m</code> pipeline to quantify rise time, settling time, overshoot, and steady-state error, and compare across the three experiments.</p>
+</section>
+<section id="sub-pages" class="level2">
+<h2 class="anchored" data-anchor-id="sub-pages">Sub-pages</h2>
+<p>This page is the assignment overview. The lab-specific detail lives in:</p>
 <ul>
-<li><strong>Speed (surge) loop</strong> — PID under <code>ATC_SPEED_*</code>, target from RC throttle scaled by <code>CRUISE_SPEED</code>, measurement from GPS.</li>
-<li><strong>Yaw-rate loop</strong> — PID under <code>ATC_STR_RAT_*</code>, target from RC steering scaled by <code>ACRO_TURN_RATE</code>, measurement from EKF/IMU.</li>
+<li><strong><a href="../../weeks/w07_lab_usv_pid/procedure.html">Procedure</a></strong> — pre-lab checklist, field workflow, step-input technique, and the at-the-field quality-check criteria.</li>
+<li><strong><a href="../../weeks/w07_lab_usv_pid/results.html">Example Results</a></strong> — example timeseries and PID-internals figures for each of the six cases (plus an integrator-windup demonstration), and a summary metrics table generated from the analysis pipeline.</li>
 </ul>
-<p>For the block diagram, full parameter tables, and DataFlash log channel reference, see the centralized <strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> page. The lab-specific framing — which <code>ATC_*</code> parameters change between experiments A / B / C, and which stay fixed — is in §3 of the <a href="../../weeks/w07_lab_usv_pid/procedure.html">Procedure</a>.</p>
 </section>
-<section id="procedure-overview" class="level2">
-<h2 class="anchored" data-anchor-id="procedure-overview">Procedure overview</h2>
-<p><em>Working draft — see <strong><a href="../../weeks/w07_lab_usv_pid/procedure.html">Procedure details</a></strong>.</em></p>
-<p>At a high level:</p>
-<ol type="1">
-<li>Confirm preset parameters and the experiment-specific tuning state on the boat.</li>
-<li>Run a series of throttle and steering step inputs in ACRO mode.</li>
-<li>Pull the <code>.BIN</code> log, convert with <code>bin2mat.py</code>, and inspect with <code>proc_closedloop_response.m</code>.</li>
-<li>Verify the data passes the quality check before returning to the dock.</li>
-</ol>
-</section>
-<section id="end-state-what-done-looks-like-this-week" class="level2">
-<h2 class="anchored" data-anchor-id="end-state-what-done-looks-like-this-week">End state — what “done” looks like this week</h2>
-<p>For each of the six datasets, you should be able to plot — using <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_stepinfo.m"><code>closedloop_stepinfo.m</code></a> — a step-response figure that shows:</p>
+<section id="background-autopilot-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="background-autopilot-architecture">Background — autopilot architecture</h2>
+<p>The control loops being tuned are documented separately under the autopilot reference:</p>
 <ul>
-<li><strong>Setpoint</strong> (commanded step) overlaid on <strong>measured response</strong></li>
-<li><strong>Control effort</strong> (normalized throttle or rudder) on a linked time axis</li>
-<li><strong>PID internals</strong> (<code>PIDA_*</code> for speed, <code>PIDS_*</code> for yaw rate — naming is unintuitive; see the <a href="../../autopilot/stabilization.html">Stabilization Layer</a> page) showing target, actual, error, and the P/I/D/FF terms. Total controller output is <code>P + I + D + FF</code>; ArduPilot does not log a separate <code>Out</code> field.</li>
+<li><strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> — block diagram for the speed and yaw-rate PID loops, full <code>ATC_*</code> parameter tables, and DataFlash log-channel reference (<code>PIDA_*</code> / <code>PIDS_*</code>).</li>
 </ul>
-<p>If those plots look clean — clear step, response settles, no clipping, no logging gaps — the dataset is good. If anything looks off, plan to recollect before leaving the field.</p>
-</section>
-<section id="example-results" class="level2">
-<h2 class="anchored" data-anchor-id="example-results">Example results</h2>
-<p>See <strong><a href="../../weeks/w07_lab_usv_pid/results.html">Example Results</a></strong> — step-response figures from each of the three experiments (A, B, C) for both speed and yaw-rate, with brief observations and a summary metrics table.</p>
+<p>Which <code>ATC_*</code> parameters change between experiments (and which stay fixed) is summarized in §3 of the procedure.</p>
 </section>
 <section id="materials" class="level2">
 <h2 class="anchored" data-anchor-id="materials">Materials</h2>
 <ul>
 <li>Lab chapter PDF (build pending) — <code>book/w07_lab_usv_pid/chapter/lab_usv_pid.pdf</code></li>
-<li>ArduPilot Rover doc references — see <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md"><code>ardupilot_references.md</code></a></li>
-<li>MATLAB scripts — <code>book/w07_lab_usv_pid/code/</code>
+<li>ArduPilot Rover doc references — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md"><code>ardupilot_references.md</code></a></li>
+<li>Analysis scripts — <code>book/w07_lab_usv_pid/code/</code>
 <ul>
-<li><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/proc_closedloop_response.m"><code>proc_closedloop_response.m</code></a> — visual inspection</li>
-<li><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_stepinfo.m"><code>closedloop_stepinfo.m</code></a> — step-response metrics</li>
+<li><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m"><code>closedloop_assess_main.m</code></a> — main driver: loads each log, plots, runs metrics, writes CSV + Markdown summary</li>
+<li><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/step_response_metrics.m"><code>step_response_metrics.m</code></a> — per-step PID-internals figure with metrics text box</li>
+<li><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/plot_speed_response.m"><code>plot_speed_response.m</code></a>, <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/plot_yaw_response.m"><code>plot_yaw_response.m</code></a> — per-channel timeseries</li>
+<li><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/load_and_prep.m"><code>load_and_prep.m</code></a> — load a <code>.mat</code> and compute elapsed-time vectors</li>
 </ul></li>
 <li>Log conversion — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>bin2mat.py</code></a></li>
 </ul>
