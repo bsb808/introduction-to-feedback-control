@@ -4,28 +4,21 @@
     "href": "weeks/w07_lab_usv_pid/results.html",
     "title": "Lab 2 — Example Results",
     "section": "",
-    "text": "← Back to Lab 2 overview"
+    "text": "← Back to Lab 2 overview\nExample step-response figures from the three experiments (Base, FeedForward, Tuned) for the speed and yaw-rate channels. Each case has two figures:\nA separate integrator-windup demonstration on the Base/yaw run shows what happens when the controller is allowed to hold the step long enough for the I term to wind up."
   },
   {
-    "objectID": "weeks/w07_lab_usv_pid/results.html#base",
-    "href": "weeks/w07_lab_usv_pid/results.html#base",
+    "objectID": "weeks/w07_lab_usv_pid/results.html#speed-channel",
+    "href": "weeks/w07_lab_usv_pid/results.html#speed-channel",
     "title": "Lab 2 — Example Results",
-    "section": "Base",
-    "text": "Base\nArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The reference against which FeedForward and Tuned are compared.\n\nSpeed channel\n\n\n\n\n\nBase / speed — timeseries (setpoint, measured GPS speed, throttle command)\n\n\n\n\n\n\nBase / speed — PID internals (Tar/Act with metrics; P/I/D/FF terms with actuator command)\n\n\n\n\n\n\nYaw-rate channel\n\n\n\n\n\nBase / yaw — timeseries (setpoint, measured EKF yaw rate, rudder command)\n\n\n\n\n\n\nBase / yaw — PID internals (Tar/Act with metrics; P/I/D/FF terms with rudder command)\n\n\n\n\n\n\nYaw-rate — integrator windup demonstration\nThe same Base/yaw configuration as above, but the step input is held long enough for the integrator to wind up. The delayed recovery on the step-back illustrates classic I-term windup.\n\n\n\n\n\nBase / yaw / windup — timeseries with extended step hold\n\n\n\n\n\n\nBase / yaw / windup — PID internals; note the I term grows for the duration of the step and dominates the recovery transient"
+    "section": "Speed Channel",
+    "text": "Speed Channel\n\nBase - Speed\nArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The reference against which FeedForward and Tuned are compared.\n\n\n\n\n\nBase / speed — timeseries (setpoint, measured GPS speed, throttle command)\n\n\n\n\n\n\nBase / speed — PID internals (Tar/Act with metrics; P/I/D/FF terms with actuator command)\n\n\n\n\n\n\nFeedforward - Speed\n\n\n\n\n\nFeedForward / speed — timeseries\n\n\n\n\n\n\nFeedForward / speed — PID internals\n\n\n\n\n\n\nTuned - Speed\n\n\n\n\n\nTuned / speed — timeseries\n\n\n\n\n\n\nTuned / speed — PID internals"
   },
   {
-    "objectID": "weeks/w07_lab_usv_pid/results.html#feedforward",
-    "href": "weeks/w07_lab_usv_pid/results.html#feedforward",
+    "objectID": "weeks/w07_lab_usv_pid/results.html#yaw-rate-steering-channel",
+    "href": "weeks/w07_lab_usv_pid/results.html#yaw-rate-steering-channel",
     "title": "Lab 2 — Example Results",
-    "section": "FeedForward",
-    "text": "FeedForward\nRestored ATC_SPEED_FF and ATC_STR_RAT_FF to lab values; PID gains unchanged from Base.\n\nSpeed channel\n\n\n\n\n\nFeedForward / speed — timeseries\n\n\n\n\n\n\nFeedForward / speed — PID internals\n\n\n\n\n\n\nYaw-rate channel\n\n\n\n\n\nFeedForward / yaw — timeseries\n\n\n\n\n\n\nFeedForward / yaw — PID internals"
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/results.html#tuned",
-    "href": "weeks/w07_lab_usv_pid/results.html#tuned",
-    "title": "Lab 2 — Example Results",
-    "section": "Tuned",
-    "text": "Tuned\nAdjusted ATC_SPEED_P/I/D and ATC_STR_RAT_P/I/D for best response; FF kept on.\n\nSpeed channel\n\n\n\n\n\nTuned / speed — timeseries\n\n\n\n\n\n\nTuned / speed — PID internals\n\n\n\n\n\n\nYaw-rate channel\n\n\n\n\n\nTuned / yaw — timeseries\n\n\n\n\n\n\nTuned / yaw — PID internals"
+    "section": "Yaw-rate (Steering) Channel",
+    "text": "Yaw-rate (Steering) Channel\n\nBase - Yaw-rate\n\n\n\n\n\nBase / yaw — timeseries (setpoint, measured EKF yaw rate, rudder command)\n\n\n\n\n\n\nBase / yaw — PID internals (Tar/Act with metrics; P/I/D/FF terms with rudder command)\n\n\n\n\n\n\nBase - Yaw-rate — integrator windup demonstration\nThe same Base/yaw configuration as above, but the step input is held long enough for the integrator to wind up. The delayed recovery on the step-back illustrates classic I-term windup.\n\n\n\n\n\nBase / yaw / windup — timeseries with extended step hold\n\n\n\n\n\n\nBase / yaw / windup — PID internals; note the I term grows for the duration of the step and dominates the recovery transient\n\n\n\n\n\n\nFeedforward - Yaw-rate\n\n\n\n\n\nFeedForward / yaw — timeseries\n\n\n\n\n\n\nFeedForward / yaw — PID internals\n\n\n\n\n\n\nTuned - Yaw-rate\n\n\n\n\n\nTuned / yaw — timeseries\n\n\n\n\n\n\nTuned / yaw — PID internals"
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/results.html#summary",
@@ -39,14 +32,14 @@
     "href": "weeks/w07_lab_usv_pid/index.html",
     "title": "Lab 2 — USV PID Tuning",
     "section": "",
-    "text": "Status: in progress through Week 7. Data collection this week; analysis and performance characterization in Week 8."
+    "text": "Tune the autopilot’s closed-loop control to maximize speed and yaw-rate tracking performance. Compare three tuning configurations of the inner-loop controllers across both channels.\n\n\n\n\n\n\n\n\nExperiment\nWhat changes\nWhat stays the same\n\n\n\n\nBase\nLab preset configuration (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains\nOther settings unchanged\n\n\nFeedForward\nAdd feedforward gain to both speed and yaw-rate control loops. Gain values from our open-loop system identification lab.\nStock PID gains\n\n\nTuned\nTune PID gains for “best” response\nFeedforward kept on\n\n\n\nFor each experiment, both the speed (surge / throttle) loop and the yaw-rate (steering / rudder) loop are exercised with manual step inputs and the responses logged."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/index.html#objectives",
     "href": "weeks/w07_lab_usv_pid/index.html#objectives",
     "title": "Lab 2 — USV PID Tuning",
-    "section": "Objectives",
-    "text": "Objectives\nTune the autopilot’s closed-loop control to maximize speed and yaw-rate tracking performance. Compare three tuning configurations of the inner-loop controllers across both channels.\n\n\n\n\n\n\n\n\nExperiment\nWhat changes\nWhat stays the same\n\n\n\n\nBase\nLab preset configuration (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains\nOther settings unchanged\n\n\nFeedForward\nAdd feedforward gain to both speed and yaw-rate control loops. Gain values from our open-loop system identification lab.\nStock PID gains\n\n\nTuned\nTune PID gains for “best” response\nFeedforward kept on\n\n\n\nFor each experiment, both the speed (surge / throttle) loop and the yaw-rate (steering / rudder) loop are exercised with manual step inputs and the responses logged."
+    "section": "",
+    "text": "Tune the autopilot’s closed-loop control to maximize speed and yaw-rate tracking performance. Compare three tuning configurations of the inner-loop controllers across both channels.\n\n\n\n\n\n\n\n\nExperiment\nWhat changes\nWhat stays the same\n\n\n\n\nBase\nLab preset configuration (rate limiters off, FF off, throttle baseline off); ArduRover stock PID gains\nOther settings unchanged\n\n\nFeedForward\nAdd feedforward gain to both speed and yaw-rate control loops. Gain values from our open-loop system identification lab.\nStock PID gains\n\n\nTuned\nTune PID gains for “best” response\nFeedforward kept on\n\n\n\nFor each experiment, both the speed (surge / throttle) loop and the yaw-rate (steering / rudder) loop are exercised with manual step inputs and the responses logged."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/index.html#deliverables",
@@ -81,7 +74,7 @@
     "href": "schedule.html",
     "title": "Schedule",
     "section": "",
-    "text": "Quarter: Spring 2026 · Class days this quarter: Monday – Thursday\n\n\n\n\n\n\nPlaceholder skeleton. The grid will be rendered from data/schedule.yml in Phase 2a; per-day columns are configurable per quarter (this quarter happens to be Mon–Thu).\n\n\n\n\n\n\nWeek\nMon — In Person\nTue — Async\nWed\nThu — Async\n\n\n\n\n130 Mar\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n26 Apr\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n313 Apr\nLab 1 — USV System Identification\nLab 1\nLab 1\nLab 1\n\n\n420 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n527 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n64 May\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n711 May\nLab 2 — USV PID Tuning\nLab 2\nLab 2\nLab 2\n\n\n818 May\nGuest lecture — TBD\nLecture topic — TBD\nAsync — TBD\nReading / due — TBD\n\n\n925 May\nMemorial Day — no class\nLecture topic — TBD\n—\nReading / due — TBD\n\n\n101 Jun\nLab 3 — USV Navigation Tuning\nLab 3\nLab 3\nLab 3\n\n\n118 Jun\nFinal Oral Exams\nMAE Retreat — no class\n—\nLast class"
+    "text": "Quarter: Spring 2026 · Class days this quarter: Monday – Thursday\n\n\n\n\nWeek\nMon — In Person\nTue — Async\nWed\nThu — Async\n\n\n\n\n130 Mar\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n26 Apr\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n313 Apr\nLab 1 — USV System Identification\nLab 1\nLab 1\nLab 1\n\n\n420 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n527 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n64 May\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n711 May\nLab 2 — USV PID Tuning\nLab 2\nLab 2\nLab 2\n\n\n818 May\nGuest lecture — TBD\nLecture topic — TBD\nAsync — TBD\nReading / due — TBD\n\n\n925 May\nMemorial Day — no class\nLecture topic — TBD\n—\nReading / due — TBD\n\n\n101 Jun\nLab 3 — USV Navigation Tuning\nLab 3\nLab 3\nLab 3\n\n\n118 Jun\nFinal Oral Exams\nMAE Retreat — no class\n—\nLast class"
   },
   {
     "objectID": "autopilot/stabilization.html",
@@ -95,7 +88,7 @@
     "href": "autopilot/stabilization.html#architecture",
     "title": "Stabilization Layer — Speed and Yaw-Rate PID",
     "section": "Architecture",
-    "text": "Architecture\n\n\n\n\n\n\nDiagram under construction. Source: site/autopilot/images/usv_stabilization_arch.drawio (edit in diagrams.net or the VS Code “Draw.io Integration” extension). After editing, re-export the SVG with drawio --export --format svg --output site/autopilot/images/usv_stabilization_arch.svg site/autopilot/images/usv_stabilization_arch.drawio.\n\n\n\n\n\n\nSpeed and yaw-rate stabilization loops\n\n\nBoth loops share the same structure:\n\nStick → setpoint scaling (CRUISE_SPEED for throttle, ACRO_TURN_RATE for steering)\nAcceleration limiter on the commanded setpoint (ATC_ACCEL_MAX / ATC_STR_ACC_MAX)\nTarget low-pass filter (*_FLTT) — softens setpoint steps before they enter the loop\nError junction subtracting the measured value from the (filtered) setpoint\nError low-pass filter (*_FLTE) — attenuates measurement noise on the error\nPID controller with separate P, I, D, and FF terms\nOutput sum — speed loop adds an additional CRUISE_THROTTLE baseline; yaw loop does not\n\nFor closed-loop step-response experiments, several of these features are intentionally disabled (acceleration limiters off, throttle baseline off, FF off) so that the response captures the PID dynamics alone. See the per-channel quick references below."
+    "text": "Architecture\n\n\n\n\nSpeed and yaw-rate stabilization loops\n\n\nBoth loops share the same structure:\n\nStick → setpoint scaling (CRUISE_SPEED for throttle, ACRO_TURN_RATE for steering)\nAcceleration limiter on the commanded setpoint (ATC_ACCEL_MAX / ATC_STR_ACC_MAX)\nTarget low-pass filter (*_FLTT) — softens setpoint steps before they enter the loop\nError junction subtracting the measured value from the (filtered) setpoint\nError low-pass filter (*_FLTE) — attenuates measurement noise on the error\nPID controller with separate P, I, D, and FF terms\nOutput sum — speed loop adds an additional CRUISE_THROTTLE baseline; yaw loop does not\n\nFor closed-loop step-response experiments, several of these features are intentionally disabled (acceleration limiters off, throttle baseline off, FF off) so that the response captures the PID dynamics alone. See the per-channel quick references below."
   },
   {
     "objectID": "autopilot/stabilization.html#logged-channels-a-clarification-on-naming",
