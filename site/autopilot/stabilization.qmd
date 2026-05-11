@@ -5,7 +5,7 @@ page-layout: full
 
 [← Back to Autopilot](index.qmd)
 
-The stabilization layer is the lowest level of ArduRover's control hierarchy. Two independent PID loops — one for **speed** (throttle channel), one for **yaw rate** (steering channel) — translate the pilot's high-level commands into actuator outputs. Higher-level autonomous modes (HOLD, LOITER, AUTO) wrap additional outer loops around these, but in **ACRO mode** the pilot's stick deflections become the setpoints to the stabilization PIDs directly. That makes ACRO the right mode for closed-loop step-response testing.
+The stabilization layer is the lowest level of ArduRover's control hierarchy. Two independent PID loops, one for **speed** (throttle channel) and one for **yaw rate** (steering channel), translate the pilot's high-level commands into actuator outputs. Higher-level autonomous modes (HOLD, LOITER, AUTO) wrap additional outer loops around these, but in **ACRO mode** the pilot's stick deflections become the setpoints to the stabilization PIDs directly. That makes ACRO the right mode for closed-loop step-response testing.
 
 ## Architecture
 
@@ -33,12 +33,12 @@ For **closed-loop step-response experiments**, several of these features are int
 
 ## Logged channels — a clarification on naming
 
-The signal names referenced throughout this page (`THR_DesSpeed`, `STER_TurnRate`, `RCOU_C3`, `PIDA_*`, `PIDS_*`) are **ArduPilot DataFlash log message types** — the binary `.BIN` log format that ArduPilot writes to the SD card during a flight/run. They are *not* MAVLink message names, although several MAVLink messages carry overlapping data.
+The signal names referenced throughout this page (`THR_DesSpeed`, `STER_TurnRate`, `RCOU_C3`, `PIDA_*`, `PIDS_*`) are **ArduPilot DataFlash log message types**: the binary `.BIN` log format that ArduPilot writes to the SD card during a flight/run. They are *not* MAVLink message names, although several MAVLink messages carry overlapping data.
 
 - **DataFlash log (BIN file)** — onboard binary log, complete record of internal state. We extract these with [`bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py) and analyze them in MATLAB.
 - **MAVLink** — telemetry/command protocol between vehicle and ground station (Mission Planner). Subset of the same data, sent over the radio link.
 
-For the PID-tuning labs we use the DataFlash log: it has higher rate, more channels, and full PID-internal state via `PIDA_*` (throttle / speed) and `PIDS_*` (steering / yaw-rate). The naming is unintuitive — `PIDS` is *steering*, not speed — and traces back to the way Rover's PID logging slots were defined in [`Rover/Log.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/Rover/Log.cpp). An older `PIDT_*` prefix appeared in earlier firmware but is no longer emitted.
+For the PID-tuning labs we use the DataFlash log: it has higher rate, more channels, and full PID-internal state via `PIDA_*` (throttle / speed) and `PIDS_*` (steering / yaw-rate). The naming is unintuitive (`PIDS` is *steering*, not speed) and traces back to the way Rover's PID logging slots were defined in [`Rover/Log.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/Rover/Log.cpp). An older `PIDT_*` prefix appeared in earlier firmware but is no longer emitted.
 
 ---
 
@@ -100,7 +100,7 @@ Setpoint shaping and actuator behavior:
 | `PIDA_P`, `_I`, `_D`, `_FF` | Individual PID term outputs | normalized |
 | `PIDA_DFF`, `_Dmod`, `_SRate`, `_Flags` | Auxiliary fields (advanced features and limiters) | — |
 
-ArduPilot does **not** log a separate `Out` field — the total controller output is `P + I + D + FF` (optionally `+ DFF`). `THR_DesSpeed` and `PIDA_Tar` differ only when an upstream filter or rate limiter is active. With the lab settings (acceleration limiters disabled, FLTT off), the two are essentially identical.
+ArduPilot does **not** log a separate `Out` field; the total controller output is `P + I + D + FF` (optionally `+ DFF`). `THR_DesSpeed` and `PIDA_Tar` differ only when an upstream filter or rate limiter is active. With the lab settings (acceleration limiters disabled, FLTT off), the two are essentially identical.
 
 ### Step-response setup for this lab
 
@@ -132,7 +132,7 @@ Why these matter for the marine vehicle:
 
 ### Cascaded heading controller (not in ACRO)
 
-In autonomous modes (HOLD, LOITER, AUTO), an outer-loop heading controller (`ATC_STR_ANG_P`) wraps the yaw-rate loop, converting heading error to a desired yaw rate. **ACRO bypasses that outer loop** — the pilot stick commands yaw rate directly, so we tune only the inner rate loop in this lab.
+In autonomous modes (HOLD, LOITER, AUTO), an outer-loop heading controller (`ATC_STR_ANG_P`) wraps the yaw-rate loop, converting heading error to a desired yaw rate. **ACRO bypasses that outer loop**: the pilot stick commands yaw rate directly, so we tune only the inner rate loop in this lab.
 
 ### Parameters — `ATC_STR_RAT_*` group
 
@@ -173,7 +173,7 @@ Setpoint shaping and limits:
 | `PIDS_P`, `_I`, `_D`, `_FF` | Individual PID term outputs | normalized |
 | `PIDS_DFF`, `_Dmod`, `_SRate`, `_Flags` | Auxiliary fields | — |
 
-As with the speed PID, no `Out` field is logged — total output is `P + I + D + FF`.
+As with the speed PID, no `Out` field is logged; total output is `P + I + D + FF`.
 
 ### Step-response setup for this lab
 
@@ -187,7 +187,7 @@ As with the speed PID, no `Out` field is logged — total output is `P + I + D +
 
 ## Restoring normal operation
 
-The lab disables several features (`ATC_ACCEL_MAX = 0`, `ATC_STR_ACC_MAX = 0`, `ATC_STR_RAT_FF = 0`, `CRUISE_THROTTLE = 0`) only to expose the closed-loop PID dynamics in step-response data. **Restore these to their nominal values when the lab is finished** — they're useful in normal operation and required for the autonomous modes used in Lab 3.
+The lab disables several features (`ATC_ACCEL_MAX = 0`, `ATC_STR_ACC_MAX = 0`, `ATC_STR_RAT_FF = 0`, `CRUISE_THROTTLE = 0`) only to expose the closed-loop PID dynamics in step-response data. **Restore these to their nominal values when the lab is finished**: they're useful in normal operation and required for the autonomous modes used in Lab 3.
 
 ## Source references
 

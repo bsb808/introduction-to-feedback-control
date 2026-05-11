@@ -16,12 +16,15 @@ Test and evaluate the closed-loop performance of the USV's speed and yaw-rate co
 | **FeedForward** | Add the feedforward gain (using values from our open-loop system identification lab) to both control loops, keeping the PID gains at the Base values. Isolates the contribution of feedforward. |
 | **Tuned** | Tune the PID gains for the "best" response, keeping the feedforward from the previous case. |
 
+: {tbl-colwidths="[15, 85]"}
+
 For each experiment, both the **speed (surge / throttle)** loop and the **yaw-rate (steering / rudder)** loop are exercised with manual step inputs and the responses logged.
 
-For each of the six cases (three experiments × two channels), we will 
+For each of the six cases (three experiments × two channels), you will
+
 * Plot the closed-loop step response timeseries to visualize the transient and steady-state behavior
 * Plot the PID internals (target vs actual, per-term breakdown) to understand how the controller is operating and generating the actuator commands.  This includes the \emph{controller effort} (P/I/D/FF) breakdown, which is critical for understanding the relative contribution of each term to the overall response and diagnosing issues like excessive overshoot (too much P), long settling time (too little D), or integrator windup (excessive I).  Controller effort is also a key aspect of the "best" response characterization, since we want to achieve good performance with minimal control effort.
-* Quantify the transient performance metrics (rise time, settling time, overshoot) and the steady-state error to compare across the three experiments. 
+* Quantify the transient and steady-state performance metrics compare across the three experiments for each channel. 
 
 
 
@@ -33,9 +36,9 @@ For each of the six cases (three experiments × two channels), we will
 
 ## Required reading
 
-Before the field session, read the **[Autopilot → Stabilization Layer](../../autopilot/stabilization.qmd)** reference. It documents the two control loops you'll be tuning — the speed loop and the yaw-rate loop — and is what makes the three experiments and the tuning workflow comprehensible.
+Before the field session, read the **[Autopilot → Stabilization Layer](../../autopilot/stabilization.qmd)** reference. It documents the two control loops you'll be tuning (speed and yaw-rate) and is what makes the three experiments and the tuning workflow comprehensible.
 
-The lab-specific framing — which `ATC_*` parameters change between Base / FeedForward / Tuned, and which stay fixed — is summarized in §3 of the [Procedure](procedure.qmd).
+Section 3 of the [Procedure](procedure.qmd) summarizes the lab-specific framing: which `ATC_*` parameters change between Base / FeedForward / Tuned, and which stay fixed.
 
 ## Sub-pages
 

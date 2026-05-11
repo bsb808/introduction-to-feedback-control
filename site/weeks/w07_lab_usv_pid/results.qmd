@@ -64,7 +64,7 @@ ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The
 ![Base / yaw — PID internals (Tar/Act with metrics; P/I/D/FF terms with rudder command)](images/base_yaw_pids.png)
 :::
 ::::
-### Base - Yaw-rate — integrator windup demonstration
+### Base - Yaw-rate (integrator windup demonstration)
 
 The same Base/yaw configuration as above, but the step input is held long enough for the integrator to wind up. The delayed recovery on the step-back illustrates classic I-term windup.
 

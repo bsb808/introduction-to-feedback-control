@@ -7,12 +7,12 @@ title: "Procedure"
 <!-- Internal: this procedure is being refined as the lab runs;
      expect day-to-day updates this quarter. -->
 
-- The lab collects **six step-response datasets** per team — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate).
+- The lab collects **six step-response datasets** per team: three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate).
 - The same field workflow runs three times; only the parameter set changes between cases.
 - **Quality is checked at the field** before each parameter-set change, so problems are caught while the boat is still in the water.
 
 ::: {.callout-tip appearance="simple"}
-**Plan for two field sessions.** Getting clean step responses on the first day is rare — the first session typically surfaces issues (vehicle setup, parameter staging, pilot/scribe rhythm) that need fixing before clean data lands on a second day. Build in time between sessions for laptop-side processing.
+**Plan for two field sessions.** Getting clean step responses on the first day is rare. The first session typically surfaces issues (vehicle setup, parameter staging, pilot/scribe rhythm) that need fixing before clean data lands on a second day. Build in time between sessions for laptop-side processing.
 :::
 
 ## 1. Pre-lab preparation
@@ -42,11 +42,11 @@ Steps to confirm at the launch site, before any data collection.
 
 ## 3. Setup and execute experiments
 
-The lab cycles through three experiments — **Base**, **FeedForward**, **Tuned** — applying the same procedure to each. Only the parameter set changes between cases (§3.4).
+The lab cycles through three experiments (**Base**, **FeedForward**, **Tuned**), applying the same procedure to each. Only the parameter set changes between cases (§3.4).
 
 ### 3.1 Per-arm rhythm and logging
 
-The autopilot starts a **new log file every time the pilot arms it**. Treat each arm-disarm cycle as one experimental purpose — one cycle for the speed step trials, one for the yaw-rate trials. This keeps each `.mat` file scoped to a single channel, which makes the MATLAB time-series easier to inspect. Expect to accumulate dozens of `.mat` files over a session; the **scribe's notes — UTC time (with seconds) plus a brief intent description at every arm** — are how you map each `.mat` back to what was being tested. The post-processed `.mat` filename includes the UTC timestamp.
+The autopilot starts a **new log file every time the pilot arms it**. Treat each arm-disarm cycle as one experimental purpose: one cycle for the speed step trials, one for the yaw-rate trials. This keeps each `.mat` file scoped to a single channel, which makes the MATLAB time-series easier to inspect. Expect to accumulate dozens of `.mat` files over a session; the **scribe's notes** (UTC time with seconds plus a brief intent description at every arm) are how you map each `.mat` back to what was being tested. The post-processed `.mat` filename includes the UTC timestamp.
 
 ### 3.2 Procedure for each experiment
 
@@ -55,7 +55,7 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 #### Set up the experiment
 
 1. **Change the parameter set** for this experiment via Mission Planner (Config → Full Parameter Tree). For **Base**, load the baseline `.param`. For **FeedForward** and **Tuned**, load the edited copies you prepared during [pre-lab prep](#day-of).
-2. **Verify the relevant `ATC_*` parameters** at the vehicle. Mission Planner shows live values — see the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does and which ones change between experiments.
+2. **Verify the relevant `ATC_*` parameters** at the vehicle. Mission Planner shows live values; see the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does and which ones change between experiments.
 
 #### Speed (throttle) step run — one arm-disarm cycle
 
@@ -63,14 +63,14 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 4. **Planner saves the current parameter file** to the laptop with a timestamp in the filename (Mission Planner → Config → Full Parameter Tree → Save). Pilot then **disarms and re-arms** (closes the previous log, opens a fresh one). Scribe records UTC time + intent (e.g. *"Base, surge step"*).
 5. Pilot switches the autopilot into **ACRO** mode. **Planner confirms ACRO** in Mission Planner before the pilot proceeds.
 6. **Repeat 3–5 times:**
-   - Apply a step throttle command at **~50% of full stick deflection** (mid-range — keeps the actuator out of saturation while staying visible above noise).
+   - Apply a step throttle command at **~50% of full stick deflection** (mid-range, keeping the actuator out of saturation while staying visible above noise).
    - **Hold for 20–30 s** so the surge response settles into a clear steady value.
    - Return throttle to zero; allow the boat to come back to rest before the next repeat.
 7. Pilot **disarms** to close the speed-trial log.
 
 #### Yaw-rate (steering) step run — one arm-disarm cycle
 
-8. Pilot brings the boat to a **low, approximately constant surge speed** — typically around **~50% throttle** so the rudder has flow but the boat isn't fighting acceleration during the test. (At zero surge speed a steering command does nothing useful — the rudder needs forward water flow to produce a turning moment.)
+8. Pilot brings the boat to a **low, approximately constant surge speed**, typically around **~50% throttle** so the rudder has flow but the boat isn't fighting acceleration during the test. (At zero surge speed a steering command does nothing useful: the rudder needs forward water flow to produce a turning moment.)
 9. **Planner saves the current parameter file** with a timestamp. Pilot then **disarms and re-arms**. Scribe records UTC time + intent (e.g. *"Base, yaw step"*).
 10. Pilot switches the autopilot into **ACRO** mode. **Planner confirms ACRO** before the pilot proceeds.
 11. **Repeat 3–5 times, alternating direction** (positive then negative stick deflection so any asymmetry is visible):
@@ -87,7 +87,7 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
     - **Setpoint reaches the commanded value** (no rate-limited ramp instead of a step).
     - **Measured response settles** to a steady value within ~10 s.
     - **Control effort is not pinned** at ±1 for an extended period (saturation).
-    - **PIDA / PIDS log channels are present** (PID-internal logging is on; `PIDA` for speed, `PIDS` for yaw-rate — the naming is counterintuitive).
+    - **PIDA / PIDS log channels are present** (PID-internal logging is on; `PIDA` for speed, `PIDS` for yaw-rate; the naming is counterintuitive).
     - **No long gaps** in the GPS or STER sample stream.
 16. **If a check fails → recollect that run before changing parameters or moving on.** If it's a parameter or vehicle issue → resolve, then continue.
 17. Save and label both `.mat` files on the test card: filename, parameter values, quality-check verdict.
@@ -103,11 +103,11 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 ### 3.4 Common gotchas
 
 - **Don't change parameters while ARMed.** Parameter changes get baked into the active log in a way that makes it hard to verify what was active when. Disarm, change, save the new param file, then re-arm.
-- **It's easy to forget ACRO.** A test in MANUAL looks identical to one in ACRO from the pilot's perspective, but the closed-loop controllers aren't engaged. The planner's ACRO confirmation in step 5 / step 10 is the safety net — don't skip it.
+- **It's easy to forget ACRO.** A test in MANUAL looks identical to one in ACRO from the pilot's perspective, but the closed-loop controllers aren't engaged. The planner's ACRO confirmation in step 5 / step 10 is the safety net; don't skip it.
 - **Inter-step gap too short.** Between repeats within a run, allow the response to fully settle (return to rest, or to baseline yaw rate) before the next step. A short gap mixes one step's tail into the next step's start.
-- **Saturation.** If the control effort pins at ±1 (full PWM) for an extended period, what you're measuring is the *saturated* dynamics, not the linear closed-loop response. Drop the step magnitude — or, in **Tuned**, gain authority through tuning.
+- **Saturation.** If the control effort pins at ±1 (full PWM) for an extended period, what you're measuring is the *saturated* dynamics, not the linear closed-loop response. Drop the step magnitude, or in **Tuned** gain authority through tuning.
 - **Same step fraction across Base / FeedForward / Tuned.** Comparing rise time, overshoot, and steady-state error across experiments only makes sense if the input is the same magnitude every time.
-- **One channel per arm-disarm cycle.** Don't intermingle speed and yaw steps in the same log — it makes the MATLAB inspection harder than it needs to be.
+- **One channel per arm-disarm cycle.** Don't intermingle speed and yaw steps in the same log; it makes the MATLAB inspection harder than it needs to be.
 - **Two timezones.** ArduPilot logs and the post-processed `.mat` filenames are in **UTC**. Scribe notes are in local time. The post-processing step adds the UTC stamp to the filename automatically; the scribe should record UTC at the field too so the two match without arithmetic later.
 
 ## 4. End-of-day
@@ -116,7 +116,7 @@ Wrap up the field session.
 
 - All six `.mat` files transferred to the team's shared location.
 - Test card filled in (one row per dataset, with quality-check verdict).
-- Vehicle returned to nominal parameter configuration (rate limiters restored, FF restored, throttle baseline restored) — load a `.param` file with the post-lab nominal values.
+- Vehicle returned to nominal parameter configuration (rate limiters restored, FF restored, throttle baseline restored). Load a `.param` file with the post-lab nominal values.
 - Battery on charger, vehicle stowed.
 
 ## 5. Hand-off to next week
