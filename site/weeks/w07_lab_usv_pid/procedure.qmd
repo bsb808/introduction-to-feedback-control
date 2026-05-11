@@ -1,23 +1,17 @@
 ---
 title: "Procedure"
 ---
-
+% CLAUDE: In general, reduce the use of bold, especially in the middle of sentences.
 [← Back to Lab 2 overview](index.qmd)
 
-<!-- Internal: this procedure is being refined as the lab runs;
-     expect day-to-day updates this quarter. -->
+## Overview
 
-- The lab collects **six step-response datasets** per team: three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate).
-- The same field workflow runs three times; only the parameter set changes between cases.
-- **Quality is checked at the field** before each parameter-set change, so problems are caught while the boat is still in the water.
+Collect **six step-response datasets** per team: 
+three parameter configurations (Baseline, Feedforward, Tuned) and, for each configuration, two control channels (speed, yaw-rate). % CLAUDE: replace this with a table - rows of thre three configurations, columns of the two channels, with the cells <FILE1>.BIN, etc. 
 
-::: {.callout-tip appearance="simple"}
-**Plan for two field sessions.** Getting clean step responses on the first day is rare. The first session typically surfaces issues (vehicle setup, parameter staging, pilot/scribe rhythm) that need fixing before clean data lands on a second day. Build in time between sessions for laptop-side processing.
-:::
+**Plan for two field sessions.**  The first session typically surfaces issues (vehicle setup, parameter staging, pilot/scribe rhythm) that need fixing  on a second day.
 
-::: {.callout-tip appearance="simple"}
-**Read this whole page (and the linked documentation) before the first field session.** The procedure has a lot of moving parts, and the post-processing relies entirely on the scribe's notes to navigate dozens of `.mat` files. Going in cold makes the field session much harder than it needs to be. Each team member should also have a clear mental model of the [overall lab objectives and the three experiments](index.qmd) before stepping onto the dock.
-:::
+**Read this whole page before the first field session.** The goal is to understand \emph{what} we are accomplishing by working through the procedural steps. The ArduPilot autopilot is a complex system with many parameters with scant documentation and the post-processing relies entirely on the scribe's notes to navigate dozens of `.mat` files.  It is tough to see the trees, let alone the forest.
 
 ## 1. Pre-lab preparation
 
@@ -25,13 +19,13 @@ title: "Procedure"
 
 - Collect: Boat, 900 MHz radio, R/C transmitter, ground laptop (with Mission Planner).  Make sure they are in one place and ready to transport to the field.
 - Charge: Batteries for vehicle propulsion, autopilot, R/C transmitter, ground laptop.
+- "Print": Test log — one row per dataset (six total) for parameter values, observations, and quality-check verdict.  [Template](notes/scribe_log.xlsx). This is just a template; students can make their own version if they want, but the key is to have a structured place to record the UTC timestamp and intent for each arm event, which is how the resulting `.mat` files get navigated during post-processing.
 
 ### 1.2 Day of
 
-- **Test card / data sheet printed** — one row per dataset (six total) for parameter values, observations, and quality-check verdict.  [Template](notes/scribe_log.xlsx). This is just a template; students can make their own version if they want, but the key is to have a structured place to record the UTC timestamp and intent for each arm event, which is how the resulting `.mat` files get navigated during post-processing.
-- **Parameter files staged on the laptop.** You are given the **baseline** `.param` for the **Base** experiment.
+- **Parameter files staged on the laptop.** You are given the **baseline** `.param` for the **Base** experiment. % CLAUDE: Link to introduction-to-feedback-control/utils/ardu_params/2026_05_06_baseline_3.2.param
 - **Roles:**
-  - **Planner** — drives Mission Planner: monitors ARM and mode state, watches the real-time tuning graphs, and saves a timestamped parameter export at the start of each run.
+  - **Planner** — drives Mission Planner: monitors ARM and mode state (MANUAL, ACRO) % CLAUDE: Remove mention of saving param files from mission planner because the params are in the logs.
   - **Scribe** — keeps the test card and records UTC time + intent at every arming event. The scribe's notes are what makes the resulting tens of `.mat` files navigable during post-processing.
   - **Pilot** — drives the boat with the RC transmitter and executes the step inputs that exercise the closed-loop controllers.
 
@@ -39,7 +33,7 @@ title: "Procedure"
 
 As in Lab 1, confirm the following at the launch site before any data collection. 
 
-- ⚠️ **Safety.** Stay clear of the propellers whenever the boat's propulsion battery is connected.
+- **Safety.** Stay clear of the propellers whenever the boat's propulsion battery is connected.
 - **SD card seated** in the autopilot 
 - **Power on the autopilot.**
 - **Establish telemetry link** with Mission Planner.
@@ -55,7 +49,7 @@ The lab cycles through three experiments
 2. **FeedForward**, adds feedforward from the Lab 1 System ID results.
 **Tuned**), applying the same procedure to each. Only the parameter set changes between cases (§3.4).
 
-### 3.1 Per-arm rhythm and logging
+### 3.1 ARM and logging
 
 The autopilot starts a **new log file every time the pilot arms it**. Treat each arm-disarm cycle as one experimental purpose: one cycle for the speed step trials, one for the yaw-rate trials. This keeps each `.mat` file scoped to a single channel, which makes the MATLAB time-series easier to inspect. Expect to accumulate dozens of `.mat` files over a session; the **scribe's notes** (UTC time with seconds plus a brief intent description at every arm) are how you map each `.mat` back to what was being tested. The post-processed `.mat` filename includes the UTC timestamp.
 
@@ -67,24 +61,26 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 
 1. **Change the parameter set** for this experiment via Mission Planner (Config → Full Parameter Tree). For **Base**, load the baseline `.param`. For **FeedForward** and **Tuned**, you will be changing the relevant `ATC_*` parameters as specified in the lab instructions.
 
-   ![Mission Planner → Config → Basic Tuning. Most of the gains can be set from this panel. **Exception:** the speed-channel feedforward (`ATC_SPEED_FF`) is not exposed here; edit it from the Full Parameter Tree instead.](images/mp_baseline_pid.png)
+   ![Mission Planner → Config → Basic Tuning. Most of the gains can be set from this panel. **Exception:** the speed-channel feedforward (`ATC_SPEED_FF`) is not exposed here; edit it from the Full Parameter Tree instead.](images/mp_baseline_pid.png) % CLAUDE: make 30% smaller
 
 2. **Verify the relevant `ATC_*` parameters** at the vehicle. Mission Planner shows live values; see the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does and which ones change between experiments.
 
 #### Speed (throttle) step run — one arm-disarm cycle
 
 3. Pilot brings the USV to **open water** and to **rest**.
-4. **Planner saves the current parameter file** to the laptop with a timestamp in the filename (Mission Planner → Config → Full Parameter Tree → Save). Pilot then **disarms and re-arms** (closes the previous log, opens a fresh one). Scribe records UTC time + intent (e.g. *"Base, surge step"*).
+4. **Planner saves the current parameter file** to the laptop with a timestamp in the filename (Mission Planner → Config → Full Parameter Tree → Save). Pilot then **disarms and re-arms** (closes the previous log, opens a new one). Scribe records UTC time + intent (e.g. *"Base, surge step"*).
 5. Pilot switches the autopilot into **ACRO** mode. **Planner confirms ACRO** in Mission Planner before the pilot proceeds.
-6. **Repeat 3–5 times:**
+6. **Repeat: 1-2 times**
    - Apply a step throttle command at **~50% of full stick deflection** (mid-range, keeping the actuator out of saturation while staying visible above noise).
    - **Hold for 20–30 s** so the surge response settles into a clear steady value.
    - Return throttle to zero; allow the boat to come back to rest before the next repeat.
 7. Pilot **disarms** to close the speed-trial log.
 
+You will likely need to to this a few times to get a clean step response logged.  
+
 #### Yaw-rate (steering) step run — one arm-disarm cycle
 
-8. Pilot brings the boat to a **low, approximately constant surge speed**, typically around **~50% throttle** so the rudder has flow but the boat isn't fighting acceleration during the test. (At zero surge speed a steering command does nothing useful: the rudder needs forward water flow to produce a turning moment.)
+8. Pilot brings the boat to a **low, approximately constant surge speed**, typically around ~50% throttle.   
 9. **Planner saves the current parameter file** with a timestamp. Pilot then **disarms and re-arms**. Scribe records UTC time + intent (e.g. *"Base, yaw step"*).
 10. Pilot switches the autopilot into **ACRO** mode. **Planner confirms ACRO** before the pilot proceeds.
 11. **Repeat 3–5 times, alternating direction** (positive then negative stick deflection so any asymmetry is visible):
@@ -93,9 +89,7 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
     - Scribe records the surge speed at the time of each step, the step fraction, and the direction.
 12. Pilot **disarms** to close the yaw-trial log.
 
-#### After the run
 
-Note both log filenames and parameter values on the test card. The detailed quality-check on the captured data is done **back in lab** after the session — see [§5 Post-processing and quality check](#post-processing-and-quality-check). (Students with command-line Python comfort are welcome to run `bin2mat.py` and a quick MATLAB plot at the field, but the default is to defer the full check until the instructor has converted the day's `.BIN` files in batch. Catching issues this way is part of why the lab usually needs two field sessions, not one.)
 
 ### 3.3 What changes between experiments
 
@@ -112,6 +106,8 @@ Set each channel's feedforward gain to **1 / K_dc**, where K_dc is the DC gain o
 
 - Speed: `G_speed(s) = 5.1 / (1.3 s + 1)`   →   `ATC_SPEED_FF   = 1/5.1  ≈ 0.20`
 - Yaw rate: `G_yaw(s) = 0.82 / (0.51 s + 1)`   →   `ATC_STR_RAT_FF = 1/0.82 ≈ 1.22`
+
+Consider the feedfoward term as the amount of input the plant requires to achieve an output of 1.0.  So this is the throttle command that would result in a speed of roughly 1 m/s or the rudder command that would result in a yaw rate of roughly 1 rad/s.
 
 ### 3.4 Tuning the PID gains (Tuned experiment)
 
