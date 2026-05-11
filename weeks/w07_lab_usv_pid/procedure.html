@@ -160,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- Internal: this procedure is being refined as the lab runs;
      expect day-to-day updates this quarter. -->
 <ul>
-<li>The lab collects <strong>six step-response datasets</strong> per team — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate).</li>
+<li>The lab collects <strong>six step-response datasets</strong> per team: three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate).</li>
 <li>The same field workflow runs three times; only the parameter set changes between cases.</li>
 <li><strong>Quality is checked at the field</strong> before each parameter-set change, so problems are caught while the boat is still in the water.</li>
 </ul>
@@ -170,7 +170,7 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Plan for two field sessions.</strong> Getting clean step responses on the first day is rare — the first session typically surfaces issues (vehicle setup, parameter staging, pilot/scribe rhythm) that need fixing before clean data lands on a second day. Build in time between sessions for laptop-side processing.</p>
+<p><strong>Plan for two field sessions.</strong> Getting clean step responses on the first day is rare. The first session typically surfaces issues (vehicle setup, parameter staging, pilot/scribe rhythm) that need fixing before clean data lands on a second day. Build in time between sessions for laptop-side processing.</p>
 </div>
 </div>
 </div>
@@ -209,10 +209,10 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="setup-and-execute-experiments" class="level2">
 <h2 class="anchored" data-anchor-id="setup-and-execute-experiments">3. Setup and execute experiments</h2>
-<p>The lab cycles through three experiments — <strong>Base</strong>, <strong>FeedForward</strong>, <strong>Tuned</strong> — applying the same procedure to each. Only the parameter set changes between cases (§3.4).</p>
+<p>The lab cycles through three experiments (<strong>Base</strong>, <strong>FeedForward</strong>, <strong>Tuned</strong>), applying the same procedure to each. Only the parameter set changes between cases (§3.4).</p>
 <section id="per-arm-rhythm-and-logging" class="level3">
 <h3 class="anchored" data-anchor-id="per-arm-rhythm-and-logging">3.1 Per-arm rhythm and logging</h3>
-<p>The autopilot starts a <strong>new log file every time the pilot arms it</strong>. Treat each arm-disarm cycle as one experimental purpose — one cycle for the speed step trials, one for the yaw-rate trials. This keeps each <code>.mat</code> file scoped to a single channel, which makes the MATLAB time-series easier to inspect. Expect to accumulate dozens of <code>.mat</code> files over a session; the <strong>scribe’s notes — UTC time (with seconds) plus a brief intent description at every arm</strong> — are how you map each <code>.mat</code> back to what was being tested. The post-processed <code>.mat</code> filename includes the UTC timestamp.</p>
+<p>The autopilot starts a <strong>new log file every time the pilot arms it</strong>. Treat each arm-disarm cycle as one experimental purpose: one cycle for the speed step trials, one for the yaw-rate trials. This keeps each <code>.mat</code> file scoped to a single channel, which makes the MATLAB time-series easier to inspect. Expect to accumulate dozens of <code>.mat</code> files over a session; the <strong>scribe’s notes</strong> (UTC time with seconds plus a brief intent description at every arm) are how you map each <code>.mat</code> back to what was being tested. The post-processed <code>.mat</code> filename includes the UTC timestamp.</p>
 </section>
 <section id="procedure-for-each-experiment" class="level3">
 <h3 class="anchored" data-anchor-id="procedure-for-each-experiment">3.2 Procedure for each experiment</h3>
@@ -221,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="set-up-the-experiment">Set up the experiment</h4>
 <ol type="1">
 <li><strong>Change the parameter set</strong> for this experiment via Mission Planner (Config → Full Parameter Tree). For <strong>Base</strong>, load the baseline <code>.param</code>. For <strong>FeedForward</strong> and <strong>Tuned</strong>, load the edited copies you prepared during <a href="#day-of">pre-lab prep</a>.</li>
-<li><strong>Verify the relevant <code>ATC_*</code> parameters</strong> at the vehicle. Mission Planner shows live values — see the <a href="../../autopilot/stabilization.html">Stabilization Layer</a> reference for what each parameter does and which ones change between experiments.</li>
+<li><strong>Verify the relevant <code>ATC_*</code> parameters</strong> at the vehicle. Mission Planner shows live values; see the <a href="../../autopilot/stabilization.html">Stabilization Layer</a> reference for what each parameter does and which ones change between experiments.</li>
 </ol>
 </section>
 <section id="speed-throttle-step-run-one-arm-disarm-cycle" class="level4">
@@ -232,7 +232,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Pilot switches the autopilot into <strong>ACRO</strong> mode. <strong>Planner confirms ACRO</strong> in Mission Planner before the pilot proceeds.</li>
 <li><strong>Repeat 3–5 times:</strong>
 <ul>
-<li>Apply a step throttle command at <strong>~50% of full stick deflection</strong> (mid-range — keeps the actuator out of saturation while staying visible above noise).</li>
+<li>Apply a step throttle command at <strong>~50% of full stick deflection</strong> (mid-range, keeping the actuator out of saturation while staying visible above noise).</li>
 <li><strong>Hold for 20–30 s</strong> so the surge response settles into a clear steady value.</li>
 <li>Return throttle to zero; allow the boat to come back to rest before the next repeat.</li>
 </ul></li>
@@ -242,7 +242,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="yaw-rate-steering-step-run-one-arm-disarm-cycle" class="level4">
 <h4 class="anchored" data-anchor-id="yaw-rate-steering-step-run-one-arm-disarm-cycle">Yaw-rate (steering) step run — one arm-disarm cycle</h4>
 <ol start="8" type="1">
-<li>Pilot brings the boat to a <strong>low, approximately constant surge speed</strong> — typically around <strong>~50% throttle</strong> so the rudder has flow but the boat isn’t fighting acceleration during the test. (At zero surge speed a steering command does nothing useful — the rudder needs forward water flow to produce a turning moment.)</li>
+<li>Pilot brings the boat to a <strong>low, approximately constant surge speed</strong>, typically around <strong>~50% throttle</strong> so the rudder has flow but the boat isn’t fighting acceleration during the test. (At zero surge speed a steering command does nothing useful: the rudder needs forward water flow to produce a turning moment.)</li>
 <li><strong>Planner saves the current parameter file</strong> with a timestamp. Pilot then <strong>disarms and re-arms</strong>. Scribe records UTC time + intent (e.g.&nbsp;<em>“Base, yaw step”</em>).</li>
 <li>Pilot switches the autopilot into <strong>ACRO</strong> mode. <strong>Planner confirms ACRO</strong> before the pilot proceeds.</li>
 <li><strong>Repeat 3–5 times, alternating direction</strong> (positive then negative stick deflection so any asymmetry is visible):
@@ -264,7 +264,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Setpoint reaches the commanded value</strong> (no rate-limited ramp instead of a step).</li>
 <li><strong>Measured response settles</strong> to a steady value within ~10 s.</li>
 <li><strong>Control effort is not pinned</strong> at ±1 for an extended period (saturation).</li>
-<li><strong>PIDA / PIDS log channels are present</strong> (PID-internal logging is on; <code>PIDA</code> for speed, <code>PIDS</code> for yaw-rate — the naming is counterintuitive).</li>
+<li><strong>PIDA / PIDS log channels are present</strong> (PID-internal logging is on; <code>PIDA</code> for speed, <code>PIDS</code> for yaw-rate; the naming is counterintuitive).</li>
 <li><strong>No long gaps</strong> in the GPS or STER sample stream.</li>
 </ul></li>
 <li><strong>If a check fails → recollect that run before changing parameters or moving on.</strong> If it’s a parameter or vehicle issue → resolve, then continue.</li>
@@ -310,11 +310,11 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="common-gotchas">3.4 Common gotchas</h3>
 <ul>
 <li><strong>Don’t change parameters while ARMed.</strong> Parameter changes get baked into the active log in a way that makes it hard to verify what was active when. Disarm, change, save the new param file, then re-arm.</li>
-<li><strong>It’s easy to forget ACRO.</strong> A test in MANUAL looks identical to one in ACRO from the pilot’s perspective, but the closed-loop controllers aren’t engaged. The planner’s ACRO confirmation in step 5 / step 10 is the safety net — don’t skip it.</li>
+<li><strong>It’s easy to forget ACRO.</strong> A test in MANUAL looks identical to one in ACRO from the pilot’s perspective, but the closed-loop controllers aren’t engaged. The planner’s ACRO confirmation in step 5 / step 10 is the safety net; don’t skip it.</li>
 <li><strong>Inter-step gap too short.</strong> Between repeats within a run, allow the response to fully settle (return to rest, or to baseline yaw rate) before the next step. A short gap mixes one step’s tail into the next step’s start.</li>
-<li><strong>Saturation.</strong> If the control effort pins at ±1 (full PWM) for an extended period, what you’re measuring is the <em>saturated</em> dynamics, not the linear closed-loop response. Drop the step magnitude — or, in <strong>Tuned</strong>, gain authority through tuning.</li>
+<li><strong>Saturation.</strong> If the control effort pins at ±1 (full PWM) for an extended period, what you’re measuring is the <em>saturated</em> dynamics, not the linear closed-loop response. Drop the step magnitude, or in <strong>Tuned</strong> gain authority through tuning.</li>
 <li><strong>Same step fraction across Base / FeedForward / Tuned.</strong> Comparing rise time, overshoot, and steady-state error across experiments only makes sense if the input is the same magnitude every time.</li>
-<li><strong>One channel per arm-disarm cycle.</strong> Don’t intermingle speed and yaw steps in the same log — it makes the MATLAB inspection harder than it needs to be.</li>
+<li><strong>One channel per arm-disarm cycle.</strong> Don’t intermingle speed and yaw steps in the same log; it makes the MATLAB inspection harder than it needs to be.</li>
 <li><strong>Two timezones.</strong> ArduPilot logs and the post-processed <code>.mat</code> filenames are in <strong>UTC</strong>. Scribe notes are in local time. The post-processing step adds the UTC stamp to the filename automatically; the scribe should record UTC at the field too so the two match without arithmetic later.</li>
 </ul>
 </section>
@@ -325,7 +325,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>All six <code>.mat</code> files transferred to the team’s shared location.</li>
 <li>Test card filled in (one row per dataset, with quality-check verdict).</li>
-<li>Vehicle returned to nominal parameter configuration (rate limiters restored, FF restored, throttle baseline restored) — load a <code>.param</code> file with the post-lab nominal values.</li>
+<li>Vehicle returned to nominal parameter configuration (rate limiters restored, FF restored, throttle baseline restored). Load a <code>.param</code> file with the post-lab nominal values.</li>
 <li>Battery on charger, vehicle stowed.</li>
 </ul>
 </section>
