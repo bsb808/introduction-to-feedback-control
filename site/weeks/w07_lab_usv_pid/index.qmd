@@ -24,20 +24,24 @@ For each experiment, both the **speed (surge / throttle)** loop and the **yaw-ra
 
 **Next week:** process the data with the `closedloop_assess_main.m` pipeline to quantify rise time, settling time, overshoot, and steady-state error, and compare across the three experiments.
 
+## Required reading
+
+Before the field session, read the **[Autopilot → Stabilization Layer](../../autopilot/stabilization.qmd)** reference. It documents the two control loops you'll be tuning — the speed loop and the yaw-rate loop — and is what makes the three experiments and the tuning workflow comprehensible.
+
+What's in there:
+
+- **Block diagram** of the speed and yaw-rate PID loops, including how the RC stick maps to a setpoint, the input/error filters, the PID block, and the actuator output.
+- **`ATC_*` parameter tables** for both loops — full descriptions of the tunable PID gains, feedforward, filter cutoffs, and rate limiters. The Lab 2 experiments enable / disable subsets of these parameters.
+- **DataFlash log-channel reference** — `PIDA_*` (speed) and `PIDS_*` (yaw-rate) PID internals, plus the `THR` / `STER` / `RCOU` / `GPS` channels used in the analysis figures.
+
+The lab-specific framing — which `ATC_*` parameters change between Base / FeedForward / Tuned, and which stay fixed — is summarized in §3 of the [Procedure](procedure.qmd).
+
 ## Sub-pages
 
 This page is the assignment overview. The lab-specific detail lives in:
 
 - **[Procedure](procedure.qmd)** — pre-lab checklist, field workflow, step-input technique, and the at-the-field quality-check criteria.
 - **[Example Results](results.qmd)** — example timeseries and PID-internals figures for each of the six cases (plus an integrator-windup demonstration), and a summary metrics table generated from the analysis pipeline.
-
-## Background — autopilot architecture
-
-The control loops being tuned are documented separately under the autopilot reference:
-
-- **[Autopilot → Stabilization Layer](../../autopilot/stabilization.qmd)** — block diagram for the speed and yaw-rate PID loops, full `ATC_*` parameter tables, and DataFlash log-channel reference (`PIDA_*` / `PIDS_*`).
-
-Which `ATC_*` parameters change between experiments (and which stay fixed) is summarized in §3 of the procedure.
 
 ## Materials
 
