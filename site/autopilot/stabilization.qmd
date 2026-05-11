@@ -15,13 +15,15 @@ The stabilization layer is the lowest level of ArduRover's control hierarchy. Tw
 
 Both stabilization loops share the same generic structure: a setpoint enters the loop, gets compared against a measurement to form an error, and the PID + feedforward block computes the actuator output. The 7 building blocks are:
 
-1. **Stick → setpoint scaling** The controller's input is a target value (also known as a setpoint, comThis specifies how the R/C stic(`CRUISE_SPEED` for throttle, `ACRO_TURN_RATE` for steering).
-2. **Acceleration limiter** on the commanded setpoint (`ATC_ACCEL_MAX` / `ATC_STR_ACC_MAX`).
-3. **Target low-pass filter** (`*_FLTT`) softens setpoint steps before they enter the loop.
-4. **Error junction** subtracting the measured value from the (filtered) setpoint.
-5. **Error low-pass filter** (`*_FLTE`) attenuates measurement noise on the error.
-6. **PID controller** with separate P, I, D, and FF terms.
-7. **Output sum** combines the PID output with any baseline FF and sends it to the actuator. (The speed loop adds a `CRUISE_THROTTLE` baseline here; the yaw loop does not.)
+1. **Stick → setpoint scaling** The controller's input is a target value (also known as a setpoint, command, reference or desired value). The pilot provides the target via the R/C sticks. At the reciever, these signals are PWM values that are scaled to \emph{stick input} values from -1.0 to 1.0.  The target controller input is the product of the stick value and the scaling parameter (`CRUISE_SPEED` for throttle, `ACRO_TURN_RATE` for steering).  % CLAUDE: Double check I have this concept correct. 
+We set these values to be slightly above the maximum expected response in the real world, so that the full stick range maps to the full useful range of the plant, so we set CRUISE_SPEED to 5 m/s and ACRO_TURN_RATE to 57.3 deg/s (1 rad/s)  % CLAUDE: For our example case and the current base param set, the ACRO_TURN_RATE is actually 360.  In the procedure we'l lhave them change this - it is mistake.  Also, add note(s) to the results.qmd that this issue caused the commands to be unachievable because the operator.
+% CLAUDE: Am I correct that the ACRO_TURN_RATE is specified in deg/s but the PID operates internally in rad/s, so the parameter value is converted by ArduRover before it enters the loop?  This is a bit confusing and worth clarifying in the text.
+
+2. **Rate limiter** on the commanded setpoint (`ATC_ACCEL_MAX` / `ATC_STR_ACC_MAX`). % CLAUDE: Explain this a bit more.  Link to a MATLAB example (optional deep dive) with source here (introduction-to-feedback-control/book/w05_blockdiagrams_pid/chapter/code/input_filtering_demo.m) and exported markdown here (introduction-to-feedback-control/book/w05_blockdiagrams_pid/chapter/code/input_filtering_demo.md)  Provide the actual values from introduction-to-feedback-control/utils/ardu_params/2026_05_06_baseline_3.2.param and explain. 
+3. **Target low-pass filter** (`*_FLTT`) softens setpoint steps before they enter the loop. % CLAUDE:  Provide the actual values from introduction-to-feedback-control/utils/ardu_params/2026_05_06_baseline_3.2.param and explain. 
+5. **Error low-pass filter** (`*_FLTE`) attenuates measurement noise on the error.% CLAUDE:  Provide the actual values from introduction-to-feedback-control/utils/ardu_params/2026_05_06_baseline_3.2.param and explain. 
+6. **PID controller** with separate P, I, D, and FF terms. % CLAUDE: Explain these are set to defaults on inital install.   We leave the P, I and D values at the defautls, but the Base case as the FF set to zero, so there is no feedforward contribution in the Base case. 
+7. **Output sum** combines the PID output with any baseline FF and sends it to the actuator. (The speed loop adds a `CRUISE_THROTTLE` baseline here, which we ignore, and the yaw loop does not.)
 
 <!-- Internal: diagram source is site/autopilot/images/generic_pid_loop.drawio
      Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
