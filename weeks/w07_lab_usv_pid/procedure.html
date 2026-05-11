@@ -220,8 +220,14 @@ ul.task-list li input[type="checkbox"] {
 <section id="set-up-the-experiment" class="level4">
 <h4 class="anchored" data-anchor-id="set-up-the-experiment">Set up the experiment</h4>
 <ol type="1">
-<li><strong>Change the parameter set</strong> for this experiment via Mission Planner (Config → Full Parameter Tree). For <strong>Base</strong>, load the baseline <code>.param</code>. For <strong>FeedForward</strong> and <strong>Tuned</strong>, load the edited copies you prepared during <a href="#day-of">pre-lab prep</a>.</li>
-<li><strong>Verify the relevant <code>ATC_*</code> parameters</strong> at the vehicle. Mission Planner shows live values; see the <a href="../../autopilot/stabilization.html">Stabilization Layer</a> reference for what each parameter does and which ones change between experiments.</li>
+<li><p><strong>Change the parameter set</strong> for this experiment via Mission Planner (Config → Full Parameter Tree). For <strong>Base</strong>, load the baseline <code>.param</code>. For <strong>FeedForward</strong> and <strong>Tuned</strong>, you will be changing the relevant <code>ATC_*</code> parameters as specified in the lab instructions.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/mp_baseline_pid.png" class="img-fluid figure-img"></p>
+<figcaption>Mission Planner → Config → Basic Tuning. Most of the gains can be set from this panel. <strong>Exception:</strong> the speed-channel feedforward (<code>ATC_SPEED_FF</code>) is not exposed here; edit it from the Full Parameter Tree instead.</figcaption>
+</figure>
+</div></li>
+<li><p><strong>Verify the relevant <code>ATC_*</code> parameters</strong> at the vehicle. Mission Planner shows live values; see the <a href="../../autopilot/stabilization.html">Stabilization Layer</a> reference for what each parameter does and which ones change between experiments.</p></li>
 </ol>
 </section>
 <section id="speed-throttle-step-run-one-arm-disarm-cycle" class="level4">
@@ -247,7 +253,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Pilot switches the autopilot into <strong>ACRO</strong> mode. <strong>Planner confirms ACRO</strong> before the pilot proceeds.</li>
 <li><strong>Repeat 3–5 times, alternating direction</strong> (positive then negative stick deflection so any asymmetry is visible):
 <ul>
-<li>Apply a step steering command at roughly <strong>~50% rudder</strong>. Use the <strong>same step fraction</strong> in every experiment (A, B, C) so the metrics are directly comparable.</li>
+<li>Apply a step steering command at roughly <strong>~50% rudder</strong>. Use the <strong>same step fraction</strong> in every experiment (Base, FeedForward, Tuned) so the metrics are directly comparable.</li>
 <li><strong>Hold until the yaw rate settles</strong> to a steady value.</li>
 <li>Scribe records the surge speed at the time of each step, the step fraction, and the direction.</li>
 </ul></li>
