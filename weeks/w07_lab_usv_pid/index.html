@@ -117,9 +117,9 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
-  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables">Deliverables</a></li>
-  <li><a href="#required-reading" id="toc-required-reading" class="nav-link" data-scroll-target="#required-reading">Required reading</a></li>
-  <li><a href="#sub-pages" id="toc-sub-pages" class="nav-link" data-scroll-target="#sub-pages">Sub-pages</a></li>
+  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading">Reading</a></li>
+  <li><a href="#procedure" id="toc-procedure" class="nav-link" data-scroll-target="#procedure">Procedure</a></li>
   <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a>
   <ul class="collapse">
   <li><a href="#students" id="toc-students" class="nav-link" data-scroll-target="#students">Students</a></li>
@@ -174,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><strong>FeedForward</strong></td>
-<td>Add the feedforward gain (using values from our open-loop system identification lab) to both control loops, keeping the PID gains at the Base values. Isolates the contribution of feedforward.</td>
+<td>Add the feedforward gain (using values from our open-loop system identification lab) to both control loops, keeping the PID gains at the Base values. Observe contribution of feedforward to performance.</td>
 </tr>
 <tr class="odd">
 <td><strong>Tuned</strong></td>
@@ -185,46 +185,45 @@ ul.task-list li input[type="checkbox"] {
 <p>For each experiment, both the <strong>speed (surge / throttle)</strong> loop and the <strong>yaw-rate (steering / rudder)</strong> loop are exercised with manual step inputs and the responses logged.</p>
 <p>For each of the six cases (three experiments × two channels), you will</p>
 <ul>
-<li>Plot the closed-loop step response timeseries to visualize the transient and steady-state behavior</li>
-<li>Plot the PID internals (target vs actual, per-term breakdown) to understand how the controller is operating and generating the actuator commands. This includes the (P/I/D/FF) breakdown, which is critical for understanding the relative contribution of each term to the overall response and diagnosing issues like excessive overshoot (too much P), long settling time (too little D), or integrator windup (excessive I). Controller effort is also a key aspect of the “best” response characterization, since we want to achieve good performance with minimal control effort.</li>
-<li>Quantify the transient and steady-state performance metrics compare across the three experiments for each channel.</li>
+<li>Plot the closed-loop step response timeseries to visualize the transient and steady-state behavior.</li>
+<li>Plot the PID internals (target vs actual, per-term breakdown) to understand how the controller is operating and generating the actuator commands. This includes the <em>controller effort</em> (P/I/D/FF) breakdown, which is critical for understanding the relative contribution of each term to the overall response and diagnosing issues like excessive overshoot (too much P), long settling time (too little D), or integrator windup (excessive I). Controller effort is also a key aspect of the “best” response characterization, since we want to achieve good performance with minimal control effort.</li>
+<li>Quantify the transient and steady-state performance metrics, then compare across the three experiments for each channel.
+<ul>
+<li>Review the <a href="../../weeks/w07_lab_usv_pid/results.html">example results</a>: timeseries and PID signals for each of the six cases (plus an integrator-windup demonstration) and a summary of performance metrics.</li>
+</ul></li>
 </ul>
 </section>
-<section id="deliverables" class="level2">
-<h2 class="anchored" data-anchor-id="deliverables">Deliverables</h2>
+<section id="schedule" class="level2">
+<h2 class="anchored" data-anchor-id="schedule">Schedule</h2>
 <p><strong>This week:</strong> clean step-response logs for all <strong>three experiments × two channels = six datasets</strong>, with a brief quality-check.</p>
 <p><strong>Next week:</strong> process the data to quantify rise time, settling time, overshoot, and steady-state error, then compare across the three experiments.</p>
 </section>
-<section id="required-reading" class="level2">
-<h2 class="anchored" data-anchor-id="required-reading">Required reading</h2>
-<p>Before the field session, read the <strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> reference. It documents the two control loops you’ll be tuning (speed and yaw-rate) and is what makes the three experiments and the tuning workflow comprehensible.</p>
-<p>Section 3 of the <a href="../../weeks/w07_lab_usv_pid/procedure.html">Procedure</a> summarizes the lab-specific framing: which <code>ATC_*</code> parameters change between Base / FeedForward / Tuned, and which stay fixed.</p>
+<section id="reading" class="level2">
+<h2 class="anchored" data-anchor-id="reading">Reading</h2>
+<p>Before the field session, review the <strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> reference. It documents the two control loops you’ll be tuning (speed and yaw-rate).</p>
 </section>
-<section id="sub-pages" class="level2">
-<h2 class="anchored" data-anchor-id="sub-pages">Sub-pages</h2>
-<p>This page is the assignment overview. The lab-specific detail lives in:</p>
-<ul>
-<li><strong><a href="../../weeks/w07_lab_usv_pid/procedure.html">Procedure</a></strong> — pre-lab checklist, field workflow, step-input technique, and the at-the-field quality-check criteria.</li>
-<li><strong><a href="../../weeks/w07_lab_usv_pid/results.html">Example Results</a></strong> — example timeseries and PID-internals figures for each of the six cases (plus an integrator-windup demonstration), and a summary metrics table generated from the analysis pipeline.</li>
-</ul>
+<section id="procedure" class="level2">
+<h2 class="anchored" data-anchor-id="procedure">Procedure</h2>
+<p><strong><a href="../../weeks/w07_lab_usv_pid/procedure.html">Procedure</a></strong> — pre-lab checklist, field workflow, step-input technique, and the at-the-field quality-check criteria.</p>
 </section>
 <section id="materials" class="level2">
 <h2 class="anchored" data-anchor-id="materials">Materials</h2>
 <section id="students" class="level3">
 <h3 class="anchored" data-anchor-id="students">Students</h3>
 <ul>
-<li>ArduPilot Rover doc references — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md"><code>ardupilot_references.md</code></a></li>
-<li>Shared data repository: <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a>. This is where to upload your raw (<code>*.BIN</code>) autopilot logs for processing. Add a subfolder for your team (e.g.&nbsp;<code>TeamX</code>) and upload there. The instructors will convert the logs to MATLAB (<code>*.mat</code>) format.</li>
-<li>Analysis script — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m"><code>closedloop_assess_example.m</code></a>. Driver for loading a single <code>.mat</code>, plotting the timeseries + PID internals, and reporting the step-response metrics.
+<li><p>Shared data repository: <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a>. This is where to upload your raw (<code>*.BIN</code>) autopilot logs for processing. Add a subfolder for your team (e.g.&nbsp;<code>TeamX</code>) and upload there. The instructors will convert the logs to MATLAB (<code>*.mat</code>) format.</p></li>
+<li><p><strong>Analysis script</strong> — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m"><code>closedloop_assess_example.m</code></a>. Loads a single <code>.mat</code>, plots the timeseries and PID internals, and reports the step-response metrics.</p>
+<p><strong>Modifying this script for your datasets is the main deliverable for the lab.</strong></p>
 <ul>
-<li><strong>Bring the whole directory</strong> <a href="https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code"><code>book/w07_lab_usv_pid/code/</code></a> onto your MATLAB path. The example driver depends on helper functions in that folder — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/plot_speed_response.m"><code>plot_speed_response.m</code></a> and <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/plot_yaw_response.m"><code>plot_yaw_response.m</code></a> generate the PID-internals figures, and <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/step_response_metrics.m"><code>step_response_metrics.m</code></a>, <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/load_and_prep.m"><code>load_and_prep.m</code></a>, and <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/normalize_pwm.m"><code>normalize_pwm.m</code></a> handle the analysis and PWM normalization.</li>
+<li>Download the directory <a href="https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code"><code>book/w07_lab_usv_pid/code/</code></a> and open the example from that directory; it depends on other helper files in the same folder.</li>
 </ul></li>
 </ul>
 </section>
 <section id="instructors" class="level3">
 <h3 class="anchored" data-anchor-id="instructors">Instructors</h3>
+<p>Students are welcome to use these, but explaining them is beyond the scope of the class 😉</p>
 <ul>
-<li><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m"><code>closedloop_assess_main.m</code></a> — main driver: loads each log, plots, runs metrics, writes CSV + Markdown summary</li>
+<li><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m"><code>closedloop_assess_main.m</code></a> — extension of the same logic as <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m"><code>closedloop_assess_example.m</code></a> to process the full dataset.</li>
 <li>Log conversion — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>bin2mat.py</code></a></li>
 </ul>
 
