@@ -54,10 +54,9 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 
 #### Set up the experiment
 
-1. **Change the parameter set** for this experiment via Mission Planner (Config → Full Parameter Tree). For **Base**, load the baseline `.param`. For **FeedForward** and **Tuned**, you will be changing the relevant `ATC_*` parameters as specified in the lab instructions.  
+1. **Change the parameter set** for this experiment via Mission Planner (Config → Full Parameter Tree). For **Base**, load the baseline `.param`. For **FeedForward** and **Tuned**, you will be changing the relevant `ATC_*` parameters as specified in the lab instructions.
 
-% CLAUDE: Insert the image at introduction-to-feedback-control/site/weeks/w07_lab_usv_pid/images/mp_baseline_pid.png.  This is a screenshot of the Mission Planner Config->Basic Tuning.  Note that the feedforward term (`FF`) for Speed/Throttle cannot be set here and must be set in the full parameter tree in Mission Planner.  
-
+   ![Mission Planner → Config → Basic Tuning. Most of the gains can be set from this panel. **Exception:** the speed-channel feedforward (`ATC_SPEED_FF`) is not exposed here; edit it from the Full Parameter Tree instead.](images/mp_baseline_pid.png)
 
 2. **Verify the relevant `ATC_*` parameters** at the vehicle. Mission Planner shows live values; see the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does and which ones change between experiments.
 
@@ -78,7 +77,7 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 9. **Planner saves the current parameter file** with a timestamp. Pilot then **disarms and re-arms**. Scribe records UTC time + intent (e.g. *"Base, yaw step"*).
 10. Pilot switches the autopilot into **ACRO** mode. **Planner confirms ACRO** before the pilot proceeds.
 11. **Repeat 3–5 times, alternating direction** (positive then negative stick deflection so any asymmetry is visible):
-    - Apply a step steering command at roughly **~50% rudder**. Use the **same step fraction** in every experiment (A, B, C) so the metrics are directly comparable.
+    - Apply a step steering command at roughly **~50% rudder**. Use the **same step fraction** in every experiment (Base, FeedForward, Tuned) so the metrics are directly comparable.
     - **Hold until the yaw rate settles** to a steady value.
     - Scribe records the surge speed at the time of each step, the step fraction, and the direction.
 12. Pilot **disarms** to close the yaw-trial log.
