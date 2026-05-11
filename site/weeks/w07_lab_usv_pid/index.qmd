@@ -11,10 +11,10 @@ subtitle: "Week 7 · {{< var quarter >}}"
 Test and evaluate the closed-loop performance of the USV's speed and yaw-rate controllers in the following scenarios:
 
 | Experiment | Purpose |
-|---|---|---|
-| **Base** | This is our baseline setup, which has the ArduRover default PID gain values, no rate limiters and no feedforward gain. This is the reference against which the other two experiments are compared.  Goal is to inspect the default closed-loop behavior, both the  |
-| **FeedForward** | Add only feedforward gain, keeping the rest of the PID to both speed and yaw-rate control loops.  Gain values from our open-loop system identification lab. | Stock PID gains |
-| **Tuned** | Tune PID gains for "best" response | Feedforward kept on |
+|---|---|
+| **Base** | Baseline setup with ArduRover default PID gains, no rate limiters, and no feedforward. Reference against which the other two experiments are compared; inspect the default closed-loop behavior in both the speed and yaw-rate channels. |
+| **FeedForward** | Add the feedforward gain (using values from our open-loop system identification lab) to both control loops, keeping the PID gains at the Base values. Isolates the contribution of feedforward. |
+| **Tuned** | Tune the PID gains for the "best" response, keeping the feedforward from the previous case. |
 
 For each experiment, both the **speed (surge / throttle)** loop and the **yaw-rate (steering / rudder)** loop are exercised with manual step inputs and the responses logged.
 
@@ -29,17 +29,11 @@ For each of the six cases (three experiments × two channels), we will
 
 **This week:** clean step-response logs for all **three experiments × two channels = six datasets**, with a brief quality-check.
 
-**Next week:** process the data with the quantify rise time, settling time, overshoot, and steady-state error, and compare across the three experiments.
+**Next week:** process the data to quantify rise time, settling time, overshoot, and steady-state error, then compare across the three experiments.
 
 ## Required reading
 
 Before the field session, read the **[Autopilot → Stabilization Layer](../../autopilot/stabilization.qmd)** reference. It documents the two control loops you'll be tuning — the speed loop and the yaw-rate loop — and is what makes the three experiments and the tuning workflow comprehensible.
-
-What's in there: % CLAUDE: Remove the summary here.  This is tough to maintain as we are still actively developing the reference. 
-
-- **Block diagram** of the speed and yaw-rate PID loops, including how the RC stick maps to a setpoint, the input/error filters, the PID block, and the actuator output.
-- **`ATC_*` parameter tables** for both loops — full descriptions of the tunable PID gains, feedforward, filter cutoffs, and rate limiters. The Lab 2 experiments enable / disable subsets of these parameters.
-- **DataFlash log-channel reference** — `PIDA_*` (speed) and `PIDS_*` (yaw-rate) PID internals, plus the `THR` / `STER` / `RCOU` / `GPS` channels used in the analysis figures.
 
 The lab-specific framing — which `ATC_*` parameters change between Base / FeedForward / Tuned, and which stay fixed — is summarized in §3 of the [Procedure](procedure.qmd).
 
@@ -55,10 +49,9 @@ This page is the assignment overview. The lab-specific detail lives in:
 ### Students
 
 - ArduPilot Rover doc references — [`ardupilot_references.md`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md)
-- Shared data repository: [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ).  This is where to upload your raw (*.BIN) autopilot logs for processing. Add a subfolder for your team (e.g. `TeamX`) and upload there.  The instructors will convert the logs to MATLAB (*.mat) format,
-- Analysis scripts — `book/w07_lab_usv_pid/code/`
-  - % CLAUDE: Add link to /home/bsb/WorkingCopies/me2801/introduction-to-feedback-control/book/w07_lab_usv_pid/code/closedloop_assess_example.m
-  - % CLAUDE: Insert note that they will need the entire driectory for the helper functions, e.g. `plot_speed_response.m` and `plot_yaw_response.m` that generate the PID internals figures.
+- Shared data repository: [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ).  This is where to upload your raw (`*.BIN`) autopilot logs for processing.  Add a subfolder for your team (e.g. `TeamX`) and upload there.  The instructors will convert the logs to MATLAB (`*.mat`) format.
+- Analysis script — [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m).  Driver for loading a single `.mat`, plotting the timeseries + PID internals, and reporting the step-response metrics.
+  - **Bring the whole directory** [`book/w07_lab_usv_pid/code/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code) onto your MATLAB path.  The example driver depends on helper functions in that folder — [`plot_speed_response.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/plot_speed_response.m) and [`plot_yaw_response.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/plot_yaw_response.m) generate the PID-internals figures, and [`step_response_metrics.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/step_response_metrics.m), [`load_and_prep.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/load_and_prep.m), and [`normalize_pwm.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/normalize_pwm.m) handle the analysis and PWM normalization.
 
 ### Instructors
 - [`closedloop_assess_main.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m) — main driver: loads each log, plots, runs metrics, writes CSV + Markdown summary
