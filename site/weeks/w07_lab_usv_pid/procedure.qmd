@@ -43,6 +43,10 @@ As in Lab 1, confirm the following at the launch site before any data collection
 - **Power on the autopilot.**
 - **Establish telemetry link** with Mission Planner.
 - **Load the baseline `.param` file** and confirm the relevant `ATC_*` parameters are at the expected values. In particular, verify `ATC_ACCEL_MAX = 0` and `ATC_STR_ACC_MAX = 0` so that step inputs reach the loops as true steps. ATC = Attitude Control, see [Ardu Common Abbreviations](https://ardupilot.org/planner/docs/common-abbreviations.html). See the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does.
+    - **Note: AY26Q3** There are untested parameter values in the above `.param` file.   These chnages are a consequence of prototyping the experiment.  If you there is unexpected results, work with instructors to set parameters back to the original
+        1. `ACRO_TURN_RATE = 57` deg/s.  This is the proportional gain applied to this stick input (-1, 1) to convert the pilot R/C input into a yaw-rate setpoint commend.  For For the [Example Results](results.qmd), we had this parameter set at `360` deg/s, which meant that a pilot full left R/C command would put the setpoint at 2*pi rad/s of desired turn rate.   The USV cannot turn that fast (constraints of thy dynamics), so the step response tests show large steady-state error because the actuation if quickly and fully saturated.  A setting of `57` deg/s (roughly `1` rad/s) is slighthly above the USVs actual observed maximum turn rate. 
+        1. `ATC_ACCEL_MAX = 0`.  The documentation suggests that setting this parameter will remove the rate limit from the input shaping.   For the [Example Results](results.qmd), we had  `ATC_ACCEL_MAX = 10` m/s^2, which was a sufficiently high rate (acceleration) to minimally shape the input, but removing the limit all together would be a slight improvment on the lab process.
+
 - **Power on the propulsion system.**
 - **Confirm ARM** and that you can switch from MANUAL to ACRO modes.
 - You may need to re-bind the RC transmitter and/or calibrate sensors.
@@ -70,6 +74,9 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
    ![Mission Planner → Config → Basic Tuning. Most of the gains can be set from this panel. **Exception:** the speed-channel feedforward (`ATC_SPEED_FF`) is not exposed here; edit it from the Full Parameter Tree instead.](images/mp_baseline_pid.png){width=70%}
 
 2. **Verify the relevant `ATC_*` parameters** at the vehicle. Mission Planner shows live values; see the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does and which ones change between experiments.
+
+#### Set up Base experiement
+
 
 #### Speed (throttle) step run — one arm-disarm cycle
 
