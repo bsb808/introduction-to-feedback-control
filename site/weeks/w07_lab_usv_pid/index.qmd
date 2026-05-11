@@ -13,7 +13,7 @@ Test and evaluate the closed-loop performance of the USV's speed and yaw-rate co
 | Experiment | Purpose |
 |---|---|
 | **Base** | Baseline setup with ArduRover default PID gains, no rate limiters, and no feedforward. Reference against which the other two experiments are compared; inspect the default closed-loop behavior in both the speed and yaw-rate channels. |
-| **FeedForward** | Add the feedforward gain (using values from our open-loop system identification lab) to both control loops, keeping the PID gains at the Base values. Isolates the contribution of feedforward. |
+| **FeedForward** | Add the feedforward gain (using values from our open-loop system identification lab) to both control loops, keeping the PID gains at the Base values. Observe contribution of feedforward to performance. |
 | **Tuned** | Tune the PID gains for the "best" response, keeping the feedforward from the previous case. |
 
 : {tbl-colwidths="[15, 85]"}
@@ -25,37 +25,38 @@ For each of the six cases (three experiments × two channels), you will
 * Plot the closed-loop step response timeseries to visualize the transient and steady-state behavior
 * Plot the PID internals (target vs actual, per-term breakdown) to understand how the controller is operating and generating the actuator commands.  This includes the \emph{controller effort} (P/I/D/FF) breakdown, which is critical for understanding the relative contribution of each term to the overall response and diagnosing issues like excessive overshoot (too much P), long settling time (too little D), or integrator windup (excessive I).  Controller effort is also a key aspect of the "best" response characterization, since we want to achieve good performance with minimal control effort.
 * Quantify the transient and steady-state performance metrics compare across the three experiments for each channel. 
+  * Review the [example results](results.qmd): timeseries and PID signals for each of the six cases (and integrator-windup demonstration), and a summary performance metrics 
 
 
-
-## Deliverables
+## Schedule
 
 **This week:** clean step-response logs for all **three experiments × two channels = six datasets**, with a brief quality-check.
 
 **Next week:** process the data to quantify rise time, settling time, overshoot, and steady-state error, then compare across the three experiments.
 
-## Required reading
+## Reading
 
-Before the field session, read the **[Autopilot → Stabilization Layer](../../autopilot/stabilization.qmd)** reference. It documents the two control loops you'll be tuning (speed and yaw-rate) and is what makes the three experiments and the tuning workflow comprehensible.
+Before the field session, review the **[Autopilot → Stabilization Layer](../../autopilot/stabilization.qmd)** reference. It documents the two control loops you'll be tuning (speed and yaw-rate).
 
-Section 3 of the [Procedure](procedure.qmd) summarizes the lab-specific framing: which `ATC_*` parameters change between Base / FeedForward / Tuned, and which stay fixed.
 
-## Sub-pages
+## Procedure 
 
-This page is the assignment overview. The lab-specific detail lives in:
 
-- **[Procedure](procedure.qmd)** — pre-lab checklist, field workflow, step-input technique, and the at-the-field quality-check criteria.
-- **[Example Results](results.qmd)** — example timeseries and PID-internals figures for each of the six cases (plus an integrator-windup demonstration), and a summary metrics table generated from the analysis pipeline.
+**[Procedure](procedure.qmd)** — pre-lab checklist, field workflow, step-input technique, and the at-the-field quality-check criteria.
 
 ## Materials
 
 ### Students
 
-- ArduPilot Rover doc references — [`ardupilot_references.md`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md)
 - Shared data repository: [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ).  This is where to upload your raw (`*.BIN`) autopilot logs for processing.  Add a subfolder for your team (e.g. `TeamX`) and upload there.  The instructors will convert the logs to MATLAB (`*.mat`) format.
-- Analysis script — [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m).  Driver for loading a single `.mat`, plotting the timeseries + PID internals, and reporting the step-response metrics.
-  - **Bring the whole directory** [`book/w07_lab_usv_pid/code/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code) onto your MATLAB path.  The example driver depends on helper functions in that folder — [`plot_speed_response.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/plot_speed_response.m) and [`plot_yaw_response.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/plot_yaw_response.m) generate the PID-internals figures, and [`step_response_metrics.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/step_response_metrics.m), [`load_and_prep.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/load_and_prep.m), and [`normalize_pwm.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/normalize_pwm.m) handle the analysis and PWM normalization.
+- Analysis script — [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m).  % CLAUDE: Is it possible to insert a line feed here so the next line has the same indentation?  I'd like to learn how.
+Modifying this script for your datasets is the main deliverable for the lab. 
+Driver for loading a single `.mat`, plotting the timeseries + PID internals, and reporting the step-response metrics.
+  - Download the directory [`book/w07_lab_usv_pid/code/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code) and open the example from that directory.  The example depends on other files in the directory.
 
 ### Instructors
-- [`closedloop_assess_main.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m) — main driver: loads each log, plots, runs metrics, writes CSV + Markdown summary
+
+Students are welcome to use these, but explaining them is beyond the scope of the class % CLAUDE: show me out to insert wink emojis in markdown.
+
+- [`closedloop_assess_main.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m) — extention of the same logic [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m) to process full dataset. 
 - Log conversion — [`bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py)
