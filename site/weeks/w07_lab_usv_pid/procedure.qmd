@@ -75,9 +75,6 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 
 2. **Verify the relevant `ATC_*` parameters** at the vehicle. Mission Planner shows live values; see the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does and which ones change between experiments.
 
-#### Set up Base experiement
-
-
 #### Speed (throttle) step run — one arm-disarm cycle
 
 3. Pilot brings the USV to open water and to rest.
