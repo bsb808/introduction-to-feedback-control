@@ -1,7 +1,7 @@
 ---
 title: "Procedure"
 ---
-i
+
 [← Back to Lab 2 overview](index.qmd)
 
 ## Overview
@@ -30,7 +30,7 @@ Collect six step-response datasets per team: three parameter configurations × t
 
 - **Parameter files staged on the laptop.** You are given the [baseline `.param`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/2026_05_06_baseline_3.2.param) for the **Base** experiment.
 - **Roles:**
-  - **Planner** — drives Mission Planner: monitors ARM and mode state (MANUAL, ACRO), modify parameters between experiments and set up real time displays.
+  - **Planner** — drives Mission Planner: monitors ARM and mode state (MANUAL, ACRO), modifies parameters between experiments, and sets up real-time displays.
   - **Scribe** — keeps the test card and records UTC time + intent at every arming event. The scribe's notes are what makes the resulting tens of `.mat` files navigable during post-processing.
   - **Pilot** — drives the boat with the RC transmitter and executes the step inputs that exercise the closed-loop controllers.
 
@@ -39,10 +39,10 @@ Collect six step-response datasets per team: three parameter configurations × t
 As in Lab 1, confirm the following at the launch site before any data collection. 
 
 - **Safety.** Stay clear of the propellers whenever the boat's propulsion battery is connected.
-- **SD card seated** in the autopilot 
+- **SD card** in the autopilot.
 - **Power on the autopilot.**
 - **Establish telemetry link** with Mission Planner.
-- **Load the baseline `.param` file** and confirm the relevant `ATC_*` parameters are at the expected values. ATC = Attitude Control, see [Ardu Common Abbreviations](https://ardupilot.org/planner/docs/common-abbreviations.html). See the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does.
+- **Load the baseline `.param` file** and confirm the relevant `ATC_*` parameters are at the expected values. In particular, verify `ATC_ACCEL_MAX = 0` and `ATC_STR_ACC_MAX = 0` so that step inputs reach the loops as true steps. ATC = Attitude Control, see [Ardu Common Abbreviations](https://ardupilot.org/planner/docs/common-abbreviations.html). See the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does.
 - **Power on the propulsion system.**
 - **Confirm ARM** and that you can switch from MANUAL to ACRO modes.
 - You may need to re-bind the RC transmitter and/or calibrate sensors.
@@ -52,7 +52,7 @@ As in Lab 1, confirm the following at the launch site before any data collection
 The lab cycles through three experiments, applying the same procedure to each. Only the parameter set changes between cases (see §3.3 for the per-experiment delta):
 
 1. **Base** — ArduRover default PID gains; no feedforward; rate limiters off.
-2. **FeedForward** — same PID gains as Base, withthe Lab 1 sysid feedforward added (`ATC_*_FF = 1/K_dc`).
+2. **FeedForward** — same PID gains as Base, with the Lab 1 sysid feedforward added (`ATC_*_FF = 1/K_dc`).
 3. **Tuned** — keep the FeedForward configuration, then iterate on `ATC_*_P/I/D` for "best" response.
 
 ### 3.1 ARM and logging
@@ -77,9 +77,9 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 4. Pilot disarms and re-arms (closes the previous log, opens a new one). Scribe records UTC time + intent (e.g. *"Base, surge step"*). The full parameter set is captured inside each log, so there's no need to save it separately.
 5. Pilot switches the autopilot into ACRO mode. **Planner confirms ACRO** in Mission Planner before the pilot proceeds.
 6. **Repeat: 1-2 times**
-   - Apply a step throttle command at ~50% of full stick deflection.  Use a trottle value that avoids planning.  Try to use the same step input in each experiment (Base, FeedForward, Tuned) so the metrics are directly comparable.  Consistency is more important than the actual value.   Use the R/C transmitter's display to see a numerical value.
-   - **Hold for 20–30 s** so the speed response settles into a clear steady value. (Maintain for a 3 seconds beyond when you think it is settled.)
-   - Return throttle to zero; allow the boat to come back to rest before the next repeat. (Again, maintain for a 3 seconds beyond when you think it is settled.)
+   - Apply a step throttle command at ~50% of full stick deflection.  Use a throttle value that avoids planing.  Try to use the same step input in each experiment (Base, FeedForward, Tuned) so the metrics are directly comparable.  Consistency is more important than the actual value.   Use the R/C transmitter's display to see a numerical value.
+   - **Hold for 20–30 s** so the speed response settles into a clear steady value. (Maintain for 3 seconds beyond when you think it is settled.)
+   - Return throttle to zero; allow the boat to come back to rest before the next repeat. (Again, maintain for 3 seconds beyond when you think it is settled.)
 7. Pilot disarms to close the log file. 
 
 You will likely need to do this a few times to get a clean step response logged.  
@@ -87,12 +87,12 @@ You will likely need to do this a few times to get a clean step response logged.
 #### Yaw-rate (steering) step run — one arm-disarm cycle
 
 
+8. Pilot brings the boat to a low, approximately constant speed, typically around ~50% throttle, but stay below planing speed.
 9. Pilot disarms and re-arms. Scribe records UTC time + intent (e.g. *"Base, yaw step"*).
 10. Pilot switches the autopilot into ACRO mode. **Planner confirms ACRO**.
-8. Pilot brings the boat to a low, approximately constant speed, typically around ~50% throttle, but stay below planning speed.
-11. **Repeat once* 
+11. **Repeat once**
     - Apply a step steering command at roughly ~50% rudder. (Try to use the same step input in each experiment (Base, FeedForward, Tuned) so the metrics are directly comparable.  Consistency is more important than the actual value.   Use the R/C transmitter's display to see a numerical value.)
-    - **Hold until the yaw rate settles** to a steady value. (Maintain for a 3 seconds beyond when you think it is settled.)
+    - **Hold until the yaw rate settles** to a steady value. (Maintain for 3 seconds beyond when you think it is settled.)
     - Scribe records the surge speed at the time of each step, the step fraction, and the direction.
 12. Pilot disarms to close the yaw-trial log.
 
@@ -115,7 +115,7 @@ Set each channel's feedforward gain to **1 / K_dc**, where K_dc is the DC gain o
 - Speed: `G_speed(s) = 5.1 / (1.3 s + 1)`   →   `ATC_SPEED_FF   = 1/5.1  ≈ 0.20`
 - Yaw rate: `G_yaw(s) = 0.82 / (0.51 s + 1)`   →   `ATC_STR_RAT_FF = 1/0.82 ≈ 1.22`
 
-Consider the feedfoward term as the amount of input the plant requires to achieve an output of 1.0.  So this is the throttle command that would result in a speed of roughly 1 m/s or the rudder command that would result in a yaw rate of roughly 1 rad/s.
+Consider the feedforward term as the amount of input the plant requires to achieve an output of 1.0.  So this is the throttle command that would result in a speed of roughly 1 m/s or the rudder command that would result in a yaw rate of roughly 1 rad/s.
 
 ### 3.4 Tuning the PID gains (Tuned experiment)
 
@@ -134,7 +134,7 @@ The ArduRover docs page [Tuning Speed and Throttle](https://ardupilot.org/rover/
 - **Don't change parameters while ARMed.** Parameter changes get baked into the active log in a way that makes it hard to verify what was active when. Disarm, change, save the new param file, then re-arm.
 - **Verify ACRO mode every time.** A test in MANUAL looks identical to one in ACRO from the pilot's perspective, but the closed-loop controllers aren't engaged. The planner's ACRO confirmation in step 5 / step 10 is the safety net; don't skip it.
 - **Inter-step gap too short.** Between repeats within a run, allow the response to fully settle (return to rest, or to baseline yaw rate) before the next step. A short gap mixes one step's tail into the next step's start.
-- **Same step fraction across Base / FeedForward / Tuned.** Comparing rise time, overshoot, and steady-state error across experiments should be done using equivalent amplitude step inputs for the tests.  Since the pilot is setting the amplitue, try to be consistent with command amplitude across the three test cases.
+- **Same step fraction across Base / FeedForward / Tuned.** Comparing rise time, overshoot, and steady-state error across experiments should be done using equivalent amplitude step inputs for the tests.  Since the pilot is setting the amplitude, try to be consistent with command amplitude across the three test cases.
 - **One channel per arm-disarm cycle.** Don't intermingle speed and yaw steps in the same log; it makes the MATLAB inspection harder than it needs to be.
 - **Two timezones.** ArduPilot logs and the post-processed `.mat` filenames are in **UTC**. Scribe notes are in local time. The post-processing step adds the UTC stamp to the filename automatically; the scribe should record UTC at the field too so the two match without arithmetic later. Instructors use the UTC format `YYYYMMDD_HHMMSS` for the appended timestamp.
 
@@ -158,10 +158,10 @@ The quality-check step can't happen until the `.BIN` logs have been converted to
     - There are two important things to verify
         - That the scribe logs for the time of the pertinent experiment match the `.mat` file timestamps.
         - That the timeseries in the `.mat` file look like a clean step response with the characteristics needed to evaluate the performance metrics (rise time, overshoot, settling time, steady-state error). 
-    - Verify you can run the  [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m) as-is, then adapt it to your own log filename and run it once per `.mat` file. 
+    - Verify you can run the [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m) as-is, then adapt it to your own log filename and run it once per `.mat` file. 
         - The script produces the timeseries and PID-internals figures and computes step-response metrics. Suggested order is to run it across all six experiment-channel `.mat` files first, just to confirm each captured a clean step response.
     - Suggested characteristics to quickly verify:
-        - There are no missing signals in the plots, compared with the example.  Missing signals could be an mistake in the autopilot logging configuration.
+        - There are no missing signals in the plots, compared with the example.  Missing signals could be a mistake in the autopilot logging configuration.
         - Setpoint reaches a reasonable commanded value - consistent with the scribe logs.
         - Values all achieve a "steady state" within the duration of the step inputs.
         - No long gaps in the timeseries
