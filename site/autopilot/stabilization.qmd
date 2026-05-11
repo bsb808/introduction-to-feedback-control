@@ -15,7 +15,7 @@ The stabilization layer is the lowest level of ArduRover's control hierarchy. Tw
 
 Both stabilization loops share the same generic structure: a setpoint enters the loop, gets compared against a measurement to form an error, and the PID + feedforward block computes the actuator output. The 7 building blocks are:
 
-1. **Stick → setpoint scaling** (`CRUISE_SPEED` for throttle, `ACRO_TURN_RATE` for steering).
+1. **Stick → setpoint scaling** The controller's input is a target value (also known as a setpoint, comThis specifies how the R/C stic(`CRUISE_SPEED` for throttle, `ACRO_TURN_RATE` for steering).
 2. **Acceleration limiter** on the commanded setpoint (`ATC_ACCEL_MAX` / `ATC_STR_ACC_MAX`).
 3. **Target low-pass filter** (`*_FLTT`) softens setpoint steps before they enter the loop.
 4. **Error junction** subtracting the measured value from the (filtered) setpoint.
@@ -23,11 +23,14 @@ Both stabilization loops share the same generic structure: a setpoint enters the
 6. **PID controller** with separate P, I, D, and FF terms.
 7. **Output sum** combines the PID output with any baseline FF and sends it to the actuator. (The speed loop adds a `CRUISE_THROTTLE` baseline here; the yaw loop does not.)
 
-<!-- TBD: insert a generic PID block diagram (drawio source at
-     site/autopilot/images/generic_pid_loop.drawio, exported SVG at
-     site/autopilot/images/generic_pid_loop.svg) that visualizes the
-     7-step structure above with no channel-specific labels.  Reusable
-     across labs.  -->
+<!-- Internal: diagram source is site/autopilot/images/generic_pid_loop.drawio
+     Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
+     After editing, re-export the SVG with:
+       drawio --export --format svg \
+         --output site/autopilot/images/generic_pid_loop.svg \
+         site/autopilot/images/generic_pid_loop.drawio -->
+
+![Generic PID control loop with feedforward and setpoint shaping. Numbers ① – ⑦ correspond to the 7 building blocks listed above.](images/generic_pid_loop.svg){fig-alt="Generic PID block diagram with setpoint scaling, acceleration limiter, target LPF, error junction, error LPF, PID controller, output sum, plant, and feedback loop, with a feedforward branch from the setpoint to the output sum."}
 
 ### ArduRover documentation diagram
 
