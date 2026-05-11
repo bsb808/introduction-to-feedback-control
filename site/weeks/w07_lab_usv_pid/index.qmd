@@ -45,18 +45,17 @@ Before the field session, review the **[Autopilot → Stabilization Layer](../..
 
 ## Materials
 
-### Students
+### For Students
 
 - Shared data repository: [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ).  This is where to upload your raw (`*.BIN`) autopilot logs for processing.  Add a subfolder for your team (e.g. `TeamX`) and upload there.  The instructors will convert the logs to MATLAB (`*.mat`) format.
-- **Analysis script** — [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m). Loads a single `.mat`, plots the timeseries and PID internals, and reports the step-response metrics.
+- **Analysis script** — [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m).  
+  Loads a single `.mat`, plots the timeseries and PID internals, and reports the step-response metrics.
+  - Modifying this script for your datasets is the main deliverable for the lab.
+  - Download the entire directory from [`book/w07_lab_usv_pid/code/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code) and open the example in MATLAB from that directory. The example depends on other helper files in the same folder.
 
-  **Modifying this script for your datasets is the main deliverable for the lab.**
+### For Instructors
 
-  - Download the directory [`book/w07_lab_usv_pid/code/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code) and open the example from that directory; it depends on other helper files in the same folder.
-
-### Instructors
-
-Students are welcome to use these, but explaining them is beyond the scope of the class 😉
+Students are welcome to use these, but explaining them is beyond the scope of the class.
 
 - [`closedloop_assess_main.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m) — extension of the same logic as [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m) to process the full dataset. 
 - Log conversion — [`bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py)

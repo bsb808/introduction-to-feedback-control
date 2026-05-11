@@ -55,10 +55,8 @@
         <mxCell id="32" edge="1" parent="1" source="14" style="edgeStyle=orthogonalEdgeStyle;" target="15" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="33" edge="1" parent="1" source="15" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="16" value="THR_DesSpeed&#xa;THR msg, ~25 Hz">
-          <mxGeometry relative="1" x="0.1538" y="40" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
+        <mxCell id="33" edge="1" parent="1" source="15" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="16" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="34" edge="1" parent="1" source="16" style="edgeStyle=orthogonalEdgeStyle;" target="18" value="">
           <mxGeometry relative="1" as="geometry" />
@@ -72,12 +70,10 @@
         <mxCell id="37" edge="1" parent="1" source="20" style="edgeStyle=orthogonalEdgeStyle;" target="21" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="38" edge="1" parent="1" source="21" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="22" value="RCOU_C3 (PWM)&#xa;RCOU msg, ~25 Hz">
-          <mxGeometry relative="1" x="-0.0959" y="50" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
+        <mxCell id="38" edge="1" parent="1" source="21" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="22" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="39" edge="1" parent="1" source="22" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="16" value="GPS_Spd  |  GPS msg, 5 Hz">
+        <mxCell id="39" edge="1" parent="1" source="22" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="16" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1475" y="350" />
@@ -130,10 +126,8 @@
         <mxCell id="72" edge="1" parent="1" source="53" style="edgeStyle=orthogonalEdgeStyle;" target="54" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="73" edge="1" parent="1" source="54" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="55" value="STER_DesTurnRate&#xa;STER msg, ~25 Hz">
-          <mxGeometry relative="1" x="0.1538" y="40" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
+        <mxCell id="73" edge="1" parent="1" source="54" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="55" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="74" edge="1" parent="1" source="55" style="edgeStyle=orthogonalEdgeStyle;" target="57" value="">
           <mxGeometry relative="1" as="geometry" />
@@ -141,16 +135,10 @@
         <mxCell id="75" edge="1" parent="1" source="57" style="edgeStyle=orthogonalEdgeStyle;" target="58" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="76" edge="1" parent="1" source="58" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="59" value="RCOU_C1 (PWM)&#xa;RCOU msg, ~25 Hz">
-          <mxGeometry relative="1" x="0.3333" y="50" as="geometry">
-            <mxPoint as="offset" />
-            <Array as="points">
-              <mxPoint x="1380" y="550" />
-              <mxPoint x="1380" y="550" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="76" edge="1" parent="1" source="58" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="59" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="77" edge="1" parent="1" source="59" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.451;exitY=1.001;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.429;entryY=1.099;entryDx=0;entryDy=0;entryPerimeter=0;" target="55" value="STER_TurnRate  |  STER msg, ~25 Hz">
+        <mxCell id="77" edge="1" parent="1" source="59" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.451;exitY=1.001;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.429;entryY=1.099;entryDx=0;entryDy=0;entryPerimeter=0;" target="55" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1421" y="740" />
@@ -166,6 +154,33 @@
         </mxCell>
         <mxCell id="ErFI3WnD5XGcJGhHysFP-79" edge="1" parent="1" source="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="19">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="200" parent="1" vertex="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;" value="THR_DesSpeed&#xa;PIDA_Tar  (m/s)">
+          <mxGeometry x="586" y="125" width="120" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="201" parent="1" vertex="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;" value="PIDA_Err&#xa;(m/s)">
+          <mxGeometry x="884" y="125" width="80" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="202" parent="1" vertex="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;" value="PIDA_P + PIDA_I&#xa;+ PIDA_D + PIDA_FF">
+          <mxGeometry x="1208" y="83" width="140" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="203" parent="1" vertex="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;" value="RCOU_C3&#xa;(PWM)">
+          <mxGeometry x="1320" y="125" width="90" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="204" parent="1" vertex="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;" value="GPS_Spd  |  PIDA_Act&#xa;(GPS rcvr, 5 Hz)        (EKF, ~25 Hz)">
+          <mxGeometry x="938" y="320" width="280" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="205" parent="1" vertex="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;" value="STER_DesTurnRate&#xa;PIDS_Tar  (rad/s)">
+          <mxGeometry x="586" y="495" width="120" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="206" parent="1" vertex="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;" value="PIDS_Err&#xa;(rad/s)">
+          <mxGeometry x="884" y="495" width="80" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="207" parent="1" vertex="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;" value="PIDS_P + PIDS_I + PIDS_D + PIDS_FF&#xa;→ RCOU_C1  (PWM)">
+          <mxGeometry x="1238" y="453" width="200" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="208" parent="1" vertex="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=1;" value="STER_TurnRate  |  PIDS_Act  (rad/s, EKF)">
+          <mxGeometry x="938" y="715" width="280" height="14" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
