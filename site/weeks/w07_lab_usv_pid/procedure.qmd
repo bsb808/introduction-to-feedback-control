@@ -54,7 +54,11 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 
 #### Set up the experiment
 
-1. **Change the parameter set** for this experiment via Mission Planner (Config → Full Parameter Tree). For **Base**, load the baseline `.param`. For **FeedForward** and **Tuned**, load the edited copies you prepared during [pre-lab prep](#day-of).
+1. **Change the parameter set** for this experiment via Mission Planner (Config → Full Parameter Tree). For **Base**, load the baseline `.param`. For **FeedForward** and **Tuned**, you will be changing the relevant `ATC_*` parameters as specified in the lab instructions.  
+
+% CLAUDE: Insert the image at introduction-to-feedback-control/site/weeks/w07_lab_usv_pid/images/mp_baseline_pid.png.  This is a screenshot of the Mission Planner Config->Basic Tuning.  Note that the feedforward term (`FF`) for Speed/Throttle cannot be set here and must be set in the full parameter tree in Mission Planner.  
+
+
 2. **Verify the relevant `ATC_*` parameters** at the vehicle. Mission Planner shows live values; see the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does and which ones change between experiments.
 
 #### Speed (throttle) step run — one arm-disarm cycle
