@@ -49,18 +49,18 @@
     "text": "Deliverables\nThis week: clean step-response logs for all three experiments × two channels = six datasets, with a brief quality-check note per dataset.\nNext week: process the data with the closedloop_assess_main.m pipeline to quantify rise time, settling time, overshoot, and steady-state error, and compare across the three experiments."
   },
   {
+    "objectID": "weeks/w07_lab_usv_pid/index.html#required-reading",
+    "href": "weeks/w07_lab_usv_pid/index.html#required-reading",
+    "title": "Lab 2 — USV PID Tuning",
+    "section": "Required reading",
+    "text": "Required reading\nBefore the field session, read the Autopilot → Stabilization Layer reference. It documents the two control loops you’ll be tuning — the speed loop and the yaw-rate loop — and is what makes the three experiments and the tuning workflow comprehensible.\nWhat’s in there:\n\nBlock diagram of the speed and yaw-rate PID loops, including how the RC stick maps to a setpoint, the input/error filters, the PID block, and the actuator output.\nATC_* parameter tables for both loops — full descriptions of the tunable PID gains, feedforward, filter cutoffs, and rate limiters. The Lab 2 experiments enable / disable subsets of these parameters.\nDataFlash log-channel reference — PIDA_* (speed) and PIDS_* (yaw-rate) PID internals, plus the THR / STER / RCOU / GPS channels used in the analysis figures.\n\nThe lab-specific framing — which ATC_* parameters change between Base / FeedForward / Tuned, and which stay fixed — is summarized in §3 of the Procedure."
+  },
+  {
     "objectID": "weeks/w07_lab_usv_pid/index.html#sub-pages",
     "href": "weeks/w07_lab_usv_pid/index.html#sub-pages",
     "title": "Lab 2 — USV PID Tuning",
     "section": "Sub-pages",
     "text": "Sub-pages\nThis page is the assignment overview. The lab-specific detail lives in:\n\nProcedure — pre-lab checklist, field workflow, step-input technique, and the at-the-field quality-check criteria.\nExample Results — example timeseries and PID-internals figures for each of the six cases (plus an integrator-windup demonstration), and a summary metrics table generated from the analysis pipeline."
-  },
-  {
-    "objectID": "weeks/w07_lab_usv_pid/index.html#background-autopilot-architecture",
-    "href": "weeks/w07_lab_usv_pid/index.html#background-autopilot-architecture",
-    "title": "Lab 2 — USV PID Tuning",
-    "section": "Background — autopilot architecture",
-    "text": "Background — autopilot architecture\nThe control loops being tuned are documented separately under the autopilot reference:\n\nAutopilot → Stabilization Layer — block diagram for the speed and yaw-rate PID loops, full ATC_* parameter tables, and DataFlash log-channel reference (PIDA_* / PIDS_*).\n\nWhich ATC_* parameters change between experiments (and which stay fixed) is summarized in §3 of the procedure."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/index.html#materials",

@@ -118,8 +118,8 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
   <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables">Deliverables</a></li>
+  <li><a href="#required-reading" id="toc-required-reading" class="nav-link" data-scroll-target="#required-reading">Required reading</a></li>
   <li><a href="#sub-pages" id="toc-sub-pages" class="nav-link" data-scroll-target="#sub-pages">Sub-pages</a></li>
-  <li><a href="#background-autopilot-architecture" id="toc-background-autopilot-architecture" class="nav-link" data-scroll-target="#background-autopilot-architecture">Background — autopilot architecture</a></li>
   <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a></li>
   </ul>
 </nav>
@@ -190,6 +190,17 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>This week:</strong> clean step-response logs for all <strong>three experiments × two channels = six datasets</strong>, with a brief quality-check note per dataset.</p>
 <p><strong>Next week:</strong> process the data with the <code>closedloop_assess_main.m</code> pipeline to quantify rise time, settling time, overshoot, and steady-state error, and compare across the three experiments.</p>
 </section>
+<section id="required-reading" class="level2">
+<h2 class="anchored" data-anchor-id="required-reading">Required reading</h2>
+<p>Before the field session, read the <strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> reference. It documents the two control loops you’ll be tuning — the speed loop and the yaw-rate loop — and is what makes the three experiments and the tuning workflow comprehensible.</p>
+<p>What’s in there:</p>
+<ul>
+<li><strong>Block diagram</strong> of the speed and yaw-rate PID loops, including how the RC stick maps to a setpoint, the input/error filters, the PID block, and the actuator output.</li>
+<li><strong><code>ATC_*</code> parameter tables</strong> for both loops — full descriptions of the tunable PID gains, feedforward, filter cutoffs, and rate limiters. The Lab 2 experiments enable / disable subsets of these parameters.</li>
+<li><strong>DataFlash log-channel reference</strong> — <code>PIDA_*</code> (speed) and <code>PIDS_*</code> (yaw-rate) PID internals, plus the <code>THR</code> / <code>STER</code> / <code>RCOU</code> / <code>GPS</code> channels used in the analysis figures.</li>
+</ul>
+<p>The lab-specific framing — which <code>ATC_*</code> parameters change between Base / FeedForward / Tuned, and which stay fixed — is summarized in §3 of the <a href="../../weeks/w07_lab_usv_pid/procedure.html">Procedure</a>.</p>
+</section>
 <section id="sub-pages" class="level2">
 <h2 class="anchored" data-anchor-id="sub-pages">Sub-pages</h2>
 <p>This page is the assignment overview. The lab-specific detail lives in:</p>
@@ -197,14 +208,6 @@ ul.task-list li input[type="checkbox"] {
 <li><strong><a href="../../weeks/w07_lab_usv_pid/procedure.html">Procedure</a></strong> — pre-lab checklist, field workflow, step-input technique, and the at-the-field quality-check criteria.</li>
 <li><strong><a href="../../weeks/w07_lab_usv_pid/results.html">Example Results</a></strong> — example timeseries and PID-internals figures for each of the six cases (plus an integrator-windup demonstration), and a summary metrics table generated from the analysis pipeline.</li>
 </ul>
-</section>
-<section id="background-autopilot-architecture" class="level2">
-<h2 class="anchored" data-anchor-id="background-autopilot-architecture">Background — autopilot architecture</h2>
-<p>The control loops being tuned are documented separately under the autopilot reference:</p>
-<ul>
-<li><strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> — block diagram for the speed and yaw-rate PID loops, full <code>ATC_*</code> parameter tables, and DataFlash log-channel reference (<code>PIDA_*</code> / <code>PIDS_*</code>).</li>
-</ul>
-<p>Which <code>ATC_*</code> parameters change between experiments (and which stay fixed) is summarized in §3 of the procedure.</p>
 </section>
 <section id="materials" class="level2">
 <h2 class="anchored" data-anchor-id="materials">Materials</h2>
