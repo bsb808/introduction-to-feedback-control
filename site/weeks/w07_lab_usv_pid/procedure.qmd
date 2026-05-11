@@ -4,9 +4,8 @@ title: "Procedure"
 
 [← Back to Lab 2 overview](index.qmd)
 
-::: {.callout-note appearance="simple"}
-**Working draft.** Procedure is being refined as the lab runs this quarter; expect updates day-to-day.
-:::
+<!-- Internal: this procedure is being refined as the lab runs;
+     expect day-to-day updates this quarter. -->
 
 - The lab collects **six step-response datasets** per team — three parameter configurations (Baseline, Feedforward, Tuned) × two control channels (speed, yaw-rate).
 - The same field workflow runs three times; only the parameter set changes between cases.

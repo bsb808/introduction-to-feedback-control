@@ -6,20 +6,19 @@ page-layout: full
 
 [← Back to Lab 2 overview](index.qmd)
 
-::: {.callout-note appearance="simple"}
-**Working draft.** Example step-response figures from the three experiments (Base, FeedForward, Tuned) for the speed and yaw-rate channels. Each case has two figures:
+Example step-response figures from the three experiments (Base, FeedForward, Tuned) for the speed and yaw-rate channels. Each case has two figures:
 
 - **Timeseries** — setpoint, measured response, and actuator command across the full step window.
 - **PID internals** — `Tar` / `Act` with metrics text box (top), and the per-term breakdown (`P`, `I`, `D`, `FF`) plus the actuator command (bottom).
 
 A separate **integrator-windup** demonstration on the Base/yaw run shows what happens when the controller is allowed to hold the step long enough for the I term to wind up.
-:::
 
-## Base
+
+## Speed Channel 
+
+### Base - Speed
 
 ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The reference against which **FeedForward** and **Tuned** are compared.
-
-### Speed channel
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -30,7 +29,32 @@ ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The
 :::
 ::::
 
-### Yaw-rate channel
+### Feedforward - Speed
+
+:::: {.columns}
+::: {.column width="50%"}
+![FeedForward / speed — timeseries](images/ff_speed_response.png)
+:::
+::: {.column width="50%"}
+![FeedForward / speed — PID internals](images/ff_speed_pids.png)
+:::
+::::
+
+### Tuned - Speed
+
+:::: {.columns}
+::: {.column width="50%"}
+![Tuned / speed — timeseries](images/tuned_speed_response.png)
+:::
+::: {.column width="50%"}
+![Tuned / speed — PID internals](images/tuned_speed_pids.png)
+:::
+::::
+
+
+## Yaw-rate (Steering) Channel
+
+### Base - Yaw-rate
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -40,8 +64,7 @@ ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The
 ![Base / yaw — PID internals (Tar/Act with metrics; P/I/D/FF terms with rudder command)](images/base_yaw_pids.png)
 :::
 ::::
-
-### Yaw-rate — integrator windup demonstration
+### Base - Yaw-rate — integrator windup demonstration
 
 The same Base/yaw configuration as above, but the step input is held long enough for the integrator to wind up. The delayed recovery on the step-back illustrates classic I-term windup.
 
@@ -53,23 +76,7 @@ The same Base/yaw configuration as above, but the step input is held long enough
 ![Base / yaw / windup — PID internals; note the I term grows for the duration of the step and dominates the recovery transient](images/base_yaw_windup_pids.png)
 :::
 ::::
-
-## FeedForward
-
-Restored `ATC_SPEED_FF` and `ATC_STR_RAT_FF` to lab values; PID gains unchanged from **Base**.
-
-### Speed channel
-
-:::: {.columns}
-::: {.column width="50%"}
-![FeedForward / speed — timeseries](images/ff_speed_response.png)
-:::
-::: {.column width="50%"}
-![FeedForward / speed — PID internals](images/ff_speed_pids.png)
-:::
-::::
-
-### Yaw-rate channel
+### Feedforward - Yaw-rate
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -80,22 +87,7 @@ Restored `ATC_SPEED_FF` and `ATC_STR_RAT_FF` to lab values; PID gains unchanged 
 :::
 ::::
 
-## Tuned
-
-Adjusted `ATC_SPEED_P/I/D` and `ATC_STR_RAT_P/I/D` for best response; FF kept on.
-
-### Speed channel
-
-:::: {.columns}
-::: {.column width="50%"}
-![Tuned / speed — timeseries](images/tuned_speed_response.png)
-:::
-::: {.column width="50%"}
-![Tuned / speed — PID internals](images/tuned_speed_pids.png)
-:::
-::::
-
-### Yaw-rate channel
+### Tuned - Yaw-rate
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -105,6 +97,9 @@ Adjusted `ATC_SPEED_P/I/D` and `ATC_STR_RAT_P/I/D` for best response; FF kept on
 ![Tuned / yaw — PID internals](images/tuned_yaw_pids.png)
 :::
 ::::
+
+
+
 
 ## Summary
 

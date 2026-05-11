@@ -5,9 +5,10 @@ page-layout: full
 
 *Quarter:* {{< var quarter >}}  ·  *Class days this quarter:* Monday – Thursday
 
-::: {.callout-tip appearance="simple"}
-**Placeholder skeleton.** The grid will be rendered from `data/schedule.yml` in Phase 2a; per-day columns are configurable per quarter (this quarter happens to be Mon–Thu).
-:::
+<!-- Internal: placeholder skeleton. The grid will be rendered from
+     `data/schedule.yml` in Phase 2a of the site plan; per-day columns
+     are configurable per quarter (this quarter happens to be Mon–Thu). -->
+
 
 | Week        | Mon — In Person | Tue — Async | Wed | Thu — Async |
 |-------------|-----------------|-------------|-----|-------------|

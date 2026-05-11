@@ -171,7 +171,7 @@ if isfile(csv_path)
     csv_path = fullfile(dirpath, sprintf("%s_%d%s", name, counter, ext));
 end
 
-md_path = "/home/bsb/WorkingCopies/me2801/introduction-to-feedback-control/site/weeks/w07_lab_usv_pid/metrics_summary.md";
+md_path = "../../../site/weeks/w07_lab_usv_pid/metrics_summary.md";
 
 csv_rows    = strings(numel(report_order) + 1, 1);
 csv_rows(1) = "label,P,I,D,FF,RiseTime,SettlingTime,Overshoot,SteadyStateError";

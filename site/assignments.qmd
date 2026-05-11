@@ -4,9 +4,9 @@ title: "Assignments and Labs"
 
 *Quarter:* {{< var quarter >}}
 
-::: {.callout-tip appearance="simple"}
-Placeholder. Per-assignment pages will live in `assignments/`; this index page will be rendered from `data/assignments.yml`.
-:::
+<!-- Internal: placeholder. Per-assignment pages will live in `assignments/`;
+     this index page will eventually be rendered from `data/assignments.yml`. -->
+
 
 ## Homework
 

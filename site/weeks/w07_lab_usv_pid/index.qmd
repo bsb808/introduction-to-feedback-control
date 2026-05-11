@@ -3,9 +3,8 @@ title: "Lab 2 — USV PID Tuning"
 subtitle: "Week 7 · {{< var quarter >}}"
 ---
 
-::: {.callout-note appearance="simple"}
-**Status:** in progress through Week 7. Data collection this week; analysis and performance characterization in Week 8.
-:::
+<!-- Internal: data collection runs through Week 7; analysis and
+     performance characterization happen in Week 8. -->
 
 ## Objectives
 
