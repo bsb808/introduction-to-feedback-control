@@ -118,9 +118,10 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#architecture" id="toc-architecture" class="nav-link active" data-scroll-target="#architecture">Architecture</a>
   <ul class="collapse">
-  <li><a href="#a-generic-pid-control-loop" id="toc-a-generic-pid-control-loop" class="nav-link" data-scroll-target="#a-generic-pid-control-loop">A generic PID control loop</a></li>
+  <li><a href="#simpified-ardu-control" id="toc-simpified-ardu-control" class="nav-link" data-scroll-target="#simpified-ardu-control">Simpified Ardu Control</a></li>
+  <li><a href="#simpler-ardu-control" id="toc-simpler-ardu-control" class="nav-link" data-scroll-target="#simpler-ardu-control">Simpler Ardu Control</a></li>
   <li><a href="#ardurover-documentation-diagram" id="toc-ardurover-documentation-diagram" class="nav-link" data-scroll-target="#ardurover-documentation-diagram">ArduRover documentation diagram</a></li>
-  <li><a href="#drilling-into-both-channels" id="toc-drilling-into-both-channels" class="nav-link" data-scroll-target="#drilling-into-both-channels">Drilling into both channels</a></li>
+  <li><a href="#details-for-both-channels" id="toc-details-for-both-channels" class="nav-link" data-scroll-target="#details-for-both-channels">Details for both channels</a></li>
   </ul></li>
   <li><a href="#logged-channels-a-clarification-on-naming" id="toc-logged-channels-a-clarification-on-naming" class="nav-link" data-scroll-target="#logged-channels-a-clarification-on-naming">Logged channels — a clarification on naming</a></li>
   <li><a href="#speed-surge-control" id="toc-speed-surge-control" class="nav-link" data-scroll-target="#speed-surge-control">Speed (Surge) Control</a>
@@ -179,50 +180,69 @@ ul.task-list li input[type="checkbox"] {
 <p>The stabilization layer is the lowest level of ArduRover’s control hierarchy. Two independent PID loops, one for <strong>speed</strong> (throttle channel) and one for <strong>yaw rate</strong> (steering channel), translate the pilot’s high-level commands into actuator outputs. Higher-level autonomous modes (HOLD, LOITER, AUTO) wrap additional outer loops around these, but in <strong>ACRO mode</strong> the pilot’s stick deflections become the setpoints to the stabilization PIDs directly. That makes ACRO the right mode for closed-loop step-response testing.</p>
 <section id="architecture" class="level2">
 <h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
-<section id="a-generic-pid-control-loop" class="level3">
-<h3 class="anchored" data-anchor-id="a-generic-pid-control-loop">A generic PID control loop</h3>
-<p>Both stabilization loops share the same generic structure: a setpoint enters the loop, gets compared against a measurement to form an error, and the PID + feedforward block computes the actuator output. The 7 building blocks are:</p>
-<ol type="1">
+<section id="simpified-ardu-control" class="level3">
+<h3 class="anchored" data-anchor-id="simpified-ardu-control">Simpified Ardu Control</h3>
+<p>Both stabilization loops share the same generic structure: a setpoint enters the loop, gets compared against a measurement to form an error, and the PID + feedforward block computes the actuator output. For our purposes, we can consider a simplified version of the ArduRover architecture. The additional complexity is discussed further below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/generic_pid_loop_simple.svg" class="img-fluid figure-img" alt="Simplified ArduRover PID control loop."></p>
+<figcaption>Simplified ArduRover PID control loop.</figcaption>
+</figure>
+</div>
+<ul>
 <li><strong>Stick → setpoint scaling.</strong> The controller’s input is a target value (also known as a <em>setpoint</em>, <em>command</em>, <em>reference</em>, or <em>desired value</em>). The pilot provides this target through the R/C sticks: each stick’s PWM signal is normalized to a <em>stick input</em> in the range [−1, +1], then multiplied by a scaling parameter (<code>CRUISE_SPEED</code> for the speed channel, <code>ACRO_TURN_RATE</code> for the yaw-rate channel) to produce the setpoint in physical units.
 <ul>
 <li>We set these scaling values slightly above the maximum response you actually want from the boat so the full stick range maps to the full <em>useful</em> range of the plant. For our baseline setup <code>CRUISE_SPEED = 5</code> m/s and <code>ACRO_TURN_RATE = 57.3</code> deg/s.
 <ul>
-<li><strong>NOTE for AY26Q3</strong>. The instructors did not change the default value of this parameter during pre-lab prep. Consequently in the results (add link to results.qmd) and the provided baseline parameter file (link to introduction-to-feedback-control/utils/ardu_params/2026_05_06_baseline_3.2.param) you can see the effect of having this set incorrectly. The setpoint is much higher than the boat can achieve, so the measured response plateaus far below the commanded value, resulting in a large steady-state error. The procedure has students reduce <code>ACRO_TURN_RATE</code> to a value the boat can physically achieve.</li>
+<li><strong>NOTE for AY26Q3</strong>. The instructors did not change the default value of this parameter during pre-lab prep. Consequently in the <a href="../weeks/w07_lab_usv_pid/results.html">Lab 2 results</a> and the provided <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/2026_05_06_baseline_3.2.param">baseline <code>.param</code></a> you can see the effect of having this set incorrectly. The setpoint is much higher than the boat can achieve, so the measured response plateaus far below the commanded value, resulting in a large steady-state error. The procedure has students reduce <code>ACRO_TURN_RATE</code> to a value the boat can physically achieve.</li>
 </ul></li>
 <li><code>ACRO_TURN_RATE</code> is specified in <strong>deg/s</strong>, but ArduRover converts it to <strong>rad/s</strong> before passing it into the yaw-rate loop. Logged setpoints and measurements in the yaw channel are in rad/s.</li>
 </ul></li>
-<li><strong>Rate limiter on the commanded setpoint</strong> (<code>ATC_ACCEL_MAX</code> / <code>ATC_STR_ACC_MAX</code>). Limits the rate of change of the setpoint, ramping a stick step at the maximum rate instead of letting it jump instantaneously. Baseline values: <code>ATC_ACCEL_MAX = 10</code> m/s² (speed), <code>ATC_DECEL_MAX = 0</code> (falls back to ACCEL_MAX), <code>ATC_STR_ACC_MAX = 0</code> deg/s² (yaw — already disabled). For step-response analysis we want to see the loop’s true step response, so the lab also disables the speed-channel limiter (<code>ATC_ACCEL_MAX = 0</code>).</li>
-</ol>
+<li><strong>PID controller</strong> with separate P, I, D, and FF terms. The gain params are: <code>ATC_SPEED_P = 0.2</code>, <code>ATC_SPEED_I = 0.2</code>, <code>ATC_SPEED_D = 0</code>, <code>ATC_SPEED_FF = 0</code>; <code>ATC_STR_RAT_P = 0.2</code>, <code>ATC_STR_RAT_I = 0.2</code>, <code>ATC_STR_RAT_D = 0</code>, <code>ATC_STR_RAT_FF = 0</code>.
 <ul>
-<li><strong>NOTE for AY26Q3</strong> Our goal is to effectively turn this off. This should be done in your base parameter file (link to introduction-to-feedback-control/utils/ardu_params/2026_05_06_baseline_3.2.param) by setting <code>ATC_ACCEL_MAX = 0</code> and <code>ATC_STR_ACC_MAX = 0</code>. If you forget to do this, the speed setpoint will ramp up at 10 m/s² instead of stepping, which is not a show-stopper but makes the analysis more complicated. % CLAUDE: Add a note to the procedure base case to make this change. <em>Optional deep dive:</em> the <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w05_blockdiagrams_pid/chapter/code/input_filtering_demo.md"><code>input_filtering_demo</code></a> live script (<a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w05_blockdiagrams_pid/chapter/code/input_filtering_demo.m">source</a>) compares a linear low-pass filter against a non-linear rate limiter as command-shaping elements.</li>
+<li><strong><code>*_IMAX</code></strong> caps the I-term contribution to the controller output, providing anti-windup. Baseline values: <code>ATC_SPEED_IMAX = 1.0</code> and <code>ATC_STR_RAT_IMAX = 1.0</code> (the maximum normalized actuator output), so the clamp is permissive and rarely active in practice.</li>
+<li><strong><code>*_FLTD</code></strong> low-pass filters the derivative term to suppress noise amplification — standard in any practical D implementation. Baseline values: <code>ATC_SPEED_FLTD = 0</code> Hz and <code>ATC_STR_RAT_FLTD = 0</code> Hz (filter disabled). Since <code>ATC_*_D = 0</code> on this vehicle the derivative term is inactive anyway, so the filter setting has no effect at the baseline.</li>
+</ul></li>
 </ul>
-<ol start="3" type="1">
-<li><p><strong>Target low-pass filter</strong> (<code>*_FLTT</code>) softens setpoint steps before they enter the loop. Baseline values: <code>ATC_SPEED_FLTT = 0</code> and <code>ATC_STR_RAT_FLTT = 0</code> — the target filter is disabled on this vehicle, so the (rate-limited) setpoint enters the loop with no further smoothing.</p></li>
-<li><p><strong>Error low-pass filter</strong> (<code>*_FLTE</code>) attenuates measurement noise on the error before it reaches the PID. Baseline values: <code>ATC_SPEED_FLTE = 10</code> Hz and <code>ATC_STR_RAT_FLTE = 10</code> Hz. For the speed loop, 10 Hz is well above the GPS-limited information bandwidth (~5 Hz), so it has little practical effect there; on the yaw loop it removes high-frequency gyro noise without affecting the loop dynamics.</p></li>
-<li><p><strong>PID controller</strong> with separate P, I, D, and FF terms. The gains start from ArduRover’s install defaults, except where the lab-baseline <code>.param</code> deliberately deviates. Baseline values: <code>ATC_SPEED_P = 0.2</code>, <code>ATC_SPEED_I = 0.2</code>, <code>ATC_SPEED_D = 0</code>, <code>ATC_SPEED_FF = 0</code>; <code>ATC_STR_RAT_P = 0.2</code>, <code>ATC_STR_RAT_I = 0.2</code>, <code>ATC_STR_RAT_D = 0</code>, <code>ATC_STR_RAT_FF = 0</code>. The <strong>Base</strong> experiment in Lab 2 leaves all of these alone, so with FF zeroed on both channels there is no feedforward contribution. The <strong>FeedForward</strong> experiment sets non-zero the FF gains; <strong>Tuned</strong> also adjusts P / I / D. % CLAUDE: Add subbullets here on IMAX and D filter as they relate to the PID block.</p></li>
-<li><p><strong>Output sum</strong> combines the PID output with any baseline FF and sends it to the actuator. The speed loop adds a <code>CRUISE_THROTTLE</code> baseline here (which we leave at <code>0</code> for the lab); the yaw loop has no equivalent baseline. % CLAUDE: Explain a bit more as this is poorly documented in the ArduRover docs. If we only want the vehicle to have a single setpoint value, then this is reasonable, but not for varying commands. Maybe note that we are still invesigating this, but at this point it seems like an unnecessarily redundant and confusing way to implement feedforward.</p></li>
-</ol>
 <!-- Internal: diagram source is site/autopilot/images/generic_pid_loop.drawio
      Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
      After editing, re-export the SVG with:
        drawio --export --format svg \
          --output site/autopilot/images/generic_pid_loop.svg \
          site/autopilot/images/generic_pid_loop.drawio -->
+</section>
+<section id="simpler-ardu-control" class="level3">
+<h3 class="anchored" data-anchor-id="simpler-ardu-control">Simpler Ardu Control</h3>
+<p>This section provides detail of some (but not all) of the additional features in the implementation.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/generic_pid_loop.svg" class="img-fluid figure-img" alt="Generic PID block diagram with setpoint scaling, acceleration limiter, target LPF, error junction, error LPF, PID controller, output sum, plant, and feedback loop, with a feedforward branch from the setpoint to the output sum."></p>
 <figcaption>Generic PID control loop with feedforward and setpoint shaping.</figcaption>
 </figure>
 </div>
+<ul>
+<li><p><strong>Rate limiter on the commanded setpoint</strong> (<code>ATC_ACCEL_MAX</code> / <code>ATC_STR_ACC_MAX</code>). Limits the rate of change of the setpoint, ramping a stick step at the maximum rate instead of letting it jump instantaneously. Baseline values: <code>ATC_ACCEL_MAX = 10</code> m/s² (speed), <code>ATC_DECEL_MAX = 0</code> (falls back to ACCEL_MAX), <code>ATC_STR_ACC_MAX = 0</code> deg/s² (yaw — already disabled). For step-response analysis we want to see the loop’s true step response, so the lab also disables the speed-channel limiter (<code>ATC_ACCEL_MAX = 0</code>).</p>
+<ul>
+<li><strong>NOTE for AY26Q3.</strong> Our goal is to effectively turn this off. This is done in the <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/2026_05_06_baseline_3.2.param">baseline <code>.param</code></a> by setting <code>ATC_ACCEL_MAX = 0</code> and <code>ATC_STR_ACC_MAX = 0</code>. If you forget to do this, the speed setpoint will ramp up at 10 m/s² instead of stepping, which is not a show-stopper but makes the analysis more complicated.</li>
+<li><em>Optional deep dive:</em> the <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w05_blockdiagrams_pid/chapter/code/input_filtering_demo.md"><code>input_filtering_demo</code></a> live script (<a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w05_blockdiagrams_pid/chapter/code/input_filtering_demo.m">source</a>) compares a linear low-pass filter against a non-linear rate limiter as command-shaping elements.</li>
+</ul></li>
+<li><p><strong>Target low-pass filter</strong> (<code>*_FLTT</code>) softens setpoint steps before they enter the loop. Baseline values: <code>ATC_SPEED_FLTT = 0</code> and <code>ATC_STR_RAT_FLTT = 0</code> — the target filter is disabled on this vehicle, so the (rate-limited) setpoint enters the loop with no further smoothing.</p></li>
+<li><p><strong>Error low-pass filter</strong> (<code>*_FLTE</code>) attenuates measurement noise on the error before it reaches the PID. Baseline values: <code>ATC_SPEED_FLTE = 10</code> Hz and <code>ATC_STR_RAT_FLTE = 10</code> Hz. For the speed loop, 10 Hz is well above the GPS-limited information bandwidth (~5 Hz), so it has little practical effect there; on the yaw loop it removes high-frequency gyro noise without affecting the loop dynamics.</p></li>
+</ul>
 </section>
 <section id="ardurover-documentation-diagram" class="level3">
 <h3 class="anchored" data-anchor-id="ardurover-documentation-diagram">ArduRover documentation diagram</h3>
 <p>ArduPilot’s documentation gives this block diagram of the throttle/speed controller:</p>
-<p><img src="https://ardupilot.org/rover/_images/rover-throttle-speed-diagram.jpg" class="img-fluid" alt="Rover throttle / speed controller (from the ArduPilot Rover docs)"> % CLAUDE: Scale this image smaller</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ardupilot.org/rover/_images/rover-throttle-speed-diagram.jpg" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Rover throttle / speed controller (from the ArduPilot Rover docs)</figcaption>
+</figure>
+</div>
 <p>It is the same generic structure with ArduRover’s specific parameter names attached. The yaw-rate loop has the same shape with <code>ATC_STR_RAT_*</code> substituted for the <code>ATC_SPEED_*</code> parameters.</p>
 </section>
-<section id="drilling-into-both-channels" class="level3">
-<h3 class="anchored" data-anchor-id="drilling-into-both-channels">Drilling into both channels</h3>
+<section id="details-for-both-channels" class="level3">
+<h3 class="anchored" data-anchor-id="details-for-both-channels">Details for both channels</h3>
 <p>The diagram below shows both ArduRover loops side-by-side, with the actual ArduPilot logged signals on each wire and parameter names on each tunable block. Two notes before you read it:</p>
 <ol type="1">
 <li><strong>The two channels are not symmetric.</strong> The speed loop adds a <code>CRUISE_THROTTLE</code> baseline FF on the output sum that the yaw loop does not; the rate-limiter parameters have different units (m/s² vs deg/s²); and the loop bandwidths are very different (constrained by GPS update rate for speed, by vehicle dynamics for yaw).</li>

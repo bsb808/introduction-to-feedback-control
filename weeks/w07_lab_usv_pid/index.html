@@ -122,8 +122,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#procedure" id="toc-procedure" class="nav-link" data-scroll-target="#procedure">Procedure</a></li>
   <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a>
   <ul class="collapse">
-  <li><a href="#students" id="toc-students" class="nav-link" data-scroll-target="#students">Students</a></li>
-  <li><a href="#instructors" id="toc-instructors" class="nav-link" data-scroll-target="#instructors">Instructors</a></li>
+  <li><a href="#for-students" id="toc-for-students" class="nav-link" data-scroll-target="#for-students">For Students</a></li>
+  <li><a href="#for-instructors" id="toc-for-instructors" class="nav-link" data-scroll-target="#for-instructors">For Instructors</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -208,20 +208,21 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="materials" class="level2">
 <h2 class="anchored" data-anchor-id="materials">Materials</h2>
-<section id="students" class="level3">
-<h3 class="anchored" data-anchor-id="students">Students</h3>
+<section id="for-students" class="level3">
+<h3 class="anchored" data-anchor-id="for-students">For Students</h3>
 <ul>
-<li><p>Shared data repository: <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a>. This is where to upload your raw (<code>*.BIN</code>) autopilot logs for processing. Add a subfolder for your team (e.g.&nbsp;<code>TeamX</code>) and upload there. The instructors will convert the logs to MATLAB (<code>*.mat</code>) format.</p></li>
-<li><p><strong>Analysis script</strong> — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m"><code>closedloop_assess_example.m</code></a>. Loads a single <code>.mat</code>, plots the timeseries and PID internals, and reports the step-response metrics.</p>
-<p><strong>Modifying this script for your datasets is the main deliverable for the lab.</strong></p>
+<li>Shared data repository: <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a>. This is where to upload your raw (<code>*.BIN</code>) autopilot logs for processing. Add a subfolder for your team (e.g.&nbsp;<code>TeamX</code>) and upload there. The instructors will convert the logs to MATLAB (<code>*.mat</code>) format.</li>
+<li><strong>Analysis script</strong> — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m"><code>closedloop_assess_example.m</code></a>.<br>
+Loads a single <code>.mat</code>, plots the timeseries and PID internals, and reports the step-response metrics.
 <ul>
-<li>Download the directory <a href="https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code"><code>book/w07_lab_usv_pid/code/</code></a> and open the example from that directory; it depends on other helper files in the same folder.</li>
+<li>Modifying this script for your datasets is the main deliverable for the lab.</li>
+<li>Download the entire directory from <a href="https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code"><code>book/w07_lab_usv_pid/code/</code></a> and open the example in MATLAB from that directory. The example depends on other helper files in the same folder.</li>
 </ul></li>
 </ul>
 </section>
-<section id="instructors" class="level3">
-<h3 class="anchored" data-anchor-id="instructors">Instructors</h3>
-<p>Students are welcome to use these, but explaining them is beyond the scope of the class 😉</p>
+<section id="for-instructors" class="level3">
+<h3 class="anchored" data-anchor-id="for-instructors">For Instructors</h3>
+<p>Students are welcome to use these, but explaining them is beyond the scope of the class.</p>
 <ul>
 <li><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m"><code>closedloop_assess_main.m</code></a> — extension of the same logic as <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m"><code>closedloop_assess_example.m</code></a> to process the full dataset.</li>
 <li>Log conversion — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>bin2mat.py</code></a></li>
