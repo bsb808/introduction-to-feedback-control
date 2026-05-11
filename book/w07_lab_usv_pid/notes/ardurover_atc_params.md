@@ -61,30 +61,49 @@ All links are pinned to `master`. Line numbers can drift over time; if a link do
 - **Description:** Feed-forward gain — output proportional to the **setpoint** (not the error).
 - **Units:** (motor effort)/(m/s)
 - **Range:** 0.000 – 0.500 &nbsp; **Default:** 0.0 &nbsp; **Vehicle:** 0
-- **Notes:** Enables predictive control: if you know empirically that 50 % throttle produces 2 m/s steady speed, an FF of 0.25 gives the right baseline output before the PID does any work. Lets you reduce $K_p$ and $K_i$ while keeping fast tracking. Conceptually equivalent to inverting the steady-state plant gain.  % CLAUDE: Explain how the this relates to the CRUISE_THROTTLE and CRUISE_SPEED parameters used in the "Cruise Throttle and Cruise Speed (Throttle Baseline)" section of this document: https://ardupilot.org/rover/docs/rover-tuning-throttle-and-speed.html
+- **Notes:** Enables predictive control: if you know empirically that 50 % throttle produces 2 m/s steady speed, an FF of 0.25 gives the right baseline output before the PID does any work. Lets you reduce $K_p$ and $K_i$ while keeping fast tracking. Conceptually equivalent to inverting the steady-state plant gain.
+
+  ArduRover actually exposes **two** ways to add a setpoint-proportional baseline to the throttle, and both add together at the output sum:
+
+  1. `ATC_SPEED_FF` — direct FF gain in the PID block. Output gets `ATC_SPEED_FF × desired_speed` added.
+  2. `CRUISE_THROTTLE` / `CRUISE_SPEED` — the "throttle baseline" mechanism documented in the upstream [Cruise Throttle and Cruise Speed](https://ardupilot.org/rover/docs/rover-tuning-throttle-and-speed.html) section. When both are non-zero, the controller adds `(CRUISE_THROTTLE / 100) × (desired_speed / CRUISE_SPEED)` to the output. The two cruise parameters are an empirical calibration point: drive at a steady throttle, log the speed, store the pair, and the controller uses the implied slope as a feedforward.
+
+  Both produce the same kind of contribution (output ∝ setpoint); they differ in how the slope is parameterized. For the Lab 2 Base case we zero both (`ATC_SPEED_FF = 0`, `CRUISE_THROTTLE = 0`) so the response reflects only the PID gains.
 - **Source:** [`FF` defined at AC_PID.cpp:19](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L19) → applied in [`AC_PID::update_all()`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105). Direct read in [`AR_AttitudeControl::get_throttle_out_speed()` at line 321](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L321).
 
 ### `ATC_SPEED_IMAX`
 - **Description:** Anti-windup clamp on the integral term's output contribution.
 - **Range:** 0.000 – 1.000 &nbsp; **Default:** 1.00 &nbsp; **Vehicle:** 1.0
-- **Notes:** Prevents integral windup during saturation (e.g. low battery, prop fouled). Matches the normalized motor output range, so the default lets the I term fully command the motor on its own.  % CLAUDE: Can you explain the units of this?
+- **Notes:** Prevents integral windup during saturation (e.g. low battery, prop fouled). `IMAX` is in the same units as the PID output: **normalized motor effort**. The total controller output drives the throttle channel in [−1, +1]; `IMAX` clamps the magnitude of just the I-term's contribution to that output (i.e., the integrator state multiplied by $K_i$). With the default `IMAX = 1.0`, the I term alone is permitted to command up to ±100 % motor effort.
 - **Source:** [`IMAX` defined at AC_PID.cpp:23](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L23) → integrator clamping in [`AC_PID::update_all()`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105).
 
 ### `ATC_SPEED_FLTT` &nbsp;/&nbsp; `ATC_SPEED_FLTE` &nbsp;/&nbsp; `ATC_SPEED_FLTD`
 - **Description:** Cutoff frequencies (Hz) for the low pass filters on the **target**, **error**, and **derivative** signals respectively.
 - **Range:** 0.000 – 100.000 Hz &nbsp; **Default (FLTE):** 10 Hz &nbsp; **Default (FLTT, FLTD):** 0 (off)
 - **Vehicle:** FLTT=0, FLTE=10, FLTD=0
-- **Notes:** Three filter taps % CLAUDE: Audience won't understand fitler taps.
- that decouple noise, target step shape, and derivative noise % CLAUDE: This is also confusing.
-  Lab default of FLTE=10 Hz is well above the surge dynamics (~0.5–2 Hz bandwidth) so it does not affect step-response analysis. Set FLTT > 0 to soften an aggressive setpoint command; leave FLTD at 0 unless using ATC_SPEED_D. % CLAUDE: Why?
-  % CLAUDE: How are these implemented?  Are the first order linear filters?  Why are rate limiters uses for inputs and outputs and a "filter" used for these?
+- **Notes:** Three independent low-pass filters, each acting on a different signal in the PID loop:
+
+  - **`FLTT`** (target) smooths the commanded setpoint *before* it enters the loop. Use it when the source of the setpoint is itself noisy or contains undesired high-frequency content.
+  - **`FLTE`** (error) attenuates measurement noise on the error signal before P, I, and D act on it. This is usually the most useful of the three when the feedback sensor is noisy.
+  - **`FLTD`** (derivative) limits the bandwidth of the D-term so it does not amplify high-frequency sensor noise into the actuator. Only matters when `ATC_SPEED_D ≠ 0` — if `D = 0`, the derivative path multiplies by zero and there is nothing to filter.
+
+  Lab default `FLTE = 10` Hz is well above the surge dynamics (~0.5–2 Hz bandwidth) so it does not affect step-response analysis. Set `FLTT > 0` to soften an aggressive stick command into the loop; leave `FLTD = 0` unless `ATC_SPEED_D > 0`.
+
+  *Implementation.* All three are first-order discrete IIR low-pass filters, implemented in [`LowPassFilter.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/Filter/LowPassFilter.cpp). The stored parameter value is the −3 dB cutoff in Hz; the filter coefficient is computed each cycle from the cutoff and the loop period. A cutoff of `0` disables the filter (no smoothing — the signal passes through unchanged).
+
+  *Why a low-pass filter here but a rate limiter on the input (`ATC_ACCEL_MAX`)?* Filters and rate limiters solve different problems:
+
+  - A **rate limiter** is a *non-linear* element that bounds the *slope* of a signal — it slews from one value to another at a fixed maximum rate. Used at the input so the PID never sees a setpoint demanding infinite acceleration.
+  - A **low-pass filter** is a *linear* element that bounds the *bandwidth* of a signal — it averages over time, attenuating high-frequency content while preserving DC gain. Used to suppress noise, which is a frequency-domain problem.
+
+  Rate-limiting noise wouldn't help (noise isn't a slope problem). Filtering a step command would slow everything, including the part of the response the controller is trying to track. Each tool is matched to the kind of signal at that point in the loop.
 - **Source:** [`FLTT` at AC_PID.cpp:31](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L31), [`FLTE` at AC_PID.cpp:35](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L35), [`FLTD` at AC_PID.cpp:39](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L39) → filters applied in [`AC_PID::update_all()`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105).
 
 
 ### `ATC_SPEED_FILT` *(legacy)*
 - **Description:** Pre-FLTT/FLTE/FLTD filter parameter — superseded by the three split filters above.
 - **Default:** 10 Hz
-- **Notes:** Kept for backward compatibility. Modern firmware uses FLTT/FLTE/FLTD. If both are set, the split parameters take precedence. % CLAUDE: What does "split parameter" mean?  Why the change, just to the name?   what does "set" mean in this context - if there is a default this would suggest that it is "set" by default which contridicts the instructions?
+- **Notes:** Older ArduPilot firmware exposed a single `ATC_SPEED_FILT` parameter that set the cutoff for the entire filter chain. In newer firmware that single parameter was *replaced by three* — `FLTT`, `FLTE`, `FLTD` — so the target, error, and derivative paths can be filtered at different cutoffs (or disabled independently). `ATC_SPEED_FILT` is retained only to load `.param` files saved by old firmware versions; in current firmware it is effectively an alias for `FLTE`. New configurations should use the three replacement parameters directly and ignore the legacy one.
 - **Source:** Legacy parameter — typically aliased to FLTE. Search [`AC_PID.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp) for `FILT` to see the alias / migration logic.
 
 ### `ATC_SPEED_SMAX`
@@ -203,13 +222,23 @@ Same role as the equivalent `ATC_SPEED_*` parameters above. All default to 0 (di
 ### `ATC_STR_RAT_MAX`
 - **Description:** Hard cap on the commanded yaw rate.
 - **Units:** deg/s &nbsp; **Range:** 0 – 1000 &nbsp; **Default:** 120 &nbsp; **Vehicle:** 36
-- **Notes:** The vehicle's 36 deg/s cap matches the `ACRO_TURN_RATE` parameter — both default to the value advertised on the RC stick at full deflection. Reduces sensitivity of the steering stick. Increase if you want a more responsive boat (and better step amplitude in your data).  % CLAUDE: Say more about how this is implemented.
+- **Notes:** The vehicle's 36 deg/s cap matches the `ACRO_TURN_RATE` parameter — both default to the value advertised on the RC stick at full deflection. Reduces sensitivity of the steering stick. Increase if you want a more responsive boat (and better step amplitude in your data).
+
+  *Implementation.* Applied as a **hard saturation** on the yaw-rate setpoint before it enters the PID loop (see [`AR_AttitudeControl::get_steering_out_rate()` at line 272](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L272)). If the stick × `ACRO_TURN_RATE` asks for, say, 50 deg/s but `ATC_STR_RAT_MAX = 36`, the loop sees 36 deg/s as its setpoint — the stick effectively saturates earlier than its full deflection would suggest. It is **not** a rate-of-change limiter (that role is `ATC_STR_ACC_MAX`); a sudden full-stick step still produces a step setpoint, just at the capped magnitude.
 - **Source:** [Defined at AR_AttitudeControl.cpp:176](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L176) → consumed in [`AR_AttitudeControl::get_steering_out_rate()` at line 272](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L272).
 
 ### `ATC_TURN_MAX_G`
 - **Description:** Maximum turning acceleration (lateral g) used to prevent rolling/slipping.
 - **Units:** g &nbsp; **Range:** 0.1 – 10 &nbsp; **Default:** 0.6 &nbsp; **Vehicle:** 0.6
-- **Notes:** Coordinated-turn safety: at high speeds, the autopilot reduces achievable yaw rate to keep lateral acceleration ≤ this value. Relevant in higher modes (AUTO) where the autopilot plans turns; in ACRO the pilot is in charge so this rarely engages.  % CLAUDE: I'm confused, wouldn't this be a rate limiter similer to the max accel value for speed?
+- **Notes:** Coordinated-turn safety: at high speeds the autopilot reduces achievable yaw rate to keep lateral acceleration ≤ this value.
+
+  Easy to confuse with `ATC_ACCEL_MAX` because both have "acceleration" in their semantics, but they limit different things and are not analogous:
+
+  - `ATC_ACCEL_MAX` bounds the *time derivative* of the speed setpoint (m/s²). It is a **rate limiter** — it shapes how fast the setpoint can change.
+  - `ATC_STR_RAT_MAX` is a *fixed* cap on the yaw-rate setpoint (deg/s).
+  - `ATC_TURN_MAX_G` is a **speed-dependent cap on the yaw rate**, derived from the *lateral* (centripetal) acceleration in a turn. In a coordinated turn the lateral acceleration is approximately $v \cdot \omega$ (forward speed times yaw rate), so capping that to $g \cdot \texttt{ATC\\_TURN\\_MAX\\_G}$ tightens the allowable yaw rate as the boat moves faster: $\omega_{\max} = g \cdot \texttt{ATC\\_TURN\\_MAX\\_G} / v$.
+
+  At typical USV speeds (1–5 m/s) and yaw rates (≤ 36 deg/s ≈ 0.63 rad/s) the lateral acceleration stays below ~0.3 g, so the default 0.6 g cap rarely engages — even in ACRO, where the function is called on the pilot's stick-commanded rate. It becomes relevant in higher-speed operation and in autonomous modes where the autopilot plans tight turns.
 - **Source:** [Defined at AR_AttitudeControl.cpp:381](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L381) → consumed in [`AR_AttitudeControl::get_steering_out_rate()` at line 289](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L289).
 
 ---
