@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Autopilot – ME 2801 — Introduction to Feedback Control</title>
+<title>Autopilot Parameters – ME 2801 — Introduction to Feedback Control</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Assignments</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../autopilot/index.html" aria-current="page"> 
+    <a class="nav-link" href="../autopilot/index.html"> 
 <span class="menu-text">Autopilot</span></a>
   </li>  
 </ul>
@@ -116,12 +116,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-we-use" id="toc-what-we-use" class="nav-link active" data-scroll-target="#what-we-use">What we use</a></li>
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
-  <li><a href="#log-processing-pipeline" id="toc-log-processing-pipeline" class="nav-link" data-scroll-target="#log-processing-pipeline">Log Processing Pipeline</a></li>
-  <li><a href="#key-log-channels" id="toc-key-log-channels" class="nav-link" data-scroll-target="#key-log-channels">Key Log Channels</a></li>
-  <li><a href="#more" id="toc-more" class="nav-link" data-scroll-target="#more">More</a></li>
+  <li><a href="#what-is-an-ardupilot-parameter" id="toc-what-is-an-ardupilot-parameter" class="nav-link active" data-scroll-target="#what-is-an-ardupilot-parameter">What is an ArduPilot parameter?</a></li>
+  <li><a href="#how-parameters-live-in-this-repo" id="toc-how-parameters-live-in-this-repo" class="nav-link" data-scroll-target="#how-parameters-live-in-this-repo">How parameters live in this repo</a></li>
+  <li><a href="#baseline-configuration-departures-from-factory-default" id="toc-baseline-configuration-departures-from-factory-default" class="nav-link" data-scroll-target="#baseline-configuration-departures-from-factory-default">Baseline configuration — departures from factory default</a>
+  <ul class="collapse">
+  <li><a href="#vehicle-frame" id="toc-vehicle-frame" class="nav-link" data-scroll-target="#vehicle-frame">Vehicle frame</a></li>
+  <li><a href="#sensors-and-bus" id="toc-sensors-and-bus" class="nav-link" data-scroll-target="#sensors-and-bus">Sensors and bus</a></li>
+  <li><a href="#stabilization-layer-speed-and-yaw-rate-pid" id="toc-stabilization-layer-speed-and-yaw-rate-pid" class="nav-link" data-scroll-target="#stabilization-layer-speed-and-yaw-rate-pid">Stabilization layer (speed and yaw-rate PID)</a></li>
+  <li><a href="#navigation" id="toc-navigation" class="nav-link" data-scroll-target="#navigation">Navigation</a></li>
+  <li><a href="#motor-and-actuator-scaling" id="toc-motor-and-actuator-scaling" class="nav-link" data-scroll-target="#motor-and-actuator-scaling">Motor and actuator scaling</a></li>
+  <li><a href="#modes-arming-and-safety" id="toc-modes-arming-and-safety" class="nav-link" data-scroll-target="#modes-arming-and-safety">Modes, arming, and safety</a></li>
+  <li><a href="#telemetry-and-logging" id="toc-telemetry-and-logging" class="nav-link" data-scroll-target="#telemetry-and-logging">Telemetry and logging</a></li>
+  <li><a href="#calibration-values-do-not-hand-edit" id="toc-calibration-values-do-not-hand-edit" class="nav-link" data-scroll-target="#calibration-values-do-not-hand-edit">Calibration values (do not hand-edit)</a></li>
+  </ul></li>
+  <li><a href="#parameter-reference-conventions" id="toc-parameter-reference-conventions" class="nav-link" data-scroll-target="#parameter-reference-conventions">Parameter reference conventions</a></li>
+  <li><a href="#ardupilot-source-code-anchors" id="toc-ardupilot-source-code-anchors" class="nav-link" data-scroll-target="#ardupilot-source-code-anchors">ArduPilot source-code anchors</a></li>
+  <li><a href="#undocumented-or-surprising-behavior-running-list" id="toc-undocumented-or-surprising-behavior-running-list" class="nav-link" data-scroll-target="#undocumented-or-surprising-behavior-running-list">Undocumented or surprising behavior (running list)</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See also</a></li>
   </ul>
 </nav>
     </div>
@@ -130,8 +141,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Autopilot</h1>
-<p class="subtitle lead">Reference material for the USV labs</p>
+<h1 class="title">Autopilot Parameters</h1>
+<p class="subtitle lead">Reference for setting and verifying ArduRover parameters on the USV</p>
 </div>
 
 
@@ -148,143 +159,231 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p><a href="../autopilot/index.html">← Back to Autopilot</a></p>
 <div class="callout callout-style-simple callout-note">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, Lab 2 PID tuning, Lab 3 navigation).</p>
+<p>This page is the entry point for ArduRover parameters on the USV: how parameters are stored, how to load the lab baseline, which parameters depart from the factory default and why, and where in the ArduPilot source code to verify the implementation of a given parameter.</p>
 </div>
 </div>
 </div>
-<section id="what-we-use" class="level2">
-<h2 class="anchored" data-anchor-id="what-we-use">What we use</h2>
+<section id="what-is-an-ardupilot-parameter" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-an-ardupilot-parameter">What is an ArduPilot parameter?</h2>
+<p>ArduPilot exposes its run-time configuration as a flat list of named scalar parameters (<code>ATC_SPEED_P</code>, <code>CRUISE_SPEED</code>, <code>FRAME_CLASS</code>, …). The flight controller stores the active values in non-volatile memory and applies them every boot. Mission Planner and QGroundControl read and write them over MAVLink; we also save and load <strong>parameter files</strong> (<code>.param</code>) — simple <code>NAME,VALUE</code> text files — to capture and reproduce a configuration.</p>
+<p>ArduPilot’s authoritative reference for every parameter is the <a href="https://ardupilot.org/rover/docs/parameters.html">Full Parameter List for ArduRover</a>. That page enumerates names, units, ranges, and defaults for the firmware version it was built against. <strong>Defaults and ranges can change between firmware versions</strong> — always verify against the source if behavior is unclear.</p>
+<p>We use <strong>ArduRover V4.6.3 (commit <code>3fc7011a</code>)</strong> in these labs.</p>
+</section>
+<section id="how-parameters-live-in-this-repo" class="level2">
+<h2 class="anchored" data-anchor-id="how-parameters-live-in-this-repo">How parameters live in this repo</h2>
 <table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td><strong>Vehicle</strong></td>
-<td>1.1 m single-screw USV, ~5 kg</td>
-</tr>
-<tr class="even">
-<td><strong>Autopilot software</strong></td>
-<td>ArduRover V4.6.3 (commit <code>3fc7011a</code>)</td>
-</tr>
-<tr class="odd">
-<td><strong>GPS</strong></td>
-<td>HERE3 via DroneCAN</td>
-</tr>
-<tr class="even">
-<td><strong>Ground station</strong></td>
-<td>Mission Planner</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="documentation" class="level2">
-<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
-<ul>
-<li><strong><a href="../autopilot/parameters.html">Autopilot parameters</a></strong> — how parameters are stored and loaded, baseline-vs-default summary, source-code anchors, and a running list of undocumented behavior we’ve discovered.</li>
-<li><strong><a href="../autopilot/stabilization.html">Stabilization layer — speed and yaw-rate PID</a></strong> — architecture of the lowest-level control loops, with full log-channel reference.</li>
-<li><strong><a href="../autopilot/atc_params.html">ATC parameter reference</a></strong> — dense per-parameter look-up table for the <code>ATC_*</code> controllers (units, ranges, vehicle values, source-code anchors).</li>
-<li><strong><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md">ArduPilot doc references</a></strong> — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis).</li>
-</ul>
-</section>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<p>The vehicle parameter snapshots (<code>.param</code> files) and per-lab baseline configurations live in <a href="https://github.com/bsb808/introduction-to-feedback-control/tree/main/utils/ardu_params"><code>utils/ardu_params/</code></a>. See the <a href="../autopilot/parameters.html">parameters reference page</a> for an overview, the <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md">README</a> in that directory for the Mission Planner load procedure, and <a href="../autopilot/stabilization.html">stabilization.qmd</a> for the <code>ATC_*</code> PID deep dive.</p>
-</section>
-<section id="log-processing-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="log-processing-pipeline">Log Processing Pipeline</h2>
-<p>Field-collected ArduPilot <code>.BIN</code> logs are processed in two stages before MATLAB analysis:</p>
-<ol type="1">
-<li><strong><code>.BIN</code> → <code>.mat</code></strong> — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>utils/ardu_utils/bin2mat.py</code></a> extracts every numeric field from every message type into a MATLAB <code>.mat</code> file. Field names follow <code>{MSGTYPE}_{field}</code> (e.g.&nbsp;<code>GPS_Spd</code>, <code>RCOU_C3</code>, <code>PIDA_Tar</code>). Logged ArduPilot parameters are saved as a <code>params</code> struct.</li>
-<li><strong>MATLAB analysis</strong> — per-lab scripts under <code>book/wXX_*/code/</code> load the <code>.mat</code> and produce timeseries and metrics.</li>
-</ol>
-</section>
-<section id="key-log-channels" class="level2">
-<h2 class="anchored" data-anchor-id="key-log-channels">Key Log Channels</h2>
-<p>Signals analyzed across the labs:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>Channel</th>
-<th>Variable</th>
-<th>Units</th>
-<th>Used in</th>
+<th>Location</th>
+<th>Contents</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>GPS_Spd</code></td>
-<td>Ground speed</td>
-<td>m/s</td>
-<td>Sysid (Lab 1), PID tuning (Lab 2)</td>
+<td><a href="https://github.com/bsb808/introduction-to-feedback-control/tree/main/utils/ardu_params"><code>utils/ardu_params/</code></a></td>
+<td>Versioned <code>.param</code> snapshots: factory-default reference and lab baselines</td>
 </tr>
 <tr class="even">
-<td><code>IMU_GyrZ</code></td>
-<td>Yaw rate (raw)</td>
-<td>rad/s</td>
-<td>Sysid (Lab 1)</td>
+<td><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md"><code>utils/ardu_params/README.md</code></a></td>
+<td>Step-by-step Mission Planner / QGroundControl load procedure and a baseline-vs-default summary</td>
 </tr>
 <tr class="odd">
-<td><code>STER_TurnRate</code></td>
-<td>Yaw rate (EKF)</td>
-<td>rad/s</td>
-<td>PID tuning (Lab 2)</td>
+<td><code>site/autopilot/parameters.qmd</code> (this page)</td>
+<td>Reference: what departs from default and why, source-code anchors, discovered behavior</td>
 </tr>
 <tr class="even">
-<td><code>RCOU_C3</code></td>
-<td>Throttle command</td>
-<td>PWM</td>
-<td>Surge input</td>
+<td><a href="../autopilot/stabilization.html"><code>site/autopilot/stabilization.qmd</code></a></td>
+<td>Architecture deep dive: how the <code>ATC_SPEED_*</code> and <code>ATC_STR_RAT_*</code> PID loops are wired together (Lab 2)</td>
 </tr>
 <tr class="odd">
-<td><code>RCOU_C1</code></td>
-<td>Rudder command</td>
-<td>PWM</td>
-<td>Yaw input</td>
-</tr>
-<tr class="even">
-<td><code>THR_DesSpeed</code></td>
-<td>Speed setpoint</td>
-<td>m/s</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="odd">
-<td><code>STER_DesTurnRate</code></td>
-<td>Yaw-rate setpoint</td>
-<td>rad/s</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="even">
-<td><code>PIDA_*</code></td>
-<td>Throttle / speed PID internals</td>
-<td>—</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="odd">
-<td><code>PIDS_*</code></td>
-<td>Steering / yaw-rate PID internals</td>
-<td>—</td>
-<td>PID tuning (Lab 2)</td>
+<td><a href="../autopilot/atc_params.html"><code>site/autopilot/atc_params.qmd</code></a></td>
+<td>Per-parameter reference for the <code>ATC_*</code> controllers — units, ranges, vehicle values, source-code anchors</td>
 </tr>
 </tbody>
 </table>
+<p>A parameter file is the simplest reproducible record of an autopilot configuration. To reproduce a lab setup on a different vehicle: load the file via Mission Planner, reboot, then re-run the per-vehicle calibrations (compass, accelerometer, RC) — the calibrated values in the <code>.param</code> file belong to the vehicle the file was captured from.</p>
 </section>
-<section id="more" class="level2">
-<h2 class="anchored" data-anchor-id="more">More</h2>
-<p><em>Sub-pages added as labs need them:</em></p>
+<section id="baseline-configuration-departures-from-factory-default" class="level2">
+<h2 class="anchored" data-anchor-id="baseline-configuration-departures-from-factory-default">Baseline configuration — departures from factory default</h2>
+<p>The full functional-change list is documented in the <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md"><code>utils/ardu_params/README.md</code></a>. The summary below organizes the changes by subsystem so you can locate the relevant parameter quickly. For per-parameter detail (units, ranges, source-code anchor), see the per-subsystem deep-dive pages or the canonical ArduPilot parameter list.</p>
+<section id="vehicle-frame" class="level3">
+<h3 class="anchored" data-anchor-id="vehicle-frame">Vehicle frame</h3>
 <ul>
-<li><em>Setup / connecting to the vehicle — TBD</em></li>
-<li><em>Mission Planner cheatsheet — TBD</em></li>
-<li><em>Common log analysis recipes — TBD</em></li>
+<li><code>FRAME_CLASS = 2</code> (Boat). Selects the boat motor mixer instead of the default rover mixer.</li>
+</ul>
+</section>
+<section id="sensors-and-bus" class="level3">
+<h3 class="anchored" data-anchor-id="sensors-and-bus">Sensors and bus</h3>
+<ul>
+<li><code>CAN_P1_DRIVER = 1</code>, <code>CAN_P2_DRIVER = 1</code> — enable CAN drivers (the USV uses a DroneCAN GPS).</li>
+<li><code>GPS1_TYPE = 9</code> (DroneCAN) and <code>GPS1_CAN_NODEID = 124</code> — route the GPS through CAN instead of serial.</li>
+<li><code>COMPASS_EXTERNAL = 1</code> — use the external compass on the GPS mast.</li>
+</ul>
+</section>
+<section id="stabilization-layer-speed-and-yaw-rate-pid" class="level3">
+<h3 class="anchored" data-anchor-id="stabilization-layer-speed-and-yaw-rate-pid">Stabilization layer (speed and yaw-rate PID)</h3>
+<p>See <a href="../autopilot/atc_params.html">atc_params.qmd</a> for the per-parameter reference and <a href="../autopilot/stabilization.html">stabilization.qmd</a> for the loop architecture and how the parameters fit together. Headline changes: - <code>ATC_BRAKE = 0</code> — disable active braking. Boats decelerate via hydrodynamic drag, not reverse thrust. - <code>ATC_STR_RAT_FF = 0</code>, <code>ATC_STR_ACC_MAX = 0</code> — disable steering-channel feedforward and acceleration limiting (lab step-response measurements; restore for normal autonomous operation). - <code>ATC_ACCEL_MAX = 10</code> — increase speed-channel acceleration cap from the default 1 m/s². - <code>ATC_TURN_MAX_G = 10</code> — lift the coordinated-turn lateral-g cap so it does not constrain the boat in higher modes. - <code>ACRO_TURN_RATE = 360</code> deg/s — stick-to-rate scaling in ACRO mode (note: file value is 360, but for the actual lab vehicle we reduce this to a rate the boat can achieve; see the <a href="../autopilot/stabilization.html">stabilization page</a> for the AY26Q3 note).</p>
+</section>
+<section id="navigation" class="level3">
+<h3 class="anchored" data-anchor-id="navigation">Navigation</h3>
+<ul>
+<li><code>PSC_VEL_P = 6</code> — position-controller velocity P gain, used in HOLD, LOITER, AUTO.</li>
+<li><code>CRUISE_SPEED = 5</code> m/s and <code>CRUISE_THROTTLE = 0</code> % — use the speed controller (not open-loop cruise throttle).</li>
+<li><code>WP_RADIUS = 1</code> m — tighter waypoint acceptance for the lab course.</li>
+</ul>
+</section>
+<section id="motor-and-actuator-scaling" class="level3">
+<h3 class="anchored" data-anchor-id="motor-and-actuator-scaling">Motor and actuator scaling</h3>
+<ul>
+<li><code>MOT_THR_MIN = 20</code> % — minimum commanded throttle when armed; prevents the motor from idling below the threshold where the thruster generates useful force.</li>
+<li><code>SERVO3_MIN = 1300</code>, <code>SERVO3_MAX = 1670</code> — vehicle-specific ESC PWM endpoints (calibrated to the thruster).</li>
+</ul>
+</section>
+<section id="modes-arming-and-safety" class="level3">
+<h3 class="anchored" data-anchor-id="modes-arming-and-safety">Modes, arming, and safety</h3>
+<ul>
+<li><code>MODE_CH = 6</code>, <code>MODE1 = 10</code> (Auto), <code>MODE4 = 1</code> (Acro) — pick the two modes used in the labs and map them to the transmitter switch.</li>
+<li><code>BRD_SAFETY_DEFLT = 0</code> — the hardware safety switch is not present on this hull; do not require it on boot.</li>
+<li><code>AUTO_KICKSTART = 2</code> — auto mode requires a throttle-stick “kickstart” before motors engage. Adds a manual gate before the boat starts moving autonomously.</li>
+</ul>
+</section>
+<section id="telemetry-and-logging" class="level3">
+<h3 class="anchored" data-anchor-id="telemetry-and-logging">Telemetry and logging</h3>
+<ul>
+<li><code>LOG_DISARMED = 1</code>, <code>LOG_FILE_DSRMROT = 1</code> — log even when disarmed; rotate the log file on every disarm.</li>
+<li><code>SR1_*</code> increased from 1 Hz to 2–4 Hz — higher telemetry rate to the GCS over the telemetry radio (port 1).</li>
+<li><code>GCS_PID_MASK = 2</code> — stream the steering PID’s internal states (<code>PIDS_*</code>) to the GCS for real-time inspection.</li>
+</ul>
+</section>
+<section id="calibration-values-do-not-hand-edit" class="level3">
+<h3 class="anchored" data-anchor-id="calibration-values-do-not-hand-edit">Calibration values (do not hand-edit)</h3>
+<p>The baseline file also contains compass offsets/scales, accelerometer offsets, gyro offsets, barometer ground-pressure, and RC-channel endpoints. These are <strong>vehicle- and location-specific</strong> and are written by the calibration wizards. When loading the baseline onto a new vehicle, re-run the calibrations afterward.</p>
+</section>
+</section>
+<section id="parameter-reference-conventions" class="level2">
+<h2 class="anchored" data-anchor-id="parameter-reference-conventions">Parameter reference conventions</h2>
+<p>The per-parameter entries on subsystem pages (e.g.&nbsp;<a href="../autopilot/atc_params.html">atc_params.qmd</a>) follow this convention:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Description</strong></td>
+<td>What the parameter does, in plain language</td>
+</tr>
+<tr class="even">
+<td><strong>Units</strong></td>
+<td>Physical units (or <code>bool</code>, <code>bitmask</code>, <code>normalized</code>, …)</td>
+</tr>
+<tr class="odd">
+<td><strong>Range</strong></td>
+<td>Min/max allowed by the firmware (from the <code>AP_GROUPINFO</code> macro)</td>
+</tr>
+<tr class="even">
+<td><strong>Default</strong></td>
+<td>Source-default value for ArduRover V4.6.3 (from the <code>.cpp</code> file)</td>
+</tr>
+<tr class="odd">
+<td><strong>Vehicle</strong></td>
+<td>Value on our USV (from the baseline <code>.param</code> file). Only shown when it departs from the source default</td>
+</tr>
+<tr class="even">
+<td><strong>Notes</strong></td>
+<td>Tuning intuition, units gotchas, undocumented behavior, lab-specific gotchas</td>
+</tr>
+<tr class="odd">
+<td><strong>Source</strong></td>
+<td>Link to the <code>AP_GROUPINFO</code> macro declaring the parameter and the call site that consumes it</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>Source</strong> entry is the most useful field when the documentation is ambiguous or out of date. ArduPilot’s web docs are auto-generated from the <code>// @Description</code> comments in source, so when those drift from the implementation, the source is the truth.</p>
+</section>
+<section id="ardupilot-source-code-anchors" class="level2">
+<h2 class="anchored" data-anchor-id="ardupilot-source-code-anchors">ArduPilot source-code anchors</h2>
+<p>The parameter implementations live in a small set of files. When verifying what a parameter actually does, start here:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp"><code>libraries/APM_Control/AR_AttitudeControl.cpp</code></a></td>
+<td><code>ATC_*</code> parameter declarations and the speed/yaw-rate PID call sites</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.h"><code>libraries/APM_Control/AR_AttitudeControl.h</code></a></td>
+<td>Class interface (function signatures, member variables)</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp"><code>libraries/AC_PID/AC_PID.cpp</code></a></td>
+<td>Generic PID implementation that backs every <code>_P</code>, <code>_I</code>, <code>_D</code>, <code>_FF</code>, <code>_FLT*</code>, <code>_IMAX</code>, <code>_SMAX</code>, <code>_PDMX</code> parameter. The arithmetic runs once per cycle in <code>AC_PID::update_all()</code> (around line 105 on <code>master</code>)</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_PosControl.cpp"><code>libraries/APM_Control/AR_PosControl.cpp</code></a></td>
+<td><code>PSC_*</code> position/velocity controller used in HOLD, LOITER, AUTO</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/ArduPilot/ardupilot/blob/master/Rover/Parameters.cpp"><code>Rover/Parameters.cpp</code></a></td>
+<td>Vehicle-level parameters (frame class, modes, kickstart, cruise speed / cruise throttle)</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/ArduPilot/ardupilot/tree/master/libraries/AP_HAL"><code>libraries/AP_HAL/</code></a></td>
+<td>Hardware abstraction (board, CAN, serial port parameters)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Line numbers on <code>master</code> drift.</strong> When a Source link no longer lands on the expected definition, search the file for the parameter name (or the <code>AP_GROUPINFO("NAME", …)</code> macro). The parameter name is the stable handle, not the line number.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="undocumented-or-surprising-behavior-running-list" class="level2">
+<h2 class="anchored" data-anchor-id="undocumented-or-surprising-behavior-running-list">Undocumented or surprising behavior (running list)</h2>
+<p>These are details we’ve found in source or logs that are not clearly stated in the user-facing ArduPilot docs. Add new entries as we discover them.</p>
+<ul>
+<li><strong>No <code>Out</code> field is logged for PID messages.</strong> <code>PIDA_*</code> and <code>PIDS_*</code> log the individual P, I, D, and FF terms separately. The total controller output is <code>P + I + D + FF</code> (optionally <code>+ DFF</code>). Reconstruct it in post-processing rather than looking for a single output column.</li>
+<li><strong><code>ACRO_TURN_RATE</code> is configured in deg/s but routed into the yaw-rate loop in rad/s.</strong> Logged setpoints (<code>STER_DesTurnRate</code>, <code>PIDS_Tar</code>) are in rad/s — verify units before comparing to the parameter value.</li>
+<li><strong><code>GPS_Spd</code> ≠ <code>PIDA_Act</code>.</strong> <code>GPS_Spd</code> is the raw GPS-receiver speed estimate, logged at the GPS message rate (<code>GPS1_RATE_MS</code>, ~5 Hz). <code>PIDA_Act</code> is the EKF-fused velocity the PID actually consumes, logged at the PID loop rate (25–50 Hz). The fast <code>PIDA_Act</code> channel is still information-bandwidth-limited by the underlying GPS update.</li>
+<li><strong><code>THR_DesSpeed</code> ≠ <code>PIDA_Tar</code> in general.</strong> <code>THR_DesSpeed</code> is the setpoint before the input-side filters; <code>PIDA_Tar</code> is what the PID actually integrates against (after rate limiting and target LPF). With <code>ATC_ACCEL_MAX = 0</code> and <code>ATC_SPEED_FLTT = 0</code> (the lab settings), the two are identical.</li>
+<li><strong><code>IMAX</code> clamps the I-term’s output contribution, not the summed PID output.</strong> <code>PIDA_I</code> (logged) is the post-clamp I-term, separate from <code>PIDA_P</code> and <code>PIDA_D</code>. Saturating the total output is <code>_PDMX</code>/<code>_SMAX</code>’s job.</li>
+<li><strong>Legacy <code>_FILT</code> parameter superseded by split <code>_FLTT</code> / <code>_FLTE</code> / <code>_FLTD</code>.</strong> Older parameter files (or older documentation) may reference <code>ATC_SPEED_FILT</code> or <code>ATC_STR_RAT_FILT</code>. These are kept for migration but the three split filters take precedence in modern firmware. Search <code>AC_PID.cpp</code> for <code>FILT</code> to see the alias logic.</li>
+<li><strong><code>ATC_BRAKE</code> controls the <em>sign</em> of the speed output, not whether the loop closes.</strong> With <code>ATC_BRAKE = 0</code> (boat baseline), the controller cannot command negative throttle to actively slow the boat; the speed loop still runs, but deceleration is hydrodynamic drag only.</li>
+<li><strong><code>COMPASS_DEC</code> is the magnetic declination at the vehicle’s home position.</strong> It is set automatically (or copied from a world magnetic model) and is not the same as <code>COMPASS_AUTODEC</code>, which is the <em>behavior flag</em> that controls whether autopilot updates <code>COMPASS_DEC</code> automatically on new location.</li>
+</ul>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See also</h2>
+<ul>
+<li><strong><a href="../autopilot/atc_params.html">ATC parameter reference</a></strong> — per-parameter reference for the <code>ATC_SPEED_*</code> and <code>ATC_STR_RAT_*</code> parameters used in Lab 2 (units, ranges, vehicle values, source-code anchors)</li>
+<li><strong><a href="../autopilot/stabilization.html">Stabilization layer — Speed and Yaw-Rate PID</a></strong> — how the speed and yaw-rate loops are wired together (architecture, signal flow, lab step-response setup)</li>
+<li><strong><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md">ArduPilot doc references (curated)</a></strong> — entry points into upstream ArduPilot documentation</li>
+<li><a href="https://ardupilot.org/rover/docs/parameters.html">Rover Full Parameter List</a> (upstream, authoritative)</li>
+<li><a href="https://ardupilot.org/rover/docs/rover-tuning-process.html">Rover Tuning Process Overview</a> (upstream)</li>
 </ul>
 
 

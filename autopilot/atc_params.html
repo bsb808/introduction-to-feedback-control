@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>ATC Parameter Reference — Speed and Steering – ME 2801 — Introduction to Feedback Control</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-79f8367642d7727d79c7437a1511209b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ME 2801 — Introduction to Feedback Control</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../assignments.html"> 
+<span class="menu-text">Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../autopilot/index.html"> 
+<span class="menu-text">Autopilot</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bsb808/introduction-to-feedback-control"> <i class="bi bi-github" role="img" aria-label="Source on GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#architecture-overview" id="toc-architecture-overview" class="nav-link active" data-scroll-target="#architecture-overview">Architecture overview</a></li>
+  <li><a href="#implementation-references" id="toc-implementation-references" class="nav-link" data-scroll-target="#implementation-references">Implementation references</a></li>
+  <li><a href="#speed-control-parameters" id="toc-speed-control-parameters" class="nav-link" data-scroll-target="#speed-control-parameters">Speed Control Parameters</a>
+  <ul class="collapse">
+  <li><a href="#atc_speed_p" id="toc-atc_speed_p" class="nav-link" data-scroll-target="#atc_speed_p"><code>ATC_SPEED_P</code></a></li>
+  <li><a href="#atc_speed_i" id="toc-atc_speed_i" class="nav-link" data-scroll-target="#atc_speed_i"><code>ATC_SPEED_I</code></a></li>
+  <li><a href="#atc_speed_d" id="toc-atc_speed_d" class="nav-link" data-scroll-target="#atc_speed_d"><code>ATC_SPEED_D</code></a></li>
+  <li><a href="#atc_speed_ff" id="toc-atc_speed_ff" class="nav-link" data-scroll-target="#atc_speed_ff"><code>ATC_SPEED_FF</code></a></li>
+  <li><a href="#atc_speed_imax" id="toc-atc_speed_imax" class="nav-link" data-scroll-target="#atc_speed_imax"><code>ATC_SPEED_IMAX</code></a></li>
+  <li><a href="#atc_speed_fltt-atc_speed_flte-atc_speed_fltd" id="toc-atc_speed_fltt-atc_speed_flte-atc_speed_fltd" class="nav-link" data-scroll-target="#atc_speed_fltt-atc_speed_flte-atc_speed_fltd"><code>ATC_SPEED_FLTT</code> &nbsp;/&nbsp; <code>ATC_SPEED_FLTE</code> &nbsp;/&nbsp; <code>ATC_SPEED_FLTD</code></a></li>
+  <li><a href="#atc_speed_filt-legacy" id="toc-atc_speed_filt-legacy" class="nav-link" data-scroll-target="#atc_speed_filt-legacy"><code>ATC_SPEED_FILT</code> <em>(legacy)</em></a></li>
+  <li><a href="#atc_speed_smax" id="toc-atc_speed_smax" class="nav-link" data-scroll-target="#atc_speed_smax"><code>ATC_SPEED_SMAX</code></a></li>
+  <li><a href="#atc_speed_pdmx" id="toc-atc_speed_pdmx" class="nav-link" data-scroll-target="#atc_speed_pdmx"><code>ATC_SPEED_PDMX</code></a></li>
+  <li><a href="#atc_speed_d_ff" id="toc-atc_speed_d_ff" class="nav-link" data-scroll-target="#atc_speed_d_ff"><code>ATC_SPEED_D_FF</code></a></li>
+  <li><a href="#atc_speed_ntf-atc_speed_nef" id="toc-atc_speed_ntf-atc_speed_nef" class="nav-link" data-scroll-target="#atc_speed_ntf-atc_speed_nef"><code>ATC_SPEED_NTF</code> &nbsp;/&nbsp; <code>ATC_SPEED_NEF</code></a></li>
+  <li><a href="#atc_accel_max" id="toc-atc_accel_max" class="nav-link" data-scroll-target="#atc_accel_max"><code>ATC_ACCEL_MAX</code></a></li>
+  <li><a href="#atc_decel_max" id="toc-atc_decel_max" class="nav-link" data-scroll-target="#atc_decel_max"><code>ATC_DECEL_MAX</code></a></li>
+  <li><a href="#atc_brake" id="toc-atc_brake" class="nav-link" data-scroll-target="#atc_brake"><code>ATC_BRAKE</code></a></li>
+  <li><a href="#atc_stop_speed" id="toc-atc_stop_speed" class="nav-link" data-scroll-target="#atc_stop_speed"><code>ATC_STOP_SPEED</code></a></li>
+  </ul></li>
+  <li><a href="#steering-yaw-rate-control-parameters" id="toc-steering-yaw-rate-control-parameters" class="nav-link" data-scroll-target="#steering-yaw-rate-control-parameters">Steering / Yaw-Rate Control Parameters</a>
+  <ul class="collapse">
+  <li><a href="#atc_str_rat_p" id="toc-atc_str_rat_p" class="nav-link" data-scroll-target="#atc_str_rat_p"><code>ATC_STR_RAT_P</code></a></li>
+  <li><a href="#atc_str_rat_i" id="toc-atc_str_rat_i" class="nav-link" data-scroll-target="#atc_str_rat_i"><code>ATC_STR_RAT_I</code></a></li>
+  <li><a href="#atc_str_rat_d" id="toc-atc_str_rat_d" class="nav-link" data-scroll-target="#atc_str_rat_d"><code>ATC_STR_RAT_D</code></a></li>
+  <li><a href="#atc_str_rat_ff" id="toc-atc_str_rat_ff" class="nav-link" data-scroll-target="#atc_str_rat_ff"><code>ATC_STR_RAT_FF</code></a></li>
+  <li><a href="#atc_str_rat_imax" id="toc-atc_str_rat_imax" class="nav-link" data-scroll-target="#atc_str_rat_imax"><code>ATC_STR_RAT_IMAX</code></a></li>
+  <li><a href="#atc_str_rat_fltt-atc_str_rat_flte-atc_str_rat_fltd" id="toc-atc_str_rat_fltt-atc_str_rat_flte-atc_str_rat_fltd" class="nav-link" data-scroll-target="#atc_str_rat_fltt-atc_str_rat_flte-atc_str_rat_fltd"><code>ATC_STR_RAT_FLTT</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_FLTE</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_FLTD</code></a></li>
+  <li><a href="#atc_str_rat_filt-legacy" id="toc-atc_str_rat_filt-legacy" class="nav-link" data-scroll-target="#atc_str_rat_filt-legacy"><code>ATC_STR_RAT_FILT</code> <em>(legacy)</em></a></li>
+  <li><a href="#atc_str_rat_smax-atc_str_rat_pdmx-atc_str_rat_d_ff-atc_str_rat_ntf-atc_str_rat_nef" id="toc-atc_str_rat_smax-atc_str_rat_pdmx-atc_str_rat_d_ff-atc_str_rat_ntf-atc_str_rat_nef" class="nav-link" data-scroll-target="#atc_str_rat_smax-atc_str_rat_pdmx-atc_str_rat_d_ff-atc_str_rat_ntf-atc_str_rat_nef"><code>ATC_STR_RAT_SMAX</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_PDMX</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_D_FF</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_NTF</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_NEF</code></a></li>
+  <li><a href="#atc_str_ang_p" id="toc-atc_str_ang_p" class="nav-link" data-scroll-target="#atc_str_ang_p"><code>ATC_STR_ANG_P</code></a></li>
+  <li><a href="#atc_str_acc_max" id="toc-atc_str_acc_max" class="nav-link" data-scroll-target="#atc_str_acc_max"><code>ATC_STR_ACC_MAX</code></a></li>
+  <li><a href="#atc_str_dec_max" id="toc-atc_str_dec_max" class="nav-link" data-scroll-target="#atc_str_dec_max"><code>ATC_STR_DEC_MAX</code></a></li>
+  <li><a href="#atc_str_rat_max" id="toc-atc_str_rat_max" class="nav-link" data-scroll-target="#atc_str_rat_max"><code>ATC_STR_RAT_MAX</code></a></li>
+  <li><a href="#atc_turn_max_g" id="toc-atc_turn_max_g" class="nav-link" data-scroll-target="#atc_turn_max_g"><code>ATC_TURN_MAX_G</code></a></li>
+  </ul></li>
+  <li><a href="#quick-reference-recommended-values-for-our-lab" id="toc-quick-reference-recommended-values-for-our-lab" class="nav-link" data-scroll-target="#quick-reference-recommended-values-for-our-lab">Quick reference — recommended values for our lab</a></li>
+  <li><a href="#useful-sourcecode-references" id="toc-useful-sourcecode-references" class="nav-link" data-scroll-target="#useful-sourcecode-references">Useful source/code references</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ATC Parameter Reference — Speed and Steering</h1>
+<p class="subtitle lead">Per-parameter reference for the <code>ATC_*</code> controllers used in the USV labs</p>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="../autopilot/index.html">← Back to Autopilot</a> &nbsp;·&nbsp; <a href="../autopilot/parameters.html">Parameter overview</a> &nbsp;·&nbsp; <a href="../autopilot/stabilization.html">Stabilization layer</a></p>
+<p>Reference for the <code>ATC_*</code> parameters that govern the closed-loop speed and yaw-rate controllers used in this course’s USV labs (ACRO mode). Companion to the higher-level <a href="../autopilot/stabilization.html">stabilization layer page</a>, which explains how these parameters fit into the loop architecture; this page is the dense per-parameter look-up table with units, ranges, vehicle values, and source-code anchors.</p>
+<ul>
+<li><strong>Authoritative parameter list (firmware version-tracked):</strong> <a href="https://ardupilot.org/rover/docs/parameters.html">ardupilot.org/rover/docs/parameters.html</a></li>
+<li><strong>Source of truth for defaults / ranges / behavior:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp"><code>libraries/APM_Control/AR_AttitudeControl.cpp</code></a> on GitHub</li>
+</ul>
+<p>Defaults below are taken from the <code>AR_AttitudeControl.cpp</code> source on <code>master</code>. Where our test vehicle differs from the source default, the vehicle value is shown as <strong>Vehicle:</strong> and reflects the lab baseline file <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/2026_05_06_baseline_3.2.param"><code>utils/ardu_params/2026_05_06_baseline_3.2.param</code></a>.</p>
+<hr>
+<section id="architecture-overview" class="level2">
+<h2 class="anchored" data-anchor-id="architecture-overview">Architecture overview</h2>
+<p>ACRO mode runs two independent PID loops, one per channel. Both share the same structure: a command <strong>rate limiter</strong> at the input, a <strong>low-pass filter</strong> on the error, a <strong>PID</strong> controller, and a <strong>feed-forward</strong> term that bypasses the PID and adds at the output.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/atc_pid_architecture.svg" class="img-fluid figure-img"></p>
+<figcaption>ATC PID architecture — speed and yaw-rate loops</figcaption>
+</figure>
+</div>
+<!-- Internal: diagram source is site/autopilot/images/atc_pid_architecture.drawio
+     Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
+     After editing, re-export the SVG with:
+       drawio --export --format svg \
+         --output site/autopilot/images/atc_pid_architecture.svg \
+         site/autopilot/images/atc_pid_architecture.drawio -->
+<p>In higher modes (HOLD, LOITER, AUTO, etc.) an outer <strong>heading</strong> loop (<code>ATC_STR_ANG_P</code>) wraps the yaw-rate loop, converting heading error to a desired yaw rate. ACRO bypasses that outer loop — the pilot stick commands yaw rate directly.</p>
+<hr>
+</section>
+<section id="implementation-references" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-references">Implementation references</h2>
+<p>The PID-internal parameters (<code>_P</code>, <code>_I</code>, <code>_D</code>, <code>_FF</code>, <code>_IMAX</code>, <code>_FLT*</code>, <code>_SMAX</code>, <code>_PDMX</code>, <code>_D_FF</code>, <code>_NTF</code>, <code>_NEF</code>) are not implemented in <code>AR_AttitudeControl.cpp</code> directly. That file holds two <code>AC_PID</code> instances — one for the <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L116">steering-rate loop (line 116)</a> and one for the <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L182">speed loop (line 182)</a> — and the <code>_P</code> / <code>_I</code> / etc. parameters are sub-group fields of those <code>AC_PID</code> instances. The actual P/I/D/FF arithmetic runs once per cycle in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a> in <code>AC_PID.cpp</code>.</p>
+<p>Per-parameter <strong>Source:</strong> links below point to:</p>
+<ul>
+<li>The <code>AP_GROUPINFO</code> macro that declares the parameter (its name, range, storage)</li>
+<li>The call site (function or line) where the parameter’s value actually changes behavior</li>
+</ul>
+<p>All links are pinned to <code>master</code>. Line numbers can drift over time; if a link doesn’t land where described, search the file for the parameter name.</p>
+<hr>
+</section>
+<section id="speed-control-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="speed-control-parameters">Speed Control Parameters</h2>
+<section id="atc_speed_p" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_p"><code>ATC_SPEED_P</code></h3>
+<ul>
+<li><strong>Description:</strong> Converts speed error (m/s) to normalized motor output. Proportional gain.</li>
+<li><strong>Units:</strong> (motor effort)/(m/s) — output ∈ [−1, +1]</li>
+<li><strong>Range:</strong> 0.010 – 2.000 &nbsp; <strong>Default:</strong> 0.20 &nbsp; <strong>Vehicle:</strong> 1.0</li>
+<li><strong>Notes:</strong> Standard <span class="math inline">\(K_p\)</span> in the speed PID. Increasing it shortens rise time but increases overshoot and noise sensitivity. Vehicle ships with <span class="math inline">\(K_p=1.0\)</span>, five times the source default — likely tuned for the marine drag profile.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L7"><code>P</code> defined at AC_PID.cpp:7</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_speed_i" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_i"><code>ATC_SPEED_I</code></h3>
+<ul>
+<li><strong>Description:</strong> Integrates speed error over time to drive steady-state error to zero.</li>
+<li><strong>Units:</strong> (motor effort)/(m/s · s)</li>
+<li><strong>Range:</strong> 0.000 – 2.000 &nbsp; <strong>Default:</strong> 0.20 &nbsp; <strong>Vehicle:</strong> 0.2</li>
+<li><strong>Notes:</strong> <span class="math inline">\(K_i\)</span> in the speed PID. Required when the plant has unmodeled drag or a constant disturbance (current, wind). The <strong>I-term’s contribution</strong> to the controller output (i.e.&nbsp;the integrator state times <span class="math inline">\(K_i\)</span>) is clamped to ±<code>ATC_SPEED_IMAX</code> — this is the classic anti-windup mechanism. It does <em>not</em> clamp the summed P+I+D output (that’s <code>ATC_SPEED_PDMX</code> / <code>_SMAX</code>’s job). You can verify in the logs: <code>PIDA_I</code> is the clamped I-term output, separate from <code>PIDA_P</code>, <code>PIDA_D</code>.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L11"><code>I</code> defined at AC_PID.cpp:11</a> → integrator updated in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_speed_d" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_d"><code>ATC_SPEED_D</code></h3>
+<ul>
+<li><strong>Description:</strong> Acts on rate of change of speed error.</li>
+<li><strong>Units:</strong> (motor effort)/(m/s · s)</li>
+<li><strong>Range:</strong> 0.000 – 0.400 &nbsp; <strong>Default:</strong> 0.00 &nbsp; <strong>Vehicle:</strong> 0</li>
+<li><strong>Notes:</strong> Rarely useful for surge speed control on a USV — speed is GPS-noisy and derivative kick is undesirable. Leave at 0 unless you have a specific reason.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L15"><code>D</code> defined at AC_PID.cpp:15</a> → derivative computed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_speed_ff" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_ff"><code>ATC_SPEED_FF</code></h3>
+<ul>
+<li><p><strong>Description:</strong> Feed-forward gain — output proportional to the <strong>setpoint</strong> (not the error).</p></li>
+<li><p><strong>Units:</strong> (motor effort)/(m/s)</p></li>
+<li><p><strong>Range:</strong> 0.000 – 0.500 &nbsp; <strong>Default:</strong> 0.0 &nbsp; <strong>Vehicle:</strong> 0</p></li>
+<li><p><strong>Notes:</strong> Enables predictive control: if you know empirically that 50 % throttle produces 2 m/s steady speed, an FF of 0.25 gives the right baseline output before the PID does any work. Lets you reduce <span class="math inline">\(K_p\)</span> and <span class="math inline">\(K_i\)</span> while keeping fast tracking. Conceptually equivalent to inverting the steady-state plant gain.</p>
+<p>ArduRover actually exposes <strong>two</strong> ways to add a setpoint-proportional baseline to the throttle, and both add together at the output sum:</p>
+<ol type="1">
+<li><code>ATC_SPEED_FF</code> — direct FF gain in the PID block. Output gets <code>ATC_SPEED_FF × desired_speed</code> added.</li>
+<li><code>CRUISE_THROTTLE</code> / <code>CRUISE_SPEED</code> — the “throttle baseline” mechanism documented in the upstream <a href="https://ardupilot.org/rover/docs/rover-tuning-throttle-and-speed.html">Cruise Throttle and Cruise Speed</a> section. When both are non-zero, the controller adds <code>(CRUISE_THROTTLE / 100) × (desired_speed / CRUISE_SPEED)</code> to the output. The two cruise parameters are an empirical calibration point: drive at a steady throttle, log the speed, store the pair, and the controller uses the implied slope as a feedforward.</li>
+</ol>
+<p>Both produce the same kind of contribution (output ∝ setpoint); they differ in how the slope is parameterized. For the Lab 2 Base case we zero both (<code>ATC_SPEED_FF = 0</code>, <code>CRUISE_THROTTLE = 0</code>) so the response reflects only the PID gains.</p></li>
+<li><p><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L19"><code>FF</code> defined at AC_PID.cpp:19</a> → applied in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>. Direct read in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L321"><code>AR_AttitudeControl::get_throttle_out_speed()</code> at line 321</a>.</p></li>
+</ul>
+</section>
+<section id="atc_speed_imax" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_imax"><code>ATC_SPEED_IMAX</code></h3>
+<ul>
+<li><strong>Description:</strong> Anti-windup clamp on the integral term’s output contribution.</li>
+<li><strong>Range:</strong> 0.000 – 1.000 &nbsp; <strong>Default:</strong> 1.00 &nbsp; <strong>Vehicle:</strong> 1.0</li>
+<li><strong>Notes:</strong> Prevents integral windup during saturation (e.g.&nbsp;low battery, prop fouled). <code>IMAX</code> is in the same units as the PID output: <strong>normalized motor effort</strong>. The total controller output drives the throttle channel in [−1, +1]; <code>IMAX</code> clamps the magnitude of just the I-term’s contribution to that output (i.e., the integrator state multiplied by <span class="math inline">\(K_i\)</span>). With the default <code>IMAX = 1.0</code>, the I term alone is permitted to command up to ±100 % motor effort.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L23"><code>IMAX</code> defined at AC_PID.cpp:23</a> → integrator clamping in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_speed_fltt-atc_speed_flte-atc_speed_fltd" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_fltt-atc_speed_flte-atc_speed_fltd"><code>ATC_SPEED_FLTT</code> &nbsp;/&nbsp; <code>ATC_SPEED_FLTE</code> &nbsp;/&nbsp; <code>ATC_SPEED_FLTD</code></h3>
+<ul>
+<li><p><strong>Description:</strong> Cutoff frequencies (Hz) for the low pass filters on the <strong>target</strong>, <strong>error</strong>, and <strong>derivative</strong> signals respectively.</p></li>
+<li><p><strong>Range:</strong> 0.000 – 100.000 Hz &nbsp; <strong>Default (FLTE):</strong> 10 Hz &nbsp; <strong>Default (FLTT, FLTD):</strong> 0 (off)</p></li>
+<li><p><strong>Vehicle:</strong> FLTT=0, FLTE=10, FLTD=0</p></li>
+<li><p><strong>Notes:</strong> Three independent low-pass filters, each acting on a different signal in the PID loop:</p>
+<ul>
+<li><strong><code>FLTT</code></strong> (target) smooths the commanded setpoint <em>before</em> it enters the loop. Use it when the source of the setpoint is itself noisy or contains undesired high-frequency content.</li>
+<li><strong><code>FLTE</code></strong> (error) attenuates measurement noise on the error signal before P, I, and D act on it. This is usually the most useful of the three when the feedback sensor is noisy.</li>
+<li><strong><code>FLTD</code></strong> (derivative) limits the bandwidth of the D-term so it does not amplify high-frequency sensor noise into the actuator. Only matters when <code>ATC_SPEED_D ≠ 0</code> — if <code>D = 0</code>, the derivative path multiplies by zero and there is nothing to filter.</li>
+</ul>
+<p>Lab default <code>FLTE = 10</code> Hz is well above the surge dynamics (~0.5–2 Hz bandwidth) so it does not affect step-response analysis. Set <code>FLTT &gt; 0</code> to soften an aggressive stick command into the loop; leave <code>FLTD = 0</code> unless <code>ATC_SPEED_D &gt; 0</code>.</p>
+<p><em>Implementation.</em> All three are first-order discrete IIR low-pass filters, implemented in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/Filter/LowPassFilter.cpp"><code>LowPassFilter.cpp</code></a>. The stored parameter value is the −3 dB cutoff in Hz; the filter coefficient is computed each cycle from the cutoff and the loop period. A cutoff of <code>0</code> disables the filter (no smoothing — the signal passes through unchanged).</p>
+<p><em>Why a low-pass filter here but a rate limiter on the input (<code>ATC_ACCEL_MAX</code>)?</em> Filters and rate limiters solve different problems:</p>
+<ul>
+<li>A <strong>rate limiter</strong> is a <em>non-linear</em> element that bounds the <em>slope</em> of a signal — it slews from one value to another at a fixed maximum rate. Used at the input so the PID never sees a setpoint demanding infinite acceleration.</li>
+<li>A <strong>low-pass filter</strong> is a <em>linear</em> element that bounds the <em>bandwidth</em> of a signal — it averages over time, attenuating high-frequency content while preserving DC gain. Used to suppress noise, which is a frequency-domain problem.</li>
+</ul>
+<p>Rate-limiting noise wouldn’t help (noise isn’t a slope problem). Filtering a step command would slow everything, including the part of the response the controller is trying to track. Each tool is matched to the kind of signal at that point in the loop.</p></li>
+<li><p><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L31"><code>FLTT</code> at AC_PID.cpp:31</a>, <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L35"><code>FLTE</code> at AC_PID.cpp:35</a>, <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L39"><code>FLTD</code> at AC_PID.cpp:39</a> → filters applied in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</p></li>
+</ul>
+</section>
+<section id="atc_speed_filt-legacy" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_filt-legacy"><code>ATC_SPEED_FILT</code> <em>(legacy)</em></h3>
+<ul>
+<li><strong>Description:</strong> Pre-FLTT/FLTE/FLTD filter parameter — superseded by the three split filters above.</li>
+<li><strong>Default:</strong> 10 Hz</li>
+<li><strong>Notes:</strong> Older ArduPilot firmware exposed a single <code>ATC_SPEED_FILT</code> parameter that set the cutoff for the entire filter chain. In newer firmware that single parameter was <em>replaced by three</em> — <code>FLTT</code>, <code>FLTE</code>, <code>FLTD</code> — so the target, error, and derivative paths can be filtered at different cutoffs (or disabled independently). <code>ATC_SPEED_FILT</code> is retained only to load <code>.param</code> files saved by old firmware versions; in current firmware it is effectively an alias for <code>FLTE</code>. New configurations should use the three replacement parameters directly and ignore the legacy one.</li>
+<li><strong>Source:</strong> Legacy parameter — typically aliased to FLTE. Search <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp"><code>AC_PID.cpp</code></a> for <code>FILT</code> to see the alias / migration logic.</li>
+</ul>
+</section>
+<section id="atc_speed_smax" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_smax"><code>ATC_SPEED_SMAX</code></h3>
+<ul>
+<li><strong>Description:</strong> Slew rate limit on the PID output to prevent oscillation when control authority is exceeded.</li>
+<li><strong>Range:</strong> 0 – 200 &nbsp; <strong>Default:</strong> 0 (disabled) &nbsp; <strong>Vehicle:</strong> 0</li>
+<li><strong>Notes:</strong> Advanced anti-oscillation safety net. Leave disabled for tuning experiments — it can mask the controller’s actual closed-loop behavior.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L43"><code>SMAX</code> defined at AC_PID.cpp:43</a> → slew limiter applied in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_speed_pdmx" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_pdmx"><code>ATC_SPEED_PDMX</code></h3>
+<ul>
+<li><strong>Description:</strong> Maximum combined P+D output magnitude.</li>
+<li><strong>Default:</strong> 0 (disabled) &nbsp; <strong>Vehicle:</strong> 0</li>
+<li><strong>Notes:</strong> Saturates the proportional + derivative path before the I term is added, so the integrator can still trim small offsets even when P is railed. Not relevant for our experiments.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L49"><code>PDMX</code> defined at AC_PID.cpp:49</a> → P+D clamping in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_speed_d_ff" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_d_ff"><code>ATC_SPEED_D_FF</code></h3>
+<ul>
+<li><strong>Description:</strong> Feed-forward gain on the derivative of the setpoint.</li>
+<li><strong>Default:</strong> 0 &nbsp; <strong>Vehicle:</strong> 0</li>
+<li><strong>Notes:</strong> Predicts the motor effort needed to follow a changing setpoint (acceleration). Useful only with smooth setpoint trajectories.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L54"><code>D_FF</code> defined at AC_PID.cpp:54</a> → applied in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_speed_ntf-atc_speed_nef" class="level3">
+<h3 class="anchored" data-anchor-id="atc_speed_ntf-atc_speed_nef"><code>ATC_SPEED_NTF</code> &nbsp;/&nbsp; <code>ATC_SPEED_NEF</code></h3>
+<ul>
+<li><strong>Description:</strong> Indices into the vehicle’s notch filter bank for the target and error signals.</li>
+<li><strong>Default:</strong> 0 (no notch)</li>
+<li><strong>Notes:</strong> Used to suppress narrow-band resonances (motor cogging, structural modes). Not needed for boats.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L60"><code>NTF</code> at AC_PID.cpp:60</a>, <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L65"><code>NEF</code> at AC_PID.cpp:65</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_accel_max" class="level3">
+<h3 class="anchored" data-anchor-id="atc_accel_max"><code>ATC_ACCEL_MAX</code></h3>
+<ul>
+<li><strong>Description:</strong> Maximum commanded acceleration applied to the speed setpoint via a rate limiter.</li>
+<li><strong>Units:</strong> m/s² &nbsp; <strong>Range:</strong> 0 – 10 &nbsp; <strong>Default:</strong> 1.0 &nbsp; <strong>Vehicle:</strong> 1.0</li>
+<li><strong>Notes:</strong> <strong>Critical for the lab.</strong> A nonzero value means the PID never sees a true step input — the setpoint ramps at this rate. To capture the closed-loop step response, set this to <strong>0</strong> (disables the limiter; setpoint follows the stick instantly). See Section <em>Filtering and Rate-Limiting</em> in the lab chapter.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L189">Defined at AR_AttitudeControl.cpp:189</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L330"><code>AR_AttitudeControl::get_desired_speed_accel_limited()</code> (lines 330, 347)</a>.</li>
+</ul>
+</section>
+<section id="atc_decel_max" class="level3">
+<h3 class="anchored" data-anchor-id="atc_decel_max"><code>ATC_DECEL_MAX</code></h3>
+<ul>
+<li><strong>Description:</strong> Maximum deceleration; if 0, falls back to <code>ATC_ACCEL_MAX</code>.</li>
+<li><strong>Units:</strong> m/s² &nbsp; <strong>Range:</strong> 0 – 10 &nbsp; <strong>Default:</strong> 0 &nbsp; <strong>Vehicle:</strong> 0</li>
+<li><strong>Notes:</strong> Allows asymmetric ramping (slower stop than start). Default 0 means symmetric.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L205">Defined at AR_AttitudeControl.cpp:205</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L348"><code>AR_AttitudeControl::get_desired_speed_accel_limited()</code> (lines 348, 357)</a>.</li>
+</ul>
+</section>
+<section id="atc_brake" class="level3">
+<h3 class="anchored" data-anchor-id="atc_brake"><code>ATC_BRAKE</code></h3>
+<ul>
+<li><strong>Description:</strong> When enabled, the controller can command <strong>negative</strong> motor output to actively decelerate.</li>
+<li><strong>Range:</strong> 0 / 1 &nbsp; <strong>Default:</strong> 1 &nbsp; <strong>Vehicle:</strong> 1</li>
+<li><strong>Notes:</strong> Required for boats with reversible ESCs. Without it, deceleration relies entirely on hydrodynamic drag.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L198">Defined at AR_AttitudeControl.cpp:198</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L326"><code>AR_AttitudeControl::get_throttle_out_speed()</code> (line 326)</a>.</li>
+</ul>
+</section>
+<section id="atc_stop_speed" class="level3">
+<h3 class="anchored" data-anchor-id="atc_stop_speed"><code>ATC_STOP_SPEED</code></h3>
+<ul>
+<li><strong>Description:</strong> Below this speed, motor output is forced to zero.</li>
+<li><strong>Units:</strong> m/s &nbsp; <strong>Range:</strong> 0.0 – 0.5 &nbsp; <strong>Default:</strong> 0.1 &nbsp; <strong>Vehicle:</strong> 0.1</li>
+<li><strong>Notes:</strong> Prevents motor jitter / arming-detect issues at near-zero speeds. Active only in modes that rely on the controller deciding when “stopped” (HOLD, AUTO).</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L211">Defined at AR_AttitudeControl.cpp:211</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L340"><code>AR_AttitudeControl::get_throttle_out_stop()</code> (line 340)</a>.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="steering-yaw-rate-control-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="steering-yaw-rate-control-parameters">Steering / Yaw-Rate Control Parameters</h2>
+<section id="atc_str_rat_p" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_rat_p"><code>ATC_STR_RAT_P</code></h3>
+<ul>
+<li><strong>Description:</strong> Converts yaw-rate error (rad/s) to normalized rudder/skid-steer output.</li>
+<li><strong>Range:</strong> 0.000 – 2.000 &nbsp; <strong>Default:</strong> 0.20 &nbsp; <strong>Vehicle:</strong> 0.2</li>
+<li><strong>Notes:</strong> <span class="math inline">\(K_p\)</span> for the yaw-rate loop. Same role as <code>ATC_SPEED_P</code> but in the steering channel.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L7"><code>P</code> defined at AC_PID.cpp:7</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_str_rat_i" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_rat_i"><code>ATC_STR_RAT_I</code></h3>
+<ul>
+<li><strong>Description:</strong> Integral gain for yaw-rate error.</li>
+<li><strong>Range:</strong> 0.000 – 2.000 &nbsp; <strong>Default:</strong> 0.20 &nbsp; <strong>Vehicle:</strong> 0.2</li>
+<li><strong>Notes:</strong> Eliminates steady-state yaw-rate error from rudder asymmetry, current, or unbalanced thrust. Anti-wound to ±<code>ATC_STR_RAT_IMAX</code>.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L11"><code>I</code> defined at AC_PID.cpp:11</a> → integrator updated in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_str_rat_d" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_rat_d"><code>ATC_STR_RAT_D</code></h3>
+<ul>
+<li><strong>Description:</strong> Derivative gain on yaw-rate error.</li>
+<li><strong>Range:</strong> 0.000 – 0.400 &nbsp; <strong>Default:</strong> 0.00 &nbsp; <strong>Vehicle:</strong> 0</li>
+<li><strong>Notes:</strong> Sometimes useful to damp ringing on aggressive turns, but yaw-rate is already a derivative (of heading) so adding D acts on <span class="math inline">\(\ddot\psi\)</span> — very noisy. Use sparingly.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L15"><code>D</code> defined at AC_PID.cpp:15</a> → derivative computed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_str_rat_ff" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_rat_ff"><code>ATC_STR_RAT_FF</code></h3>
+<ul>
+<li><strong>Description:</strong> Feed-forward gain — rudder output proportional to the desired yaw rate.</li>
+<li><strong>Range:</strong> 0.000 – 3.000 &nbsp; <strong>Default:</strong> 0.20 &nbsp; <strong>Vehicle:</strong> 2.0</li>
+<li><strong>Notes:</strong> Major contribution to control authority on USVs. The vehicle ships with FF=2.0 (10× source default), reflecting that for a single-rudder boat, the steady rudder needed to hold a given yaw rate is approximately linear in the desired rate. <strong>For the lab step-response experiment, set FF=0</strong> so the response reflects the PID gains alone (per the lab chapter procedure table).</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L19"><code>FF</code> defined at AC_PID.cpp:19</a> → applied in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>. Direct read in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L283"><code>AR_AttitudeControl::get_steering_out_rate()</code> at line 283</a>.</li>
+</ul>
+</section>
+<section id="atc_str_rat_imax" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_rat_imax"><code>ATC_STR_RAT_IMAX</code></h3>
+<ul>
+<li><strong>Description:</strong> Anti-windup clamp for the I term.</li>
+<li><strong>Range:</strong> 0.000 – 1.000 &nbsp; <strong>Default:</strong> 1.00 &nbsp; <strong>Vehicle:</strong> 1.0</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L23"><code>IMAX</code> defined at AC_PID.cpp:23</a> → integrator clamping in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_str_rat_fltt-atc_str_rat_flte-atc_str_rat_fltd" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_rat_fltt-atc_str_rat_flte-atc_str_rat_fltd"><code>ATC_STR_RAT_FLTT</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_FLTE</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_FLTD</code></h3>
+<ul>
+<li><strong>Description:</strong> LPF cutoffs for target, error, and derivative paths.</li>
+<li><strong>Range:</strong> 0–100 Hz &nbsp; <strong>Default (FLTE):</strong> 10 Hz &nbsp; <strong>Vehicle:</strong> FLTT=0, FLTE=10, FLTD=0</li>
+<li><strong>Notes:</strong> IMU yaw rate is much faster than GPS speed, so these filters matter more here than on the speed channel. Default FLTE=10 Hz attenuates IMU sensor noise without affecting yaw-rate dynamics (~1–5 Hz typical bandwidth).</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L31"><code>FLTT</code> at AC_PID.cpp:31</a>, <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L35"><code>FLTE</code> at AC_PID.cpp:35</a>, <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L39"><code>FLTD</code> at AC_PID.cpp:39</a> → applied in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</li>
+</ul>
+</section>
+<section id="atc_str_rat_filt-legacy" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_rat_filt-legacy"><code>ATC_STR_RAT_FILT</code> <em>(legacy)</em></h3>
+<ul>
+<li><strong>Description:</strong> Pre-split filter parameter, superseded.</li>
+<li><strong>Default:</strong> 10 Hz</li>
+<li><strong>Source:</strong> Legacy parameter — see <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp"><code>AC_PID.cpp</code></a> and search for <code>FILT</code> to see the alias / migration logic.</li>
+</ul>
+</section>
+<section id="atc_str_rat_smax-atc_str_rat_pdmx-atc_str_rat_d_ff-atc_str_rat_ntf-atc_str_rat_nef" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_rat_smax-atc_str_rat_pdmx-atc_str_rat_d_ff-atc_str_rat_ntf-atc_str_rat_nef"><code>ATC_STR_RAT_SMAX</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_PDMX</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_D_FF</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_NTF</code> &nbsp;/&nbsp; <code>ATC_STR_RAT_NEF</code></h3>
+<p>Same role as the equivalent <code>ATC_SPEED_*</code> parameters above. All default to 0 (disabled) on the vehicle. - <strong>Source:</strong> All defined in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp"><code>AC_PID.cpp</code></a> — <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L43"><code>SMAX:43</code></a>, <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L49"><code>PDMX:49</code></a>, <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L54"><code>D_FF:54</code></a>, <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L60"><code>NTF:60</code></a>, <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L65"><code>NEF:65</code></a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105"><code>AC_PID::update_all()</code></a>.</p>
+</section>
+<section id="atc_str_ang_p" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_ang_p"><code>ATC_STR_ANG_P</code></h3>
+<ul>
+<li><strong>Description:</strong> Outer-loop heading-hold P gain. Converts heading error (rad) to desired yaw rate (rad/s).</li>
+<li><strong>Range:</strong> 1.000 – 10.000 &nbsp; <strong>Default:</strong> 2.0 &nbsp; <strong>Vehicle:</strong> 2.0</li>
+<li><strong>Notes:</strong> <strong>Not active in ACRO mode.</strong> Used by HOLD, LOITER, AUTO, etc. where the autopilot is responsible for heading. Together with the yaw-rate PID it forms the cascaded heading controller. In our class the yaw-rate loop is the inner loop; this parameter wraps it for higher modes.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L158">Defined at AR_AttitudeControl.cpp:158</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L241"><code>AR_AttitudeControl::get_turn_rate_from_heading()</code> at line 241</a>.</li>
+</ul>
+</section>
+<section id="atc_str_acc_max" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_acc_max"><code>ATC_STR_ACC_MAX</code></h3>
+<ul>
+<li><strong>Description:</strong> Maximum commanded yaw acceleration applied as a rate limiter on the yaw-rate setpoint.</li>
+<li><strong>Units:</strong> deg/s² &nbsp; <strong>Range:</strong> 0 – 1000 &nbsp; <strong>Default:</strong> 120 &nbsp; <strong>Vehicle:</strong> 120</li>
+<li><strong>Notes:</strong> Yaw analogue of <code>ATC_ACCEL_MAX</code>. <strong>Set to 0 for the lab step-response experiment</strong> so the PID sees a true step from the steering stick.</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L167">Defined at AR_AttitudeControl.cpp:167</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L261"><code>AR_AttitudeControl::get_steering_out_rate()</code> (lines 261, 268)</a>.</li>
+</ul>
+</section>
+<section id="atc_str_dec_max" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_dec_max"><code>ATC_STR_DEC_MAX</code></h3>
+<ul>
+<li><strong>Description:</strong> Yaw deceleration limit; if 0 falls back to <code>ATC_STR_ACC_MAX</code>.</li>
+<li><strong>Units:</strong> deg/s² &nbsp; <strong>Range:</strong> 0 – 1000 &nbsp; <strong>Default:</strong> 0 &nbsp; <strong>Vehicle:</strong> 0</li>
+<li><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L398">Defined at AR_AttitudeControl.cpp:398</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L254"><code>AR_AttitudeControl::get_turn_rate_from_heading()</code> at line 254</a>.</li>
+</ul>
+</section>
+<section id="atc_str_rat_max" class="level3">
+<h3 class="anchored" data-anchor-id="atc_str_rat_max"><code>ATC_STR_RAT_MAX</code></h3>
+<ul>
+<li><p><strong>Description:</strong> Hard cap on the commanded yaw rate.</p></li>
+<li><p><strong>Units:</strong> deg/s &nbsp; <strong>Range:</strong> 0 – 1000 &nbsp; <strong>Default:</strong> 120 &nbsp; <strong>Vehicle:</strong> 36</p></li>
+<li><p><strong>Notes:</strong> The vehicle’s 36 deg/s cap matches the <code>ACRO_TURN_RATE</code> parameter — both default to the value advertised on the RC stick at full deflection. Reduces sensitivity of the steering stick. Increase if you want a more responsive boat (and better step amplitude in your data).</p>
+<p><em>Implementation.</em> Applied as a <strong>hard saturation</strong> on the yaw-rate setpoint before it enters the PID loop (see <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L272"><code>AR_AttitudeControl::get_steering_out_rate()</code> at line 272</a>). If the stick × <code>ACRO_TURN_RATE</code> asks for, say, 50 deg/s but <code>ATC_STR_RAT_MAX = 36</code>, the loop sees 36 deg/s as its setpoint — the stick effectively saturates earlier than its full deflection would suggest. It is <strong>not</strong> a rate-of-change limiter (that role is <code>ATC_STR_ACC_MAX</code>); a sudden full-stick step still produces a step setpoint, just at the capped magnitude.</p></li>
+<li><p><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L176">Defined at AR_AttitudeControl.cpp:176</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L272"><code>AR_AttitudeControl::get_steering_out_rate()</code> at line 272</a>.</p></li>
+</ul>
+</section>
+<section id="atc_turn_max_g" class="level3">
+<h3 class="anchored" data-anchor-id="atc_turn_max_g"><code>ATC_TURN_MAX_G</code></h3>
+<ul>
+<li><p><strong>Description:</strong> Maximum turning acceleration (lateral g) used to prevent rolling/slipping.</p></li>
+<li><p><strong>Units:</strong> g &nbsp; <strong>Range:</strong> 0.1 – 10 &nbsp; <strong>Default:</strong> 0.6 &nbsp; <strong>Vehicle:</strong> 0.6</p></li>
+<li><p><strong>Notes:</strong> Coordinated-turn safety: at high speeds the autopilot reduces achievable yaw rate to keep lateral acceleration ≤ this value.</p>
+<p>Easy to confuse with <code>ATC_ACCEL_MAX</code> because both have “acceleration” in their semantics, but they limit different things and are not analogous:</p>
+<ul>
+<li><code>ATC_ACCEL_MAX</code> bounds the <em>time derivative</em> of the speed setpoint (m/s²). It is a <strong>rate limiter</strong> — it shapes how fast the setpoint can change.</li>
+<li><code>ATC_STR_RAT_MAX</code> is a <em>fixed</em> cap on the yaw-rate setpoint (deg/s).</li>
+<li><code>ATC_TURN_MAX_G</code> is a <strong>speed-dependent cap on the yaw rate</strong>, derived from the <em>lateral</em> (centripetal) acceleration in a turn. In a coordinated turn the lateral acceleration is approximately <span class="math inline">\(v \cdot \omega\)</span> (forward speed times yaw rate), so capping that to <span class="math inline">\(g \cdot \texttt{ATC\_TURN\_MAX\_G}\)</span> tightens the allowable yaw rate as the boat moves faster: <span class="math inline">\(\omega_{\max} = g \cdot \texttt{ATC\_TURN\_MAX\_G} / v\)</span>.</li>
+</ul>
+<p>At typical USV speeds (1–5 m/s) and yaw rates (≤ 36 deg/s ≈ 0.63 rad/s) the lateral acceleration stays below ~0.3 g, so the default 0.6 g cap rarely engages — even in ACRO, where the function is called on the pilot’s stick-commanded rate. It becomes relevant in higher-speed operation and in autonomous modes where the autopilot plans tight turns.</p></li>
+<li><p><strong>Source:</strong> <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L381">Defined at AR_AttitudeControl.cpp:381</a> → consumed in <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L289"><code>AR_AttitudeControl::get_steering_out_rate()</code> at line 289</a>.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="quick-reference-recommended-values-for-our-lab" class="level2">
+<h2 class="anchored" data-anchor-id="quick-reference-recommended-values-for-our-lab">Quick reference — recommended values for our lab</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 25%">
+<col style="width: 45%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th style="text-align: right;">Default value</th>
+<th style="text-align: right;">Lab step-response setting</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ATC_ACCEL_MAX</code></td>
+<td style="text-align: right;">1.0 m/s²</td>
+<td style="text-align: right;"><strong>0</strong></td>
+<td>Disable speed cmd rate limiter</td>
+</tr>
+<tr class="even">
+<td><code>ATC_STR_ACC_MAX</code></td>
+<td style="text-align: right;">120 deg/s²</td>
+<td style="text-align: right;"><strong>0</strong></td>
+<td>Disable yaw-rate cmd rate limiter</td>
+</tr>
+<tr class="odd">
+<td><code>ATC_STR_RAT_FF</code></td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;"><strong>0</strong></td>
+<td>Isolate PID response from FF</td>
+</tr>
+<tr class="even">
+<td><code>ATC_SPEED_P</code></td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">tune</td>
+<td>Start point for surge tuning</td>
+</tr>
+<tr class="odd">
+<td><code>ATC_SPEED_I</code></td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">tune</td>
+<td>Increase if steady-state offset</td>
+</tr>
+<tr class="even">
+<td><code>ATC_STR_RAT_P</code></td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">tune</td>
+<td>Start point for yaw tuning</td>
+</tr>
+<tr class="odd">
+<td><code>ATC_STR_RAT_I</code></td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">tune</td>
+<td>Increase if steady-state offset</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Restore the rate limiters and FF after the lab</strong> — they are useful in normal operation; we disable them only to expose the underlying PID dynamics.</p>
+<hr>
+</section>
+<section id="useful-sourcecode-references" class="level2">
+<h2 class="anchored" data-anchor-id="useful-sourcecode-references">Useful source/code references</h2>
+<ul>
+<li><a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp"><code>AR_AttitudeControl.cpp</code></a> — parameter definitions, default values, and PID call sites</li>
+<li><a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.h"><code>AR_AttitudeControl.h</code></a> — class interface</li>
+<li><a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp"><code>AC_PID.cpp</code></a> — the underlying PID implementation that all <code>_P</code>, <code>_I</code>, <code>_D</code>, <code>_FF</code>, <code>_FLT*</code>, <code>_IMAX</code>, <code>_SMAX</code>, <code>_PDMX</code> parameters configure</li>
+<li><a href="https://ardupilot.org/rover/docs/rover-acro-mode.html">Rover ACRO mode docs</a> — official explanation of the stick-to-rate mapping</li>
+<li><a href="https://ardupilot.org/rover/docs/rover-tuning-throttle-and-steering-rate.html">Rover speed and steering tuning guide</a> — official tuning recipe (different in tone from a controls-class treatment but useful for cross-reference)</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/controls-intro\.bbingham\.dev");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Brian Bingham · <a href="https://github.com/bsb808/introduction-to-feedback-control">Source on GitHub</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
