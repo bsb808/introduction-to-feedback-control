@@ -7,8 +7,15 @@ page-layout: full
 
 The stabilization layer is the lowest level of ArduRover's control hierarchy. Two independent PID loops, one for **speed** (throttle channel) and one for **yaw rate** (steering channel), translate the pilot's high-level commands into actuator outputs. Higher-level autonomous modes (HOLD, LOITER, AUTO) wrap additional outer loops around these, but in **ACRO mode** the pilot's stick deflections become the setpoints to the stabilization PIDs directly. That makes ACRO the right mode for closed-loop step-response testing.
 
+
+
 ## Architecture
 
+% CLAUDE: Let's refactor this section.  Here is what I'm thinking:
+- Start with a very high level generic PID block diagram with feedforward and rate limiters, showing the key signals (setpoint, measurement, error, output) in general.  Draft this diagram as a drawio file that we can edit and reuse across labs.  Move the written description (below) the top of the subsection.
+- Then show the actual ArduRover architecture diagram with the real signal names Start with the ArruRover Tuning Speed and Throttle page which has this diagram: ![Rover Throttle-Speed Diagram](https://ardupilot.org/rover/_images/rover-throttle-speed-diagram.jpg)
+- Next we'll show images/usv_stabilization_arch.svg and explain we are drilling down to see how this is implemented in each of the channels (speed and yaw).  Note the are not identical (which can be confuusing) and that the signals and parameters don't follow a strict naming convention within or across channels.  This is just the way it is, and we'll clarify the mapping as we go through each channel.  The point of this diagram is to enumerate all the signals (logged messages) and parameters that are relevant to the stabilization layer, and to show how they fit together in the control architecture.
+- Once we get this done, we'll make a simpler version of the above diagram that just has the key signals and parameters that they need to know for Lab 2.
 <!-- Internal: diagram source is site/autopilot/images/usv_stabilization_arch.drawio
      Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
      After editing, re-export the SVG with:
@@ -18,6 +25,7 @@ The stabilization layer is the lowest level of ArduRover's control hierarchy. Tw
 
 
 ![Speed and yaw-rate stabilization loops](images/usv_stabilization_arch.svg){fig-alt="USV stabilization layer block diagram showing speed and yaw-rate PID loops"}
+
 
 Both loops share the same structure:
 
@@ -69,7 +77,7 @@ PID gains and filter cutoffs:
 | `ATC_SPEED_P` | Proportional gain | 0.20 | 1.0 | (motor)/(m/s) |
 | `ATC_SPEED_I` | Integral gain — drives steady-state error to zero | 0.20 | 0.2 | (motor)/(m/s·s) |
 | `ATC_SPEED_D` | Derivative gain — rarely useful (GPS-noisy) | 0.00 | 0 | (motor·s)/(m/s) |
-| `ATC_SPEED_FF` | Feed-forward, output ∝ setpoint | 0.0 | 0 | (motor)/(m/s) |
+| `ATC_SPEED_FF` | Feed-forward, output ∝ setpoint | 0.0 | 0 | (motor)/(m/s) |  % CLAUDE:  Break this table into two: PID+FF gains and  in one, the rest in another.   The former is the values the students will change.  the latter is just for explnation.   Add the rate limiters and setpoint shaping parameters to the second table as well, since those are also disabled for the step-response tests.
 | `ATC_SPEED_IMAX` | Anti-windup clamp on I-term contribution | 1.00 | 1.0 | normalized |
 | `ATC_SPEED_FLTT` | Low-pass cutoff on **target** | 0 (off) | 0 | Hz |
 | `ATC_SPEED_FLTE` | Low-pass cutoff on **error** | 10 | 10 | Hz |
@@ -92,7 +100,7 @@ Setpoint shaping and actuator behavior:
 | Channel | Description | Units |
 |---|---|---|
 | `THR_DesSpeed` | Speed setpoint (after input filter) | m/s |
-| `GPS_Spd` | Measured speed (GPS) | m/s |
+| `GPS_Spd` | Measured speed (GPS) | m/s | % CLAUDE: Is this the same as `PIDA_Act`?  If not, we should clarify the difference here. (From the data it looks like the sample rates are different.)  Also, I want to do a deeper dive into what this channel is, since GPS speed is a derived quantity and not a direct sensor measurement.  It would be good to explain how it's computed and what its limitations are, since that has implications for the PID tuning.
 | `RCOU_C3` | Throttle command sent to actuator | PWM |
 | `PIDA_Tar` | PID's internal target (after rate limiting, when active) | m/s |
 | `PIDA_Act` | PID's input measurement | m/s |
