@@ -116,7 +116,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#architecture" id="toc-architecture" class="nav-link active" data-scroll-target="#architecture">Architecture</a></li>
+  <li><a href="#architecture" id="toc-architecture" class="nav-link active" data-scroll-target="#architecture">Architecture</a>
+  <ul class="collapse">
+  <li><a href="#a-generic-pid-control-loop" id="toc-a-generic-pid-control-loop" class="nav-link" data-scroll-target="#a-generic-pid-control-loop">A generic PID control loop</a></li>
+  <li><a href="#ardurover-documentation-diagram" id="toc-ardurover-documentation-diagram" class="nav-link" data-scroll-target="#ardurover-documentation-diagram">ArduRover documentation diagram</a></li>
+  <li><a href="#drilling-into-both-channels" id="toc-drilling-into-both-channels" class="nav-link" data-scroll-target="#drilling-into-both-channels">Drilling into both channels</a></li>
+  </ul></li>
   <li><a href="#logged-channels-a-clarification-on-naming" id="toc-logged-channels-a-clarification-on-naming" class="nav-link" data-scroll-target="#logged-channels-a-clarification-on-naming">Logged channels — a clarification on naming</a></li>
   <li><a href="#speed-surge-control" id="toc-speed-surge-control" class="nav-link" data-scroll-target="#speed-surge-control">Speed (Surge) Control</a>
   <ul class="collapse">
@@ -164,6 +169,43 @@ ul.task-list li input[type="checkbox"] {
 <p>The stabilization layer is the lowest level of ArduRover’s control hierarchy. Two independent PID loops, one for <strong>speed</strong> (throttle channel) and one for <strong>yaw rate</strong> (steering channel), translate the pilot’s high-level commands into actuator outputs. Higher-level autonomous modes (HOLD, LOITER, AUTO) wrap additional outer loops around these, but in <strong>ACRO mode</strong> the pilot’s stick deflections become the setpoints to the stabilization PIDs directly. That makes ACRO the right mode for closed-loop step-response testing.</p>
 <section id="architecture" class="level2">
 <h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
+<section id="a-generic-pid-control-loop" class="level3">
+<h3 class="anchored" data-anchor-id="a-generic-pid-control-loop">A generic PID control loop</h3>
+<p>Both stabilization loops share the same generic structure: a setpoint enters the loop, gets compared against a measurement to form an error, and the PID + feedforward block computes the actuator output. The 7 building blocks are:</p>
+<ol type="1">
+<li><strong>Stick → setpoint scaling</strong> (<code>CRUISE_SPEED</code> for throttle, <code>ACRO_TURN_RATE</code> for steering).</li>
+<li><strong>Acceleration limiter</strong> on the commanded setpoint (<code>ATC_ACCEL_MAX</code> / <code>ATC_STR_ACC_MAX</code>).</li>
+<li><strong>Target low-pass filter</strong> (<code>*_FLTT</code>) softens setpoint steps before they enter the loop.</li>
+<li><strong>Error junction</strong> subtracting the measured value from the (filtered) setpoint.</li>
+<li><strong>Error low-pass filter</strong> (<code>*_FLTE</code>) attenuates measurement noise on the error.</li>
+<li><strong>PID controller</strong> with separate P, I, D, and FF terms.</li>
+<li><strong>Output sum</strong> combines the PID output with any baseline FF and sends it to the actuator. (The speed loop adds a <code>CRUISE_THROTTLE</code> baseline here; the yaw loop does not.)</li>
+</ol>
+<!-- TBD: insert a generic PID block diagram (drawio source at
+     site/autopilot/images/generic_pid_loop.drawio, exported SVG at
+     site/autopilot/images/generic_pid_loop.svg) that visualizes the
+     7-step structure above with no channel-specific labels.  Reusable
+     across labs.  -->
+</section>
+<section id="ardurover-documentation-diagram" class="level3">
+<h3 class="anchored" data-anchor-id="ardurover-documentation-diagram">ArduRover documentation diagram</h3>
+<p>ArduPilot’s documentation gives this block diagram of the throttle/speed controller:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ardupilot.org/rover/_images/rover-throttle-speed-diagram.jpg" class="img-fluid figure-img"></p>
+<figcaption>Rover throttle / speed controller (from the ArduPilot Rover docs)</figcaption>
+</figure>
+</div>
+<p>It is the same generic structure with ArduRover’s specific parameter names attached. The yaw-rate loop has the same shape with <code>ATC_STR_RAT_*</code> substituted for the <code>ATC_SPEED_*</code> parameters.</p>
+</section>
+<section id="drilling-into-both-channels" class="level3">
+<h3 class="anchored" data-anchor-id="drilling-into-both-channels">Drilling into both channels</h3>
+<p>The diagram below shows both ArduRover loops side-by-side, with the actual ArduPilot logged signals on each wire and parameter names on each tunable block. Two notes before you read it:</p>
+<ol type="1">
+<li><strong>The two channels are not symmetric.</strong> The speed loop adds a <code>CRUISE_THROTTLE</code> baseline FF on the output sum that the yaw loop does not; the rate-limiter parameters have different units (m/s² vs deg/s²); and the loop bandwidths are very different (constrained by GPS update rate for speed, by vehicle dynamics for yaw).</li>
+<li><strong>Signal and parameter names do not follow a strict convention</strong> — neither across channels (<code>ATC_SPEED_*</code> vs <code>ATC_STR_RAT_*</code>) nor within a single channel’s logged signals (<code>THR_DesSpeed</code> vs <code>STER_DesTurnRate</code>; <code>PIDA_*</code> for speed but <code>PIDS_*</code> for steering, where the <code>S</code> is for <em>steering</em>). This is just the way ArduRover names things; the per-channel sections below clarify the mapping.</li>
+</ol>
+<p>The diagram’s purpose is to enumerate every signal (logged channel) and parameter (<code>ATC_*</code>) that is relevant to the stabilization layer.</p>
 <!-- Internal: diagram source is site/autopilot/images/usv_stabilization_arch.drawio
      Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
      After editing, re-export the SVG with:
@@ -176,27 +218,16 @@ ul.task-list li input[type="checkbox"] {
 <figcaption>Speed and yaw-rate stabilization loops</figcaption>
 </figure>
 </div>
-<p>Both loops share the same structure:</p>
-<ol type="1">
-<li><strong>Stick → setpoint scaling</strong> (<code>CRUISE_SPEED</code> for throttle, <code>ACRO_TURN_RATE</code> for steering)</li>
-<li><strong>Acceleration limiter</strong> on the commanded setpoint (<code>ATC_ACCEL_MAX</code> / <code>ATC_STR_ACC_MAX</code>)</li>
-<li><strong>Target low-pass filter</strong> (<code>*_FLTT</code>) — softens setpoint steps before they enter the loop</li>
-<li><strong>Error junction</strong> subtracting the measured value from the (filtered) setpoint</li>
-<li><strong>Error low-pass filter</strong> (<code>*_FLTE</code>) — attenuates measurement noise on the error</li>
-<li><strong>PID controller</strong> with separate P, I, D, and FF terms</li>
-<li><strong>Output sum</strong> — speed loop adds an additional <code>CRUISE_THROTTLE</code> baseline; yaw loop does not</li>
-</ol>
-<p>For <strong>closed-loop step-response experiments</strong>, several of these features are intentionally disabled (acceleration limiters off, throttle baseline off, FF off) so that the response captures the PID dynamics alone. See the per-channel quick references below.</p>
+<!-- TBD: a simpler Lab-2-only version of the above diagram, showing only
+     the signals and parameters students need to focus on for the step-
+     response experiments (drop the legacy / disabled / advanced fields).
+     drawio at site/autopilot/images/usv_stabilization_lab2.drawio. -->
+<p>For <strong>closed-loop step-response experiments</strong> in Lab 2, several of these features are intentionally disabled (acceleration limiters off, throttle baseline off, FF off in the Base case) so that the response captures the PID dynamics alone. See the per-channel quick references below.</p>
+</section>
 </section>
 <section id="logged-channels-a-clarification-on-naming" class="level2">
 <h2 class="anchored" data-anchor-id="logged-channels-a-clarification-on-naming">Logged channels — a clarification on naming</h2>
-<p>The signal names referenced throughout this page (<code>THR_DesSpeed</code>, <code>STER_TurnRate</code>, <code>RCOU_C3</code>, <code>PIDA_*</code>, <code>PIDS_*</code>) are <strong>ArduPilot DataFlash log message types</strong>: the binary <code>.BIN</code> log format that ArduPilot writes to the SD card during a flight/run. They are <em>not</em> MAVLink message names, although several MAVLink messages carry overlapping data.</p>
-<ul>
-<li><strong>DataFlash log (BIN file)</strong> — onboard binary log, complete record of internal state. We extract these with <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>bin2mat.py</code></a> and analyze them in MATLAB.</li>
-<li><strong>MAVLink</strong> — telemetry/command protocol between vehicle and ground station (Mission Planner). Subset of the same data, sent over the radio link.</li>
-</ul>
-<p>For the PID-tuning labs we use the DataFlash log: it has higher rate, more channels, and full PID-internal state via <code>PIDA_*</code> (throttle / speed) and <code>PIDS_*</code> (steering / yaw-rate). The naming is unintuitive (<code>PIDS</code> is <em>steering</em>, not speed) and traces back to the way Rover’s PID logging slots were defined in <a href="https://github.com/ArduPilot/ardupilot/blob/master/Rover/Log.cpp"><code>Rover/Log.cpp</code></a>. An older <code>PIDT_*</code> prefix appeared in earlier firmware but is no longer emitted.</p>
-<hr>
+<p>The signal names referenced throughout this page (<code>THR_DesSpeed</code>, <code>STER_TurnRate</code>, <code>RCOU_C3</code>, <code>PIDA_*</code>, <code>PIDS_*</code>) are <strong>ArduPilot DataFlash log message types</strong>: the binary <code>.BIN</code> log format that ArduPilot writes to the SD card during a flight/run. - <strong>DataFlash log (BIN file)</strong> — onboard binary log, complete record of internal state. We extract these with <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>bin2mat.py</code></a> and analyze them in MATLAB. —</p>
 </section>
 <section id="speed-surge-control" class="level2">
 <h2 class="anchored" data-anchor-id="speed-surge-control">Speed (Surge) Control</h2>
@@ -237,7 +268,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="parameters-atc_speed_-group" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-atc_speed_-group">Parameters — <code>ATC_SPEED_*</code> group</h3>
-<p>PID gains and filter cutoffs:</p>
+<p><strong>Tunable PID gains (the values students change in Lab 2):</strong></p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 17%">
@@ -265,14 +296,14 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><code>ATC_SPEED_I</code></td>
-<td>Integral gain — drives steady-state error to zero</td>
+<td>Integral gain (drives steady-state error to zero)</td>
 <td style="text-align: right;">0.20</td>
 <td style="text-align: right;">0.2</td>
 <td>(motor)/(m/s·s)</td>
 </tr>
 <tr class="odd">
 <td><code>ATC_SPEED_D</code></td>
-<td>Derivative gain — rarely useful (GPS-noisy)</td>
+<td>Derivative gain (rarely useful — GPS-noisy)</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: right;">0</td>
 <td>(motor·s)/(m/s)</td>
@@ -284,6 +315,27 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0</td>
 <td>(motor)/(m/s)</td>
 </tr>
+</tbody>
+</table>
+<p><strong>Other parameters (preset; mostly disabled for the step-response experiments):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Description</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Vehicle</th>
+<th>Units</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td><code>ATC_SPEED_IMAX</code></td>
 <td>Anti-windup clamp on I-term contribution</td>
@@ -319,63 +371,42 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0</td>
 <td>—</td>
 </tr>
-</tbody>
-</table>
-<p>Setpoint shaping and actuator behavior:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 17%">
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 17%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>Description</th>
-<th style="text-align: right;">Default</th>
-<th style="text-align: right;">Vehicle</th>
-<th>Units</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
+<tr class="even">
 <td><code>ATC_ACCEL_MAX</code></td>
 <td>Acceleration limiter on the commanded speed setpoint</td>
 <td style="text-align: right;">1.0</td>
 <td style="text-align: right;">1.0</td>
 <td>m/s²</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>ATC_DECEL_MAX</code></td>
 <td>Deceleration limit; if 0, falls back to <code>ATC_ACCEL_MAX</code></td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td>m/s²</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>ATC_BRAKE</code></td>
 <td>Allow negative motor output for active braking</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td>bool</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>ATC_STOP_SPEED</code></td>
 <td>Below this speed, motor output is forced to zero</td>
 <td style="text-align: right;">0.1</td>
 <td style="text-align: right;">0.1</td>
 <td>m/s</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>CRUISE_SPEED</code></td>
 <td>Stick-to-speed scaling (sets full-stick speed in ACRO)</td>
 <td style="text-align: right;">—</td>
 <td style="text-align: right;">—</td>
 <td>m/s</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>CRUISE_THROTTLE</code></td>
 <td>Baseline throttle FF added at the output sum</td>
 <td style="text-align: right;">—</td>
@@ -408,7 +439,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><code>GPS_Spd</code></td>
-<td>Measured speed (GPS)</td>
+<td>Measured speed reported by the GPS receiver (~5 Hz)</td>
 <td>m/s</td>
 </tr>
 <tr class="odd">
@@ -423,7 +454,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><code>PIDA_Act</code></td>
-<td>PID’s input measurement</td>
+<td>PID’s input measurement (sampled at the PID loop rate)</td>
 <td>m/s</td>
 </tr>
 <tr class="even">
@@ -444,6 +475,15 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>ArduPilot does <strong>not</strong> log a separate <code>Out</code> field; the total controller output is <code>P + I + D + FF</code> (optionally <code>+ DFF</code>). <code>THR_DesSpeed</code> and <code>PIDA_Tar</code> differ only when an upstream filter or rate limiter is active. With the lab settings (acceleration limiters disabled, FLTT off), the two are essentially identical.</p>
+<section id="a-note-on-gps_spd-vs-pida_act" class="level4">
+<h4 class="anchored" data-anchor-id="a-note-on-gps_spd-vs-pida_act">A note on <code>GPS_Spd</code> vs <code>PIDA_Act</code></h4>
+<p>These look like the same quantity (and they are, <em>almost</em>) but they’re sampled differently and routed through different filters before the PID consumes them.</p>
+<ul>
+<li><strong><code>GPS_Spd</code></strong> is the ground-speed estimate produced inside the GPS receiver itself, derived primarily from the Doppler shift of the satellite carrier signals (and to a lesser extent from the time derivative of position fixes). It logs at the GPS message rate, <strong>set by <code>GPS1_RATE_MS</code></strong> (≈ 5 Hz on this vehicle). The receiver-internal estimate is reasonably clean at moderate-to-high speeds but degrades at low speeds (poor Doppler SNR), in multipath environments (near docks, hulls, sea walls), and during brief signal dropouts.</li>
+<li><strong><code>PIDA_Act</code></strong> is the value the speed PID actually consumes as its measurement input each iteration. ArduRover sources it from the EKF velocity estimate, which fuses GPS speed with body-frame IMU acceleration. It is sampled at the PID loop rate (~25–50 Hz), so the channel logs at that higher rate.</li>
+</ul>
+<p>The practical implication for tuning: even though <code>PIDA_Act</code> updates fast, its information bandwidth is still capped by the underlying GPS update (≈ 5 Hz). Pushing the surge-loop bandwidth above that ceiling buys little and tends to amplify GPS noise into the actuator command.</p>
+</section>
 </section>
 <section id="step-response-setup-for-this-lab" class="level3">
 <h3 class="anchored" data-anchor-id="step-response-setup-for-this-lab">Step-response setup for this lab</h3>
@@ -528,7 +568,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="parameters-atc_str_rat_-group" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-atc_str_rat_-group">Parameters — <code>ATC_STR_RAT_*</code> group</h3>
-<p>PID gains and filter cutoffs:</p>
+<p><strong>Tunable PID gains (the values students change in Lab 2):</strong></p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 17%">
@@ -556,14 +596,14 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><code>ATC_STR_RAT_I</code></td>
-<td>Integral gain — eliminates steady-state offset</td>
+<td>Integral gain (eliminates steady-state offset)</td>
 <td style="text-align: right;">0.20</td>
 <td style="text-align: right;">0.2</td>
 <td>(motor)/(rad/s·s)</td>
 </tr>
 <tr class="odd">
 <td><code>ATC_STR_RAT_D</code></td>
-<td>Derivative gain — use sparingly, yaw rate is already a derivative of heading</td>
+<td>Derivative gain (use sparingly; yaw rate is already a derivative of heading)</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: right;">0</td>
 <td>(motor·s)/(rad/s)</td>
@@ -575,6 +615,27 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">2.0</td>
 <td>(motor)/(rad/s)</td>
 </tr>
+</tbody>
+</table>
+<p><strong>Other parameters (preset; mostly disabled for the step-response experiments):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Description</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Vehicle</th>
+<th>Units</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td><code>ATC_STR_RAT_IMAX</code></td>
 <td>Anti-windup clamp on I-term</td>
@@ -603,27 +664,6 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0</td>
 <td>Hz</td>
 </tr>
-</tbody>
-</table>
-<p>Setpoint shaping and limits:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 17%">
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 17%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>Description</th>
-<th style="text-align: right;">Default</th>
-<th style="text-align: right;">Vehicle</th>
-<th>Units</th>
-</tr>
-</thead>
-<tbody>
 <tr class="odd">
 <td><code>ATC_STR_ACC_MAX</code></td>
 <td>Yaw-acceleration limiter on the commanded yaw rate</td>
@@ -661,7 +701,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><code>ATC_STR_ANG_P</code></td>
-<td>Outer-loop heading P gain (HOLD/AUTO only — not active in ACRO)</td>
+<td>Outer-loop heading P gain (HOLD/AUTO only; not active in ACRO)</td>
 <td style="text-align: right;">2.0</td>
 <td style="text-align: right;">2.0</td>
 <td>—</td>
