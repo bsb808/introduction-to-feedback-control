@@ -15,16 +15,18 @@ title: "Procedure"
 **Plan for two field sessions.** Getting clean step responses on the first day is rare. The first session typically surfaces issues (vehicle setup, parameter staging, pilot/scribe rhythm) that need fixing before clean data lands on a second day. Build in time between sessions for laptop-side processing.
 :::
 
+% CLAUDE: Note that all students should read all the instruction and browse the linked documentation **before** the first field session. The procedure is complex and the post-processing relies on the scribe's notes to navigate the resulting `.mat` files; the more familiar everyone is with the procedure and the documentation before the first session, the smoother it will go.  Fold in that they need to have a concept / mental model of the overall lab objectives and experiments **before** going into the field.
+
 ## 1. Pre-lab preparation
 
 ### 1.1 Day before
 
-- Collect: Boat, 900 MHz radio, R/C transmitter, ground laptop (with Mission Planner).
+- Collect: Boat, 900 MHz radio, R/C transmitter, ground laptop (with Mission Planner).  Make sure they are in one place and ready to transport to the field.
 - Charge: Batteries for vehicle propulsion, autopilot, R/C transmitter, ground laptop.
 
 ### 1.2 Day of
 
-- **Test card / data sheet printed** — one row per dataset (six total) for parameter values, observations, and quality-check verdict.
+- **Test card / data sheet printed** — one row per dataset (six total) for parameter values, observations, and quality-check verdict.  [Template](notes/scribe_log.xlsx). This is just a template; students can make their own version if they want, but the key is to have a structured place to record the UTC timestamp and intent for each arm event, which is how the resulting `.mat` files get navigated during post-processing.
 - **Parameter files staged on the laptop.** You are given the **baseline** `.param` for the **Base** experiment.
 - **Roles:**
   - **Planner** — drives Mission Planner: monitors ARM and mode state, watches the real-time tuning graphs, and saves a timestamped parameter export at the start of each run.
@@ -33,10 +35,13 @@ title: "Procedure"
 
 ## 2. Shore setup
 
-Steps to confirm at the launch site, before any data collection.
-
+As we did in lab one  confirm at the launch site, before any data collection.
+- SAFETY - Make sure to stay clear of the propellers when the boat propulsion batteries are connected.
+- Before powering on the autopilot, make sure there is an SD card 
+- Power on the autopilot 
 - Establish telemetry link with Mission Planner.
 - Load the baseline `.param` file and confirm the relevant `ATC_*` parameters are at the expected values. See the [Stabilization Layer](../../autopilot/stabilization.qmd) reference for what each parameter does.
+- Power on boat propulsion system
 - Confirm you can ARM and switch from MANUAL to ACRO modes.
 - You may need to re-bind the RC transmitter and/or calibrate sensors.
 
@@ -82,7 +87,7 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
     - Scribe records the surge speed at the time of each step, the step fraction, and the direction.
 12. Pilot **disarms** to close the yaw-trial log.
 
-#### Field quality check (before changing parameters or leaving the field)
+#### Field quality check (before changing parameters or leaving the field)  % CLAUDE: Refactor this.  Because the BIN files need to be converted to mat files with the bin2mat.py (insert link) before they can be plotted in MATLAB, the quality check step can't be done until after the field session.  Students are welcome to try this step if they are familiar with running command line Python programs, but the default is to have the instructor process all the day's data after the session.  This is the reason we will likely need two field session days: the first day surfaces issues that need fixing before clean data lands on a second day.
 
 13. Pull both `.BIN` logs (SD card or via Mission Planner). Convert each with [`bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py).
 14. Plot in MATLAB with [`proc_closedloop_response.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/proc_closedloop_response.m).
@@ -100,28 +105,34 @@ Run the following sequence three times, once per experiment (Base → FeedForwar
 | Experiment | Parameter changes from previous | Notes |
 |---|---|---|
 | **Base** | Lab preset configuration; ArduRover stock PID gains; FF off; rate limiters off; throttle baseline off | First case — fully load the lab baseline `.param` |
-| **FeedForward** | Restore `ATC_SPEED_FF` and `ATC_STR_RAT_FF` to lab values | Same PID gains as Base |
+| **FeedForward** | Restore `ATC_SPEED_FF` and `ATC_STR_RAT_FF` to lab values | Same PID gains as Base |  % CLAUDE: Change this throughout.  We don't think of the FF as coming from the default install.   Instead, students will use the DC gain of the speed an yaw rate plant models.   The standard models we use G_speed(s) = \frac{5.1}{1.3 s + 1} and G_yaw-rate = \frac{0.82}{0.51 s +1}.   Add specific instructions for the FF experiments to set the FF gains to 1/K_dc, where K_dc is the DC gain of the plant model for that channel.  This way, the FF values are grounded in the physics of the system and not just "the lab values".  It also gives students a concrete example of how to use a plant model to set a feedforward gain.
 | **Tuned** | Adjust `ATC_SPEED_P/I/D` and `ATC_STR_RAT_P/I/D` for best response | FF kept on. Use Mission Planner's real-time tuning graphs to iterate on candidate gains; only execute the full arm-disarm logging cycle (steps 3–17) for the gain values you decide to keep. |
+
+
+% CLAUDE: Use https://ardupilot.org/rover/docs/rover-tuning-throttle-and-speed.html - the section "Desired Speed to Throttle PID Tuning" as a start and draft a high level outline of how students can use Mission Planner's real-time tuning graphs to tune the speed channel.  For the yaw-rate channel, we don't have a specific ArduPilot doc to point to, but the same general approach applies: use the real-time tuning graphs to iteratively adjust the P/I/D gains, then execute the arm-disarm logging cycle for the gain values you decide to keep.  
 
 ### 3.4 Common gotchas
 
 - **Don't change parameters while ARMed.** Parameter changes get baked into the active log in a way that makes it hard to verify what was active when. Disarm, change, save the new param file, then re-arm.
-- **It's easy to forget ACRO.** A test in MANUAL looks identical to one in ACRO from the pilot's perspective, but the closed-loop controllers aren't engaged. The planner's ACRO confirmation in step 5 / step 10 is the safety net; don't skip it.
+- **Verify ACRO mode .** A test in MANUAL looks identical to one in ACRO from the pilot's perspective, but the closed-loop controllers aren't engaged. The planner's ACRO confirmation in step 5 / step 10 is the safety net; don't skip it.
 - **Inter-step gap too short.** Between repeats within a run, allow the response to fully settle (return to rest, or to baseline yaw rate) before the next step. A short gap mixes one step's tail into the next step's start.
-- **Saturation.** If the control effort pins at ±1 (full PWM) for an extended period, what you're measuring is the *saturated* dynamics, not the linear closed-loop response. Drop the step magnitude, or in **Tuned** gain authority through tuning.
-- **Same step fraction across Base / FeedForward / Tuned.** Comparing rise time, overshoot, and steady-state error across experiments only makes sense if the input is the same magnitude every time.
+- **Same step fraction across Base / FeedForward / Tuned.** Comparing rise time, overshoot, and steady-state error across experiments should be done using equivalent amplitude step inputs for the tests.  Since the pilot is setting the amplitue, try to be consistent with command amplitude across the three test cases.
 - **One channel per arm-disarm cycle.** Don't intermingle speed and yaw steps in the same log; it makes the MATLAB inspection harder than it needs to be.
-- **Two timezones.** ArduPilot logs and the post-processed `.mat` filenames are in **UTC**. Scribe notes are in local time. The post-processing step adds the UTC stamp to the filename automatically; the scribe should record UTC at the field too so the two match without arithmetic later.
+- **Two timezones.** ArduPilot logs and the post-processed `.mat` filenames are in **UTC**. Scribe notes are in local time. The post-processing step adds the UTC stamp to the filename automatically; the scribe should record UTC at the field too so the two match without arithmetic later.  The instructors try to use UTC format `YYYYMMDD_HHMMSS` for the filename timestamp
 
 ## 4. End-of-day
 
 Wrap up the field session.
 
-- All six `.mat` files transferred to the team's shared location.
-- Test card filled in (one row per dataset, with quality-check verdict).
-- Vehicle returned to nominal parameter configuration (rate limiters restored, FF restored, throttle baseline restored). Load a `.param` file with the post-lab nominal values.
-- Battery on charger, vehicle stowed.
+- All six `.mat` files transferred to the hared data repository: [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ).  This is where to upload your raw (`*.BIN`) autopilot logs for processing.  Add a subfolder for your team (e.g. `TeamX`) and upload there.  The instructors will convert the logs to MATLAB (`*.mat`) format.
+    - Also put a copy of scribes notes, any param files exported from Mission Planner.  
+    - If you have any photos or other materials, feel free to put them all in the same folder.
+- All batteries disconnected.
+- Boat drained of water, drain on charger, vehicle stowed with the rest of the teams lab materials: boat, 900 MHz radio, R/C transmitter.
 
-## 5. Hand-off to next week
+## Post-processing and quality check
 
-Datasets and notes are the input to the Week-8 analysis: process each `.mat` with [`closedloop_stepinfo.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_stepinfo.m) to extract rise time, settling time, overshoot, and steady-state error, then compare across the three experiments.
+% CLAUDE: Here is the outline
+- Work with instructors to get the `.BIN` files converted to `.MAT` files with the `bin2mat.py` script.  The resulting `.MAT` files are what the MATLAB analysis scripts expect.
+- The quality check and processing to isolate and measure the step response follows [closedloop_assess_example.m](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m).  Students shoudl be able to adapt that to their own log file names and run it on their own `.mat` files to generate the step response plots and metrics.  The key is to have the scribe's notes with the UTC timestamps so you can map each `.mat` file back to what was being tested in the field.
+    - Suggestion is to run the script against each of the six experiment-channel `.mat` files to generate the timeseries and verify that you captured a clean step response.  We can work through isolating the step reponse and processing the quantitive metrics together in class next week, but the initial plotting and visual inspection can be done by each team on their own.
