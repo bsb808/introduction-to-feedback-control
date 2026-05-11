@@ -22,11 +22,10 @@ For each experiment, both the **speed (surge / throttle)** loop and the **yaw-ra
 
 For each of the six cases (three experiments × two channels), you will
 
-* Plot the closed-loop step response timeseries to visualize the transient and steady-state behavior
-* Plot the PID internals (target vs actual, per-term breakdown) to understand how the controller is operating and generating the actuator commands.  This includes the \emph{controller effort} (P/I/D/FF) breakdown, which is critical for understanding the relative contribution of each term to the overall response and diagnosing issues like excessive overshoot (too much P), long settling time (too little D), or integrator windup (excessive I).  Controller effort is also a key aspect of the "best" response characterization, since we want to achieve good performance with minimal control effort.
-* Quantify the transient and steady-state performance metrics compare across the three experiments for each channel. 
-  * Review the [example results](results.qmd): timeseries and PID signals for each of the six cases (and integrator-windup demonstration), and a summary performance metrics 
-
+* Plot the closed-loop step response timeseries to visualize the transient and steady-state behavior.
+* Plot the PID internals (target vs actual, per-term breakdown) to understand how the controller is operating and generating the actuator commands.  This includes the *controller effort* (P/I/D/FF) breakdown, which is critical for understanding the relative contribution of each term to the overall response and diagnosing issues like excessive overshoot (too much P), long settling time (too little D), or integrator windup (excessive I).  Controller effort is also a key aspect of the "best" response characterization, since we want to achieve good performance with minimal control effort.
+* Quantify the transient and steady-state performance metrics, then compare across the three experiments for each channel.
+  * Review the [example results](results.qmd): timeseries and PID signals for each of the six cases (plus an integrator-windup demonstration) and a summary of performance metrics.
 
 ## Schedule
 
@@ -49,14 +48,15 @@ Before the field session, review the **[Autopilot → Stabilization Layer](../..
 ### Students
 
 - Shared data repository: [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ).  This is where to upload your raw (`*.BIN`) autopilot logs for processing.  Add a subfolder for your team (e.g. `TeamX`) and upload there.  The instructors will convert the logs to MATLAB (`*.mat`) format.
-- Analysis script — [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m).  % CLAUDE: Is it possible to insert a line feed here so the next line has the same indentation?  I'd like to learn how.
-Modifying this script for your datasets is the main deliverable for the lab. 
-Driver for loading a single `.mat`, plotting the timeseries + PID internals, and reporting the step-response metrics.
-  - Download the directory [`book/w07_lab_usv_pid/code/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code) and open the example from that directory.  The example depends on other files in the directory.
+- **Analysis script** — [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m). Loads a single `.mat`, plots the timeseries and PID internals, and reports the step-response metrics.
+
+  **Modifying this script for your datasets is the main deliverable for the lab.**
+
+  - Download the directory [`book/w07_lab_usv_pid/code/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/book/w07_lab_usv_pid/code) and open the example from that directory; it depends on other helper files in the same folder.
 
 ### Instructors
 
-Students are welcome to use these, but explaining them is beyond the scope of the class % CLAUDE: show me out to insert wink emojis in markdown.
+Students are welcome to use these, but explaining them is beyond the scope of the class 😉
 
-- [`closedloop_assess_main.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m) — extention of the same logic [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m) to process full dataset. 
+- [`closedloop_assess_main.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_main.m) — extension of the same logic as [`closedloop_assess_example.m`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/code/closedloop_assess_example.m) to process the full dataset. 
 - Log conversion — [`bin2mat.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py)
