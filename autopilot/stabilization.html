@@ -173,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="a-generic-pid-control-loop">A generic PID control loop</h3>
 <p>Both stabilization loops share the same generic structure: a setpoint enters the loop, gets compared against a measurement to form an error, and the PID + feedforward block computes the actuator output. The 7 building blocks are:</p>
 <ol type="1">
-<li><strong>Stick → setpoint scaling</strong> (<code>CRUISE_SPEED</code> for throttle, <code>ACRO_TURN_RATE</code> for steering).</li>
+<li><strong>Stick → setpoint scaling</strong> The controller’s input is a target value (also known as a setpoint, comThis specifies how the R/C stic(<code>CRUISE_SPEED</code> for throttle, <code>ACRO_TURN_RATE</code> for steering).</li>
 <li><strong>Acceleration limiter</strong> on the commanded setpoint (<code>ATC_ACCEL_MAX</code> / <code>ATC_STR_ACC_MAX</code>).</li>
 <li><strong>Target low-pass filter</strong> (<code>*_FLTT</code>) softens setpoint steps before they enter the loop.</li>
 <li><strong>Error junction</strong> subtracting the measured value from the (filtered) setpoint.</li>
@@ -181,11 +181,18 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>PID controller</strong> with separate P, I, D, and FF terms.</li>
 <li><strong>Output sum</strong> combines the PID output with any baseline FF and sends it to the actuator. (The speed loop adds a <code>CRUISE_THROTTLE</code> baseline here; the yaw loop does not.)</li>
 </ol>
-<!-- TBD: insert a generic PID block diagram (drawio source at
-     site/autopilot/images/generic_pid_loop.drawio, exported SVG at
-     site/autopilot/images/generic_pid_loop.svg) that visualizes the
-     7-step structure above with no channel-specific labels.  Reusable
-     across labs.  -->
+<!-- Internal: diagram source is site/autopilot/images/generic_pid_loop.drawio
+     Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
+     After editing, re-export the SVG with:
+       drawio --export --format svg \
+         --output site/autopilot/images/generic_pid_loop.svg \
+         site/autopilot/images/generic_pid_loop.drawio -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/generic_pid_loop.svg" class="img-fluid figure-img" alt="Generic PID block diagram with setpoint scaling, acceleration limiter, target LPF, error junction, error LPF, PID controller, output sum, plant, and feedback loop, with a feedforward branch from the setpoint to the output sum."></p>
+<figcaption>Generic PID control loop with feedforward and setpoint shaping. Numbers ① – ⑦ correspond to the 7 building blocks listed above.</figcaption>
+</figure>
+</div>
 </section>
 <section id="ardurover-documentation-diagram" class="level3">
 <h3 class="anchored" data-anchor-id="ardurover-documentation-diagram">ArduRover documentation diagram</h3>
