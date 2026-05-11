@@ -56,6 +56,10 @@ ArduRover stock PID gains, FF off, rate limiters off, throttle baseline off. The
 
 ### Base - Yaw-rate
 
+::: {.callout-warning appearance="simple"}
+**Known setup issue in this dataset:** the baseline parameter file shipped with `ACRO_TURN_RATE = 360` deg/s (≈ 6.28 rad/s), well above what the boat can physically achieve. Full-stick yaw commands therefore mapped to an unrealistically large setpoint, and the measured yaw rate plateaus far below the commanded value — visible as a large steady-state error in the figures and the metrics table. The procedure now has students reduce `ACRO_TURN_RATE` to a value the boat can actually track.
+:::
+
 :::: {.columns}
 ::: {.column width="50%"}
 ![Base / yaw — timeseries (setpoint, measured EKF yaw rate, rudder command)](images/base_yaw_response.png)
