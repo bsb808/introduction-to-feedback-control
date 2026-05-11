@@ -231,6 +231,16 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="yaw-rate-steering-channel">Yaw-rate (Steering) Channel</h2>
 <section id="base---yaw-rate" class="level3">
 <h3 class="anchored" data-anchor-id="base---yaw-rate">Base - Yaw-rate</h3>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Known setup issue in this dataset:</strong> the baseline parameter file shipped with <code>ACRO_TURN_RATE = 360</code> deg/s (≈ 6.28 rad/s), well above what the boat can physically achieve. Full-stick yaw commands therefore mapped to an unrealistically large setpoint, and the measured yaw rate plateaus far below the commanded value — visible as a large steady-state error in the figures and the metrics table. The procedure now has students reduce <code>ACRO_TURN_RATE</code> to a value the boat can actually track.</p>
+</div>
+</div>
+</div>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
