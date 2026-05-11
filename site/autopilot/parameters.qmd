@@ -1,0 +1,126 @@
+---
+title: "Autopilot Parameters"
+subtitle: "Reference for setting and verifying ArduRover parameters on the USV"
+---
+
+[← Back to Autopilot](index.qmd)
+
+::: {.callout-note appearance="simple"}
+This page is the entry point for ArduRover parameters on the USV: how parameters are stored, how to load the lab baseline, which parameters depart from the factory default and why, and where in the ArduPilot source code to verify the implementation of a given parameter.
+:::
+
+## What is an ArduPilot parameter?
+
+ArduPilot exposes its run-time configuration as a flat list of named scalar parameters (`ATC_SPEED_P`, `CRUISE_SPEED`, `FRAME_CLASS`, ...). The flight controller stores the active values in non-volatile memory and applies them every boot. Mission Planner and QGroundControl read and write them over MAVLink; we also save and load **parameter files** (`.param`) — simple `NAME,VALUE` text files — to capture and reproduce a configuration.
+
+ArduPilot's authoritative reference for every parameter is the [Full Parameter List for ArduRover](https://ardupilot.org/rover/docs/parameters.html). That page enumerates names, units, ranges, and defaults for the firmware version it was built against. **Defaults and ranges can change between firmware versions** — always verify against the source if behavior is unclear.
+
+We use **ArduRover V4.6.3 (commit `3fc7011a`)** in these labs.
+
+## How parameters live in this repo
+
+| Location | Contents |
+|---|---|
+| [`utils/ardu_params/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/utils/ardu_params) | Versioned `.param` snapshots: factory-default reference and lab baselines |
+| [`utils/ardu_params/README.md`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md) | Step-by-step Mission Planner / QGroundControl load procedure and a baseline-vs-default summary |
+| `site/autopilot/parameters.qmd` (this page) | Reference: what departs from default and why, source-code anchors, discovered behavior |
+| [`site/autopilot/stabilization.qmd`](stabilization.qmd) | Architecture deep dive: how the `ATC_SPEED_*` and `ATC_STR_RAT_*` PID loops are wired together (Lab 2) |
+| [`site/autopilot/atc_params.qmd`](atc_params.qmd) | Per-parameter reference for the `ATC_*` controllers — units, ranges, vehicle values, source-code anchors |
+
+A parameter file is the simplest reproducible record of an autopilot configuration. To reproduce a lab setup on a different vehicle: load the file via Mission Planner, reboot, then re-run the per-vehicle calibrations (compass, accelerometer, RC) — the calibrated values in the `.param` file belong to the vehicle the file was captured from.
+
+## Baseline configuration — departures from factory default
+
+The full functional-change list is documented in the [`utils/ardu_params/README.md`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md). The summary below organizes the changes by subsystem so you can locate the relevant parameter quickly. For per-parameter detail (units, ranges, source-code anchor), see the per-subsystem deep-dive pages or the canonical ArduPilot parameter list.
+
+### Vehicle frame
+- `FRAME_CLASS = 2` (Boat). Selects the boat motor mixer instead of the default rover mixer.
+
+### Sensors and bus
+- `CAN_P1_DRIVER = 1`, `CAN_P2_DRIVER = 1` — enable CAN drivers (the USV uses a DroneCAN GPS).
+- `GPS1_TYPE = 9` (DroneCAN) and `GPS1_CAN_NODEID = 124` — route the GPS through CAN instead of serial.
+- `COMPASS_EXTERNAL = 1` — use the external compass on the GPS mast.
+
+### Stabilization layer (speed and yaw-rate PID)
+See [atc_params.qmd](atc_params.qmd) for the per-parameter reference and [stabilization.qmd](stabilization.qmd) for the loop architecture and how the parameters fit together. Headline changes:
+- `ATC_BRAKE = 0` — disable active braking. Boats decelerate via hydrodynamic drag, not reverse thrust.
+- `ATC_STR_RAT_FF = 0`, `ATC_STR_ACC_MAX = 0` — disable steering-channel feedforward and acceleration limiting (lab step-response measurements; restore for normal autonomous operation).
+- `ATC_ACCEL_MAX = 10` — increase speed-channel acceleration cap from the default 1 m/s².
+- `ATC_TURN_MAX_G = 10` — lift the coordinated-turn lateral-g cap so it does not constrain the boat in higher modes.
+- `ACRO_TURN_RATE = 360` deg/s — stick-to-rate scaling in ACRO mode (note: file value is 360, but for the actual lab vehicle we reduce this to a rate the boat can achieve; see the [stabilization page](stabilization.qmd) for the AY26Q3 note).
+
+### Navigation
+- `PSC_VEL_P = 6` — position-controller velocity P gain, used in HOLD, LOITER, AUTO.
+- `CRUISE_SPEED = 5` m/s and `CRUISE_THROTTLE = 0` % — use the speed controller (not open-loop cruise throttle).
+- `WP_RADIUS = 1` m — tighter waypoint acceptance for the lab course.
+
+### Motor and actuator scaling
+- `MOT_THR_MIN = 20` % — minimum commanded throttle when armed; prevents the motor from idling below the threshold where the thruster generates useful force.
+- `SERVO3_MIN = 1300`, `SERVO3_MAX = 1670` — vehicle-specific ESC PWM endpoints (calibrated to the thruster).
+
+### Modes, arming, and safety
+- `MODE_CH = 6`, `MODE1 = 10` (Auto), `MODE4 = 1` (Acro) — pick the two modes used in the labs and map them to the transmitter switch.
+- `BRD_SAFETY_DEFLT = 0` — the hardware safety switch is not present on this hull; do not require it on boot.
+- `AUTO_KICKSTART = 2` — auto mode requires a throttle-stick "kickstart" before motors engage. Adds a manual gate before the boat starts moving autonomously.
+
+### Telemetry and logging
+- `LOG_DISARMED = 1`, `LOG_FILE_DSRMROT = 1` — log even when disarmed; rotate the log file on every disarm.
+- `SR1_*` increased from 1 Hz to 2–4 Hz — higher telemetry rate to the GCS over the telemetry radio (port 1).
+- `GCS_PID_MASK = 2` — stream the steering PID's internal states (`PIDS_*`) to the GCS for real-time inspection.
+
+### Calibration values (do not hand-edit)
+The baseline file also contains compass offsets/scales, accelerometer offsets, gyro offsets, barometer ground-pressure, and RC-channel endpoints. These are **vehicle- and location-specific** and are written by the calibration wizards. When loading the baseline onto a new vehicle, re-run the calibrations afterward.
+
+## Parameter reference conventions
+
+The per-parameter entries on subsystem pages (e.g. [atc_params.qmd](atc_params.qmd)) follow this convention:
+
+| Field | Meaning |
+|---|---|
+| **Description** | What the parameter does, in plain language |
+| **Units** | Physical units (or `bool`, `bitmask`, `normalized`, ...) |
+| **Range** | Min/max allowed by the firmware (from the `AP_GROUPINFO` macro) |
+| **Default** | Source-default value for ArduRover V4.6.3 (from the `.cpp` file) |
+| **Vehicle** | Value on our USV (from the baseline `.param` file). Only shown when it departs from the source default |
+| **Notes** | Tuning intuition, units gotchas, undocumented behavior, lab-specific gotchas |
+| **Source** | Link to the `AP_GROUPINFO` macro declaring the parameter and the call site that consumes it |
+
+The **Source** entry is the most useful field when the documentation is ambiguous or out of date. ArduPilot's web docs are auto-generated from the `// @Description` comments in source, so when those drift from the implementation, the source is the truth.
+
+## ArduPilot source-code anchors
+
+The parameter implementations live in a small set of files. When verifying what a parameter actually does, start here:
+
+| File | Purpose |
+|---|---|
+| [`libraries/APM_Control/AR_AttitudeControl.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp) | `ATC_*` parameter declarations and the speed/yaw-rate PID call sites |
+| [`libraries/APM_Control/AR_AttitudeControl.h`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.h) | Class interface (function signatures, member variables) |
+| [`libraries/AC_PID/AC_PID.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp) | Generic PID implementation that backs every `_P`, `_I`, `_D`, `_FF`, `_FLT*`, `_IMAX`, `_SMAX`, `_PDMX` parameter. The arithmetic runs once per cycle in `AC_PID::update_all()` (around line 105 on `master`) |
+| [`libraries/APM_Control/AR_PosControl.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_PosControl.cpp) | `PSC_*` position/velocity controller used in HOLD, LOITER, AUTO |
+| [`Rover/Parameters.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/Rover/Parameters.cpp) | Vehicle-level parameters (frame class, modes, kickstart, cruise speed / cruise throttle) |
+| [`libraries/AP_HAL/`](https://github.com/ArduPilot/ardupilot/tree/master/libraries/AP_HAL) | Hardware abstraction (board, CAN, serial port parameters) |
+
+::: {.callout-tip appearance="simple"}
+**Line numbers on `master` drift.** When a Source link no longer lands on the expected definition, search the file for the parameter name (or the `AP_GROUPINFO("NAME", …)` macro). The parameter name is the stable handle, not the line number.
+:::
+
+## Undocumented or surprising behavior (running list)
+
+These are details we've found in source or logs that are not clearly stated in the user-facing ArduPilot docs. Add new entries as we discover them.
+
+- **No `Out` field is logged for PID messages.** `PIDA_*` and `PIDS_*` log the individual P, I, D, and FF terms separately. The total controller output is `P + I + D + FF` (optionally `+ DFF`). Reconstruct it in post-processing rather than looking for a single output column.
+- **`ACRO_TURN_RATE` is configured in deg/s but routed into the yaw-rate loop in rad/s.** Logged setpoints (`STER_DesTurnRate`, `PIDS_Tar`) are in rad/s — verify units before comparing to the parameter value.
+- **`GPS_Spd` ≠ `PIDA_Act`.** `GPS_Spd` is the raw GPS-receiver speed estimate, logged at the GPS message rate (`GPS1_RATE_MS`, ~5 Hz). `PIDA_Act` is the EKF-fused velocity the PID actually consumes, logged at the PID loop rate (25–50 Hz). The fast `PIDA_Act` channel is still information-bandwidth-limited by the underlying GPS update.
+- **`THR_DesSpeed` ≠ `PIDA_Tar` in general.** `THR_DesSpeed` is the setpoint before the input-side filters; `PIDA_Tar` is what the PID actually integrates against (after rate limiting and target LPF). With `ATC_ACCEL_MAX = 0` and `ATC_SPEED_FLTT = 0` (the lab settings), the two are identical.
+- **`IMAX` clamps the I-term's output contribution, not the summed PID output.** `PIDA_I` (logged) is the post-clamp I-term, separate from `PIDA_P` and `PIDA_D`. Saturating the total output is `_PDMX`/`_SMAX`'s job.
+- **Legacy `_FILT` parameter superseded by split `_FLTT` / `_FLTE` / `_FLTD`.** Older parameter files (or older documentation) may reference `ATC_SPEED_FILT` or `ATC_STR_RAT_FILT`. These are kept for migration but the three split filters take precedence in modern firmware. Search `AC_PID.cpp` for `FILT` to see the alias logic.
+- **`ATC_BRAKE` controls the *sign* of the speed output, not whether the loop closes.** With `ATC_BRAKE = 0` (boat baseline), the controller cannot command negative throttle to actively slow the boat; the speed loop still runs, but deceleration is hydrodynamic drag only.
+- **`COMPASS_DEC` is the magnetic declination at the vehicle's home position.** It is set automatically (or copied from a world magnetic model) and is not the same as `COMPASS_AUTODEC`, which is the *behavior flag* that controls whether autopilot updates `COMPASS_DEC` automatically on new location.
+
+## See also
+
+- **[ATC parameter reference](atc_params.qmd)** — per-parameter reference for the `ATC_SPEED_*` and `ATC_STR_RAT_*` parameters used in Lab 2 (units, ranges, vehicle values, source-code anchors)
+- **[Stabilization layer — Speed and Yaw-Rate PID](stabilization.qmd)** — how the speed and yaw-rate loops are wired together (architecture, signal flow, lab step-response setup)
+- **[ArduPilot doc references (curated)](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md)** — entry points into upstream ArduPilot documentation
+- [Rover Full Parameter List](https://ardupilot.org/rover/docs/parameters.html) (upstream, authoritative)
+- [Rover Tuning Process Overview](https://ardupilot.org/rover/docs/rover-tuning-process.html) (upstream)

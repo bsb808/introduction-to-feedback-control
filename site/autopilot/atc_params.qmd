@@ -1,11 +1,17 @@
-# ArduRover Speed and Steering ATC Parameters — Reference Notes
+---
+title: "ATC Parameter Reference — Speed and Steering"
+subtitle: "Per-parameter reference for the `ATC_*` controllers used in the USV labs"
+page-layout: full
+---
 
-Reference for the `ATC_*` parameters that govern the closed-loop speed and yaw-rate controllers used in this course's USV labs (ACRO mode).
+[← Back to Autopilot](index.qmd) &nbsp;·&nbsp; [Parameter overview](parameters.qmd) &nbsp;·&nbsp; [Stabilization layer](stabilization.qmd)
+
+Reference for the `ATC_*` parameters that govern the closed-loop speed and yaw-rate controllers used in this course's USV labs (ACRO mode). Companion to the higher-level [stabilization layer page](stabilization.qmd), which explains how these parameters fit into the loop architecture; this page is the dense per-parameter look-up table with units, ranges, vehicle values, and source-code anchors.
 
 - **Authoritative parameter list (firmware version-tracked):** [ardupilot.org/rover/docs/parameters.html](https://ardupilot.org/rover/docs/parameters.html)
 - **Source of truth for defaults / ranges / behavior:** [`libraries/APM_Control/AR_AttitudeControl.cpp`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp) on GitHub
 
-Defaults below are taken from the `AR_AttitudeControl.cpp` source on `master`. Where our test vehicle (`42926_boat_tests_2801` parameter dump) differs from the source default, the vehicle value is shown as **Vehicle:**.
+Defaults below are taken from the `AR_AttitudeControl.cpp` source on `master`. Where our test vehicle differs from the source default, the vehicle value is shown as **Vehicle:** and reflects the lab baseline file [`utils/ardu_params/2026_05_06_baseline_3.2.param`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/2026_05_06_baseline_3.2.param).
 
 ---
 
@@ -15,7 +21,12 @@ ACRO mode runs two independent PID loops, one per channel. Both share the same s
 
 ![ATC PID architecture — speed and yaw-rate loops](images/atc_pid_architecture.svg)
 
-*Source: [`images/atc_pid_architecture.drawio`](images/atc_pid_architecture.drawio) — edit in [diagrams.net](https://app.diagrams.net) or the VS Code "Draw.io Integration" extension, then re-export with `drawio --export --format svg --output atc_pid_architecture.svg atc_pid_architecture.drawio`.*
+<!-- Internal: diagram source is site/autopilot/images/atc_pid_architecture.drawio
+     Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
+     After editing, re-export the SVG with:
+       drawio --export --format svg \
+         --output site/autopilot/images/atc_pid_architecture.svg \
+         site/autopilot/images/atc_pid_architecture.drawio -->
 
 In higher modes (HOLD, LOITER, AUTO, etc.) an outer **heading** loop (`ATC_STR_ANG_P`) wraps the yaw-rate loop, converting heading error to a desired yaw rate. ACRO bypasses that outer loop — the pilot stick commands yaw rate directly.
 
@@ -26,6 +37,7 @@ In higher modes (HOLD, LOITER, AUTO, etc.) an outer **heading** loop (`ATC_STR_A
 The PID-internal parameters (`_P`, `_I`, `_D`, `_FF`, `_IMAX`, `_FLT*`, `_SMAX`, `_PDMX`, `_D_FF`, `_NTF`, `_NEF`) are not implemented in `AR_AttitudeControl.cpp` directly. That file holds two `AC_PID` instances — one for the [steering-rate loop (line 116)](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L116) and one for the [speed loop (line 182)](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L182) — and the `_P` / `_I` / etc. parameters are sub-group fields of those `AC_PID` instances. The actual P/I/D/FF arithmetic runs once per cycle in [`AC_PID::update_all()`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105) in `AC_PID.cpp`.
 
 Per-parameter **Source:** links below point to:
+
 - The `AP_GROUPINFO` macro that declares the parameter (its name, range, storage)
 - The call site (function or line) where the parameter's value actually changes behavior
 
@@ -55,7 +67,6 @@ All links are pinned to `master`. Line numbers can drift over time; if a link do
 - **Range:** 0.000 – 0.400 &nbsp; **Default:** 0.00 &nbsp; **Vehicle:** 0
 - **Notes:** Rarely useful for surge speed control on a USV — speed is GPS-noisy and derivative kick is undesirable. Leave at 0 unless you have a specific reason.
 - **Source:** [`D` defined at AC_PID.cpp:15](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L15) → derivative computed in [`AC_PID::update_all()`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105).
-
 
 ### `ATC_SPEED_FF`
 - **Description:** Feed-forward gain — output proportional to the **setpoint** (not the error).
@@ -98,7 +109,6 @@ All links are pinned to `master`. Line numbers can drift over time; if a link do
 
   Rate-limiting noise wouldn't help (noise isn't a slope problem). Filtering a step command would slow everything, including the part of the response the controller is trying to track. Each tool is matched to the kind of signal at that point in the loop.
 - **Source:** [`FLTT` at AC_PID.cpp:31](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L31), [`FLTE` at AC_PID.cpp:35](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L35), [`FLTD` at AC_PID.cpp:39](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L39) → filters applied in [`AC_PID::update_all()`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_PID/AC_PID.cpp#L105).
-
 
 ### `ATC_SPEED_FILT` *(legacy)*
 - **Description:** Pre-FLTT/FLTE/FLTD filter parameter — superseded by the three split filters above.
@@ -236,7 +246,7 @@ Same role as the equivalent `ATC_SPEED_*` parameters above. All default to 0 (di
 
   - `ATC_ACCEL_MAX` bounds the *time derivative* of the speed setpoint (m/s²). It is a **rate limiter** — it shapes how fast the setpoint can change.
   - `ATC_STR_RAT_MAX` is a *fixed* cap on the yaw-rate setpoint (deg/s).
-  - `ATC_TURN_MAX_G` is a **speed-dependent cap on the yaw rate**, derived from the *lateral* (centripetal) acceleration in a turn. In a coordinated turn the lateral acceleration is approximately $v \cdot \omega$ (forward speed times yaw rate), so capping that to $g \cdot \texttt{ATC\\_TURN\\_MAX\\_G}$ tightens the allowable yaw rate as the boat moves faster: $\omega_{\max} = g \cdot \texttt{ATC\\_TURN\\_MAX\\_G} / v$.
+  - `ATC_TURN_MAX_G` is a **speed-dependent cap on the yaw rate**, derived from the *lateral* (centripetal) acceleration in a turn. In a coordinated turn the lateral acceleration is approximately $v \cdot \omega$ (forward speed times yaw rate), so capping that to $g \cdot \texttt{ATC\_TURN\_MAX\_G}$ tightens the allowable yaw rate as the boat moves faster: $\omega_{\max} = g \cdot \texttt{ATC\_TURN\_MAX\_G} / v$.
 
   At typical USV speeds (1–5 m/s) and yaw rates (≤ 36 deg/s ≈ 0.63 rad/s) the lateral acceleration stays below ~0.3 g, so the default 0.6 g cap rarely engages — even in ACRO, where the function is called on the pilot's stick-commanded rate. It becomes relevant in higher-speed operation and in autonomous modes where the autopilot plans tight turns.
 - **Source:** [Defined at AR_AttitudeControl.cpp:381](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L381) → consumed in [`AR_AttitudeControl::get_steering_out_rate()` at line 289](https://github.com/ArduPilot/ardupilot/blob/master/libraries/APM_Control/AR_AttitudeControl.cpp#L289).

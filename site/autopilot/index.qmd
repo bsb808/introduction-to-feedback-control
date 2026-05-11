@@ -18,12 +18,14 @@ Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, L
 
 ## Documentation
 
-- **[Stabilization layer — speed and yaw-rate PID](stabilization.qmd)** — design and implementation of the lowest-level control loops, with full parameter and log-channel reference.
+- **[Autopilot parameters](parameters.qmd)** — how parameters are stored and loaded, baseline-vs-default summary, source-code anchors, and a running list of undocumented behavior we've discovered.
+- **[Stabilization layer — speed and yaw-rate PID](stabilization.qmd)** — architecture of the lowest-level control loops, with full log-channel reference.
+- **[ATC parameter reference](atc_params.qmd)** — dense per-parameter look-up table for the `ATC_*` controllers (units, ranges, vehicle values, source-code anchors).
 - **[ArduPilot doc references](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md)** — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis).
 
 ## Parameters
 
-The vehicle parameter snapshots (`.param` files) and per-lab baseline configurations live in [`utils/ardu_params/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/utils/ardu_params). See the [README](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md) there for which file corresponds to which lab and how to load it via Mission Planner.
+The vehicle parameter snapshots (`.param` files) and per-lab baseline configurations live in [`utils/ardu_params/`](https://github.com/bsb808/introduction-to-feedback-control/tree/main/utils/ardu_params). See the [parameters reference page](parameters.qmd) for an overview, the [README](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md) in that directory for the Mission Planner load procedure, and [stabilization.qmd](stabilization.qmd) for the `ATC_*` PID deep dive.
 
 ## Log Processing Pipeline
 
