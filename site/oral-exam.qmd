@@ -4,13 +4,13 @@ title: "Final Oral Exam"
 
 *Quarter:* {{< var quarter >}}
 
-## Overview: 20 + 20
+## Overview
 
 The final exam is conducted as an individual oral examination.
 The goal is to give you an opportunity to demonstrate your understanding of the core concepts from the course in a conversation, not just on paper.
 The exam covers the full range of course topics — from Laplace transforms to modeling and transfer functions through closed-loop analysis, stability, and PID control — with emphasis on physical intuition and the ability to reason through problems aloud.
 
-## Format
+## Format: 20 + 20
 
 Each student will have 20 minutes of preparation followed by a 20 minute one-on-one conversation with the instructor.
 
