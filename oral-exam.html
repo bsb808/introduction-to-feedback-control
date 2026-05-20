@@ -145,7 +145,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#overview-20-20" id="toc-overview-20-20" class="nav-link active" data-scroll-target="#overview-20-20">Overview: 20 + 20</a></li>
   <li><a href="#format" id="toc-format" class="nav-link" data-scroll-target="#format">Format</a></li>
   <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content">Content</a></li>
   <li><a href="#sample-questions" id="toc-sample-questions" class="nav-link" data-scroll-target="#sample-questions">Sample Questions</a></li>
@@ -176,8 +176,8 @@ window.Quarto = {
 
 
 <p><em>Quarter:</em> Spring 2026</p>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<section id="overview-20-20" class="level2">
+<h2 class="anchored" data-anchor-id="overview-20-20">Overview: 20 + 20</h2>
 <p>The final exam is conducted as an individual oral examination. The goal is to give you an opportunity to demonstrate your understanding of the core concepts from the course in a conversation, not just on paper. The exam covers the full range of course topics — from Laplace transforms to modeling and transfer functions through closed-loop analysis, stability, and PID control — with emphasis on physical intuition and the ability to reason through problems aloud.</p>
 </section>
 <section id="format" class="level2">
@@ -199,13 +199,21 @@ window.Quarto = {
 <p>Take the Laplace transform and find the transfer function <span class="math inline">\(G(s) = T(s)/Q(s)\)</span>. What are the DC gain and time constant, and what do they tell you about the bay’s thermal behavior?</p>
 <p><strong>Sample 2.</strong> A system has poles at <span class="math inline">\(s = -10\)</span> and <span class="math inline">\(s = -1 \pm 2j\)</span>. Without computing anything, describe the form of the natural response. Which pole dominates at large time, and what does that mean for how you would model this system if you needed a simpler approximation?</p>
 <p><strong>Sample 3.</strong> During Lab 1 you identified the surge dynamics of the USV as a first-order transfer function. Walk me through what the DC gain and time constant mean physically for that vehicle. How would you use those parameters to design and tune a PID speed controller?</p>
-<p><strong>Sample 4.</strong> Sketch the Bode plot of a proportional-integral (PI) controller. Explain how adding integral action changes the steady-state behavior of a closed-loop system compared to proportional control alone, and describe the tradeoff you accept by doing so.</p>
+<p><strong>Sample 4.</strong> Sketch the Bode plot of a proportional-derivative controller, <span class="math inline">\(C(s) = K_p + s \, K_d\)</span>, where <span class="math inline">\(K_p = 10\)</span> and <span class="math inline">\(K_d = 1\)</span>. Use this sketch to explain why high frequency sensor noise may cause problems in a feedback controller.</p>
 </section>
 <section id="logistics" class="level2">
 <h2 class="anchored" data-anchor-id="logistics">Logistics</h2>
-<p><strong>Sign Up</strong> Each student signs up for a 20-minute exam slot during the Week 11 exam window. Sign-up link: https://nps01-my.sharepoint.com/:x:/g/personal/bbingham_nps_edu/IQAQef5RPZfrQK2HifrmRi5jASXzz4Qi5j43z-xUXUh34DY?e=4NgAmP</p>
-<p><strong>Prep</strong> Arrive <strong>20 minutes before</strong> your scheduled slot. You will receive 2–3 written questions and have that time to read them, think, and write notes. Your notes may be submitted after the exam.</p>
-<p><strong>Exam</strong> The exam itself is 20 minutes, one-on-one with the instructor. Expect to discuss your reasoning, sketch diagrams, and work through quantitative questions verbally. There is no separate written component during the exam period — the pre-exam preparation time is your only writing time.</p>
+<p><strong>Sign Up</strong> Each student signs up for a 20-minute exam slot during the Week 11 exam window. Sign-up link:</p>
+<ul>
+<li><a href="https://nps01-my.sharepoint.com/:x:/g/personal/bbingham_nps_edu/IQAQef5RPZfrQK2HifrmRi5jAWZoIwVTR4nARO1A5jsSP-Y?e=KtrIbG">Read-only preview</a></li>
+</ul>
+<p><strong>Prep</strong></p>
+<ul>
+<li>Arrive <strong>20 minutes before</strong> your scheduled slot - at the location in the sign-up. Please wait outside the room while the student before you finishes their preparation.</li>
+<li>The instructor will provide you with the exam and your 20 minute prep period begins.</li>
+<li>You will receive 2–3 written questions and have that time to read them, think, and write notes. Your notes may be submitted after the exam.</li>
+</ul>
+<p><strong>Exam</strong> The exam itself is 20 minutes, one-on-one with the instructor (in my office). Expect to discuss your reasoning, sketch diagrams, and work through quantitative questions verbally. There is no separate written component during the exam period — the pre-exam preparation time is your only writing time. You will submit your notes sheet, scratch paper and any materials generated from the exam.</p>
 <p><strong>What is provided.</strong> Copies of the following handouts from the class will be available for your reference:</p>
 <ul>
 <li><a href="handouts/bodebuildingblocks2.pdf">Bode Plot Building Blocks</a></li>
@@ -214,7 +222,7 @@ window.Quarto = {
 <li><a href="handouts/nise-handout.pdf">Nise Handout</a></li>
 </ul>
 <p><strong>What to bring.</strong> * Pencil or pen, blank scratch paper (provided), and a calculator if you find one helpful. * Each student may prepare one sheet of notes for the exam. The notes sheet is limited to one single-sided letter page. This notes page will be submitted with your exam.</p>
-<p><strong>No textbooks, notes, or electronic devices are permitted during the exam.</strong></p>
+<p><strong>No textbooks, notes, or electronic devices (e.g., phones or computers) are permitted during the exam.</strong></p>
 <p><strong>Honor Code</strong> Students should in no way convey information about the exam to their classmates. To maintain equity (and avoid a moral hazard) this is a total constraint — no discussion of any kind. All students will refrain from asking their classmates that have already taken the exam about the experience, even simple “how was it?” questions.</p>
 
 
