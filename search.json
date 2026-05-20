@@ -322,18 +322,18 @@
     "text": "Quarter: Spring 2026"
   },
   {
-    "objectID": "oral-exam.html#overview-20-20",
-    "href": "oral-exam.html#overview-20-20",
+    "objectID": "oral-exam.html#overview",
+    "href": "oral-exam.html#overview",
     "title": "Final Oral Exam",
-    "section": "Overview: 20 + 20",
-    "text": "Overview: 20 + 20\nThe final exam is conducted as an individual oral examination. The goal is to give you an opportunity to demonstrate your understanding of the core concepts from the course in a conversation, not just on paper. The exam covers the full range of course topics — from Laplace transforms to modeling and transfer functions through closed-loop analysis, stability, and PID control — with emphasis on physical intuition and the ability to reason through problems aloud."
+    "section": "Overview",
+    "text": "Overview\nThe final exam is conducted as an individual oral examination. The goal is to give you an opportunity to demonstrate your understanding of the core concepts from the course in a conversation, not just on paper. The exam covers the full range of course topics — from Laplace transforms to modeling and transfer functions through closed-loop analysis, stability, and PID control — with emphasis on physical intuition and the ability to reason through problems aloud."
   },
   {
-    "objectID": "oral-exam.html#format",
-    "href": "oral-exam.html#format",
+    "objectID": "oral-exam.html#format-20-20",
+    "href": "oral-exam.html#format-20-20",
     "title": "Final Oral Exam",
-    "section": "Format",
-    "text": "Format\nEach student will have 20 minutes of preparation followed by a 20 minute one-on-one conversation with the instructor.\nAt the beginning of the preparation phase you will receive the exam, consisting of 2-3 open-ended questions. You will have 20 minutes to collect your own notes about the exercise. During the exam, we will start with the basics of the problem and then go progressively deeper into the material in search of the boundary of each student’s knowledge on the material from the class."
+    "section": "Format: 20 + 20",
+    "text": "Format: 20 + 20\nEach student will have 20 minutes of preparation followed by a 20 minute one-on-one conversation with the instructor.\nAt the beginning of the preparation phase you will receive the exam, consisting of 2-3 open-ended questions. You will have 20 minutes to collect your own notes about the exercise. During the exam, we will start with the basics of the problem and then go progressively deeper into the material in search of the boundary of each student’s knowledge on the material from the class."
   },
   {
     "objectID": "oral-exam.html#content",
