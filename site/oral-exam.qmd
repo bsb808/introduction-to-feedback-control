@@ -4,7 +4,7 @@ title: "Final Oral Exam"
 
 *Quarter:* {{< var quarter >}}
 
-## Overview
+## Overview: 20 + 20
 
 The final exam is conducted as an individual oral examination.
 The goal is to give you an opportunity to demonstrate your understanding of the core concepts from the course in a conversation, not just on paper.
@@ -44,21 +44,25 @@ Which pole dominates at large time, and what does that mean for how you would mo
 Walk me through what the DC gain and time constant mean physically for that vehicle.
 How would you use those parameters to design and tune a PID speed controller?
 
-**Sample 4.** Sketch the Bode plot of a proportional-integral (PI) controller.
-Explain how adding integral action changes the steady-state behavior of a closed-loop system compared to proportional control alone, and describe the tradeoff you accept by doing so.
+**Sample 4.** Sketch the Bode plot of a proportional-derivative controller, $C(s) = K_p + s \, K_d$, where $K_p = 10$ and $K_d = 1$.   Use this sketch to explain why high frequency sensor noise may cause problems in a feedback controller. 
 
 ## Logistics
 
 **Sign Up** Each student signs up for a 20-minute exam slot during the Week 11 exam window.
-Sign-up link: https://nps01-my.sharepoint.com/:x:/g/personal/bbingham_nps_edu/IQAQef5RPZfrQK2HifrmRi5jASXzz4Qi5j43z-xUXUh34DY?e=4NgAmP
+Sign-up link: 
 
-**Prep** Arrive **20 minutes before** your scheduled slot.
-You will receive 2–3 written questions and have that time to read them, think, and write notes.
-Your notes may be submitted after the exam.
+* [Read-only preview](https://nps01-my.sharepoint.com/:x:/g/personal/bbingham_nps_edu/IQAQef5RPZfrQK2HifrmRi5jAWZoIwVTR4nARO1A5jsSP-Y?e=KtrIbG)
 
-**Exam** The exam itself is 20 minutes, one-on-one with the instructor.
+
+**Prep** 
+
+  * Arrive **20 minutes before** your scheduled slot - at the location in the sign-up. Please wait outside the room while the student before you finishes their preparation.
+  * The instructor will  provide you with the exam and your 20 minute prep period begins.
+  * You will receive 2–3 written questions and have that time to read them, think, and write notes. Your notes may be submitted after the exam.
+
+**Exam** The exam itself is 20 minutes, one-on-one with the instructor (in my office).
 Expect to discuss your reasoning, sketch diagrams, and work through quantitative questions verbally.
-There is no separate written component during the exam period — the pre-exam preparation time is your only writing time.
+There is no separate written component during the exam period — the pre-exam preparation time is your only writing time.   You will submit your notes sheet, scratch paper and any materials generated from the exam.
 
 
 **What is provided.** Copies of the following handouts from the class will be available for your reference:
@@ -74,7 +78,7 @@ There is no separate written component during the exam period — the pre-exam p
 * Each student may prepare one sheet of notes for the exam.  The notes sheet is limited to one single-sided letter page.  This notes page will be submitted with your exam.
 
 
-**No textbooks, notes, or electronic devices are permitted during the exam.**
+**No textbooks, notes, or electronic devices (e.g., phones or computers) are permitted during the exam.**
 
 **Honor Code**
 Students should in no way convey information about the exam to their classmates.  To maintain equity (and avoid a moral hazard) this is a total constraint — no discussion of any kind.  All students will refrain from asking their classmates that have already taken the exam about the experience, even simple "how was it?" questions.
