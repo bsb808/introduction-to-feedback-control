@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Autopilot – ME 2801 — Introduction to Feedback Control</title>
+<title>Final Oral Exam – ME 2801 — Introduction to Feedback Control</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,18 +26,18 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-2e26f2e305b4303d41b7eaeccb39a309.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2e26f2e305b4303d41b7eaeccb39a309.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -54,6 +54,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -64,7 +93,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">ME 2801 — Introduction to Feedback Control</span>
     </a>
   </div>
@@ -74,23 +103,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../syllabus.html"> 
+    <a class="nav-link" href="./syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../schedule.html"> 
+    <a class="nav-link" href="./schedule.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../assignments.html"> 
+    <a class="nav-link" href="./assignments.html"> 
 <span class="menu-text">Assignments</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../autopilot/index.html" aria-current="page"> 
+    <a class="nav-link" href="./autopilot/index.html"> 
 <span class="menu-text">Autopilot</span></a>
   </li>  
 </ul>
@@ -116,12 +145,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-we-use" id="toc-what-we-use" class="nav-link active" data-scroll-target="#what-we-use">What we use</a></li>
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
-  <li><a href="#log-processing-pipeline" id="toc-log-processing-pipeline" class="nav-link" data-scroll-target="#log-processing-pipeline">Log Processing Pipeline</a></li>
-  <li><a href="#key-log-channels" id="toc-key-log-channels" class="nav-link" data-scroll-target="#key-log-channels">Key Log Channels</a></li>
-  <li><a href="#more" id="toc-more" class="nav-link" data-scroll-target="#more">More</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#format" id="toc-format" class="nav-link" data-scroll-target="#format">Format</a></li>
+  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content">Content</a></li>
+  <li><a href="#sample-questions" id="toc-sample-questions" class="nav-link" data-scroll-target="#sample-questions">Sample Questions</a></li>
+  <li><a href="#logistics" id="toc-logistics" class="nav-link" data-scroll-target="#logistics">Logistics</a></li>
   </ul>
 </nav>
     </div>
@@ -130,8 +158,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Autopilot</h1>
-<p class="subtitle lead">Reference material for the USV labs</p>
+<h1 class="title">Final Oral Exam</h1>
 </div>
 
 
@@ -148,144 +175,47 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, Lab 2 PID tuning, Lab 3 navigation).</p>
-</div>
-</div>
-</div>
-<section id="what-we-use" class="level2">
-<h2 class="anchored" data-anchor-id="what-we-use">What we use</h2>
-<table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td><strong>Vehicle</strong></td>
-<td>1.1 m single-screw USV, ~5 kg</td>
-</tr>
-<tr class="even">
-<td><strong>Autopilot software</strong></td>
-<td>ArduRover V4.6.3 (commit <code>3fc7011a</code>)</td>
-</tr>
-<tr class="odd">
-<td><strong>GPS</strong></td>
-<td>HERE3 via DroneCAN</td>
-</tr>
-<tr class="even">
-<td><strong>Ground station</strong></td>
-<td>Mission Planner</td>
-</tr>
-</tbody>
-</table>
+<p><em>Quarter:</em> Spring 2026</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>The final exam is conducted as an individual oral examination. The goal is to give you an opportunity to demonstrate your understanding of the core concepts from the course in a conversation, not just on paper. The exam covers the full range of course topics — from Laplace transforms to modeling and transfer functions through closed-loop analysis, stability, and PID control — with emphasis on physical intuition and the ability to reason through problems aloud.</p>
 </section>
-<section id="documentation" class="level2">
-<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
+<section id="format" class="level2">
+<h2 class="anchored" data-anchor-id="format">Format</h2>
+<p>Each student will have 20 minutes of preparation followed by a 20 minute one-on-one conversation with the instructor.</p>
+<p>At the beginning of the preparation phase you will receive the exam, consisting of 2-3 open-ended questions. You will have 20 minutes to collect your own notes about the exercise. During the exam, we will start with the basics of the problem and then go progressively deeper into the material in search of the boundary of each student’s knowledge on the material from the class.</p>
+</section>
+<section id="content" class="level2">
+<h2 class="anchored" data-anchor-id="content">Content</h2>
+<p>The intent of the exam questions is to assess your understanding and ability to apply knowledge and skills from the course material covered in the weekly assignments and USV labs.</p>
+<p>The recommended method of studying for the exam is to focus on the content of the weekly assignment and labs. Review these materials with an eye toward the underlying concepts covered.</p>
+</section>
+<section id="sample-questions" class="level2">
+<h2 class="anchored" data-anchor-id="sample-questions">Sample Questions</h2>
+<p>The questions below are representative of the style and depth of the exam — not a study guide of specific topics.</p>
+<p><strong>Sample 1.</strong> A spacecraft electronics bay is kept warm by an electric heater. The temperature <span class="math inline">\(T\)</span> of the bay (measured relative to the environment) is governed by</p>
+<p><span class="math inline">\(\dot{T} + aT = bQ\)</span></p>
+<p>where <span class="math inline">\(Q\)</span> is the heater power (the input), <span class="math inline">\(a\)</span> is the thermal decay rate (how fast the bay loses heat to space), and <span class="math inline">\(b\)</span> relates heater power to the rate of temperature rise.</p>
+<p>Take the Laplace transform and find the transfer function <span class="math inline">\(G(s) = T(s)/Q(s)\)</span>. What are the DC gain and time constant, and what do they tell you about the bay’s thermal behavior?</p>
+<p><strong>Sample 2.</strong> A system has poles at <span class="math inline">\(s = -10\)</span> and <span class="math inline">\(s = -1 \pm 2j\)</span>. Without computing anything, describe the form of the natural response. Which pole dominates at large time, and what does that mean for how you would model this system if you needed a simpler approximation?</p>
+<p><strong>Sample 3.</strong> During Lab 1 you identified the surge dynamics of the USV as a first-order transfer function. Walk me through what the DC gain and time constant mean physically for that vehicle. How would you use those parameters to design and tune a PID speed controller?</p>
+<p><strong>Sample 4.</strong> Sketch the Bode plot of a proportional-integral (PI) controller. Explain how adding integral action changes the steady-state behavior of a closed-loop system compared to proportional control alone, and describe the tradeoff you accept by doing so.</p>
+</section>
+<section id="logistics" class="level2">
+<h2 class="anchored" data-anchor-id="logistics">Logistics</h2>
+<p><strong>Sign Up</strong> Each student signs up for a 20-minute exam slot during the Week 11 exam window. Sign-up link: https://nps01-my.sharepoint.com/:x:/g/personal/bbingham_nps_edu/IQAQef5RPZfrQK2HifrmRi5jASXzz4Qi5j43z-xUXUh34DY?e=4NgAmP</p>
+<p><strong>Prep</strong> Arrive <strong>20 minutes before</strong> your scheduled slot. You will receive 2–3 written questions and have that time to read them, think, and write notes. Your notes may be submitted after the exam.</p>
+<p><strong>Exam</strong> The exam itself is 20 minutes, one-on-one with the instructor. Expect to discuss your reasoning, sketch diagrams, and work through quantitative questions verbally. There is no separate written component during the exam period — the pre-exam preparation time is your only writing time.</p>
+<p><strong>What is provided.</strong> Copies of the following handouts from the class will be available for your reference:</p>
 <ul>
-<li><strong><a href="../autopilot/parameters.html">Autopilot parameters</a></strong> — how parameters are stored and loaded, baseline-vs-default summary, source-code anchors, and a running list of undocumented behavior we’ve discovered.</li>
-<li><strong><a href="../autopilot/stabilization.html">Stabilization layer — speed and yaw-rate PID</a></strong> — architecture of the lowest-level control loops, with full log-channel reference.</li>
-<li><strong><a href="../autopilot/atc_params.html">ATC parameter reference</a></strong> — dense per-parameter look-up table for the <code>ATC_*</code> controllers (units, ranges, vehicle values, source-code anchors).</li>
-<li><strong><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md">ArduPilot doc references</a></strong> — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis).</li>
+<li><a href="handouts/bodebuildingblocks2.pdf">Bode Plot Building Blocks</a></li>
+<li><a href="handouts/bode2_nolabel.png">Bode Plot Paper</a></li>
+<li><a href="handouts/partialfractionexpansion_complex.pdf">Partial Fraction Expansion — Complex Poles</a></li>
+<li><a href="handouts/nise-handout.pdf">Nise Handout</a></li>
 </ul>
-</section>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<p>The vehicle parameter snapshots (<code>.param</code> files) and per-lab baseline configurations live in <a href="https://github.com/bsb808/introduction-to-feedback-control/tree/main/utils/ardu_params"><code>utils/ardu_params/</code></a>. See the <a href="../autopilot/parameters.html">parameters reference page</a> for an overview, the <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md">README</a> in that directory for the Mission Planner load procedure, and <a href="../autopilot/stabilization.html">stabilization.qmd</a> for the <code>ATC_*</code> PID deep dive.</p>
-</section>
-<section id="log-processing-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="log-processing-pipeline">Log Processing Pipeline</h2>
-<p>Field-collected ArduPilot <code>.BIN</code> logs are processed in two stages before MATLAB analysis:</p>
-<ol type="1">
-<li><strong><code>.BIN</code> → <code>.mat</code></strong> — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>utils/ardu_utils/bin2mat.py</code></a> extracts every numeric field from every message type into a MATLAB <code>.mat</code> file. Field names follow <code>{MSGTYPE}_{field}</code> (e.g.&nbsp;<code>GPS_Spd</code>, <code>RCOU_C3</code>, <code>PIDA_Tar</code>). Logged ArduPilot parameters are saved as a <code>params</code> struct.</li>
-<li><strong>MATLAB analysis</strong> — per-lab scripts under <code>book/wXX_*/code/</code> load the <code>.mat</code> and produce timeseries and metrics.</li>
-</ol>
-</section>
-<section id="key-log-channels" class="level2">
-<h2 class="anchored" data-anchor-id="key-log-channels">Key Log Channels</h2>
-<p>Signals analyzed across the labs:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Channel</th>
-<th>Variable</th>
-<th>Units</th>
-<th>Used in</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>GPS_Spd</code></td>
-<td>Ground speed</td>
-<td>m/s</td>
-<td>Sysid (Lab 1), PID tuning (Lab 2)</td>
-</tr>
-<tr class="even">
-<td><code>IMU_GyrZ</code></td>
-<td>Yaw rate (raw)</td>
-<td>rad/s</td>
-<td>Sysid (Lab 1)</td>
-</tr>
-<tr class="odd">
-<td><code>STER_TurnRate</code></td>
-<td>Yaw rate (EKF)</td>
-<td>rad/s</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="even">
-<td><code>RCOU_C3</code></td>
-<td>Throttle command</td>
-<td>PWM</td>
-<td>Surge input</td>
-</tr>
-<tr class="odd">
-<td><code>RCOU_C1</code></td>
-<td>Rudder command</td>
-<td>PWM</td>
-<td>Yaw input</td>
-</tr>
-<tr class="even">
-<td><code>THR_DesSpeed</code></td>
-<td>Speed setpoint</td>
-<td>m/s</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="odd">
-<td><code>STER_DesTurnRate</code></td>
-<td>Yaw-rate setpoint</td>
-<td>rad/s</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="even">
-<td><code>PIDA_*</code></td>
-<td>Throttle / speed PID internals</td>
-<td>—</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="odd">
-<td><code>PIDS_*</code></td>
-<td>Steering / yaw-rate PID internals</td>
-<td>—</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="more" class="level2">
-<h2 class="anchored" data-anchor-id="more">More</h2>
-<p><em>Sub-pages added as labs need them:</em></p>
-<ul>
-<li><em>Setup / connecting to the vehicle — TBD</em></li>
-<li><em>Mission Planner cheatsheet — TBD</em></li>
-<li><em>Common log analysis recipes — TBD</em></li>
-</ul>
+<p><strong>What to bring.</strong> * Pencil or pen, blank scratch paper (provided), and a calculator if you find one helpful. * Each student may prepare one sheet of notes for the exam. The notes sheet is limited to one single-sided letter page. This notes page will be submitted with your exam.</p>
+<p><strong>No textbooks, notes, or electronic devices are permitted during the exam.</strong></p>
+<p><strong>Honor Code</strong> Students should in no way convey information about the exam to their classmates. To maintain equity (and avoid a moral hazard) this is a total constraint — no discussion of any kind. All students will refrain from asking their classmates that have already taken the exam about the experience, even simple “how was it?” questions.</p>
 
 
 </section>
