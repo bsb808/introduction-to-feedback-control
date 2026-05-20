@@ -66,10 +66,11 @@ There is no separate written component during the exam period — the pre-exam p
 
 **What is provided.** Copies of the following handouts from the class will be available for your reference:
 
-- [Bode Plot Building Blocks](handouts/bodebuildingblocks2.pdf)
-- [Bode Plot Paper](handouts/bode2_nolabel.png)
-- [Partial Fraction Expansion — Complex Poles](handouts/partialfractionexpansion_complex.pdf)
 - [Nise Handout](handouts/nise-handout.pdf)
+- [Partial Fraction Expansion — Complex Poles](handouts/partialfractionexpansion_complex.pdf)
+- [Bode Plot Paper](handouts/bode2_nolabel.png)
+- [Bode Plot Building Blocks](handouts/bodebuildingblocks2.pdf)
+
 
 
 **What to bring.** 
