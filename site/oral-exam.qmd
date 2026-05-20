@@ -48,10 +48,9 @@ How would you use those parameters to design and tune a PID speed controller?
 
 ## Logistics
 
-**Sign Up** Each student signs up for a 20-minute exam slot during the Week 11 exam window.
-Sign-up link: 
+**Sign Up** Each student signs up for a 20-minute exam slot.
 
-* [Read-only preview](https://nps01-my.sharepoint.com/:x:/g/personal/bbingham_nps_edu/IQAQef5RPZfrQK2HifrmRi5jAWZoIwVTR4nARO1A5jsSP-Y?e=KtrIbG)
+* Sign-up link: [Read-only preview](https://nps01-my.sharepoint.com/:x:/g/personal/bbingham_nps_edu/IQAQef5RPZfrQK2HifrmRi5jAWZoIwVTR4nARO1A5jsSP-Y?e=KtrIbG)
 
 
 **Prep** 
