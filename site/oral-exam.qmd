@@ -1,0 +1,80 @@
+---
+title: "Final Oral Exam"
+---
+
+*Quarter:* {{< var quarter >}}
+
+## Overview
+
+The final exam is conducted as an individual oral examination.
+The goal is to give you an opportunity to demonstrate your understanding of the core concepts from the course in a conversation, not just on paper.
+The exam covers the full range of course topics — from Laplace transforms to modeling and transfer functions through closed-loop analysis, stability, and PID control — with emphasis on physical intuition and the ability to reason through problems aloud.
+
+## Format
+
+Each student will have 20 minutes of preparation followed by a 20 minute one-on-one conversation with the instructor.
+
+At the beginning of the preparation phase you will receive the exam, consisting of 2-3 open-ended questions.   You will have 20 minutes to collect your own notes about the exercise.   During the exam, we will start with the basics of the problem and then go progressively deeper into the material in search of the boundary of each student's knowledge on the material from the class.
+
+## Content
+
+The intent of the exam questions is to assess your understanding and ability to apply knowledge and skills from the course material covered in the weekly assignments and USV labs.
+
+The recommended method of studying for the exam is to focus on the content of the weekly assignment and labs.  Review these materials with an eye toward the underlying concepts covered.
+
+## Sample Questions
+
+The questions below are representative of the style and depth of the exam — not a study guide of specific topics.
+
+**Sample 1.** A spacecraft electronics bay is kept warm by an electric heater.
+The temperature $T$ of the bay (measured relative to the environment) is governed by
+
+$\dot{T} + aT = bQ$
+
+where $Q$ is the heater power (the input), $a$ is the thermal decay rate (how fast the bay loses heat to space), and $b$ relates heater power to the rate of temperature rise.
+
+Take the Laplace transform and find the transfer function $G(s) = T(s)/Q(s)$.
+What are the DC gain and time constant, and what do they tell you about the bay's thermal behavior?
+
+**Sample 2.** A system has poles at $s = -10$ and $s = -1 \pm 2j$.
+Without computing anything, describe the form of the natural response.
+Which pole dominates at large time, and what does that mean for how you would model this system if you needed a simpler approximation?
+
+**Sample 3.** During Lab 1 you identified the surge dynamics of the USV as a first-order transfer function.
+Walk me through what the DC gain and time constant mean physically for that vehicle.
+How would you use those parameters to design and tune a PID speed controller?
+
+**Sample 4.** Sketch the Bode plot of a proportional-integral (PI) controller.
+Explain how adding integral action changes the steady-state behavior of a closed-loop system compared to proportional control alone, and describe the tradeoff you accept by doing so.
+
+## Logistics
+
+**Sign Up** Each student signs up for a 20-minute exam slot during the Week 11 exam window.
+Sign-up link: https://nps01-my.sharepoint.com/:x:/g/personal/bbingham_nps_edu/IQAQef5RPZfrQK2HifrmRi5jASXzz4Qi5j43z-xUXUh34DY?e=4NgAmP
+
+**Prep** Arrive **20 minutes before** your scheduled slot.
+You will receive 2–3 written questions and have that time to read them, think, and write notes.
+Your notes may be submitted after the exam.
+
+**Exam** The exam itself is 20 minutes, one-on-one with the instructor.
+Expect to discuss your reasoning, sketch diagrams, and work through quantitative questions verbally.
+There is no separate written component during the exam period — the pre-exam preparation time is your only writing time.
+
+
+**What is provided.** Copies of the following handouts from the class will be available for your reference:
+
+- [Bode Plot Building Blocks](handouts/bodebuildingblocks2.pdf)
+- [Bode Plot Paper](handouts/bode2_nolabel.png)
+- [Partial Fraction Expansion — Complex Poles](handouts/partialfractionexpansion_complex.pdf)
+- [Nise Handout](handouts/nise-handout.pdf)
+
+
+**What to bring.** 
+* Pencil or pen, blank scratch paper (provided), and a calculator if you find one helpful.
+* Each student may prepare one sheet of notes for the exam.  The notes sheet is limited to one single-sided letter page.  This notes page will be submitted with your exam.
+
+
+**No textbooks, notes, or electronic devices are permitted during the exam.**
+
+**Honor Code**
+Students should in no way convey information about the exam to their classmates.  To maintain equity (and avoid a moral hazard) this is a total constraint — no discussion of any kind.  All students will refrain from asking their classmates that have already taken the exam about the experience, even simple "how was it?" questions.
