@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Assignments and Labs – ME 2801 — Introduction to Feedback Control</title>
+<title>Lab 3 — USV Waypoint Mission Challenge – ME 2801 — Introduction to Feedback Control</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,18 +26,18 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2e26f2e305b4303d41b7eaeccb39a309.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-2e26f2e305b4303d41b7eaeccb39a309.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -64,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">ME 2801 — Introduction to Feedback Control</span>
     </a>
   </div>
@@ -74,23 +74,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./syllabus.html"> 
+    <a class="nav-link" href="../../syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./schedule.html"> 
+    <a class="nav-link" href="../../schedule.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./assignments.html" aria-current="page"> 
+    <a class="nav-link" href="../../assignments.html"> 
 <span class="menu-text">Assignments</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./autopilot/index.html"> 
+    <a class="nav-link" href="../../autopilot/index.html"> 
 <span class="menu-text">Autopilot</span></a>
   </li>  
 </ul>
@@ -116,9 +116,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#homework" id="toc-homework" class="nav-link active" data-scroll-target="#homework">Homework</a></li>
-  <li><a href="#labs" id="toc-labs" class="nav-link" data-scroll-target="#labs">Labs</a></li>
-  <li><a href="#exams" id="toc-exams" class="nav-link" data-scroll-target="#exams">Exams</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
+  <li><a href="#challenge-course" id="toc-challenge-course" class="nav-link" data-scroll-target="#challenge-course">Challenge Course</a></li>
   </ul>
 </nav>
     </div>
@@ -127,7 +126,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Assignments and Labs</h1>
+<h1 class="title">Lab 3 — USV Waypoint Mission Challenge</h1>
+<p class="subtitle lead">Week 10 · Spring 2026</p>
 </div>
 
 
@@ -144,28 +144,64 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><em>Quarter:</em> Spring 2026</p>
-<!-- Internal: placeholder. Per-assignment pages will live in `assignments/`;
-     this index page will eventually be rendered from `data/assignments.yml`. -->
-<section id="homework" class="level2">
-<h2 class="anchored" data-anchor-id="homework">Homework</h2>
+<!-- High-level outline goes here. Mirror the Lab 2 page structure once
+     the scope is settled:
+       - Objectives
+       - Schedule
+       - Reading
+       - Procedure (link to procedure.qmd when written)
+       - Materials (Students / Instructors) -->
+<section id="objectives" class="level2">
+<h2 class="anchored" data-anchor-id="objectives">Objectives</h2>
+<p>In Lab 2 we tuned the PID “control” for the USV, including two key control loops (speed and yaw-rate) and the feedforward contribution. In Lab 3, we will test the “overall system” performance by executing a waypoint mission with the tuned controller from Lab 2. This is a more holistic test of the USV’s closed-loop performance, since it exercises the full control stack (waypoint navigation, path planning, and low-level control) in a realistic scenario.</p>
+<p>While the stabilization layer control (two independent single-input-single-output (SISO) compensators) is a direct example of material for the course, the added guidance and navigation layers necessary to execute the waypoint mission are more complex and less directly related to the course content. The focus of Lab 3 is on the overall system performance, not the details of the guidance and navigation algorithms. However, we will review the relevant sections of the ArduRover documentation to understand how the waypoint mission is executed and how it interfaces with the stabilization layer.</p>
+<!-- Internal: diagram source is site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.drawio
+     Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
+     After editing, re-export the SVG with:
+       drawio --export --format svg \
+         --output site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.svg \
+         site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.drawio -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/ardurover_arch.svg" class="img-fluid figure-img" alt="ArduRover architecture block diagram showing application, autopilot, stabilization, plant, and sensor feedback layers."></p>
+<figcaption>ArduRover architecture overview: Application (Mission Planndf) sits above the Autopilot, which contains the Guidance &amp; Navigation stack (Navigation → Position Control → Stabilization).</figcaption>
+</figure>
+</div>
+<p>Our objectives for the week are as follows:</p>
 <ul>
-<li><em>HW1 — TBD</em></li>
-<li><em>HW2 — TBD</em></li>
+<li>Execute a waypoint mission with the USV using the tuned controller from Lab 2, and evaluate the overall system performance in terms of trajectory tracking and waypoint arrival.</li>
+<li>Generalize concepts from the low-level control loops (PID tuning, feedforward contribution, transient and steady-state performance) to the higher-level waypoint mission execution, which involves more complex interactions between guidance, navigation, and control.</li>
+<li>Deliver at least one mission log that illustrates navigating the standard challenge course (e.g.&nbsp;the “box” course with four waypoints) with good performance.
+<ul>
+<li>Upload the mission log to the shared repository for analysis and comparison with other teams.</li>
+<li>For each mission log you upload, report the estimated course time (see below) as recorded by the team while manually monitoring the mission execution. This will be used to compare against the estimated course time from the log analysis.</li>
+</ul></li>
 </ul>
 </section>
-<section id="labs" class="level2">
-<h2 class="anchored" data-anchor-id="labs">Labs</h2>
+<section id="challenge-course" class="level2">
+<h2 class="anchored" data-anchor-id="challenge-course">Challenge Course</h2>
+<p><strong>TBD</strong> - Instructors currently working on an example proof and details of the course. Intent is …</p>
 <ul>
-<li><em>Lab 1 — USV System Identification (Week 3)</em></li>
-<li><a href="./weeks/w07_lab_usv_pid/index.html">Lab 2 — USV PID Tuning (Week 7)</a></li>
-<li><a href="./weeks/w10_lab_usv_waypoint/index.html">Lab 3 — USV Waypoint Mission Challenge (Week 10)</a></li>
+<li><p>3-5 waypoints on Lake Del Monte. These will be provided as a mission file that the planner will upload to the autopilot as a <strong>mission</strong>.</p></li>
+<li><p>A “run” consists of navigating to each waypoint in sequence.<br>
+The “course time” is the total time from the first time the USV gets to within the waypoint acceptance radius of the first waypoint, until it gets to within the acceptance radius of the final waypoint.</p>
+<ul>
+<li>Teams will meausure this manually (with a stopwatch).</li>
+<li>Teams will also be provided with a script to estimate the course time from the mission log, which will be used to compare against the manual measurement.</li>
+</ul></li>
+<li><p><strong>Deliverable</strong>: The main outcome of this lab is simply the experience, so the deliverables are intetionally minimal. The only required deliverable is at least one mission log that demonstrates navigating the course with good performance, along with the estimated course time for that run. This is captured in a single powerpoint slide that includes:</p>
+<ul>
+<li>A plot of the trajectory from the mission log, showing the waypoints and the path taken by the USV.</li>
+<li>The estimated course time from the log analysis, and the manually recorded course time for comparison.</li>
 </ul>
-</section>
-<section id="exams" class="level2">
-<h2 class="anchored" data-anchor-id="exams">Exams</h2>
+<h2 id="outline-of-guidance-navigation" class="anchored">Outline of Guidance &amp; Navigation</h2>
+<p>Coming soon - Still working on organizing the details. The plan is to specify a subset of the parameters that users can modify to influence the guidance and navigation behavior, but to provide standard values for things like WP_RADIUS that are standardized across the teams so that the competition is “fair” and to limit the scope of student tuning. Try to emphasize the fact that the guidance and navigation layers require a well working stabilization layer to achieve good performance, and that the tuning we did in Lab 2 is a critical enabler for good performance in the waypoint mission. The guidance and navigation layers are more complex and less directly related to the course content, but they are still important for understanding the overall system performance and how the different layers interact.</p>
+<p>Will provide key reference such as</p>
 <ul>
-<li><em>Final Oral Exams (Week 11)</em></li>
+<li><a href="https://ardupilot.org/rover/docs/navigation.html">ArduRover → Navigation</a> - waypoint navigation and path planning</li>
+<li><a href="https://ardupilot.org/rover/docs/position-control.html">ArduRover → Position Control</a> - how the position controller generates speed and yaw-rate targets for the stabilization layer based on the current position and the desired waypoint</li>
+<li><a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Rover Tuning Navigation</a> - tuning parameters for the navigation and position control layers, which can be used to influence the overall system performance in the waypoint mission.</li>
+</ul></li>
 </ul>
 
 
