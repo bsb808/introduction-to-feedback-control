@@ -1,0 +1,57 @@
+---
+title: "Lab 3 — USV Waypoint Mission Challenge"
+subtitle: "Week 10 · {{< var quarter >}}"
+---
+
+<!-- High-level outline goes here. Mirror the Lab 2 page structure once
+     the scope is settled:
+       - Objectives
+       - Schedule
+       - Reading
+       - Procedure (link to procedure.qmd when written)
+       - Materials (Students / Instructors) -->
+
+## Objectives
+
+In Lab 2 we tuned the PID "control" for the USV, including two key control loops (speed and yaw-rate) and the feedforward contribution.  In Lab 3, we will test the "overall system" performance by executing a waypoint mission with the tuned controller from Lab 2.  This is a more holistic test of the USV's closed-loop performance, since it exercises the full control stack (waypoint navigation, path planning, and low-level control) in a realistic scenario.
+
+While the stabilization layer control (two independent single-input-single-output (SISO) compensators) is a direct example of material for the course, the added guidance and navigation layers necessary to execute the waypoint mission are more complex and less directly related to the course content.  The focus of Lab 3 is on the overall system performance, not the details of the guidance and navigation algorithms.  However, we will review the relevant sections of the ArduRover documentation to understand how the waypoint mission is executed and how it interfaces with the stabilization layer.
+
+<!-- Internal: diagram source is site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.drawio
+     Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
+     After editing, re-export the SVG with:
+       drawio --export --format svg \
+         --output site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.svg \
+         site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.drawio -->
+
+![ArduRover architecture overview: Application (Mission Planndf) sits above the Autopilot, which contains the Guidance & Navigation stack (Navigation → Position Control → Stabilization).](images/ardurover_arch.svg){fig-alt="ArduRover architecture block diagram showing application, autopilot, stabilization, plant, and sensor feedback layers."}
+
+Our objectives for the week are as follows:
+
+  * Execute a waypoint mission with the USV using the tuned controller from Lab 2, and evaluate the overall system performance in terms of trajectory tracking and waypoint arrival.
+  * Generalize concepts from the low-level control loops (PID tuning, feedforward contribution, transient and steady-state performance) to the higher-level waypoint mission execution, which involves more complex interactions between guidance, navigation, and control.
+  * Deliver at least one mission log that illustrates navigating the standard challenge course (e.g. the "box" course with four waypoints) with good performance.
+    * Upload the mission log to the shared repository for analysis and comparison with other teams.
+    * For each mission log you upload, report the estimated course time (see below) as recorded by the team while manually monitoring the mission execution.  This will be used to compare against the estimated course time from the log analysis.
+
+## Challenge Course
+
+**TBD** - Instructors currently working on an example proof and details of the course.  Intent is ...
+
+* 3-5 waypoints on Lake Del Monte.  These will be provided as a mission file that the planner will upload to the autopilot as a **mission**.
+* A "run" consists of navigating to each waypoint in sequence.  
+The "course time" is the total time from the first time the USV gets to within the waypoint acceptance radius of the first waypoint, until it gets to within the acceptance radius of the final waypoint. 
+  * Teams will meausure this manually (with a stopwatch).
+  * Teams will also be provided with a script to estimate the course time from the mission log, which will be used to compare against the manual measurement.
+* **Deliverable**: The main outcome of this lab is simply the experience, so the deliverables are intetionally minimal.  The only required deliverable is at least one mission log that demonstrates navigating the course with good performance, along with the estimated course time for that run.  This is captured in a single powerpoint slide that includes:
+  * A plot of the trajectory from the mission log, showing the waypoints and the path taken by the USV.
+  * The estimated course time from the log analysis, and the manually recorded course time for comparison.
+
+  ## Outline of Guidance & Navigation 
+
+  Coming soon - Still working on organizing the details.  The plan is to specify a subset of the parameters that users can modify to influence the guidance and navigation behavior, but to provide standard values for things like WP_RADIUS that are standardized across the teams so that the competition is "fair" and to limit the scope of student tuning.  Try to emphasize the fact that the guidance and navigation layers require a well working stabilization layer to achieve good performance, and that the tuning we did in Lab 2 is a critical enabler for good performance in the waypoint mission.  The guidance and navigation layers are more complex and less directly related to the course content, but they are still important for understanding the overall system performance and how the different layers interact.
+
+  Will provide key reference such as
+  * [ArduRover → Navigation](https://ardupilot.org/rover/docs/navigation.html) - waypoint navigation and path planning
+  * [ArduRover → Position Control](https://ardupilot.org/rover/docs/position-control.html) - how the position controller generates speed and yaw-rate targets for the stabilization layer based on the current position and the desired waypoint
+  * [ArduRover → Rover Tuning Navigation](https://ardupilot.org/rover/docs/rover-tuning-navigation.html) - tuning parameters for the navigation and position control layers, which can be used to influence the overall system performance in the waypoint mission.

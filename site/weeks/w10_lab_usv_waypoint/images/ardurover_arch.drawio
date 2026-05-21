@@ -1,0 +1,119 @@
+<mxfile host="Electron">
+  <diagram id="ardurover-arch" name="ArduRover Architecture">
+    <mxGraphModel dx="958" dy="523" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="960" pageHeight="720" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9ead3;strokeColor=#000000;align=left;verticalAlign=top;fontSize=14;fontStyle=1;spacingLeft=12;spacingTop=8;" value="Laptop" vertex="1">
+          <mxGeometry height="66" width="640" x="198" y="188" as="geometry" />
+        </mxCell>
+        <mxCell id="mission" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9ead3;strokeColor=#000000;fontSize=13;" value="&lt;b&gt;Mission Planner&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="345" x="314" y="198" as="geometry" />
+        </mxCell>
+        <mxCell id="autopilot" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f3f3;strokeColor=#000000;align=left;verticalAlign=top;fontSize=14;fontStyle=1;spacingLeft=12;spacingTop=8;arcSize=4;" value="USV" vertex="1">
+          <mxGeometry height="320" width="770" x="200" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="gnc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cfe2f3;strokeColor=#000000;align=left;verticalAlign=top;fontSize=12;fontStyle=1;spacingLeft=10;spacingTop=6;opacity=70;arcSize=7;" value="Autopilot" vertex="1">
+          <mxGeometry height="251" width="603" x="260" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="nav" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9d2e9;strokeColor=#000000;fontSize=13;" value="&lt;b&gt;Mission Execution Layer&lt;/b&gt;&lt;div&gt;Manage wayoint queue&lt;/div&gt;" vertex="1">
+          <mxGeometry height="42" width="285" x="344" y="291" as="geometry" />
+        </mxCell>
+        <mxCell id="pos" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9d2e9;strokeColor=#000000;fontSize=13;" value="&lt;b&gt;Guidance Layer&lt;/b&gt;&lt;div&gt;Waypoint, L1, Loiter, etc.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="40" width="286" x="344" y="361" as="geometry" />
+        </mxCell>
+        <mxCell id="stab" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9d2e9;strokeColor=#000000;align=center;verticalAlign=top;fontSize=13;fontStyle=1;spacingTop=4;" value="Stabilization Layer" vertex="1">
+          <mxGeometry height="72" width="290" x="343" y="424" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-6" edge="1" parent="1" source="speed" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="posest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="speed" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" value="Speed PID" vertex="1">
+          <mxGeometry height="28" width="124" x="356" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-7" edge="1" parent="1" source="yaw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="UrecKlU2fpnr9jhQEM7O-3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yaw" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" value="Yaw-rate PID" vertex="1">
+          <mxGeometry height="28" width="110" x="500" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-8" edge="1" parent="1" source="telem" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" target="UrecKlU2fpnr9jhQEM7O-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-9" edge="1" parent="1" source="telem" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="posest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="telem" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9d2e9;strokeColor=#000000;fontSize=12;" value="R/C Preemption" vertex="1">
+          <mxGeometry height="31" width="150" x="690" y="493.5" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-16" edge="1" parent="1" source="imu" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="UrecKlU2fpnr9jhQEM7O-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="imu" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ead1dc;strokeColor=#000000;fontSize=12;" value="IMU / Compass" vertex="1">
+          <mxGeometry height="24" width="90" x="730" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-17" edge="1" parent="1" source="gps" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="UrecKlU2fpnr9jhQEM7O-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gps" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ead1dc;strokeColor=#000000;fontSize=12;" value="GPS" vertex="1">
+          <mxGeometry height="24" width="70" x="886" y="339" as="geometry" />
+        </mxCell>
+        <mxCell id="posest" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ead1dc;strokeColor=#000000;fontSize=12;" value="Throttle" vertex="1">
+          <mxGeometry height="22" width="120" x="358" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="e_mission_nav" edge="1" parent="1" source="mission" style="endArrow=classic;html=1;rounded=0;endFill=1;" target="nav">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_nav_pos" edge="1" parent="1" source="nav" style="endArrow=classic;html=1;rounded=0;endFill=1;" target="pos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pos_stab" edge="1" parent="1" source="pos" style="endArrow=classic;html=1;rounded=0;endFill=1;" target="stab">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ead1dc;strokeColor=#000000;fontSize=12;" value="Rudder" vertex="1">
+          <mxGeometry height="22" width="120" x="495" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-15" edge="1" parent="1" source="UrecKlU2fpnr9jhQEM7O-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="UrecKlU2fpnr9jhQEM7O-10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9d2e9;strokeColor=#000000;fontSize=13;" value="&lt;div&gt;&lt;b&gt;State Estimation&lt;/b&gt;&lt;/div&gt;&lt;div&gt;EKF&lt;/div&gt;" vertex="1">
+          <mxGeometry height="42" width="130" x="710" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-18" edge="1" parent="1" source="UrecKlU2fpnr9jhQEM7O-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="telem" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ead1dc;strokeColor=#000000;fontSize=12;" value="R/C RX" vertex="1">
+          <mxGeometry height="26" width="70" x="890" y="496" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-14" edge="1" parent="1" source="UrecKlU2fpnr9jhQEM7O-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="stab">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-10" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" value="" vertex="1">
+          <mxGeometry height="20" width="20" x="659" y="341" as="geometry" />
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-12" edge="1" parent="1" source="UrecKlU2fpnr9jhQEM7O-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.996;entryY=0.474;entryDx=0;entryDy=0;entryPerimeter=0;" target="nav">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="669" y="310" />
+              <mxPoint x="628" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-13" edge="1" parent="1" source="UrecKlU2fpnr9jhQEM7O-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.001;entryY=0.45;entryDx=0;entryDy=0;entryPerimeter=0;" target="pos">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="669" y="379" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UrecKlU2fpnr9jhQEM7O-24" edge="1" parent="1" source="gnc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.716;entryY=0.99;entryDx=0;entryDy=0;entryPerimeter=0;" target="mission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

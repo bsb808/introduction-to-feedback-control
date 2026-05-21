@@ -16,8 +16,8 @@ title: "Assignments and Labs"
 ## Labs
 
 - _Lab 1 — USV System Identification (Week 3)_
-- _Lab 2 — USV PID Tuning (Week 7)_
-- _Lab 3 — USV Navigation Tuning (Week 10)_
+- [Lab 2 — USV PID Tuning (Week 7)](weeks/w07_lab_usv_pid/index.qmd)
+- [Lab 3 — USV Waypoint Mission Challenge (Week 10)](weeks/w10_lab_usv_waypoint/index.qmd)
 
 ## Exams
 
