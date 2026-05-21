@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lab 3 — USV Waypoint Mission Challenge – ME 2801 — Introduction to Feedback Control</title>
+<title>Guidance &amp; Navigation — How the Waypoint Mission Works – ME 2801 — Introduction to Feedback Control</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -116,20 +116,14 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
-  <li><a href="#challenge-course" id="toc-challenge-course" class="nav-link" data-scroll-target="#challenge-course">Challenge Course</a>
-  <ul class="collapse">
-  <li><a href="#deliverable" id="toc-deliverable" class="nav-link" data-scroll-target="#deliverable">Deliverable</a></li>
-  </ul></li>
-  <li><a href="#outline-of-guidance-navigation" id="toc-outline-of-guidance-navigation" class="nav-link" data-scroll-target="#outline-of-guidance-navigation">Outline of Guidance &amp; Navigation</a></li>
-  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading">Reading</a></li>
-  <li><a href="#procedure" id="toc-procedure" class="nav-link" data-scroll-target="#procedure">Procedure</a></li>
-  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a>
-  <ul class="collapse">
-  <li><a href="#for-students" id="toc-for-students" class="nav-link" data-scroll-target="#for-students">For Students</a></li>
-  <li><a href="#for-instructors" id="toc-for-instructors" class="nav-link" data-scroll-target="#for-instructors">For Instructors</a></li>
-  </ul></li>
+  <li><a href="#why-this-page-exists" id="toc-why-this-page-exists" class="nav-link active" data-scroll-target="#why-this-page-exists">Why this page exists</a></li>
+  <li><a href="#a-familiar-pattern-feedforward-pid-recursively" id="toc-a-familiar-pattern-feedforward-pid-recursively" class="nav-link" data-scroll-target="#a-familiar-pattern-feedforward-pid-recursively">A familiar pattern: feedforward + PID, recursively</a></li>
+  <li><a href="#the-cascade-in-three-layers" id="toc-the-cascade-in-three-layers" class="nav-link" data-scroll-target="#the-cascade-in-three-layers">The cascade in three layers</a></li>
+  <li><a href="#the-s-curve-briefly" id="toc-the-s-curve-briefly" class="nav-link" data-scroll-target="#the-s-curve-briefly">The S-curve, briefly</a></li>
+  <li><a href="#closing-the-position-loop-ac_poscontrol" id="toc-closing-the-position-loop-ac_poscontrol" class="nav-link" data-scroll-target="#closing-the-position-loop-ac_poscontrol">Closing the position loop (<code>AC_PosControl</code>)</a></li>
+  <li><a href="#why-lab-2-matters" id="toc-why-lab-2-matters" class="nav-link" data-scroll-target="#why-lab-2-matters">Why Lab 2 matters</a></li>
+  <li><a href="#what-you-tune-and-what-you-dont" id="toc-what-you-tune-and-what-you-dont" class="nav-link" data-scroll-target="#what-you-tune-and-what-you-dont">What you tune (and what you don’t)</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -138,8 +132,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 3 — USV Waypoint Mission Challenge</h1>
-<p class="subtitle lead">Week 10 · Spring 2026</p>
+<h1 class="title">Guidance &amp; Navigation — How the Waypoint Mission Works</h1>
+<p class="subtitle lead">Companion to Lab 3</p>
 </div>
 
 
@@ -156,106 +150,202 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="objectives" class="level2">
-<h2 class="anchored" data-anchor-id="objectives">Objectives</h2>
-<p>In Lab 2 we tuned the PID “control” for the USV, including two key control loops (speed and yaw-rate) and the feedforward contribution. In Lab 3, we will test the “overall system” performance by executing a waypoint mission with the tuned controller from Lab 2. This is a more holistic test of the USV’s closed-loop performance, since it exercises the full control stack (waypoint navigation, path planning, and low-level control) in a realistic scenario.</p>
-<p>While the stabilization layer control (two independent single-input-single-output (SISO) compensators) is a direct example of material for the course, the added guidance and navigation layers necessary to execute the waypoint mission are more complex and less directly related to the course content. The focus of Lab 3 is on the overall system performance, not the details of the guidance and navigation algorithms. However, we will review the relevant sections of the ArduRover documentation to understand how the waypoint mission is executed and how it interfaces with the stabilization layer.</p>
-<!-- Internal: diagram source is site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.drawio
-     Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
-     After editing, re-export the SVG with:
-       drawio --export --format svg \
-         --output site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.svg \
-         site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.drawio -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/ardurover_arch.svg" class="img-fluid figure-img" alt="ArduRover architecture block diagram showing Mission Planner laptop above the USV's autopilot, with the mission execution / guidance / stabilization layers cascading down to the throttle and rudder actuators."></p>
-<figcaption>ArduRover architecture overview: Mission Planner (on the ground laptop) issues the mission to the autopilot, which runs the guidance, navigation, and stabilization layers on the boat. The stabilization layer is what you tuned in Lab 2; the layers above it are the focus of the <a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">companion page</a>.</figcaption>
-</figure>
-</div>
-<p>Objectives for the week:</p>
+<p><a href="../../weeks/w10_lab_usv_waypoint/index.html">← Back to Lab 3 overview</a></p>
+<section id="why-this-page-exists" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-page-exists">Why this page exists</h2>
+<p>The stabilization layer you tuned in <a href="../../weeks/w07_lab_usv_pid/index.html">Lab 2</a> knows nothing about waypoints. It chases a <em>speed</em> setpoint and a <em>yaw-rate</em> setpoint, and that is all. For the waypoint mission, <em>something</em> has to produce those setpoints — turning a list of (lat, lon) waypoints into a sequence of “right now, the boat should be moving at 1.4 m/s and turning at 0.3 rad/s.”</p>
+<p>That “something” is the <strong>guidance and navigation (G&amp;N) stack</strong>. This page explains what it is, framed in terms students have already seen: a feedforward + PID cascade, just at a higher level of abstraction.</p>
+</section>
+<section id="a-familiar-pattern-feedforward-pid-recursively" class="level2">
+<h2 class="anchored" data-anchor-id="a-familiar-pattern-feedforward-pid-recursively">A familiar pattern: feedforward + PID, recursively</h2>
+<p>In Lab 2 each stabilization channel had the same internal structure:</p>
+<pre><code>setpoint ──► (+)───► PID ───► (+)───► actuator command ──► plant ──► measurement
+              ▲              ▲                              │
+              │              │                              │
+              │              └──── FF (= setpoint × K_dc⁻¹) │
+              │                                             │
+              └─────────────────── measurement ◄────────────┘</code></pre>
+<p>The <strong>feedforward</strong> branch makes an open-loop guess of the actuator command that <em>should</em> produce the desired output if the plant matched its nominal model. The <strong>PID</strong> branch closes the loop and corrects whatever the FF guess got wrong.</p>
+<p>ArduRover’s G&amp;N stack applies the same pattern <em>one level up</em>. Its “feedforward” is a kinematically-feasible reference trajectory (computed in advance from the waypoints). Its “PID” closes the loop on position error. And the output of that outer loop becomes the <em>setpoint</em> for the inner loop you tuned in Lab 2.</p>
+<pre><code>waypoints ──► trajectory gen ──► (pos_ref, vel_ref) ──► (+)──► PID ──► speed_setpoint   ┐
+   (open loop, kinematic)                ▲                       └──► yaw_setpoint    ──┘──►  STABILIZATION
+                                         │                                                    (Lab 2)
+                                  pos_measured ◄── EKF ◄── GPS + IMU</code></pre>
+<p>Two layers of “FF + PID,” nested. The outer FF is <code>vel_ref</code> from the S-curve generator. The outer PID is <code>AC_PosControl</code>. The inner FF + PID is what you already have working.</p>
+</section>
+<section id="the-cascade-in-three-layers" class="level2">
+<h2 class="anchored" data-anchor-id="the-cascade-in-three-layers">The cascade in three layers</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 42%">
+<col style="width: 22%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>What it does</th>
+<th>Inputs</th>
+<th>Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Trajectory generation</strong> (S-curve, in <code>AC_WPNav</code>)</td>
+<td>Plans a smooth path between waypoints that respects vehicle acceleration / jerk / speed limits. Open-loop — no feedback.</td>
+<td>Waypoint list; <code>WP_SPEED</code>, <code>WP_RADIUS</code>, <code>ATC_ACCEL_MAX</code>, <code>ATC_DECEL_MAX</code>, <code>ATC_TURN_MAX_G</code>, jerk limits</td>
+<td>Time series of <em>(target position, target velocity, target acceleration)</em> along the path</td>
+</tr>
+<tr class="even">
+<td><strong>Position control</strong> (<code>AC_PosControl</code>)</td>
+<td>Closes the outer loop on <em>position</em> error. Same PID + FF structure as Lab 2, just on a slower, geometric quantity.</td>
+<td>Target pos/vel from trajectory gen; measured position from EKF</td>
+<td><em>Speed setpoint</em> (throttle channel) and <em>yaw-rate setpoint</em> (steering channel)</td>
+</tr>
+<tr class="odd">
+<td><strong>Stabilization</strong> (Lab 2)</td>
+<td>Closes the inner loop on <em>speed</em> and <em>yaw-rate</em> errors. Two independent PID + FF loops.</td>
+<td>Setpoints from <code>AC_PosControl</code>; measured speed (<code>GPS_Spd</code>/EKF), measured yaw rate (gyro/EKF)</td>
+<td>Throttle PWM (<code>RCOU_C3</code>), rudder PWM (<code>RCOU_C1</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>The handoff between layers 2 and 3 happens at the <em>exact same channels</em> you logged in Lab 2:</p>
 <ul>
-<li><strong>Execute a waypoint mission</strong> with the tuned controller from Lab 2, and evaluate the overall system performance in terms of trajectory tracking and waypoint arrival.</li>
-<li><strong>Generalize the loop concepts from Lab 2</strong> — feedforward, PID, transient and steady-state performance — to the outer guidance and navigation layers, where the same patterns reappear one level up.</li>
-<li><strong>Capture a clean mission log</strong> of the standard challenge course (see <a href="#challenge-course">Challenge Course</a> below) and report the course time both as a stopwatch reading at the field and as a log-derived estimate.</li>
+<li>Position controller’s speed output → <code>THR_DesSpeed</code> → speed PID input</li>
+<li>Position controller’s yaw-rate output → <code>STER_DesTurnRate</code> → yaw-rate PID input</li>
 </ul>
+<p>That is the bridge from Lab 2 to Lab 3. In Lab 2 you saw clean step responses on these channels because the <em>pilot</em> generated the steps. In Lab 3 you will see a more complex, time-varying reference on the same channels — generated by <code>AC_PosControl</code> chasing the S-curve.</p>
 </section>
-<section id="challenge-course" class="level2">
-<h2 class="anchored" data-anchor-id="challenge-course">Challenge Course</h2>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>TBD</strong> — instructors are finalizing the course geometry. The structure below is fixed; the specific waypoints and acceptance radius will be published before the field session.</p>
-</div>
-</div>
-</div>
-<p><strong>Setup.</strong> 3–5 waypoints on Lake Del Monte, distributed as a mission file that the planner uploads to the autopilot.</p>
-<p><strong>A “run”</strong> is one pass through the waypoints in sequence.</p>
-<p><strong>Course time</strong> is the total elapsed time from when the USV first enters the acceptance radius of waypoint 1 until it enters the acceptance radius of the final waypoint. Two measurements per run:</p>
+<section id="the-s-curve-briefly" class="level2">
+<h2 class="anchored" data-anchor-id="the-s-curve-briefly">The S-curve, briefly</h2>
+<p>ArduPilot’s S-curve is <strong>not</strong> a Bézier curve. It is a <strong>jerk-limited 7-segment kinematic trajectory</strong>:</p>
+<blockquote class="blockquote">
+<p>“SCurves calculate paths between waypoints (including the corners) using specified speed, acceleration and jerk limits.” — <code>libraries/AP_Math/SCurve.h</code></p>
+</blockquote>
+<p>The 7 segments are: jerk-up → constant accel → jerk-down → cruise → jerk-down (decel) → constant decel → jerk-up. The corner-blending between consecutive waypoints uses a spline so the path stays continuous in velocity, but the <em>speed profile along that path</em> is the jerk-limited segmented profile, not a Bézier in time.</p>
+<p>The point of all this: the S-curve produces a reference that the boat is <strong>physically capable of following</strong> — it will not ask for an acceleration the actuators cannot deliver, or a turn rate the hull cannot sustain at the requested speed. From the Rover docs:</p>
+<blockquote class="blockquote">
+<p>“S-Curves are used to plan a smooth path that brings the vehicle close to each waypoint while not exceeding speed or acceleration limits. […] The vehicle will cut the corners more at higher speeds and more if the maximum accelerations are reduced, but will slow down in the corners if necessary to pass within <code>WP_RADIUS</code> of the waypoint without exceeding the maximum accelerations.”</p>
+</blockquote>
+<p>This is feedforward in the strictest sense: an open-loop plan generated from the waypoints and the vehicle’s kinematic limits, fed into the loop below as a reference.</p>
+</section>
+<section id="closing-the-position-loop-ac_poscontrol" class="level2">
+<h2 class="anchored" data-anchor-id="closing-the-position-loop-ac_poscontrol">Closing the position loop (<code>AC_PosControl</code>)</h2>
+<p>Layer 2 — the position controller — looks like a standard PID with feedforward, exactly as you saw in Lab 2:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 30%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Parameter</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF (velocity)</td>
+<td>(from S-curve)</td>
+<td>open-loop velocity reference along the planned path</td>
+</tr>
+<tr class="even">
+<td>P (position)</td>
+<td><code>PSC_POS_P</code></td>
+<td>proportional gain on position error</td>
+</tr>
+<tr class="odd">
+<td>P, I, D (velocity)</td>
+<td><code>PSC_VEL_P</code>, <code>PSC_VEL_I</code>, <code>PSC_VEL_D</code></td>
+<td>inner velocity loop inside the position controller</td>
+</tr>
+</tbody>
+</table>
+<p>Position error feeds a P controller that produces a <em>desired velocity correction</em>; that gets added to the S-curve’s <code>vel_ref</code> to produce the composite <em>velocity setpoint</em>; the velocity PID then produces a <em>throttle/rudder demand</em> — which, for Rover, is delivered as a speed setpoint to your Lab-2 PIDs rather than directly to the motors.</p>
+<p>If that structure feels recursive, that is exactly the point. It is the same Lab-2 block diagram with one extra outer wrap.</p>
+</section>
+<section id="why-lab-2-matters" class="level2">
+<h2 class="anchored" data-anchor-id="why-lab-2-matters">Why Lab 2 matters</h2>
+<p>Here is the punchline for the course: <strong>the G&amp;N stack only generates setpoints that are achievable in the ideal</strong>. Whether the boat actually achieves them is the inner loop’s job.</p>
+<p>If your stabilization PIDs from Lab 2 are sluggish, the boat will lag the S-curve and overshoot corners. If they are oscillatory, the trajectory will be tracked with high-frequency jitter on top. If they saturate, the S-curve’s “kinematic feasibility” guarantee is broken — the plant cannot deliver what was planned.</p>
+<p>A well-tuned trajectory on top of poorly-tuned PIDs is wasted. A well-tuned stabilization layer is what <em>enables</em> the outer loops to do their job. That is why we spent a whole lab on it.</p>
+</section>
+<section id="what-you-tune-and-what-you-dont" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-tune-and-what-you-dont">What you tune (and what you don’t)</h2>
+<p>For fairness across teams, most G&amp;N parameters are fixed in the baseline <code>.param</code> file. The handles that <em>do</em> affect mission performance and are worth understanding:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 72%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>WP_SPEED</code></td>
+<td>Target cruise speed along the path (m/s)</td>
+</tr>
+<tr class="even">
+<td><code>WP_RADIUS</code></td>
+<td>How close the boat has to get to a waypoint to count as arrived (m)</td>
+</tr>
+<tr class="odd">
+<td><code>WP_OVERSHOOT</code></td>
+<td>Maximum allowed lateral overshoot when cutting corners (m)</td>
+</tr>
+<tr class="even">
+<td><code>ATC_ACCEL_MAX</code>, <code>ATC_DECEL_MAX</code></td>
+<td>Speed-axis acceleration caps used by the S-curve generator</td>
+</tr>
+<tr class="odd">
+<td><code>ATC_TURN_MAX_G</code></td>
+<td>Lateral-acceleration cap used by the S-curve generator</td>
+</tr>
+</tbody>
+</table>
+<p><code>PSC_*</code> (position-controller PID gains) are <em>not</em> part of Lab 3 tuning. They live in the baseline <code>.param</code> and stay fixed across teams.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<p><strong>Architecture overview (start here):</strong></p>
 <ul>
-<li>Manual stopwatch (recorded by the team during the run).</li>
-<li>Estimated from the mission log by a provided analysis script.</li>
+<li><a href="https://ardupilot.org/dev/docs/code-overview-copter-poscontrol-and-navigation.html">Copter Position Control and Navigation</a> — despite the “Copter” title, <code>AC_WPNav</code> / <code>AC_PosControl</code> / <code>SCurve</code> are shared libraries that Rover uses unchanged. The single best architecture doc.</li>
 </ul>
-<p>Reporting both lets us see how reliably the log-based estimate matches what the team observed in real time.</p>
-<section id="deliverable" class="level3">
-<h3 class="anchored" data-anchor-id="deliverable">Deliverable</h3>
-<p>The main outcome of this lab is the field experience itself, so the formal deliverable is intentionally minimal. Each team submits <strong>one PowerPoint slide</strong> per mission log they choose to highlight, containing:</p>
+<p><strong>The S-curve algorithm, from the author:</strong></p>
 <ul>
-<li>A trajectory plot from the log, with the waypoints overlaid on the actual path.</li>
-<li>The course time, both stopwatch and log-derived, side by side.</li>
+<li><a href="https://www.youtube.com/watch?v=LHq5o9zgNWk">Trigonometric S-Curve Navigation — ArduPilot UnConference 2019</a> (Leonard Hall, ~30 min) — closest thing to a paper. Why trig-shaped jerk profiles, what’s wrong with simple trapezoidal accel, how corner-blending works.</li>
+<li><a href="https://www.youtube.com/watch?v=MQiNDJGJDWs">S-Curves by Leonard Hall</a> — shorter companion talk.</li>
 </ul>
-<p>At minimum, submit one slide for a clean run of the standard course. Additional slides showing variations (different <code>WP_SPEED</code>, different gain set carried over from Lab 2, etc.) are welcome but optional.</p>
-</section>
-</section>
-<section id="outline-of-guidance-navigation" class="level2">
-<h2 class="anchored" data-anchor-id="outline-of-guidance-navigation">Outline of Guidance &amp; Navigation</h2>
-<p>See the companion page <strong><a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">Guidance &amp; Navigation — How the Waypoint Mission Works</a></strong> for the conceptual walk-through: the three-layer cascade (trajectory generation → position control → stabilization), how the S-curve generator plays the role of feedforward, and how the position controller’s outputs become the speed and yaw-rate setpoints that your Lab-2 PIDs chase. That page also collects the canonical references (Leonard Hall’s S-curve talks, the <code>AC_WPNav</code> / <code>AC_PosControl</code> source headers, the dev-wiki architecture docs).</p>
-<p>Most G&amp;N parameters are held fixed across teams for fairness — the tunable handles for Lab 3 are <code>WP_SPEED</code>, <code>WP_RADIUS</code>, <code>WP_OVERSHOOT</code>, and the kinematic caps (<code>ATC_ACCEL_MAX</code>, <code>ATC_DECEL_MAX</code>, <code>ATC_TURN_MAX_G</code>) that constrain the S-curve generator.</p>
-<p>Key ArduPilot Rover parameter references:</p>
+<p><strong>Motivation (before/after):</strong></p>
 <ul>
-<li><a href="https://ardupilot.org/rover/docs/navigation.html">ArduRover → Navigation</a> — waypoint navigation and path planning</li>
-<li><a href="https://ardupilot.org/rover/docs/position-control.html">ArduRover → Position Control</a> — how the position controller generates speed and yaw-rate targets for the stabilization layer based on current position and desired waypoint</li>
-<li><a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Rover Tuning Navigation</a> — tuning parameters for the navigation and position control layers</li>
+<li><a href="https://discuss.ardupilot.org/t/leash-vs-s-curve-navigation/64745">Leash vs S-Curve navigation</a> — what S-curve replaced (the “leash” method in Copter 4.0) and why the rewrite happened.</li>
+<li><a href="https://discuss.ardupilot.org/t/s-curve-in-action/73131">S-Curve in action</a> — flight-test comparison plots.</li>
 </ul>
-</section>
-<section id="schedule" class="level2">
-<h2 class="anchored" data-anchor-id="schedule">Schedule</h2>
-<p><strong>Week 10 (field session):</strong> Run the standard challenge course at least once per team, with the Lab 2 baseline gains loaded. Optional extra runs to explore the effect of <code>WP_SPEED</code> or your tuned Lab-2 gains.</p>
-<p><strong>After the field session:</strong> Generate the trajectory plot, run the analysis script for course time, and assemble the deliverable slide(s).</p>
-</section>
-<section id="reading" class="level2">
-<h2 class="anchored" data-anchor-id="reading">Reading</h2>
-<p>Before the field session:</p>
+<p><strong>Source-level (when you need the truth):</strong></p>
 <ul>
-<li><strong><a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">Guidance &amp; Navigation — How the Waypoint Mission Works</a></strong> — companion page explaining the cascade and the S-curve, framed as feedforward + PID nested one level up from Lab 2.</li>
-<li><strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> — the Lab 2 reference. Worth re-skimming because the speed and yaw-rate setpoints the position controller hands down are exactly the channels you tuned.</li>
+<li><a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_WPNav/AC_WPNav.h"><code>AC_WPNav.h</code></a> and <a href="https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Math/SCurve.h"><code>SCurve.h</code></a> — header comments are more candid than the user wiki.</li>
+<li><a href="https://deepwiki.com/ArduPilot/ardupilot/2.3-attitude-and-position-control">DeepWiki: Attitude and Position Control</a> — auto-generated walkthrough that cross-references the code.</li>
 </ul>
-</section>
-<section id="procedure" class="level2">
-<h2 class="anchored" data-anchor-id="procedure">Procedure</h2>
-<p><strong><a href="procedure.qmd">Procedure</a></strong> <em>(to be written)</em> — pre-lab checklist, mission upload via Mission Planner, field workflow for a single run, in-water safety, and how to capture the stopwatch time alongside the log.</p>
-</section>
-<section id="materials" class="level2">
-<h2 class="anchored" data-anchor-id="materials">Materials</h2>
-<section id="for-students" class="level3">
-<h3 class="anchored" data-anchor-id="for-students">For Students</h3>
+<p><strong>Origin of the Rover port:</strong></p>
 <ul>
-<li>Shared data repository: <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a> — same location used for Lab 2. Upload your raw <code>*.BIN</code> mission logs to your team’s subfolder; instructors will convert to <code>.mat</code>.</li>
-<li><strong>Mission file</strong> <em>(TBD)</em> — the <code>.mission</code> file with the standard course waypoints, distributed before the field session.</li>
-<li><strong>Analysis script</strong> <em>(TBD)</em> — MATLAB script that loads a mission <code>.mat</code>, plots the trajectory against the waypoint list, and reports the log-derived course time.</li>
+<li><a href="https://github.com/ArduPilot/ardupilot/issues/11193">GitHub Issue #11193 — Rover: improve navigation using S-curves</a> — the discussion that brought S-curves to Rover.</li>
 </ul>
-</section>
-<section id="for-instructors" class="level3">
-<h3 class="anchored" data-anchor-id="for-instructors">For Instructors</h3>
+<p><strong>The Rover parameter reference (what you actually set):</strong></p>
 <ul>
-<li>Mission file authoring and upload notes — TBD.</li>
-<li>Course time estimation script (parses waypoint-arrival timestamps from the log) — TBD.</li>
+<li><a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">Tuning Navigation — Rover documentation</a> — per-parameter handbook; pair with the conceptual pages above.</li>
 </ul>
+<hr>
+<p><a href="../../weeks/w10_lab_usv_waypoint/index.html">← Back to Lab 3 overview</a></p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
