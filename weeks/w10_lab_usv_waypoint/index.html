@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -34,10 +34,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-2e26f2e305b4303d41b7eaeccb39a309.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-9735d54fab97433a71b882fd56fb8b6a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -116,15 +116,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
-  <li><a href="#challenge-course" id="toc-challenge-course" class="nav-link" data-scroll-target="#challenge-course">Challenge Course</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
   <ul class="collapse">
-  <li><a href="#deliverable" id="toc-deliverable" class="nav-link" data-scroll-target="#deliverable">Deliverable</a></li>
+  <li><a href="#waypoint-mission-challenge" id="toc-waypoint-mission-challenge" class="nav-link" data-scroll-target="#waypoint-mission-challenge">Waypoint Mission Challenge</a></li>
   </ul></li>
-  <li><a href="#outline-of-guidance-navigation" id="toc-outline-of-guidance-navigation" class="nav-link" data-scroll-target="#outline-of-guidance-navigation">Outline of Guidance &amp; Navigation</a></li>
+  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
   <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a></li>
   <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading">Reading</a></li>
   <li><a href="#procedure" id="toc-procedure" class="nav-link" data-scroll-target="#procedure">Procedure</a></li>
+  <li><a href="#deliverable" id="toc-deliverable" class="nav-link" data-scroll-target="#deliverable">Deliverable</a></li>
   <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a>
   <ul class="collapse">
   <li><a href="#for-students" id="toc-for-students" class="nav-link" data-scroll-target="#for-students">For Students</a></li>
@@ -156,102 +156,102 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="objectives" class="level2">
-<h2 class="anchored" data-anchor-id="objectives">Objectives</h2>
-<p>In Lab 2 we tuned the PID “control” for the USV, including two key control loops (speed and yaw-rate) and the feedforward contribution. In Lab 3, we will test the “overall system” performance by executing a waypoint mission with the tuned controller from Lab 2. This is a more holistic test of the USV’s closed-loop performance, since it exercises the full control stack (waypoint navigation, path planning, and low-level control) in a realistic scenario.</p>
-<p>While the stabilization layer control (two independent single-input-single-output (SISO) compensators) is a direct example of material for the course, the added guidance and navigation layers necessary to execute the waypoint mission are more complex and less directly related to the course content. The focus of Lab 3 is on the overall system performance, not the details of the guidance and navigation algorithms. However, we will review the relevant sections of the ArduRover documentation to understand how the waypoint mission is executed and how it interfaces with the stabilization layer.</p>
-<!-- Internal: diagram source is site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.drawio
-     Edit in diagrams.net or the VS Code "Draw.io Integration" extension.
-     After editing, re-export the SVG with:
-       drawio --export --format svg \
-         --output site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.svg \
-         site/weeks/w10_lab_usv_waypoint/images/ardurover_arch.drawio -->
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<ul>
+<li>Use the <strong>stabilization layer</strong> you tuned in <a href="../../weeks/w07_lab_usv_pid/index.html">Lab 2</a> as the foundation for autonomously following a sequence of waypoints with ArduRover’s guidance and navigation stack.</li>
+<li>More <strong>exploratory</strong> than Lab 1 and Lab 2: we provide the framework, the goal, and a baseline configuration; you are welcome to use all the tools at your disposal to iterate and improve on that baseline. (This is an authentic exploration of the autopilot’s capabilities. We don’t know how it is going to turn out!)</li>
+<li>The <strong>feedback concepts from Lab 2</strong> (proportional error, feedforward, transient performance) reappear at the guidance layer. We will use that to motivate what’s happening; a full treatment of guidance and navigation is <strong>beyond the scope of this class</strong>.</li>
+</ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/ardurover_arch.svg" class="img-fluid figure-img" alt="ArduRover architecture block diagram showing Mission Planner laptop above the USV's autopilot, with the mission execution / guidance / stabilization layers cascading down to the throttle and rudder actuators."></p>
-<figcaption>ArduRover architecture overview: Mission Planner (on the ground laptop) issues the mission to the autopilot, which runs the guidance, navigation, and stabilization layers on the boat. The stabilization layer is what you tuned in Lab 2; the layers above it are the focus of the <a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">companion page</a>.</figcaption>
+<p><img src="images/ardurover_arch.svg" class="img-fluid figure-img" alt="ArduRover architecture block diagram, Mission Planner laptop above the USV's autopilot, mission execution / guidance / stabilization layers cascading to actuators."></p>
+<figcaption>ArduRover architecture: Mission Planner on the ground laptop issues the mission to the autopilot, which runs the guidance, navigation, and stabilization layers on the boat. The stabilization layer is what you tuned in Lab 2; the layers above are introduced in the <a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">companion page</a>.</figcaption>
 </figure>
 </div>
-<p>Objectives for the week:</p>
+<section id="waypoint-mission-challenge" class="level3">
+<h3 class="anchored" data-anchor-id="waypoint-mission-challenge">Waypoint Mission Challenge</h3>
 <ul>
-<li><strong>Execute a waypoint mission</strong> with the tuned controller from Lab 2, and evaluate the overall system performance in terms of trajectory tracking and waypoint arrival.</li>
-<li><strong>Generalize the loop concepts from Lab 2</strong> — feedforward, PID, transient and steady-state performance — to the outer guidance and navigation layers, where the same patterns reappear one level up.</li>
-<li><strong>Capture a clean mission log</strong> of the standard challenge course (see <a href="#challenge-course">Challenge Course</a> below) and report the course time both as a stopwatch reading at the field and as a log-derived estimate.</li>
+<li><strong>Minimize course time</strong> for a fixed mission of 3–5 waypoints.</li>
+<li><strong>Course time</strong> is defined as
+<ul>
+<li><strong>Start:</strong> the <em>first</em> moment the USV enters the acceptance threshold around waypoint 1.</li>
+<li><strong>End:</strong> the <em>first</em> moment the USV enters the acceptance threshold around the final waypoint.</li>
+</ul></li>
+<li><strong>Two measurements per run:</strong>
+<ul>
+<li>Stopwatch + Mission Planner display, recorded by the team in the field (primary measurement).</li>
+<li>Log-derived estimate from post-processing (target — exact scoring approach TBD).</li>
+</ul></li>
 </ul>
 </section>
-<section id="challenge-course" class="level2">
-<h2 class="anchored" data-anchor-id="challenge-course">Challenge Course</h2>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>TBD</strong> — instructors are finalizing the course geometry. The structure below is fixed; the specific waypoints and acceptance radius will be published before the field session.</p>
-</div>
-</div>
-</div>
-<p><strong>Setup.</strong> 3–5 waypoints on Lake Del Monte, distributed as a mission file that the planner uploads to the autopilot.</p>
-<p><strong>A “run”</strong> is one pass through the waypoints in sequence.</p>
-<p><strong>Course time</strong> is the total elapsed time from when the USV first enters the acceptance radius of waypoint 1 until it enters the acceptance radius of the final waypoint. Two measurements per run:</p>
-<ul>
-<li>Manual stopwatch (recorded by the team during the run).</li>
-<li>Estimated from the mission log by a provided analysis script.</li>
-</ul>
-<p>Reporting both lets us see how reliably the log-based estimate matches what the team observed in real time.</p>
-<section id="deliverable" class="level3">
-<h3 class="anchored" data-anchor-id="deliverable">Deliverable</h3>
-<p>The main outcome of this lab is the field experience itself, so the formal deliverable is intentionally minimal. Each team submits <strong>one PowerPoint slide</strong> per mission log they choose to highlight, containing:</p>
-<ul>
-<li>A trajectory plot from the log, with the waypoints overlaid on the actual path.</li>
-<li>The course time, both stopwatch and log-derived, side by side.</li>
-</ul>
-<p>At minimum, submit one slide for a clean run of the standard course. Additional slides showing variations (different <code>WP_SPEED</code>, different gain set carried over from Lab 2, etc.) are welcome but optional.</p>
 </section>
-</section>
-<section id="outline-of-guidance-navigation" class="level2">
-<h2 class="anchored" data-anchor-id="outline-of-guidance-navigation">Outline of Guidance &amp; Navigation</h2>
-<p>See the companion page <strong><a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">Guidance &amp; Navigation — How the Waypoint Mission Works</a></strong> for the conceptual walk-through: the three-layer cascade (trajectory generation → position control → stabilization), how the S-curve generator plays the role of feedforward, and how the position controller’s outputs become the speed and yaw-rate setpoints that your Lab-2 PIDs chase. That page also collects the canonical references (Leonard Hall’s S-curve talks, the <code>AC_WPNav</code> / <code>AC_PosControl</code> source headers, the dev-wiki architecture docs).</p>
-<p>Most G&amp;N parameters are held fixed across teams for fairness — the tunable handles for Lab 3 are <code>WP_SPEED</code>, <code>WP_RADIUS</code>, <code>WP_OVERSHOOT</code>, and the kinematic caps (<code>ATC_ACCEL_MAX</code>, <code>ATC_DECEL_MAX</code>, <code>ATC_TURN_MAX_G</code>) that constrain the S-curve generator.</p>
-<p>Key ArduPilot Rover parameter references:</p>
+<section id="description" class="level2">
+<h2 class="anchored" data-anchor-id="description">Description</h2>
 <ul>
-<li><a href="https://ardupilot.org/rover/docs/navigation.html">ArduRover → Navigation</a> — waypoint navigation and path planning</li>
-<li><a href="https://ardupilot.org/rover/docs/position-control.html">ArduRover → Position Control</a> — how the position controller generates speed and yaw-rate targets for the stabilization layer based on current position and desired waypoint</li>
-<li><a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Rover Tuning Navigation</a> — tuning parameters for the navigation and position control layers</li>
+<li>In Lab 2 each stabilization loop had the same internal structure: setpoint → error → PID (with feedforward) → actuator.</li>
+<li>The guidance layer applies the <strong>same pattern, one level up</strong>:
+<ul>
+<li>Setpoint = next waypoint.</li>
+<li>Error = position relative to the waypoint (a vector, but treated similarly to a scalar error in the proportional sense).</li>
+<li>“Controller output” = a speed and yaw-rate command sent down to the stabilization layer — i.e.&nbsp;the same <code>THR_DesSpeed</code> and <code>STER_DesTurnRate</code> channels you logged in Lab 2.</li>
+</ul></li>
+<li>In other words: Lab 3’s guidance layer is a proportional position controller wrapped around your Lab-2 PIDs.</li>
+<li>See <strong><a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">Guidance &amp; Navigation — How the Waypoint Mission Works</a></strong> for the full walk-through.</li>
 </ul>
+<p><strong>Out of scope for this lab:</strong></p>
+<ul>
+<li>The internals of ArduRover’s trajectory generator (S-curve).</li>
+<li>Tuning the position controller (<code>PSC_*</code> gains).</li>
+<li>The EKF and state estimation.</li>
+</ul>
+<p>These exist in the system and you will see their footprints in the logs, but they are not subjects you are expected to tune or analyze.</p>
 </section>
 <section id="schedule" class="level2">
 <h2 class="anchored" data-anchor-id="schedule">Schedule</h2>
-<p><strong>Week 10 (field session):</strong> Run the standard challenge course at least once per team, with the Lab 2 baseline gains loaded. Optional extra runs to explore the effect of <code>WP_SPEED</code> or your tuned Lab-2 gains.</p>
-<p><strong>After the field session:</strong> Generate the trajectory plot, run the analysis script for course time, and assemble the deliverable slide(s).</p>
+<p>Lab 3 runs in a single week with <strong>two field sessions</strong>. Suggested rhythm:</p>
+<ul>
+<li><strong>Session 1 — Shakedown.</strong> Load Lab-2 tuned gains + baseline G&amp;N parameters. Run the standard course at least once, record stopwatch time, and capture the log. Identify what’s working and what’s not (saturation, slow corners, missed acceptance threshold, parameter values you suspect, etc.) so you have a concrete agenda for session 2.</li>
+<li><strong>Session 2 — Iterate and capture best attempt.</strong> Adjust whatever the shakedown surfaced — your Lab-2 PID gains, the tunable G&amp;N handles (<code>WP_SPEED</code>, <code>WP_RADIUS</code>, <code>WP_OVERSHOOT</code>), or your team’s mission-execution technique — and run the course enough times to lock in a result you are willing to submit.</li>
+</ul>
 </section>
 <section id="reading" class="level2">
 <h2 class="anchored" data-anchor-id="reading">Reading</h2>
-<p>Before the field session:</p>
+<p>Before session 1:</p>
 <ul>
-<li><strong><a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">Guidance &amp; Navigation — How the Waypoint Mission Works</a></strong> — companion page explaining the cascade and the S-curve, framed as feedforward + PID nested one level up from Lab 2.</li>
-<li><strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> — the Lab 2 reference. Worth re-skimming because the speed and yaw-rate setpoints the position controller hands down are exactly the channels you tuned.</li>
+<li><strong><a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">Guidance &amp; Navigation — How the Waypoint Mission Works</a></strong> — companion page; the conceptual frame for everything in this lab.</li>
+<li><strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> — Lab 2 reference. Re-skim because the position controller hands its outputs to the channels you already tuned.</li>
+<li><strong><a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Rover Tuning Navigation</a></strong> — parameter handbook for the G&amp;N layer.</li>
 </ul>
 </section>
 <section id="procedure" class="level2">
 <h2 class="anchored" data-anchor-id="procedure">Procedure</h2>
-<p><strong><a href="procedure.qmd">Procedure</a></strong> <em>(to be written)</em> — pre-lab checklist, mission upload via Mission Planner, field workflow for a single run, in-water safety, and how to capture the stopwatch time alongside the log.</p>
+<p><strong><a href="../../weeks/w10_lab_usv_waypoint/procedure.html">Procedure</a></strong> — pre-lab checklist, uploading the mission via Mission Planner, in-water safety, stopwatch protocol, and log capture.</p>
+</section>
+<section id="deliverable" class="level2">
+<h2 class="anchored" data-anchor-id="deliverable">Deliverable</h2>
+<p>One PowerPoint slide per submitted run, containing:</p>
+<ul>
+<li>Trajectory plot from the log, waypoints overlaid on the actual path.</li>
+<li>Course time, stopwatch and log-derived, side by side.</li>
+</ul>
+<p>Minimum: one slide for a clean run of the standard course. Optional: extra slides for variations you tried (different <code>WP_SPEED</code>, different Lab-2 gain set, etc.).</p>
 </section>
 <section id="materials" class="level2">
 <h2 class="anchored" data-anchor-id="materials">Materials</h2>
 <section id="for-students" class="level3">
 <h3 class="anchored" data-anchor-id="for-students">For Students</h3>
 <ul>
-<li>Shared data repository: <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a> — same location used for Lab 2. Upload your raw <code>*.BIN</code> mission logs to your team’s subfolder; instructors will convert to <code>.mat</code>.</li>
-<li><strong>Mission file</strong> <em>(TBD)</em> — the <code>.mission</code> file with the standard course waypoints, distributed before the field session.</li>
-<li><strong>Analysis script</strong> <em>(TBD)</em> — MATLAB script that loads a mission <code>.mat</code>, plots the trajectory against the waypoint list, and reports the log-derived course time.</li>
+<li><strong>Shared data repository:</strong> <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a> — upload raw <code>*.BIN</code> mission logs to your team subfolder; instructors convert to <code>.mat</code>.</li>
+<li><strong>Mission file</strong> <em>(TBD)</em> — the standard course <code>.mission</code> file.</li>
+<li><strong>Analysis script</strong> <em>(TBD)</em> — MATLAB script that loads a mission <code>.mat</code>, plots the trajectory against the waypoints, and reports the log-derived course time.</li>
 </ul>
 </section>
 <section id="for-instructors" class="level3">
 <h3 class="anchored" data-anchor-id="for-instructors">For Instructors</h3>
 <ul>
-<li>Mission file authoring and upload notes — TBD.</li>
-<li>Course time estimation script (parses waypoint-arrival timestamps from the log) — TBD.</li>
+<li>Mission-file authoring and Mission Planner upload notes — TBD.</li>
+<li>Course-time estimation script — TBD.</li>
 </ul>
 
 

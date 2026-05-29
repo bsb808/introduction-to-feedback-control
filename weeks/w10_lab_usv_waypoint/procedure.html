@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Autopilot – ME 2801 — Introduction to Feedback Control</title>
+<title>Procedure – ME 2801 — Introduction to Feedback Control</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,18 +26,18 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-9735d54fab97433a71b882fd56fb8b6a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-9735d54fab97433a71b882fd56fb8b6a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -64,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">ME 2801 — Introduction to Feedback Control</span>
     </a>
   </div>
@@ -74,23 +74,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../syllabus.html"> 
+    <a class="nav-link" href="../../syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../schedule.html"> 
+    <a class="nav-link" href="../../schedule.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../assignments.html"> 
+    <a class="nav-link" href="../../assignments.html"> 
 <span class="menu-text">Assignments</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../autopilot/index.html" aria-current="page"> 
+    <a class="nav-link" href="../../autopilot/index.html"> 
 <span class="menu-text">Autopilot</span></a>
   </li>  
 </ul>
@@ -116,12 +116,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-we-use" id="toc-what-we-use" class="nav-link active" data-scroll-target="#what-we-use">What we use</a></li>
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
-  <li><a href="#log-processing-pipeline" id="toc-log-processing-pipeline" class="nav-link" data-scroll-target="#log-processing-pipeline">Log Processing Pipeline</a></li>
-  <li><a href="#key-log-channels" id="toc-key-log-channels" class="nav-link" data-scroll-target="#key-log-channels">Key Log Channels</a></li>
-  <li><a href="#more" id="toc-more" class="nav-link" data-scroll-target="#more">More</a></li>
+  <li><a href="#lessons-learned" id="toc-lessons-learned" class="nav-link active" data-scroll-target="#lessons-learned">Lessons learned</a></li>
+  <li><a href="#pre-lab" id="toc-pre-lab" class="nav-link" data-scroll-target="#pre-lab">1. Pre-lab</a></li>
+  <li><a href="#shore-setup" id="toc-shore-setup" class="nav-link" data-scroll-target="#shore-setup">2. Shore setup</a></li>
+  <li><a href="#running-the-course" id="toc-running-the-course" class="nav-link" data-scroll-target="#running-the-course">3. Running the course</a></li>
+  <li><a href="#at-the-field-quality-check" id="toc-at-the-field-quality-check" class="nav-link" data-scroll-target="#at-the-field-quality-check">4. At the field — quality check</a></li>
+  <li><a href="#post-field" id="toc-post-field" class="nav-link" data-scroll-target="#post-field">5. Post-field</a></li>
   </ul>
 </nav>
     </div>
@@ -130,8 +130,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Autopilot</h1>
-<p class="subtitle lead">Reference material for the USV labs</p>
+<h1 class="title">Procedure</h1>
 </div>
 
 
@@ -148,143 +147,63 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, Lab 2 PID tuning, Lab 3 navigation).</p>
-</div>
-</div>
-</div>
-<section id="what-we-use" class="level2">
-<h2 class="anchored" data-anchor-id="what-we-use">What we use</h2>
-<table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td><strong>Vehicle</strong></td>
-<td>1.1 m single-screw USV, ~5 kg</td>
-</tr>
-<tr class="even">
-<td><strong>Autopilot software</strong></td>
-<td>ArduRover V4.6.3 (commit <code>3fc7011a</code>)</td>
-</tr>
-<tr class="odd">
-<td><strong>GPS</strong></td>
-<td>HERE3 via DroneCAN</td>
-</tr>
-<tr class="even">
-<td><strong>Ground station</strong></td>
-<td>Mission Planner</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="documentation" class="level2">
-<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
+<p><a href="../../weeks/w10_lab_usv_waypoint/index.html">← Back to Lab 3 overview</a></p>
+<!-- TODO (bsb): write a general-purpose field QA/QC note (probably under
+     site/autopilot/) covering how to confirm log integrity, signal coverage,
+     and parameter capture *at the field* before tearing down. Link to it
+     from this page's "At the field — quality check" step once it exists. -->
+<section id="lessons-learned" class="level2">
+<h2 class="anchored" data-anchor-id="lessons-learned">Lessons learned</h2>
 <ul>
-<li><strong><a href="../autopilot/parameters.html">Autopilot parameters</a></strong> — how parameters are stored and loaded, baseline-vs-default summary, source-code anchors, and a running list of undocumented behavior we’ve discovered.</li>
-<li><strong><a href="../autopilot/stabilization.html">Stabilization layer — speed and yaw-rate PID</a></strong> — architecture of the lowest-level control loops, with full log-channel reference.</li>
-<li><strong><a href="../autopilot/atc_params.html">ATC parameter reference</a></strong> — dense per-parameter look-up table for the <code>ATC_*</code> controllers (units, ranges, vehicle values, source-code anchors).</li>
-<li><strong><a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md">ArduPilot doc references</a></strong> — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis).</li>
+<li><strong>Mode Awareness</strong>: It’s easy to forget which mode you’re in, especially when you’re switching back. You must be in <strong>AUTO</strong> mode for the autopilot to execute the uploaded waypoint mission; MANUAL is direct pilot control and ACRO is what you used in Lab 2 for the closed-loop step tests.</li>
+<li><strong>Compass Calibration</strong>: Insufficient compass calibration can prevent ARM’ing the USV. This can also lead to other, more subtle issues. Try doing a “full” calibration through Mission Planner. Make sure to secure the USV internals so that you can rotate it in all orientations without damaging anything.</li>
+<li><strong>QA/QC Data in the Field</strong>: <!-- note to add separate page on this --></li>
 </ul>
 </section>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<p>The vehicle parameter snapshots (<code>.param</code> files) and per-lab baseline configurations live in <a href="https://github.com/bsb808/introduction-to-feedback-control/tree/main/utils/ardu_params"><code>utils/ardu_params/</code></a>. See the <a href="../autopilot/parameters.html">parameters reference page</a> for an overview, the <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_params/README.md">README</a> in that directory for the Mission Planner load procedure, and <a href="../autopilot/stabilization.html">stabilization.qmd</a> for the <code>ATC_*</code> PID deep dive.</p>
-</section>
-<section id="log-processing-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="log-processing-pipeline">Log Processing Pipeline</h2>
-<p>Field-collected ArduPilot <code>.BIN</code> logs are processed in two stages before MATLAB analysis:</p>
-<ol type="1">
-<li><strong><code>.BIN</code> → <code>.mat</code></strong> — <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin2mat.py"><code>utils/ardu_utils/bin2mat.py</code></a> extracts every numeric field from every message type into a MATLAB <code>.mat</code> file. Field names follow <code>{MSGTYPE}_{field}</code> (e.g.&nbsp;<code>GPS_Spd</code>, <code>RCOU_C3</code>, <code>PIDA_Tar</code>). Logged ArduPilot parameters are saved as a <code>params</code> struct.</li>
-<li><strong>MATLAB analysis</strong> — per-lab scripts under <code>book/wXX_*/code/</code> load the <code>.mat</code> and produce timeseries and metrics.</li>
-</ol>
-</section>
-<section id="key-log-channels" class="level2">
-<h2 class="anchored" data-anchor-id="key-log-channels">Key Log Channels</h2>
-<p>Signals analyzed across the labs:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Channel</th>
-<th>Variable</th>
-<th>Units</th>
-<th>Used in</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>GPS_Spd</code></td>
-<td>Ground speed</td>
-<td>m/s</td>
-<td>Sysid (Lab 1), PID tuning (Lab 2)</td>
-</tr>
-<tr class="even">
-<td><code>IMU_GyrZ</code></td>
-<td>Yaw rate (raw)</td>
-<td>rad/s</td>
-<td>Sysid (Lab 1)</td>
-</tr>
-<tr class="odd">
-<td><code>STER_TurnRate</code></td>
-<td>Yaw rate (EKF)</td>
-<td>rad/s</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="even">
-<td><code>RCOU_C3</code></td>
-<td>Throttle command</td>
-<td>PWM</td>
-<td>Surge input</td>
-</tr>
-<tr class="odd">
-<td><code>RCOU_C1</code></td>
-<td>Rudder command</td>
-<td>PWM</td>
-<td>Yaw input</td>
-</tr>
-<tr class="even">
-<td><code>THR_DesSpeed</code></td>
-<td>Speed setpoint</td>
-<td>m/s</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="odd">
-<td><code>STER_DesTurnRate</code></td>
-<td>Yaw-rate setpoint</td>
-<td>rad/s</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="even">
-<td><code>PIDA_*</code></td>
-<td>Throttle / speed PID internals</td>
-<td>—</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-<tr class="odd">
-<td><code>PIDS_*</code></td>
-<td>Steering / yaw-rate PID internals</td>
-<td>—</td>
-<td>PID tuning (Lab 2)</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="more" class="level2">
-<h2 class="anchored" data-anchor-id="more">More</h2>
-<p><em>Sub-pages added as labs need them:</em></p>
+<section id="pre-lab" class="level2">
+<h2 class="anchored" data-anchor-id="pre-lab">1. Pre-lab</h2>
 <ul>
-<li><em>Setup / connecting to the vehicle — TBD</em></li>
-<li><em>Mission Planner cheatsheet — TBD</em></li>
-<li><em>Common log analysis recipes — TBD</em></li>
+<li>Confirm all hardware: boat, batteries (vehicle + autopilot + R/C + ground laptop), 900 MHz radio, R/C transmitter.</li>
+<li>Mission file loaded on the ground laptop. Lab-2 baseline <code>.param</code> on hand.</li>
+<li>Roles assigned (Planner / Scribe / Pilot).</li>
+<li>Scribe template ready (UTC time + intent per arm).</li>
+</ul>
+</section>
+<section id="shore-setup" class="level2">
+<h2 class="anchored" data-anchor-id="shore-setup">2. Shore setup</h2>
+<ul>
+<li>Standard ArduRover bring-up (see <a href="../../weeks/w07_lab_usv_pid/procedure.html">Lab 2 Procedure §2</a> for the detailed checklist — same vehicle, same telemetry, same baseline confirmation).</li>
+<li>Upload the mission file to the autopilot via Mission Planner.</li>
+<li>Confirm waypoints render correctly on the Mission Planner map.</li>
+</ul>
+</section>
+<section id="running-the-course" class="level2">
+<h2 class="anchored" data-anchor-id="running-the-course">3. Running the course</h2>
+<ul>
+<li>Arm in <strong>MANUAL</strong>, get the boat to open water and to rest.</li>
+<li>Switch to <strong>AUTO</strong> to start the mission. The Planner confirms AUTO on Mission Planner.</li>
+<li>Scribe starts the stopwatch when the USV is <em>first</em> within the acceptance radius of waypoint 1.</li>
+<li>Scribe stops the stopwatch when the USV is <em>first</em> within the acceptance radius of the final waypoint.</li>
+<li>Pilot switches to <strong>MANUAL</strong> after the mission completes. Disarm to close the log.</li>
+</ul>
+</section>
+<section id="at-the-field-quality-check" class="level2">
+<h2 class="anchored" data-anchor-id="at-the-field-quality-check">4. At the field — quality check</h2>
+<p>Before tearing down, confirm for each run you want to keep:</p>
+<ul>
+<li>The log is closed (autopilot disarmed) and the <code>.BIN</code> is on the SD card.</li>
+<li>The scribe captured the UTC arm time and the stopwatch course time.</li>
+<li>Mission Planner shows the boat traversed all waypoints (not a missed mission).</li>
+</ul>
+<!-- TODO: replace this section's bullets with a link to the general-purpose
+     field QA/QC note once written. -->
+</section>
+<section id="post-field" class="level2">
+<h2 class="anchored" data-anchor-id="post-field">5. Post-field</h2>
+<ul>
+<li>Upload <code>.BIN</code> logs to the shared repository, in your team’s subfolder.</li>
+<li>Run the analysis script <em>(TBD)</em> to generate the trajectory plot and the log-derived course time.</li>
+<li>Assemble the deliverable slide.</li>
 </ul>
 
 
