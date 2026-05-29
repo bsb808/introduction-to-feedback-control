@@ -1,0 +1,59 @@
+---
+title: "Procedure"
+---
+
+[← Back to Lab 3 overview](index.qmd)
+
+<!-- TODO (bsb): write a general-purpose field QA/QC note (probably under
+     site/autopilot/) covering how to confirm log integrity, signal coverage,
+     and parameter capture *at the field* before tearing down. Link to it
+     from this page's "At the field — quality check" step once it exists. -->
+
+## Lessons learned
+
+* **Mode Awareness**: It's easy to forget which mode you're in, especially when you're switching back.   You must be in MANUAL mode for navigation % CLAUDE: Check the veracity.
+* **Compass Calibration**: Insufficient compass calibration can prevent ARM'ing the USV.  This can also lead to other, more subtle issues.  Try doing a "full" calibration through Mission Planner.  Make sure to secure the USV internals so that you can rotate it in all orientations without damaging anything.
+* **QA/QC Data in the Field**:  <!-- note to add separate page on this -->
+
+
+_Add notes here as they come up — pre-lab, in-field, post-processing. The intent is to keep these tight (one or two sentences each) so they're easy to scan before the next session._
+
+- TBD
+
+## 1. Pre-lab
+
+- Confirm all hardware: boat, batteries (vehicle + autopilot + R/C + ground laptop), 900 MHz radio, R/C transmitter.
+- Mission file loaded on the ground laptop. Lab-2 baseline `.param` on hand.
+- Roles assigned (Planner / Scribe / Pilot).
+- Scribe template ready (UTC time + intent per arm).
+
+## 2. Shore setup
+
+- Standard ArduRover bring-up (see [Lab 2 Procedure §2](../w07_lab_usv_pid/procedure.qmd) for the detailed checklist — same vehicle, same telemetry, same baseline confirmation).
+- Upload the mission file to the autopilot via Mission Planner.
+- Confirm waypoints render correctly on the Mission Planner map.
+
+## 3. Running the course
+
+- Arm in **MANUAL**, get the boat to open water and to rest.
+- Switch to **AUTO** to start the mission. The Planner confirms AUTO on Mission Planner.
+- Scribe starts the stopwatch when the USV is *first* within the acceptance radius of waypoint 1.
+- Scribe stops the stopwatch when the USV is *first* within the acceptance radius of the final waypoint.
+- Pilot switches to **MANUAL** after the mission completes. Disarm to close the log.
+
+## 4. At the field — quality check
+
+Before tearing down, confirm for each run you want to keep:
+
+- The log is closed (autopilot disarmed) and the `.BIN` is on the SD card.
+- The scribe captured the UTC arm time and the stopwatch course time.
+- Mission Planner shows the boat traversed all waypoints (not a missed mission).
+
+<!-- TODO: replace this section's bullets with a link to the general-purpose
+     field QA/QC note once written. -->
+
+## 5. Post-field
+
+- Upload `.BIN` logs to the shared repository, in your team's subfolder.
+- Run the analysis script *(TBD)* to generate the trajectory plot and the log-derived course time.
+- Assemble the deliverable slide.
