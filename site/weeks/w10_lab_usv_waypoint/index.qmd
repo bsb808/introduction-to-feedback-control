@@ -3,15 +3,15 @@ title: "Lab 3 — USV Waypoint Mission Challenge"
 subtitle: "Week 10 · {{< var quarter >}}"
 ---
 
-## What is Lab 3
+## Overview
 
 * Use the **stabilization layer** you tuned in [Lab 2](../w07_lab_usv_pid/index.qmd) as the foundation for autonomously following a sequence of waypoints with ArduRover's guidance and navigation stack.
-* More **exploratory** than Lab 1 and Lab 2: we provide the framework, the goal, and a baseline configuration; you are welcome to use all the tools at your disposal to iterate and improve on that baseline. (This is an authentic exploration of the autopilot's capabilties.  We don't know how it is going to turn out!)
-* Connection to course material: the **feedback concepts from Lab 2** (proportional error, feedforward, transient performance) reappear at the guidance layer. We will use that to motivate what's happening; a full treatment of guidance and navigation is **beyond the scope of this class**.
+* More **exploratory** than Lab 1 and Lab 2: we provide the framework, the goal, and a baseline configuration; you are welcome to use all the tools at your disposal to iterate and improve on that baseline. (This is an authentic exploration of the autopilot's capabilities.  We don't know how it is going to turn out!)
+* The **feedback concepts from Lab 2** (proportional error, feedforward, transient performance) reappear at the guidance layer. We will use that to motivate what's happening; a full treatment of guidance and navigation is **beyond the scope of this class**.
 
 ![ArduRover architecture: Mission Planner on the ground laptop issues the mission to the autopilot, which runs the guidance, navigation, and stabilization layers on the boat. The stabilization layer is what you tuned in Lab 2; the layers above are introduced in the [companion page](guidance_navigation.qmd).](images/ardurover_arch.svg){fig-alt="ArduRover architecture block diagram, Mission Planner laptop above the USV's autopilot, mission execution / guidance / stabilization layers cascading to actuators."}
 
-## Motivating goal
+### Waypoint Mission Challenge
 
 * **Minimize course time** for a fixed mission of 3–5 waypoints.
 * **Course time** is defined as
@@ -21,7 +21,7 @@ subtitle: "Week 10 · {{< var quarter >}}"
     * Stopwatch + Mission Planner display, recorded by the team in the field (primary measurement).
     * Log-derived estimate from post-processing (target — exact scoring approach TBD).
 
-## Conceptual bridge from Lab 2
+## Description
 
 * In Lab 2 each stabilization loop had the same internal structure: setpoint → error → PID (with feedforward) → actuator.
 * The guidance layer applies the **same pattern, one level up**:
@@ -39,13 +39,12 @@ subtitle: "Week 10 · {{< var quarter >}}"
 
 These exist in the system and you will see their footprints in the logs, but they are not subjects you are expected to tune or analyze.
 
-## Schedule % CLAUDE: Revise this to two field sessions.   
+## Schedule
 
-Lab 3 runs in a single week with **2–3 field sessions**. Suggested rhythm:
+Lab 3 runs in a single week with **two field sessions**. Suggested rhythm:
 
-* **Session 1 — Shakedown.** Load Lab-2 tuned gains + baseline G&N parameters. Run the standard course once, record stopwatch time, capture the log. Identify any issues (saturation, slow corners, missed acceptance threshold, etc.).
-* **Session 2 — Iterate.** Adjust whatever the shakedown surfaced — could be your Lab-2 PID gains, the tunable G&N handles (`WP_SPEED`, `WP_RADIUS`, `WP_OVERSHOOT`), or your team's mission-execution technique. Re-run.
-* **Session 3 (optional) — Best attempt.** If progress justifies it, lock in your favorite configuration and shoot for the best stopwatch time.
+* **Session 1 — Shakedown.** Load Lab-2 tuned gains + baseline G&N parameters. Run the standard course at least once, record stopwatch time, and capture the log. Identify what's working and what's not (saturation, slow corners, missed acceptance threshold, parameter values you suspect, etc.) so you have a concrete agenda for session 2.
+* **Session 2 — Iterate and capture best attempt.** Adjust whatever the shakedown surfaced — your Lab-2 PID gains, the tunable G&N handles (`WP_SPEED`, `WP_RADIUS`, `WP_OVERSHOOT`), or your team's mission-execution technique — and run the course enough times to lock in a result you are willing to submit.
 
 ## Reading
 
