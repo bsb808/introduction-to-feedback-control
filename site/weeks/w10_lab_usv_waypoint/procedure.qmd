@@ -11,14 +11,9 @@ title: "Procedure"
 
 ## Lessons learned
 
-* **Mode Awareness**: It's easy to forget which mode you're in, especially when you're switching back.   You must be in MANUAL mode for navigation % CLAUDE: Check the veracity.
+* **Mode Awareness**: It's easy to forget which mode you're in, especially when you're switching back. You must be in **AUTO** mode for the autopilot to execute the uploaded waypoint mission; MANUAL is direct pilot control and ACRO is what you used in Lab 2 for the closed-loop step tests.
 * **Compass Calibration**: Insufficient compass calibration can prevent ARM'ing the USV.  This can also lead to other, more subtle issues.  Try doing a "full" calibration through Mission Planner.  Make sure to secure the USV internals so that you can rotate it in all orientations without damaging anything.
 * **QA/QC Data in the Field**:  <!-- note to add separate page on this -->
-
-
-_Add notes here as they come up — pre-lab, in-field, post-processing. The intent is to keep these tight (one or two sentences each) so they're easy to scan before the next session._
-
-- TBD
 
 ## 1. Pre-lab
 

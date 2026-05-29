@@ -56,7 +56,7 @@ Before session 1:
 
 ## Procedure
 
-**[Procedure](procedure.qmd)** *(to be written)* — pre-lab checklist, uploading the mission via Mission Planner, in-water safety, stopwatch protocol, and log capture.
+**[Procedure](procedure.qmd)** — pre-lab checklist, uploading the mission via Mission Planner, in-water safety, stopwatch protocol, and log capture.
 
 ## Deliverable
 
