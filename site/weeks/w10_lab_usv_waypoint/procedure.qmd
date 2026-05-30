@@ -14,17 +14,16 @@ title: "Procedure"
 * **Mode Awareness**: It's easy to forget which mode you're in, especially when you're switching back. You must be in **AUTO** mode for the autopilot to execute the uploaded waypoint mission; MANUAL is direct pilot control and ACRO is what you used in Lab 2 for the closed-loop step tests.
 * **Write Params**: When changing the autopilot parameters, make sure to click "Write Params" in Mission Planner to save them to the autopilot.  If you forget this step, the parameters will not be updated on the autopilot and you won't see the expected changes in behavior.
 * **Compass Calibration**: Insufficient compass calibration can prevent ARM'ing the USV.  This can also lead to other, more subtle issues.  The instructors have not been able to reproduce this behavior.   Make sure the vessel is flat and level when powering up the autopilot and when doing the large vehicle calibration.   Worst case, try doing a "full" calibration through Mission Planner.  Make sure to secure the USV internals so that you can rotate it in all orientations without damaging anything.
-* **QA/QC Data in the Field**:  Before putting the USV away, do some quick visualization of a selection of the log files to take a high-level peek at contents of the logs.  Use this online tool (\url{https://plot.ardupilot.org/}) to peek at the raw BIN files from the SD card.  This can help you confirm that the logs are capturing the signals you expect, and that the signals look reasonable (e.g. not all zeros, not saturated at max value, etc.).  
+* **QA/QC Data in the Field**:  Before putting the USV away, do some quick visualization of a selection of the log files to take a high-level peek at contents of the logs.  Use the online tool at <https://plot.ardupilot.org/> to peek at the raw BIN files from the SD card.  This can help you confirm that the logs are capturing the signals you expect, and that the signals look reasonable (e.g. not all zeros, not saturated at max value, etc.).
 
 
 ## Configuration Parameter Changes
 
 There are a few parameter changes we discovered in prototyping the lab:
 
-% CLAUDE: For each of these, provide a link to the relevant ArduRover documentation for that parameter.   
-* **`AUTO_KICKSTART = 0`**: By setting this to zero, as soon as the pilot switches to AUTO, the USV will immediately execute the mission. 
-* **`WP_RADIUS = 1`**:  Sets the acceptance radius for each waypoint to 1 meter.  For the competition to be fair, all teams should use the same acceptance radius.  
-* **`FS_ACTION = 0`**: This disables the failsafe behavior of the autopilot.  If the autopilot detects a failure condition (e.g. loss of R/C signal, loss of GPS, low battery, etc.) it will continue the mission.   The USV will likely loose connection to the R/C transmitter at the far side of the lake.  This triggers a failsafe and if this value is non-zero, the USV will stop executing the mission and stop.  
+* [`AUTO_KICKSTART = 0`](https://ardupilot.org/rover/docs/parameters.html#auto-kickstart-auto-mode-trigger-acceleration): By setting this to zero, as soon as the pilot switches to AUTO, the USV will immediately execute the mission.
+* [`WP_RADIUS = 1`](https://ardupilot.org/rover/docs/parameters.html#wp-radius-waypoint-radius): Sets the acceptance radius for each waypoint to 1 meter. For the competition to be fair, all teams should use the same acceptance radius.
+* [`FS_ACTION = 0`](https://ardupilot.org/rover/docs/parameters.html#fs-action-failsafe-action): Disables the failsafe behavior of the autopilot. If the autopilot detects a failure condition (e.g. loss of R/C signal, loss of GPS, low battery) the mission continues uninterrupted. The USV will likely lose connection to the R/C transmitter at the far side of the lake; if this value is non-zero, that failsafe will halt the mission.
 
 The full parameter file from the instructors' baseline is here: [`docs/2026_05_29_proto.param`](docs/2026_05_29_proto.param).  We would recommend searching through this if you have questions, but using this full file will overwrite your stabilization-layer tuning from Lab 2, so we recommend just changing the parameters above for the baseline runs and then using this file as a reference for any other parameter changes you want to make.
 
@@ -50,16 +49,16 @@ Vehicle Safety Notes:
 
 Typical Process: 
 
-- Pilot ARMs,starts new log file
-- Scripe notes the UTC arm time to correlate with log file later.
+- Pilot ARMs, starts new log file.
+- Scribe notes the UTC arm time to correlate with the log file later.
 - Pilot is in MANUAL (or AUTO) and drives to a safe starting point.
 - Run mission:
-     - Pilot switches to AUTO to start the mission. 
+     - Pilot switches to AUTO to start the mission.
      - Planner confirms AUTO on Mission Planner.
-     - Scribe starts the stopwatch when the USV is within the acceptance radius of first.
-     - Pilot and Planner monitor the mission execution, ready to abort (switch out of AUTO model).
-     - (Optional)  Good idea to take screen grab of the Mission Planner display during the run, to capture the course time and the trajectory for later comparison to the log-derived results.
-     - Scribe stops the stopwatch when the USV is  within the acceptance radius of the final waypoint.
+     - Scribe starts the stopwatch the first time the USV is within the acceptance radius of the first waypoint.
+     - Pilot and Planner monitor the mission execution, ready to abort (switch out of AUTO mode).
+     - (Optional) Planner takes a screen grab of the Mission Planner display during the run to capture the course time and the trajectory for later comparison to the log-derived results.  Please include these with the BIN files you upload to the shared repository.
+     - Scribe stops the stopwatch the first time the USV is within the acceptance radius of the final waypoint.
 - Pilot switches to MANUAL after the mission completes. 
 - Pilot Dis-ARM to close the log - and re-ARM.
 - Scribe notes the UTC time as the end of the log file. 
@@ -71,15 +70,14 @@ Remove the SD card from the autopilot and copy the `.BIN` log file to the shared
 
 * [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ) — upload raw `*.BIN` mission logs to your team subfolder.
 
-## 4. At the field — data quality check
+## 5. At the field — data quality check
 
-It is highly recommended to do a quick check of the log files in the field. The \url{https://plot.ardupilot.org/} tool is great for a quick peek at the raw BIN files from the SD card.
+It is highly recommended to do a quick check of the log files in the field. The <https://plot.ardupilot.org/> tool is great for a quick peek at the raw BIN files from the SD card.
 
-![UAV Log Viewer](images/uavlogviewer_course.png)
+![UAV Log Viewer showing a sample mission BIN file — verify the channels you expect are present and look reasonable before tearing down.](images/uavlogviewer_course.png)
 
 
-## 5. Post-field
+## 6. Post-field
 
-- Upload `.BIN` logs to the shared repository, in your team's subfolder.
 - Run the analysis script *(TBD)* to generate the trajectory plot and the log-derived course time.
 - Assemble the deliverable slide.
