@@ -20,6 +20,7 @@ Centralized reference for the autopilot used across all USV labs (Lab 1 sysid, L
 
 - **[Autopilot parameters](parameters.qmd)** — how parameters are stored and loaded, baseline-vs-default summary, source-code anchors, and a running list of undocumented behavior we've discovered.
 - **[Stabilization layer — speed and yaw-rate PID](stabilization.qmd)** — architecture of the lowest-level control loops, with full log-channel reference.
+- **[Waypoint navigation (boats)](waypoint_navigation.qmd)** — conceptual overview of how a mission of waypoints becomes the speed and yaw-rate setpoints that the stabilization layer chases, with the PID analogy drawn explicitly.
 - **[ATC parameter reference](atc_params.qmd)** — dense per-parameter look-up table for the `ATC_*` controllers (units, ranges, vehicle values, source-code anchors).
 - **[ArduPilot doc references](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w07_lab_usv_pid/refs/ardupilot_references.md)** — curated entry points into the upstream ArduPilot documentation (tuning, parameters, log analysis).
 
