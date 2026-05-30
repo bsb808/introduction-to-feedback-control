@@ -13,13 +13,14 @@ subtitle: "Week 10 · {{< var quarter >}}"
 
 ### Waypoint Mission Challenge
 
-* **Minimize course time** for a fixed mission of 3–5 waypoints.
+* **Minimize course time** for a fixed mission
+    * Mission file: [`challengecourse_ay26q3.waypoints`](docs/challengecourse_ay26q3.waypoints) — the standard course mission, distributed for upload via Mission Planner.
 * **Course time** is defined as
     * **Start:** the first time the USV is within the acceptance threshold of waypoint 1.
     * **End:** the first time the USV enters the threshold of the final waypoint.
 * **Two measurements per run:**
-    * Stopwatch + Mission Planner display, recorded by the team in the field (primary measurement).
-    * Log-derived estimate from post-processing (target — exact scoring approach TBD).
+    * Real-time estimate: recorded by the team in the field using Mission Planner.  
+    * Post-processed estimate (official score): result of analyzing the log files with the provided script
 
 ![Overview of the competition waypoint mission, as it appears in Mission Planner before upload to the autopilot.](images/missionplanner_course.png){fig-alt="Mission Planner screenshot showing the uploaded waypoint mission overlaid on a satellite map of the course area."}
 
