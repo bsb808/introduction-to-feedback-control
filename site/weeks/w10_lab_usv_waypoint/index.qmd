@@ -15,7 +15,7 @@ subtitle: "Week 10 · {{< var quarter >}}"
 
 * **Minimize course time** for a fixed mission of 3–5 waypoints.
 * **Course time** is defined as
-    * **Start:** the last time the USV is within the acceptance threshold of waypoint 1.
+    * **Start:** the first time the USV is within the acceptance threshold of waypoint 1.
     * **End:** the first time the USV enters the threshold of the final waypoint.
 * **Two measurements per run:**
     * Stopwatch + Mission Planner display, recorded by the team in the field (primary measurement).
