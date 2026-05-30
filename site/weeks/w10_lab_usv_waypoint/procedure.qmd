@@ -68,9 +68,9 @@ Typical Process:
 
 ## Tuning Process Notes
 
-The parameters above are the only ones (that we know of) that need to be changed for the baseline run, i.e., the navigation should work acceptably welll out-of-the box.   We'd like to tune the system to minimize the time to complete the course.   For tuning, you can change any parameters you like, but we recommend keeping a careful record of what you changed and why, and using the full parameter file from the instructors as a reference if you want to make more extensive changes.
+The parameters above are the only ones (that we know of) that need to be changed for the baseline run, i.e., the navigation should work acceptably well out of the box.   We'd like to tune the system to minimize the time to complete the course.   For tuning, you can change any parameters you like, but we recommend keeping a careful record of what you changed and why, and using the full parameter file from the instructors as a reference if you want to make more extensive changes.
 
-We are really intersested to find out how you tune this to maximize course speed - so any notes you have on your tuning process and the effects of different parameter changes are very welcome in the deliverable slide!
+We are really interested to find out how you tune this to maximize course speed - so any notes you have on your tuning process and the effects of different parameter changes are very welcome in the deliverable slide!
 
 The ArduRover documentation on tuning the navigation layer is here: <https://ardupilot.org/rover/docs/rover-tuning-navigation.html>.  It is complicated.
 
@@ -93,6 +93,8 @@ It is highly recommended to do a quick check of the log files in the field. The 
 
 ## 6. Post-field
 
+This will likely need to be done by the instructors.  Setting up the Python (virtual) environment is beyond the scope of the class (but you are welcome to see if you favorate AI tool can assist).
+
 - Run the analysis script [`utils/ardu_utils/bin_coursetime.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py) to generate the trajectory plot and the log-derived course time. Pass it your `.BIN` log(s) and the mission `.waypoints` file; add `-p` for the trajectory plot. The course time is measured from the *first* time the USV is within the acceptance radius of the first waypoint to the *first* time it is within the acceptance radius of the final waypoint — matching the scribe's stopwatch convention above. By default it reads the acceptance radius from each log's `WP_RADIUS` parameter.
 
   ```bash
@@ -100,7 +102,9 @@ It is highly recommended to do a quick check of the log files in the field. The 
   source .venv/bin/activate   # see ardu_utils/README.md for one-time setup
   python bin_coursetime.py /path/to/logs/ /path/to/challengecourse_ay26q3.waypoints -p
   ```
-- Assemble the deliverable slide.
 
+![Prototype course run](images/00000035.BIN.coursetime.png){fig-alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii." width=60%}
 
-![Prototype course run](images/00000035.BIN.coursetime.png){fig-alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii."}
+## 7. Deliverable
+
+See the [Lab 3 overview](index.qmd#minimum-viable-deliverable-mvd) for the deliverable details.  

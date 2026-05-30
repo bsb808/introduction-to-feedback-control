@@ -23,7 +23,7 @@ subtitle: "Week 10 · {{< var quarter >}}"
 
 ![Overview of the competition waypoint mission, as it appears in Mission Planner before upload to the autopilot.](images/missionplanner_course.png){fig-alt="Mission Planner screenshot showing the uploaded waypoint mission overlaid on a satellite map of the course area."}
 
-% CLAUDE: Show me how to reduce this size of this image ![Prototype course run.  The post-processing (scored) course run.](images/00000035.BIN.coursetime.png){fig-alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii."}
+![Prototype course run from a scored post-processing pass.](images/00000035.BIN.coursetime.png){fig-alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii." width=60%}
 
 ## Background - ArduRover's Guidance & Navigation
 
@@ -67,9 +67,9 @@ One PowerPoint slide containing:
 
 * **Shared data repository:** [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ) — upload raw `*.BIN` mission logs to your team subfolder; instructors convert to `.mat`.
 * **Mission file:** [`challengecourse_ay26q3.waypoints`](docs/challengecourse_ay26q3.waypoints) — the standard course mission, distributed for upload via Mission Planner.
-% CLAUDE: Add link to the baseline params file here too.
+* **Baseline parameters:** [`2026_05_29_proto.param`](docs/2026_05_29_proto.param) — the instructors' full prototype parameter set. See the [Procedure → Configuration Parameter Changes](procedure.qmd#configuration-parameter-changes) note before loading this; using the file wholesale will overwrite the Lab 2 stabilization-layer tuning.
 
 ### For Instructors
 
-% CLAUDE: Add link to course time estimation script
+* **Course-time analysis script:** [`utils/ardu_utils/bin_coursetime.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py) — reads one or more `.BIN` logs plus a mission `.waypoints` file and reports the log-derived course time (and optionally a trajectory plot). See the [Procedure → Post-field section](procedure.qmd#post-field) for the recommended invocation.
 
