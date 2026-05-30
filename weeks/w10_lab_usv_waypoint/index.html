@@ -120,11 +120,10 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#waypoint-mission-challenge" id="toc-waypoint-mission-challenge" class="nav-link" data-scroll-target="#waypoint-mission-challenge">Waypoint Mission Challenge</a></li>
   </ul></li>
-  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
-  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a></li>
+  <li><a href="#background---ardurovers-guidance-navigation" id="toc-background---ardurovers-guidance-navigation" class="nav-link" data-scroll-target="#background---ardurovers-guidance-navigation">Background - ArduRover’s Guidance &amp; Navigation</a></li>
   <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading">Reading</a></li>
   <li><a href="#procedure" id="toc-procedure" class="nav-link" data-scroll-target="#procedure">Procedure</a></li>
-  <li><a href="#deliverable" id="toc-deliverable" class="nav-link" data-scroll-target="#deliverable">Deliverable</a></li>
+  <li><a href="#minimum-viable-deliverable-mvd" id="toc-minimum-viable-deliverable-mvd" class="nav-link" data-scroll-target="#minimum-viable-deliverable-mvd">Minimum Viable Deliverable (MVD)</a></li>
   <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a>
   <ul class="collapse">
   <li><a href="#for-students" id="toc-for-students" class="nav-link" data-scroll-target="#for-students">For Students</a></li>
@@ -175,8 +174,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Minimize course time</strong> for a fixed mission of 3–5 waypoints.</li>
 <li><strong>Course time</strong> is defined as
 <ul>
-<li><strong>Start:</strong> the <em>first</em> moment the USV enters the acceptance threshold around waypoint 1.</li>
-<li><strong>End:</strong> the <em>first</em> moment the USV enters the acceptance threshold around the final waypoint.</li>
+<li><strong>Start:</strong> the last time the USV is within the acceptance threshold of waypoint 1.</li>
+<li><strong>End:</strong> the first time the USV enters the threshold of the final waypoint.</li>
 </ul></li>
 <li><strong>Two measurements per run:</strong>
 <ul>
@@ -184,10 +183,16 @@ ul.task-list li input[type="checkbox"] {
 <li>Log-derived estimate from post-processing (target — exact scoring approach TBD).</li>
 </ul></li>
 </ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/missionplanner_course.png" class="img-fluid figure-img" alt="Mission Planner screenshot showing the uploaded waypoint mission overlaid on a satellite map of the course area."></p>
+<figcaption>Overview of the competition waypoint mission, as it appears in Mission Planner before upload to the autopilot.</figcaption>
+</figure>
+</div>
 </section>
 </section>
-<section id="description" class="level2">
-<h2 class="anchored" data-anchor-id="description">Description</h2>
+<section id="background---ardurovers-guidance-navigation" class="level2">
+<h2 class="anchored" data-anchor-id="background---ardurovers-guidance-navigation">Background - ArduRover’s Guidance &amp; Navigation</h2>
 <ul>
 <li>In Lab 2 each stabilization loop had the same internal structure: setpoint → error → PID (with feedforward) → actuator.</li>
 <li>The guidance layer applies the <strong>same pattern, one level up</strong>:
@@ -199,21 +204,7 @@ ul.task-list li input[type="checkbox"] {
 <li>In other words: Lab 3’s guidance layer is a proportional position controller wrapped around your Lab-2 PIDs.</li>
 <li>See <strong><a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">Guidance &amp; Navigation — How the Waypoint Mission Works</a></strong> for the full walk-through.</li>
 </ul>
-<p><strong>Out of scope for this lab:</strong></p>
-<ul>
-<li>The internals of ArduRover’s trajectory generator (S-curve).</li>
-<li>Tuning the position controller (<code>PSC_*</code> gains).</li>
-<li>The EKF and state estimation.</li>
-</ul>
-<p>These exist in the system and you will see their footprints in the logs, but they are not subjects you are expected to tune or analyze.</p>
-</section>
-<section id="schedule" class="level2">
-<h2 class="anchored" data-anchor-id="schedule">Schedule</h2>
-<p>Lab 3 runs in a single week with <strong>two field sessions</strong>. Suggested rhythm:</p>
-<ul>
-<li><strong>Session 1 — Shakedown.</strong> Load Lab-2 tuned gains + baseline G&amp;N parameters. Run the standard course at least once, record stopwatch time, and capture the log. Identify what’s working and what’s not (saturation, slow corners, missed acceptance threshold, parameter values you suspect, etc.) so you have a concrete agenda for session 2.</li>
-<li><strong>Session 2 — Iterate and capture best attempt.</strong> Adjust whatever the shakedown surfaced — your Lab-2 PID gains, the tunable G&amp;N handles (<code>WP_SPEED</code>, <code>WP_RADIUS</code>, <code>WP_OVERSHOOT</code>), or your team’s mission-execution technique — and run the course enough times to lock in a result you are willing to submit.</li>
-</ul>
+<p>The internals of guidance and navigation — trajectory generation, position-controller tuning, the EKF — are outside the scope of this introductory class. The references on this page and in the companion give you a mental model that’s sufficient for thinking about Lab 3 performance; a proper treatment is in followon graduate courses on guidance, navigation, and control.</p>
 </section>
 <section id="reading" class="level2">
 <h2 class="anchored" data-anchor-id="reading">Reading</h2>
@@ -228,14 +219,14 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="procedure">Procedure</h2>
 <p><strong><a href="../../weeks/w10_lab_usv_waypoint/procedure.html">Procedure</a></strong> — pre-lab checklist, uploading the mission via Mission Planner, in-water safety, stopwatch protocol, and log capture.</p>
 </section>
-<section id="deliverable" class="level2">
-<h2 class="anchored" data-anchor-id="deliverable">Deliverable</h2>
-<p>One PowerPoint slide per submitted run, containing:</p>
+<section id="minimum-viable-deliverable-mvd" class="level2">
+<h2 class="anchored" data-anchor-id="minimum-viable-deliverable-mvd">Minimum Viable Deliverable (MVD)</h2>
+<p>One PowerPoint slide containing:</p>
 <ul>
 <li>Trajectory plot from the log, waypoints overlaid on the actual path.</li>
 <li>Course time, stopwatch and log-derived, side by side.</li>
+<li>Comments/notes on what your team tried to improve on the baseline, and what worked / didn’t work.</li>
 </ul>
-<p>Minimum: one slide for a clean run of the standard course. Optional: extra slides for variations you tried (different <code>WP_SPEED</code>, different Lab-2 gain set, etc.).</p>
 </section>
 <section id="materials" class="level2">
 <h2 class="anchored" data-anchor-id="materials">Materials</h2>
@@ -243,7 +234,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="for-students">For Students</h3>
 <ul>
 <li><strong>Shared data repository:</strong> <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a> — upload raw <code>*.BIN</code> mission logs to your team subfolder; instructors convert to <code>.mat</code>.</li>
-<li><strong>Mission file</strong> <em>(TBD)</em> — the standard course <code>.mission</code> file.</li>
+<li><strong>Mission file:</strong> <a href="docs/challengecourse_ay26q3.waypoints"><code>challengecourse_ay26q3.waypoints</code></a> — the standard course mission, distributed for upload via Mission Planner.</li>
 <li><strong>Analysis script</strong> <em>(TBD)</em> — MATLAB script that loads a mission <code>.mat</code>, plots the trajectory against the waypoints, and reports the log-derived course time.</li>
 </ul>
 </section>
