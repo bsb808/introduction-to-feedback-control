@@ -12,8 +12,10 @@ title: "Procedure"
 ## Lessons learned
 
 * **Mode Awareness**: It's easy to forget which mode you're in, especially when you're switching back. You must be in **AUTO** mode for the autopilot to execute the uploaded waypoint mission; MANUAL is direct pilot control and ACRO is what you used in Lab 2 for the closed-loop step tests.
-* **Compass Calibration**: Insufficient compass calibration can prevent ARM'ing the USV.  This can also lead to other, more subtle issues.  Try doing a "full" calibration through Mission Planner.  Make sure to secure the USV internals so that you can rotate it in all orientations without damaging anything.
-* **QA/QC Data in the Field**:  <!-- note to add separate page on this -->
+* **Write Params**: When changing the autopilot parameters, make sure to click "Write Params" in Mission Planner to save them to the autopilot.  If you forget this step, the parameters will not be updated on the autopilot and you won't see the expected changes in behavior.
+* **Compass Calibration**: Insufficient compass calibration can prevent ARM'ing the USV.  This can also lead to other, more subtle issues.  The instructors have not been able to reproduce this behavior.   Make sure the vessel is flat and level when powering up the autopilot and when doing the large vehicle calibration.   Worst case, try doing a "full" calibration through Mission Planner.  Make sure to secure the USV internals so that you can rotate it in all orientations without damaging anything.
+* **QA/QC Data in the Field**:  Before putting the USV away, do some quick visualization of a selection of the log files to take a high-level peek at contents of the logs.  Use this online tool (\url{https://plot.ardupilot.org/}) to peek at the raw BIN files from the SD card.  This can help you confirm that the logs are capturing the signals you expect, and that the signals look reasonable (e.g. not all zeros, not saturated at max value, etc.).  
+
 
 ## 1. Pre-lab
 
