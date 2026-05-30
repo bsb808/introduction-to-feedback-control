@@ -165,7 +165,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/ardurover_arch.svg" class="img-fluid figure-img" alt="ArduRover architecture block diagram, Mission Planner laptop above the USV's autopilot, mission execution / guidance / stabilization layers cascading to actuators."></p>
-<figcaption>ArduRover architecture: Mission Planner on the ground laptop issues the mission to the autopilot, which runs the guidance, navigation, and stabilization layers on the boat. The stabilization layer is what you tuned in Lab 2; the layers above are introduced in the <a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">companion page</a>.</figcaption>
+<figcaption>ArduRover architecture: Mission Planner on the ground laptop issues the mission to the autopilot, which runs the guidance, navigation, and stabilization layers on the boat. The stabilization layer is what you tuned in Lab 2; the layers above are introduced in the <a href="../../autopilot/waypoint_navigation.html">companion page</a>.</figcaption>
 </figure>
 </div>
 <section id="waypoint-mission-challenge" class="level3">
@@ -189,20 +189,26 @@ ul.task-list li input[type="checkbox"] {
 <figcaption>Overview of the competition waypoint mission, as it appears in Mission Planner before upload to the autopilot.</figcaption>
 </figure>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/00000035.BIN.coursetime.png" class="img-fluid figure-img" style="width:60.0%" alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii."></p>
+<figcaption>Prototype course run from a scored post-processing pass.</figcaption>
+</figure>
+</div>
 </section>
 </section>
 <section id="background---ardurovers-guidance-navigation" class="level2">
 <h2 class="anchored" data-anchor-id="background---ardurovers-guidance-navigation">Background - ArduRover’s Guidance &amp; Navigation</h2>
 <ul>
 <li>In Lab 2 each stabilization loop had the same internal structure: setpoint → error → PID (with feedforward) → actuator.</li>
-<li>The guidance layer applies the <strong>same pattern, one level up</strong>:
+<li>The guidance layer applies the same pattern:
 <ul>
 <li>Setpoint = next waypoint.</li>
 <li>Error = position relative to the waypoint (a vector, but treated similarly to a scalar error in the proportional sense).</li>
 <li>“Controller output” = a speed and yaw-rate command sent down to the stabilization layer — i.e.&nbsp;the same <code>THR_DesSpeed</code> and <code>STER_DesTurnRate</code> channels you logged in Lab 2.</li>
 </ul></li>
 <li>In other words: Lab 3’s guidance layer is a proportional position controller wrapped around your Lab-2 PIDs.</li>
-<li>See <strong><a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">Guidance &amp; Navigation — How the Waypoint Mission Works</a></strong> for the full walk-through.</li>
+<li>See the autopilot reference page <a href="../../autopilot/waypoint_navigation.html">Waypoint Navigation in ArduRover (Boats)</a> for the full walk-through.</li>
 </ul>
 <p>The internals of guidance and navigation — trajectory generation, position-controller tuning, the EKF — are outside the scope of this introductory class. The references on this page and in the companion give you a mental model that’s sufficient for thinking about Lab 3 performance; a proper treatment is in followon graduate courses on guidance, navigation, and control.</p>
 </section>
@@ -210,7 +216,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="reading">Reading</h2>
 <p>Before session 1:</p>
 <ul>
-<li><strong><a href="../../weeks/w10_lab_usv_waypoint/guidance_navigation.html">Guidance &amp; Navigation — How the Waypoint Mission Works</a></strong> — companion page; the conceptual frame for everything in this lab.</li>
+<li><a href="../../autopilot/waypoint_navigation.html">Waypoint Navigation in ArduRover (Boats)</a> — the autopilot reference; conceptual frame for everything in this lab.</li>
 <li><strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> — Lab 2 reference. Re-skim because the position controller hands its outputs to the channels you already tuned.</li>
 <li><strong><a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Rover Tuning Navigation</a></strong> — parameter handbook for the G&amp;N layer.</li>
 </ul>
@@ -235,14 +241,13 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>Shared data repository:</strong> <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a> — upload raw <code>*.BIN</code> mission logs to your team subfolder; instructors convert to <code>.mat</code>.</li>
 <li><strong>Mission file:</strong> <a href="docs/challengecourse_ay26q3.waypoints"><code>challengecourse_ay26q3.waypoints</code></a> — the standard course mission, distributed for upload via Mission Planner.</li>
-<li><strong>Analysis script</strong> <em>(TBD)</em> — MATLAB script that loads a mission <code>.mat</code>, plots the trajectory against the waypoints, and reports the log-derived course time.</li>
+<li><strong>Baseline parameters:</strong> <a href="docs/2026_05_29_proto.param"><code>2026_05_29_proto.param</code></a> — the instructors’ full prototype parameter set. See the <a href="../../weeks/w10_lab_usv_waypoint/procedure.html#configuration-parameter-changes">Procedure → Configuration Parameter Changes</a> note before loading this; using the file wholesale will overwrite the Lab 2 stabilization-layer tuning.</li>
 </ul>
 </section>
 <section id="for-instructors" class="level3">
 <h3 class="anchored" data-anchor-id="for-instructors">For Instructors</h3>
 <ul>
-<li>Mission-file authoring and Mission Planner upload notes — TBD.</li>
-<li>Course-time estimation script — TBD.</li>
+<li><strong>Course-time analysis script:</strong> <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py"><code>utils/ardu_utils/bin_coursetime.py</code></a> — reads one or more <code>.BIN</code> logs plus a mission <code>.waypoints</code> file and reports the log-derived course time (and optionally a trajectory plot). See the <a href="../../weeks/w10_lab_usv_waypoint/procedure.html#post-field">Procedure → Post-field section</a> for the recommended invocation.</li>
 </ul>
 
 

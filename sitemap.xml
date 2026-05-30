@@ -2,66 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w10_lab_usv_waypoint/procedure.html</loc>
-    <lastmod>2026-05-30T13:24:17.266Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/weeks/w10_lab_usv_waypoint/guidance_navigation.html</loc>
-    <lastmod>2026-05-30T13:24:17.260Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/procedure.html</loc>
-    <lastmod>2026-05-30T13:24:17.258Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/syllabus.html</loc>
-    <lastmod>2026-05-30T13:24:17.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/oral-exam.html</loc>
-    <lastmod>2026-05-30T13:24:17.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/autopilot/waypoint_navigation.html</loc>
-    <lastmod>2026-05-30T13:24:17.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/autopilot/parameters.html</loc>
-    <lastmod>2026-05-30T13:24:17.248Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/autopilot/atc_params.html</loc>
-    <lastmod>2026-05-30T13:24:17.245Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/assignments.html</loc>
-    <lastmod>2026-05-30T13:24:17.245Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/autopilot/index.html</loc>
-    <lastmod>2026-05-30T13:24:17.248Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/autopilot/stabilization.html</loc>
-    <lastmod>2026-05-30T13:24:17.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/index.html</loc>
-    <lastmod>2026-05-30T13:24:17.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/schedule.html</loc>
-    <lastmod>2026-05-30T13:24:17.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/index.html</loc>
-    <lastmod>2026-05-30T13:24:17.258Z</lastmod>
+    <lastmod>2026-05-30T16:21:32.187Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/results.html</loc>
-    <lastmod>2026-05-30T13:24:17.258Z</lastmod>
+    <lastmod>2026-05-30T16:21:32.166Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/index.html</loc>
+    <lastmod>2026-05-30T16:21:32.166Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/schedule.html</loc>
+    <lastmod>2026-05-30T16:21:32.156Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/index.html</loc>
+    <lastmod>2026-05-30T16:21:32.156Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/autopilot/stabilization.html</loc>
+    <lastmod>2026-05-30T16:21:32.156Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/autopilot/index.html</loc>
+    <lastmod>2026-05-30T16:21:32.155Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/assignments.html</loc>
+    <lastmod>2026-05-30T16:21:32.150Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/autopilot/atc_params.html</loc>
+    <lastmod>2026-05-30T16:21:32.150Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/autopilot/parameters.html</loc>
+    <lastmod>2026-05-30T16:21:32.155Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/autopilot/waypoint_navigation.html</loc>
+    <lastmod>2026-05-30T16:21:32.156Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/oral-exam.html</loc>
+    <lastmod>2026-05-30T16:21:32.156Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/syllabus.html</loc>
+    <lastmod>2026-05-30T16:21:32.156Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/procedure.html</loc>
+    <lastmod>2026-05-30T16:21:32.166Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w10_lab_usv_waypoint/index.html</loc>
-    <lastmod>2026-05-30T13:24:17.266Z</lastmod>
+    <lastmod>2026-05-30T16:21:32.187Z</lastmod>
   </url>
 </urlset>

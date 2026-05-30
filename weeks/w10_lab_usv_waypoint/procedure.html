@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -117,11 +152,15 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#lessons-learned" id="toc-lessons-learned" class="nav-link active" data-scroll-target="#lessons-learned">Lessons learned</a></li>
+  <li><a href="#configuration-parameter-changes" id="toc-configuration-parameter-changes" class="nav-link" data-scroll-target="#configuration-parameter-changes">Configuration Parameter Changes</a></li>
   <li><a href="#pre-lab" id="toc-pre-lab" class="nav-link" data-scroll-target="#pre-lab">1. Pre-lab</a></li>
   <li><a href="#shore-setup" id="toc-shore-setup" class="nav-link" data-scroll-target="#shore-setup">2. Shore setup</a></li>
   <li><a href="#running-the-course" id="toc-running-the-course" class="nav-link" data-scroll-target="#running-the-course">3. Running the course</a></li>
-  <li><a href="#at-the-field-quality-check" id="toc-at-the-field-quality-check" class="nav-link" data-scroll-target="#at-the-field-quality-check">4. At the field — quality check</a></li>
-  <li><a href="#post-field" id="toc-post-field" class="nav-link" data-scroll-target="#post-field">5. Post-field</a></li>
+  <li><a href="#tuning-process-notes" id="toc-tuning-process-notes" class="nav-link" data-scroll-target="#tuning-process-notes">Tuning Process Notes</a></li>
+  <li><a href="#log-recovery" id="toc-log-recovery" class="nav-link" data-scroll-target="#log-recovery">4. Log recovery</a></li>
+  <li><a href="#at-the-field-data-quality-check" id="toc-at-the-field-data-quality-check" class="nav-link" data-scroll-target="#at-the-field-data-quality-check">5. At the field — data quality check</a></li>
+  <li><a href="#post-field" id="toc-post-field" class="nav-link" data-scroll-target="#post-field">6. Post-field</a></li>
+  <li><a href="#deliverable" id="toc-deliverable" class="nav-link" data-scroll-target="#deliverable">7. Deliverable</a></li>
   </ul>
 </nav>
     </div>
@@ -158,8 +197,24 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Mode Awareness</strong>: It’s easy to forget which mode you’re in, especially when you’re switching back. You must be in <strong>AUTO</strong> mode for the autopilot to execute the uploaded waypoint mission; MANUAL is direct pilot control and ACRO is what you used in Lab 2 for the closed-loop step tests.</li>
 <li><strong>Write Params</strong>: When changing the autopilot parameters, make sure to click “Write Params” in Mission Planner to save them to the autopilot. If you forget this step, the parameters will not be updated on the autopilot and you won’t see the expected changes in behavior.</li>
 <li><strong>Compass Calibration</strong>: Insufficient compass calibration can prevent ARM’ing the USV. This can also lead to other, more subtle issues. The instructors have not been able to reproduce this behavior. Make sure the vessel is flat and level when powering up the autopilot and when doing the large vehicle calibration. Worst case, try doing a “full” calibration through Mission Planner. Make sure to secure the USV internals so that you can rotate it in all orientations without damaging anything.</li>
-<li><strong>QA/QC Data in the Field</strong>: Before putting the USV away, do some quick visualization of a selection of the log files to take a high-level peek at contents of the logs. Use this online tool () to peek at the raw BIN files from the SD card. This can help you confirm that the logs are capturing the signals you expect, and that the signals look reasonable (e.g.&nbsp;not all zeros, not saturated at max value, etc.).</li>
+<li><strong>QA/QC Data in the Field</strong>: Before putting the USV away, do some quick visualization of a selection of the log files to take a high-level peek at contents of the logs. Use the online tool at <a href="https://plot.ardupilot.org/" class="uri">https://plot.ardupilot.org/</a> to peek at the raw BIN files from the SD card. This can help you confirm that the logs are capturing the signals you expect, and that the signals look reasonable (e.g.&nbsp;not all zeros, not saturated at max value, etc.).</li>
 </ul>
+</section>
+<section id="configuration-parameter-changes" class="level2">
+<h2 class="anchored" data-anchor-id="configuration-parameter-changes">Configuration Parameter Changes</h2>
+<p>There are a few parameter changes we discovered in prototyping the lab:</p>
+<ul>
+<li><a href="https://ardupilot.org/rover/docs/parameters.html#auto-kickstart-auto-mode-trigger-acceleration"><code>AUTO_KICKSTART = 0</code></a>: By setting this to zero, as soon as the pilot switches to AUTO, the USV will immediately execute the mission.</li>
+<li><a href="https://ardupilot.org/rover/docs/parameters.html#wp-radius-waypoint-radius"><code>WP_RADIUS = 1</code></a>: Sets the acceptance radius for each waypoint to 1 meter. For the competition to be fair, all teams should use the same acceptance radius.</li>
+<li><a href="https://ardupilot.org/rover/docs/parameters.html#fs-action-failsafe-action"><code>FS_ACTION = 0</code></a>: Disables the failsafe behavior of the autopilot. If the autopilot detects a failure condition (e.g.&nbsp;loss of R/C signal, loss of GPS, low battery) the mission continues uninterrupted. The USV will likely lose connection to the R/C transmitter at the far side of the lake; if this value is non-zero, that failsafe will halt the mission.</li>
+</ul>
+<p>The full parameter file from the instructors’ baseline is here: <a href="docs/2026_05_29_proto.param"><code>docs/2026_05_29_proto.param</code></a>. We would recommend searching through this if you have questions, but using this full file will overwrite your stabilization-layer tuning from Lab 2, so we recommend just changing the parameters above for the baseline runs and then using this file as a reference for any other parameter changes you want to make.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/mp_no_rc_failsafe.png" class="img-fluid figure-img"></p>
+<figcaption>Mission Planner no R/C failsafe override. If <code>FS_ACTION</code> is set to 0, the mission will continue even if the R/C signal is lost. Also note that here the Planner can request return-to-launch (RTL).</figcaption>
+</figure>
+</div>
 </section>
 <section id="pre-lab" class="level2">
 <h2 class="anchored" data-anchor-id="pre-lab">1. Pre-lab</h2>
@@ -180,32 +235,80 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="running-the-course" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-course">3. Running the course</h2>
+<p>Vehicle Safety Notes:</p>
 <ul>
-<li>Arm in <strong>MANUAL</strong>, get the boat to open water and to rest.</li>
-<li>Switch to <strong>AUTO</strong> to start the mission. The Planner confirms AUTO on Mission Planner.</li>
-<li>Scribe starts the stopwatch when the USV is <em>first</em> within the acceptance radius of waypoint 1.</li>
-<li>Scribe stops the stopwatch when the USV is <em>first</em> within the acceptance radius of the final waypoint.</li>
-<li>Pilot switches to <strong>MANUAL</strong> after the mission completes. Disarm to close the log.</li>
+<li>Pilot can abort a mission when in R/C range by switching to MANUAL or ACRO mode.</li>
+<li>Planner can command the USV to return to launch (RTL) at any time, which will cause the USV to return home. This is particularly useful if the USV goes out of R/C range!</li>
+</ul>
+<p>Typical Process:</p>
+<ul>
+<li>Pilot ARMs, starts new log file.</li>
+<li>Scribe notes the UTC arm time to correlate with the log file later.</li>
+<li>Pilot is in MANUAL (or AUTO) and drives to a safe starting point.</li>
+<li>Run mission:
+<ul>
+<li>Pilot switches to AUTO to start the mission.</li>
+<li>Planner confirms AUTO on Mission Planner.</li>
+<li>Scribe starts the stopwatch the first time the USV is within the acceptance radius of the first waypoint.</li>
+<li>Pilot and Planner monitor the mission execution, ready to abort (switch out of AUTO mode).</li>
+<li>(Optional) Planner takes a screen grab of the Mission Planner display during the run to capture the course time and the trajectory for later comparison to the log-derived results. Please include these with the BIN files you upload to the shared repository.</li>
+<li>Scribe stops the stopwatch the first time the USV is within the acceptance radius of the final waypoint.</li>
+</ul></li>
+<li>Pilot switches to MANUAL after the mission completes.</li>
+<li>Pilot Dis-ARM to close the log - and re-ARM.</li>
+<li>Scribe notes the UTC time as the end of the log file.</li>
+<li>Planner saves the current parameter file locally.</li>
 </ul>
 </section>
-<section id="at-the-field-quality-check" class="level2">
-<h2 class="anchored" data-anchor-id="at-the-field-quality-check">4. At the field — quality check</h2>
-<p>Before tearing down, confirm for each run you want to keep:</p>
+<section id="tuning-process-notes" class="level2">
+<h2 class="anchored" data-anchor-id="tuning-process-notes">Tuning Process Notes</h2>
+<p>The parameters above are the only ones (that we know of) that need to be changed for the baseline run, i.e., the navigation should work acceptably well out of the box. We’d like to tune the system to minimize the time to complete the course. For tuning, you can change any parameters you like, but we recommend keeping a careful record of what you changed and why, and using the full parameter file from the instructors as a reference if you want to make more extensive changes.</p>
+<p>We are really interested to find out how you tune this to maximize course speed - so any notes you have on your tuning process and the effects of different parameter changes are very welcome in the deliverable slide!</p>
+<p>The ArduRover documentation on tuning the navigation layer is here: <a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html" class="uri">https://ardupilot.org/rover/docs/rover-tuning-navigation.html</a>. It is complicated.</p>
+<p>You can also zoom in with MP to get diagnostics on the performance.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/mp_detail.png" class="img-fluid figure-img"></p>
+<figcaption>Mission Planner detail view showing diagnostics for tuning the navigation layer.</figcaption>
+</figure>
+</div>
+</section>
+<section id="log-recovery" class="level2">
+<h2 class="anchored" data-anchor-id="log-recovery">4. Log recovery</h2>
+<p>Remove the SD card from the autopilot and copy the <code>.BIN</code> log file to the shared repository, in your team’s subfolder.</p>
 <ul>
-<li>The log is closed (autopilot disarmed) and the <code>.BIN</code> is on the SD card.</li>
-<li>The scribe captured the UTC arm time and the stopwatch course time.</li>
-<li>Mission Planner shows the boat traversed all waypoints (not a missed mission).</li>
+<li><a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a> — upload raw <code>*.BIN</code> mission logs to your team subfolder.</li>
 </ul>
-<!-- TODO: replace this section's bullets with a link to the general-purpose
-     field QA/QC note once written. -->
+</section>
+<section id="at-the-field-data-quality-check" class="level2">
+<h2 class="anchored" data-anchor-id="at-the-field-data-quality-check">5. At the field — data quality check</h2>
+<p>It is highly recommended to do a quick check of the log files in the field. The <a href="https://plot.ardupilot.org/" class="uri">https://plot.ardupilot.org/</a> tool is great for a quick peek at the raw BIN files from the SD card.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/uavlogviewer_course.png" class="img-fluid figure-img"></p>
+<figcaption>UAV Log Viewer showing a sample mission BIN file — verify the channels you expect are present and look reasonable before tearing down.</figcaption>
+</figure>
+</div>
 </section>
 <section id="post-field" class="level2">
-<h2 class="anchored" data-anchor-id="post-field">5. Post-field</h2>
+<h2 class="anchored" data-anchor-id="post-field">6. Post-field</h2>
+<p>This will likely need to be done by the instructors. Setting up the Python (virtual) environment is beyond the scope of the class (but you are welcome to see if you favorate AI tool can assist).</p>
 <ul>
-<li>Upload <code>.BIN</code> logs to the shared repository, in your team’s subfolder.</li>
-<li>Run the analysis script <em>(TBD)</em> to generate the trajectory plot and the log-derived course time.</li>
-<li>Assemble the deliverable slide.</li>
+<li><p>Run the analysis script <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py"><code>utils/ardu_utils/bin_coursetime.py</code></a> to generate the trajectory plot and the log-derived course time. Pass it your <code>.BIN</code> log(s) and the mission <code>.waypoints</code> file; add <code>-p</code> for the trajectory plot. The course time is measured from the <em>first</em> time the USV is within the acceptance radius of the first waypoint to the <em>first</em> time it is within the acceptance radius of the final waypoint — matching the scribe’s stopwatch convention above. By default it reads the acceptance radius from each log’s <code>WP_RADIUS</code> parameter.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> utils/ardu_utils</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate   <span class="co"># see ardu_utils/README.md for one-time setup</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> bin_coursetime.py /path/to/logs/ /path/to/challengecourse_ay26q3.waypoints <span class="at">-p</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/00000035.BIN.coursetime.png" class="img-fluid figure-img" style="width:60.0%" alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii."></p>
+<figcaption>Prototype course run</figcaption>
+</figure>
+</div>
+</section>
+<section id="deliverable" class="level2">
+<h2 class="anchored" data-anchor-id="deliverable">7. Deliverable</h2>
+<p>See the <a href="../../weeks/w10_lab_usv_waypoint/index.html#minimum-viable-deliverable-mvd">Lab 3 overview</a> for the deliverable details.</p>
 
 
 </section>
