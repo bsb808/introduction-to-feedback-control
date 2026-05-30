@@ -15,13 +15,13 @@ subtitle: "Week 10 · {{< var quarter >}}"
 
 * **Minimize course time** for a fixed mission of 3–5 waypoints.
 * **Course time** is defined as
-    * **Start:** the last time the USV is within threshold of  waypoint 1.
-    * **End:** the firt time the USV enters the  threshold around the final waypoint.
+    * **Start:** the last time the USV is within the acceptance threshold of waypoint 1.
+    * **End:** the first time the USV enters the threshold of the final waypoint.
 * **Two measurements per run:**
     * Stopwatch + Mission Planner display, recorded by the team in the field (primary measurement).
     * Log-derived estimate from post-processing (target — exact scoring approach TBD).
 
-![Overview of competition waypoint mission](images/missionplanner_course.png){fig-alt="Mission"}
+![Overview of the competition waypoint mission, as it appears in Mission Planner before upload to the autopilot.](images/missionplanner_course.png){fig-alt="Mission Planner screenshot showing the uploaded waypoint mission overlaid on a satellite map of the course area."}
 
 
 
@@ -35,14 +35,7 @@ subtitle: "Week 10 · {{< var quarter >}}"
 * In other words: Lab 3's guidance layer is a proportional position controller wrapped around your Lab-2 PIDs.
 * See **[Guidance & Navigation — How the Waypoint Mission Works](guidance_navigation.qmd)** for the full walk-through.
 
-% CLAUDE: Revise the next lines and replace with a succinct statement that the details of GNC are ouside the scope of the class, but that this documentation delivers a mental model that is sufficient for our purposes and the lab motivates other greate courss on the these GNC elements   
-**Out of scope for this lab:**
-
-* The internals of ArduRover's trajectory generator (S-curve).
-* Tuning the position controller (`PSC_*` gains).
-* The EKF and state estimation.
-
-These exist in the system and you will see their footprints in the logs, but they are not subjects you are expected to tune or analyze.
+The internals of guidance and navigation — trajectory generation, position-controller tuning, the EKF — are outside the scope of this introductory class. The references on this page and in the companion give you a mental model that's sufficient for thinking about Lab 3 performance; a proper treatment is in followon graduate courses on guidance, navigation, and control.
 
 
 
@@ -64,7 +57,7 @@ One PowerPoint slide containing:
 
 * Trajectory plot from the log, waypoints overlaid on the actual path.
 * Course time, stopwatch and log-derived, side by side.
-* Commonts/notes on what your team tried to improve on the baseline, and what worked/didn't work.
+* Comments/notes on what your team tried to improve on the baseline, and what worked / didn't work.
 
 
 
@@ -73,7 +66,7 @@ One PowerPoint slide containing:
 ### For Students
 
 * **Shared data repository:** [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ) — upload raw `*.BIN` mission logs to your team subfolder; instructors convert to `.mat`.
-* **Mission file** *(TBD)* — the standard course `.mission` file. % CLAUDE: Link to introduction-to-feedback-control/site/weeks/w10_lab_usv_waypoint/docs/challengecourse_ay26q3.waypoints
+* **Mission file:** [`challengecourse_ay26q3.waypoints`](docs/challengecourse_ay26q3.waypoints) — the standard course mission, distributed for upload via Mission Planner.
 * **Analysis script** *(TBD)* — MATLAB script that loads a mission `.mat`, plots the trajectory against the waypoints, and reports the log-derived course time.
 
 ### For Instructors
