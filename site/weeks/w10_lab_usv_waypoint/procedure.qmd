@@ -27,6 +27,8 @@ There are a few parameter changes we discovered in prototyping the lab:
 
 The full parameter file from the instructors' baseline is here: [`docs/2026_05_29_proto.param`](docs/2026_05_29_proto.param).  We would recommend searching through this if you have questions, but using this full file will overwrite your stabilization-layer tuning from Lab 2, so we recommend just changing the parameters above for the baseline runs and then using this file as a reference for any other parameter changes you want to make.
 
+![Mission Planner no R/C failsafe override.   If `FS_ACTION` is set to 0, the mission will continue even if the R/C signal is lost.  Also note that here the Planner can request return-to-launch (RTL).](images/mp_no_rc_failsafe.png)
+
 ## 1. Pre-lab
 
 - Confirm all hardware: boat, batteries (vehicle + autopilot + R/C + ground laptop), 900 MHz radio, R/C transmitter.
@@ -64,6 +66,18 @@ Typical Process:
 - Scribe notes the UTC time as the end of the log file. 
 - Planner saves the current parameter file locally.
 
+## Tuning Process Notes
+
+The parameters above are the only ones (that we know of) that need to be changed for the baseline run, i.e., the navigation should work acceptably welll out-of-the box.   We'd like to tune the system to minimize the time to complete the course.   For tuning, you can change any parameters you like, but we recommend keeping a careful record of what you changed and why, and using the full parameter file from the instructors as a reference if you want to make more extensive changes.
+
+We are really intersested to find out how you tune this to maximize course speed - so any notes you have on your tuning process and the effects of different parameter changes are very welcome in the deliverable slide!
+
+The ArduRover documentation on tuning the navigation layer is here: <https://ardupilot.org/rover/docs/rover-tuning-navigation.html>.  It is complicated.
+
+You can also zoom in with MP to get diagnostics on the performance.
+
+![Mission Planner detail view showing diagnostics for tuning the navigation layer.](images/mp_detail.png)
+
 ## 4. Log recovery
 
 Remove the SD card from the autopilot and copy the `.BIN` log file to the shared repository, in your team's subfolder.  
@@ -79,5 +93,14 @@ It is highly recommended to do a quick check of the log files in the field. The 
 
 ## 6. Post-field
 
-- Run the analysis script *(TBD)* to generate the trajectory plot and the log-derived course time.
+- Run the analysis script [`utils/ardu_utils/bin_coursetime.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py) to generate the trajectory plot and the log-derived course time. Pass it your `.BIN` log(s) and the mission `.waypoints` file; add `-p` for the trajectory plot. The course time is measured from the *first* time the USV is within the acceptance radius of the first waypoint to the *first* time it is within the acceptance radius of the final waypoint — matching the scribe's stopwatch convention above. By default it reads the acceptance radius from each log's `WP_RADIUS` parameter.
+
+  ```bash
+  cd utils/ardu_utils
+  source .venv/bin/activate   # see ardu_utils/README.md for one-time setup
+  python bin_coursetime.py /path/to/logs/ /path/to/challengecourse_ay26q3.waypoints -p
+  ```
 - Assemble the deliverable slide.
+
+
+![Prototype course run](images/00000035.BIN.coursetime.png){fig-alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii."}

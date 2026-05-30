@@ -9,7 +9,7 @@ subtitle: "Week 10 · {{< var quarter >}}"
 * More **exploratory** than Lab 1 and Lab 2: we provide the framework, the goal, and a baseline configuration; you are welcome to use all the tools at your disposal to iterate and improve on that baseline. (This is an authentic exploration of the autopilot's capabilities.  We don't know how it is going to turn out!)
 * The **feedback concepts from Lab 2** (proportional error, feedforward, transient performance) reappear at the guidance layer. We will use that to motivate what's happening; a full treatment of guidance and navigation is **beyond the scope of this class**.
 
-![ArduRover architecture: Mission Planner on the ground laptop issues the mission to the autopilot, which runs the guidance, navigation, and stabilization layers on the boat. The stabilization layer is what you tuned in Lab 2; the layers above are introduced in the [companion page](guidance_navigation.qmd).](images/ardurover_arch.svg){fig-alt="ArduRover architecture block diagram, Mission Planner laptop above the USV's autopilot, mission execution / guidance / stabilization layers cascading to actuators."}
+![ArduRover architecture: Mission Planner on the ground laptop issues the mission to the autopilot, which runs the guidance, navigation, and stabilization layers on the boat. The stabilization layer is what you tuned in Lab 2; the layers above are introduced in the [companion page](../../autopilot/waypoint_navigation.qmd).](images/ardurover_arch.svg){fig-alt="ArduRover architecture block diagram, Mission Planner laptop above the USV's autopilot, mission execution / guidance / stabilization layers cascading to actuators."}
 
 ### Waypoint Mission Challenge
 
@@ -23,17 +23,17 @@ subtitle: "Week 10 · {{< var quarter >}}"
 
 ![Overview of the competition waypoint mission, as it appears in Mission Planner before upload to the autopilot.](images/missionplanner_course.png){fig-alt="Mission Planner screenshot showing the uploaded waypoint mission overlaid on a satellite map of the course area."}
 
-
+% CLAUDE: Show me how to reduce this size of this image ![Prototype course run.  The post-processing (scored) course run.](images/00000035.BIN.coursetime.png){fig-alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii."}
 
 ## Background - ArduRover's Guidance & Navigation
 
 * In Lab 2 each stabilization loop had the same internal structure: setpoint → error → PID (with feedforward) → actuator.
-* The guidance layer applies the **same pattern, one level up**:
+* The guidance layer applies the same pattern:
     * Setpoint = next waypoint.
     * Error = position relative to the waypoint (a vector, but treated similarly to a scalar error in the proportional sense).
     * "Controller output" = a speed and yaw-rate command sent down to the stabilization layer — i.e. the same `THR_DesSpeed` and `STER_DesTurnRate` channels you logged in Lab 2.
 * In other words: Lab 3's guidance layer is a proportional position controller wrapped around your Lab-2 PIDs.
-* See **[Guidance & Navigation — How the Waypoint Mission Works](guidance_navigation.qmd)** for the full walk-through.
+* See the autopilot reference page [Waypoint Navigation in ArduRover (Boats)](../../autopilot/waypoint_navigation.qmd) for the full walk-through.
 
 The internals of guidance and navigation — trajectory generation, position-controller tuning, the EKF — are outside the scope of this introductory class. The references on this page and in the companion give you a mental model that's sufficient for thinking about Lab 3 performance; a proper treatment is in followon graduate courses on guidance, navigation, and control.
 
@@ -43,7 +43,7 @@ The internals of guidance and navigation — trajectory generation, position-con
 
 Before session 1:
 
-* **[Guidance & Navigation — How the Waypoint Mission Works](guidance_navigation.qmd)** — companion page; the conceptual frame for everything in this lab.
+* [Waypoint Navigation in ArduRover (Boats)](../../autopilot/waypoint_navigation.qmd) — the autopilot reference; conceptual frame for everything in this lab.
 * **[Autopilot → Stabilization Layer](../../autopilot/stabilization.qmd)** — Lab 2 reference. Re-skim because the position controller hands its outputs to the channels you already tuned.
 * **[ArduRover → Rover Tuning Navigation](https://ardupilot.org/rover/docs/rover-tuning-navigation.html)** — parameter handbook for the G&N layer.
 
@@ -67,9 +67,9 @@ One PowerPoint slide containing:
 
 * **Shared data repository:** [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ) — upload raw `*.BIN` mission logs to your team subfolder; instructors convert to `.mat`.
 * **Mission file:** [`challengecourse_ay26q3.waypoints`](docs/challengecourse_ay26q3.waypoints) — the standard course mission, distributed for upload via Mission Planner.
-* **Analysis script** *(TBD)* — MATLAB script that loads a mission `.mat`, plots the trajectory against the waypoints, and reports the log-derived course time.
+% CLAUDE: Add link to the baseline params file here too.
 
 ### For Instructors
 
-* Mission-file authoring and Mission Planner upload notes — TBD.
-* Course-time estimation script — TBD.
+% CLAUDE: Add link to course time estimation script
+
