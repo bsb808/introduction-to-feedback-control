@@ -17,6 +17,17 @@ title: "Procedure"
 * **QA/QC Data in the Field**:  Before putting the USV away, do some quick visualization of a selection of the log files to take a high-level peek at contents of the logs.  Use this online tool (\url{https://plot.ardupilot.org/}) to peek at the raw BIN files from the SD card.  This can help you confirm that the logs are capturing the signals you expect, and that the signals look reasonable (e.g. not all zeros, not saturated at max value, etc.).  
 
 
+## Configuration Parameter Changes
+
+There are a few parameter changes we discovered in prototyping the lab:
+
+% CLAUDE: For each of these, provide a link to the relevant ArduRover documentation for that parameter.   
+* **`AUTO_KICKSTART = 0`**: By setting this to zero, as soon as the pilot switches to AUTO, the USV will immediately execute the mission. 
+* **`WP_RADIUS = 1`**:  Sets the acceptance radius for each waypoint to 1 meter.  For the competition to be fair, all teams should use the same acceptance radius.  
+* **`FS_ACTION = 0`**: This disables the failsafe behavior of the autopilot.  If the autopilot detects a failure condition (e.g. loss of R/C signal, loss of GPS, low battery, etc.) it will continue the mission.   The USV will likely loose connection to the R/C transmitter at the far side of the lake.  This triggers a failsafe and if this value is non-zero, the USV will stop executing the mission and stop.  
+
+The full parameter file from the instructors' baseline is here: [`docs/2026_05_29_proto.param`](docs/2026_05_29_proto.param).  We would recommend searching through this if you have questions, but using this full file will overwrite your stabilization-layer tuning from Lab 2, so we recommend just changing the parameters above for the baseline runs and then using this file as a reference for any other parameter changes you want to make.
+
 ## 1. Pre-lab
 
 - Confirm all hardware: boat, batteries (vehicle + autopilot + R/C + ground laptop), 900 MHz radio, R/C transmitter.
@@ -32,22 +43,40 @@ title: "Procedure"
 
 ## 3. Running the course
 
-- Arm in **MANUAL**, get the boat to open water and to rest.
-- Switch to **AUTO** to start the mission. The Planner confirms AUTO on Mission Planner.
-- Scribe starts the stopwatch when the USV is *first* within the acceptance radius of waypoint 1.
-- Scribe stops the stopwatch when the USV is *first* within the acceptance radius of the final waypoint.
-- Pilot switches to **MANUAL** after the mission completes. Disarm to close the log.
+Vehicle Safety Notes:
 
-## 4. At the field — quality check
+* Pilot can abort a mission when in R/C range by switching to MANUAL or ACRO mode.
+* Planner can command the USV to return to launch (RTL) at any time, which will cause the USV to return home.   This is particularly useful if the USV goes out of R/C range!
 
-Before tearing down, confirm for each run you want to keep:
+Typical Process: 
 
-- The log is closed (autopilot disarmed) and the `.BIN` is on the SD card.
-- The scribe captured the UTC arm time and the stopwatch course time.
-- Mission Planner shows the boat traversed all waypoints (not a missed mission).
+- Pilot ARMs,starts new log file
+- Scripe notes the UTC arm time to correlate with log file later.
+- Pilot is in MANUAL (or AUTO) and drives to a safe starting point.
+- Run mission:
+     - Pilot switches to AUTO to start the mission. 
+     - Planner confirms AUTO on Mission Planner.
+     - Scribe starts the stopwatch when the USV is within the acceptance radius of first.
+     - Pilot and Planner monitor the mission execution, ready to abort (switch out of AUTO model).
+     - (Optional)  Good idea to take screen grab of the Mission Planner display during the run, to capture the course time and the trajectory for later comparison to the log-derived results.
+     - Scribe stops the stopwatch when the USV is  within the acceptance radius of the final waypoint.
+- Pilot switches to MANUAL after the mission completes. 
+- Pilot Dis-ARM to close the log - and re-ARM.
+- Scribe notes the UTC time as the end of the log file. 
+- Planner saves the current parameter file locally.
 
-<!-- TODO: replace this section's bullets with a link to the general-purpose
-     field QA/QC note once written. -->
+## 4. Log recovery
+
+Remove the SD card from the autopilot and copy the `.BIN` log file to the shared repository, in your team's subfolder.  
+
+* [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ) — upload raw `*.BIN` mission logs to your team subfolder.
+
+## 4. At the field — data quality check
+
+It is highly recommended to do a quick check of the log files in the field. The \url{https://plot.ardupilot.org/} tool is great for a quick peek at the raw BIN files from the SD card.
+
+![UAV Log Viewer](images/uavlogviewer_course.png)
+
 
 ## 5. Post-field
 
