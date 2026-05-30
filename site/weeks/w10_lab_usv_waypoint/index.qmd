@@ -15,13 +15,17 @@ subtitle: "Week 10 · {{< var quarter >}}"
 
 * **Minimize course time** for a fixed mission of 3–5 waypoints.
 * **Course time** is defined as
-    * **Start:** the *first* moment the USV enters the acceptance threshold around waypoint 1.
-    * **End:** the *first* moment the USV enters the acceptance threshold around the final waypoint.
+    * **Start:** the last time the USV is within threshold of  waypoint 1.
+    * **End:** the firt time the USV enters the  threshold around the final waypoint.
 * **Two measurements per run:**
     * Stopwatch + Mission Planner display, recorded by the team in the field (primary measurement).
     * Log-derived estimate from post-processing (target — exact scoring approach TBD).
 
-## Description
+![Overview of competition waypoint mission](images/missionplanner_course.png){fig-alt="Mission"}
+
+
+
+## Background - ArduRover's Guidance & Navigation
 
 * In Lab 2 each stabilization loop had the same internal structure: setpoint → error → PID (with feedforward) → actuator.
 * The guidance layer applies the **same pattern, one level up**:
@@ -31,6 +35,7 @@ subtitle: "Week 10 · {{< var quarter >}}"
 * In other words: Lab 3's guidance layer is a proportional position controller wrapped around your Lab-2 PIDs.
 * See **[Guidance & Navigation — How the Waypoint Mission Works](guidance_navigation.qmd)** for the full walk-through.
 
+% CLAUDE: Revise the next lines and replace with a succinct statement that the details of GNC are ouside the scope of the class, but that this documentation delivers a mental model that is sufficient for our purposes and the lab motivates other greate courss on the these GNC elements   
 **Out of scope for this lab:**
 
 * The internals of ArduRover's trajectory generator (S-curve).
@@ -39,12 +44,7 @@ subtitle: "Week 10 · {{< var quarter >}}"
 
 These exist in the system and you will see their footprints in the logs, but they are not subjects you are expected to tune or analyze.
 
-## Schedule
 
-Lab 3 runs in a single week with **two field sessions**. Suggested rhythm:
-
-* **Session 1 — Shakedown.** Load Lab-2 tuned gains + baseline G&N parameters. Run the standard course at least once, record stopwatch time, and capture the log. Identify what's working and what's not (saturation, slow corners, missed acceptance threshold, parameter values you suspect, etc.) so you have a concrete agenda for session 2.
-* **Session 2 — Iterate and capture best attempt.** Adjust whatever the shakedown surfaced — your Lab-2 PID gains, the tunable G&N handles (`WP_SPEED`, `WP_RADIUS`, `WP_OVERSHOOT`), or your team's mission-execution technique — and run the course enough times to lock in a result you are willing to submit.
 
 ## Reading
 
@@ -58,21 +58,22 @@ Before session 1:
 
 **[Procedure](procedure.qmd)** — pre-lab checklist, uploading the mission via Mission Planner, in-water safety, stopwatch protocol, and log capture.
 
-## Deliverable
+## Minimum Viable Deliverable (MVD)
 
-One PowerPoint slide per submitted run, containing:
+One PowerPoint slide containing:
 
 * Trajectory plot from the log, waypoints overlaid on the actual path.
 * Course time, stopwatch and log-derived, side by side.
+* Commonts/notes on what your team tried to improve on the baseline, and what worked/didn't work.
 
-Minimum: one slide for a clean run of the standard course. Optional: extra slides for variations you tried (different `WP_SPEED`, different Lab-2 gain set, etc.).
+
 
 ## Materials
 
 ### For Students
 
 * **Shared data repository:** [ME2801_USV_Shared](https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ) — upload raw `*.BIN` mission logs to your team subfolder; instructors convert to `.mat`.
-* **Mission file** *(TBD)* — the standard course `.mission` file.
+* **Mission file** *(TBD)* — the standard course `.mission` file. % CLAUDE: Link to introduction-to-feedback-control/site/weeks/w10_lab_usv_waypoint/docs/challengecourse_ay26q3.waypoints
 * **Analysis script** *(TBD)* — MATLAB script that loads a mission `.mat`, plots the trajectory against the waypoints, and reports the log-derived course time.
 
 ### For Instructors
