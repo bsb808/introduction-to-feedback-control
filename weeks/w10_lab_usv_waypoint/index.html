@@ -121,11 +121,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#waypoint-mission-challenge" id="toc-waypoint-mission-challenge" class="nav-link" data-scroll-target="#waypoint-mission-challenge">Waypoint Mission Challenge</a></li>
   </ul></li>
   <li><a href="#background---ardurovers-guidance-navigation" id="toc-background---ardurovers-guidance-navigation" class="nav-link" data-scroll-target="#background---ardurovers-guidance-navigation">Background - ArduRover’s Guidance &amp; Navigation</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading">Reading</a></li>
   <li><a href="#procedure" id="toc-procedure" class="nav-link" data-scroll-target="#procedure">Procedure</a></li>
   <li><a href="#minimum-viable-deliverable-mvd" id="toc-minimum-viable-deliverable-mvd" class="nav-link" data-scroll-target="#minimum-viable-deliverable-mvd">Minimum Viable Deliverable (MVD)</a></li>
-  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a>
   <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   <li><a href="#for-students" id="toc-for-students" class="nav-link" data-scroll-target="#for-students">For Students</a></li>
   <li><a href="#for-instructors" id="toc-for-instructors" class="nav-link" data-scroll-target="#for-instructors">For Instructors</a></li>
   </ul></li>
@@ -158,9 +158,9 @@ ul.task-list li input[type="checkbox"] {
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <ul>
-<li>Use the <strong>stabilization layer</strong> you tuned in <a href="../../weeks/w07_lab_usv_pid/index.html">Lab 2</a> as the foundation for autonomously following a sequence of waypoints with ArduRover’s guidance and navigation stack.</li>
-<li>More <strong>exploratory</strong> than Lab 1 and Lab 2: we provide the framework, the goal, and a baseline configuration; you are welcome to use all the tools at your disposal to iterate and improve on that baseline. (This is an authentic exploration of the autopilot’s capabilities. We don’t know how it is going to turn out!)</li>
-<li>The <strong>feedback concepts from Lab 2</strong> (proportional error, feedforward, transient performance) reappear at the guidance layer. We will use that to motivate what’s happening; a full treatment of guidance and navigation is <strong>beyond the scope of this class</strong>.</li>
+<li>Use the tuned stabilization layer, from <a href="../../weeks/w07_lab_usv_pid/index.html">Lab 2</a>, as the foundation for autonomously following a sequence of waypoints with ArduRover’s guidance and navigation stack.</li>
+<li>While the details of the navigation and guidance layers are outside the scope of this class, the general concept of feedback provides insight into how the G and N layers work with the control for USV GNC.</li>
+<li>The motivating objective is a USV race - minimum time to complete a fixed waypoint mission.</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -216,15 +216,6 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>The internals of guidance and navigation — trajectory generation, position-controller tuning, the EKF — are outside the scope of this introductory class. The references on this page and in the companion give you a mental model that’s sufficient for thinking about Lab 3 performance; a proper treatment is in followon graduate courses on guidance, navigation, and control.</p>
 </section>
-<section id="reading" class="level2">
-<h2 class="anchored" data-anchor-id="reading">Reading</h2>
-<p>Before session 1:</p>
-<ul>
-<li><a href="../../autopilot/waypoint_navigation.html">Waypoint Navigation in ArduRover (Boats)</a> — the autopilot reference; conceptual frame for everything in this lab.</li>
-<li><strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> — Lab 2 reference. Re-skim because the position controller hands its outputs to the channels you already tuned.</li>
-<li><strong><a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Rover Tuning Navigation</a></strong> — parameter handbook for the G&amp;N layer.</li>
-</ul>
-</section>
 <section id="procedure" class="level2">
 <h2 class="anchored" data-anchor-id="procedure">Procedure</h2>
 <p><strong><a href="../../weeks/w10_lab_usv_waypoint/procedure.html">Procedure</a></strong> — pre-lab checklist, uploading the mission via Mission Planner, in-water safety, stopwatch protocol, and log capture.</p>
@@ -238,8 +229,16 @@ ul.task-list li input[type="checkbox"] {
 <li>Comments/notes on what your team tried to improve on the baseline, and what worked / didn’t work.</li>
 </ul>
 </section>
-<section id="materials" class="level2">
-<h2 class="anchored" data-anchor-id="materials">Materials</h2>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<ul>
+<li><a href="../../autopilot/waypoint_navigation.html">Waypoint Navigation in ArduRover (Boats)</a> — the autopilot reference; conceptual frame for everything in this lab.</li>
+<li><strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> — Lab 2 reference. Re-skim because the position controller hands its outputs to the channels you already tuned.</li>
+<li><strong><a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Rover Tuning Navigation</a></strong> — parameter handbook for the G&amp;N layer.</li>
+</ul>
+</section>
 <section id="for-students" class="level3">
 <h3 class="anchored" data-anchor-id="for-students">For Students</h3>
 <ul>
