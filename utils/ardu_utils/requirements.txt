@@ -2,3 +2,4 @@ pymavlink
 scipy
 numpy
 pandas
+matplotlib
