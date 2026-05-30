@@ -171,7 +171,10 @@ ul.task-list li input[type="checkbox"] {
 <section id="waypoint-mission-challenge" class="level3">
 <h3 class="anchored" data-anchor-id="waypoint-mission-challenge">Waypoint Mission Challenge</h3>
 <ul>
-<li><strong>Minimize course time</strong> for a fixed mission of 3–5 waypoints.</li>
+<li><strong>Minimize course time</strong> for a fixed mission
+<ul>
+<li>Mission file: <a href="docs/challengecourse_ay26q3.waypoints"><code>challengecourse_ay26q3.waypoints</code></a> — the standard course mission, distributed for upload via Mission Planner.</li>
+</ul></li>
 <li><strong>Course time</strong> is defined as
 <ul>
 <li><strong>Start:</strong> the first time the USV is within the acceptance threshold of waypoint 1.</li>
@@ -179,8 +182,9 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li><strong>Two measurements per run:</strong>
 <ul>
-<li>Stopwatch + Mission Planner display, recorded by the team in the field (primary measurement).</li>
-<li>Log-derived estimate from post-processing (target — exact scoring approach TBD).</li>
+<li>Real-time estimate: recorded by the team in the field using Mission Planner.<br>
+</li>
+<li>Post-processed estimate (official score): result of analyzing the log files with the provided script</li>
 </ul></li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
