@@ -1,96 +1,183 @@
 ---
 title: "Waypoint Navigation in ArduRover (Boats)"
-subtitle: "A conceptual model — how a mission of waypoints becomes throttle and steering commands"
+subtitle: "Theory of operation — how a list of waypoints becomes throttle and steering commands"
 ---
 
 [← Back to Autopilot](index.qmd)
 
 ::: {.callout-note appearance="simple"}
-This page is a **conceptual overview** for students using ArduRover on the USV. It is intentionally light on algorithm internals. Detailed analysis of guidance and navigation (G&N) is **beyond the scope of this course**; the goal here is just enough mental scaffolding to predict and explain mission behavior, with pointers outward when you want the real depth.
+Conceptual overview of waypoint navigation as implemented in ArduRover, framed for students who already understand the [stabilization layer](stabilization.qmd). Detailed analysis of guidance and navigation is outside the scope of this introductory class; this page gives a sufficient mental model and points outward for those who want depth.
 :::
 
-## What a waypoint mission is
+## Why we need this page
 
-- A **mission** is an ordered list of (lat, lon, alt) targets uploaded to the autopilot.
-- In **AUTO** mode the autopilot walks the list, treating each entry as the current target until "arrived", then advances.
-- For a USV the only relevant target is the (lat, lon) pair; altitude is ignored.
+The stabilization layer documented in the [Stabilization Layer reference](stabilization.qmd) knows nothing about waypoints. Each loop chases one setpoint — a speed (m/s) for the throttle channel, a yaw rate (rad/s) for the steering channel — and that is all.
 
-## Where waypoint navigation sits in the stack
+To execute a waypoint mission, something must turn a list of (lat, lon) targets into a continuous sequence of "right now, the boat should be moving at 1.4 m/s and turning at 0.3 rad/s." That something is the guidance and navigation (G&N) stack. This page explains what it does, framed as a feedforward + PID cascade at the layer above stabilization.
 
-- Outermost loop in the same three-layer cascade students saw in [Lab 2](../weeks/w07_lab_usv_pid/index.qmd).
-- Above: pilot / Mission Planner sets up the mission.
-- Below: the **stabilization layer** ([reference](stabilization.qmd)) — the two PID + feedforward loops on speed and yaw-rate that you tuned in Lab 2.
-- The boundary that matters: the navigation layer produces the **same `THR_DesSpeed` and `STER_DesTurnRate` setpoints** that the stabilization layer was already chasing in Lab 2. Nothing changes downstream.
+## A waypoint mission, in one paragraph
 
-## The conceptual chain, step by step
+A mission is an ordered list of (lat, lon, alt) targets uploaded to the autopilot. In AUTO mode the autopilot walks the list, treating each entry as the active target until the boat arrives, then advancing to the next. For a USV the altitude is ignored; only the (lat, lon) pair matters.
 
-1. **Active waypoint.** Pick the next item in the mission list. This is the navigation-level setpoint.
-2. **Geometry.** Compute the vector from current (GPS / EKF) position to the active waypoint — yields a desired bearing and a remaining distance.
-3. **Cross-track error.** Decompose the position error relative to the *planned path* (a line from the previous waypoint to the active one) into along-track and across-track components. The cross-track component is what gets pushed against to keep the boat on the line.
-4. **Desired speed.** Capped above by `WP_SPEED` (your "cruise" setting); capped from below by what the kinematic limits (`ATC_ACCEL_MAX`, `ATC_DECEL_MAX`, `ATC_TURN_MAX_G`) allow at this point on the path. The boat slows down in tight corners on purpose.
-5. **Desired yaw rate.** Computed so the boat steers toward the bearing while respecting the turning g-cap. This includes a proportional response on cross-track error.
-6. **Setpoint handoff (the bridge to Lab 2).**
-    - Desired speed → `THR_DesSpeed` → speed PID
-    - Desired yaw rate → `STER_DesTurnRate` → yaw-rate PID
-7. **Arrival check.** "Am I within `WP_RADIUS` of the active waypoint?" If yes, advance to the next waypoint. If this was the last waypoint, the mission is complete.
+## The familiar pattern: feedforward + PID, recursively
 
-## The PID analogy
+Each stabilization channel has the same internal structure:
 
-The navigation layer is structured like the loops you already tuned — same pattern, one level up.
+```
+setpoint ──► (+)───► PID ───► (+)───► actuator command ──► plant ──► measurement
+              ▲              ▲                              │
+              │              │                              │
+              │              └──── FF (= setpoint × K_dc⁻¹) │
+              │                                             │
+              └─────────────────── measurement ◄────────────┘
+```
 
-| Concept | Lab 2 stabilization | Navigation layer |
+The feedforward branch makes an open-loop guess of the actuator command that should produce the desired output if the plant matched its nominal model. The PID branch closes the loop and corrects whatever the FF guess got wrong.
+
+ArduRover's G&N stack applies the same pattern one level up. Its feedforward is a kinematically feasible reference trajectory (computed in advance from the waypoints). Its PID closes the loop on position error. The output of that outer loop becomes the setpoint for the inner loop.
+
+```
+waypoints ──► trajectory gen ──► (pos_ref, vel_ref) ──► (+)──► PID ──► speed_setpoint    ┐
+   (open loop, kinematic)                ▲                       └──► yaw_rate_setpoint──┘──►  STABILIZATION
+                                         │                                                    (inner loop)
+                                  pos_measured ◄── EKF ◄── GPS + IMU
+```
+
+Two layers of "FF + PID," nested. The outer FF is the velocity reference from the S-curve generator. The outer PID is `AC_PosControl`. The inner FF + PID is the stabilization layer.
+
+## The cascade in three layers
+
+| Layer | What it does | Inputs | Outputs |
+|---|---|---|---|
+| Trajectory generation (S-curve, in `AC_WPNav`) | Plans a smooth path between waypoints that respects vehicle acceleration / jerk / speed limits. Open-loop — no feedback. | Waypoint list; `WP_SPEED`, `WP_RADIUS`, `ATC_ACCEL_MAX`, `ATC_DECEL_MAX`, `ATC_TURN_MAX_G`, jerk limits | Time series of (target position, target velocity, target acceleration) along the path |
+| Position control (`AC_PosControl`) | Closes the outer loop on position error. Same PID + FF structure as the stabilization layer, just on a slower, geometric quantity. | Target pos/vel from trajectory gen; measured position from EKF | Speed setpoint (throttle channel) and yaw-rate setpoint (steering channel) |
+| Stabilization | Closes the inner loop on speed and yaw-rate errors. Two independent PID + FF loops. | Setpoints from `AC_PosControl`; measured speed (`GPS_Spd`/EKF), measured yaw rate (gyro/EKF) | Throttle PWM (`RCOU_C3`), rudder PWM (`RCOU_C1`) |
+
+: {tbl-colwidths="[18, 42, 22, 18]"}
+
+The handoff between layers 2 and 3 happens at the same channels logged in the stabilization labs:
+
+- Position controller's speed output → `THR_DesSpeed` → speed PID input
+- Position controller's yaw-rate output → `STER_DesTurnRate` → yaw-rate PID input
+
+In a Lab-2-style step test the pilot generated commands on those channels directly. In a waypoint mission the same channels carry a more complex, time-varying reference — generated by `AC_PosControl` chasing the S-curve.
+
+## What happens each control tick
+
+Within an AUTO mission, on each iteration of the loop:
+
+1. Active waypoint. Pick the next item in the mission list. This is the navigation-level setpoint.
+2. Geometry. Compute the vector from current (GPS / EKF) position to the active waypoint, yielding a desired bearing and a remaining distance.
+3. Cross-track error. Decompose the position error relative to the planned path (a line from the previous waypoint to the active one) into along-track and cross-track components. The cross-track component is what gets pushed against to keep the boat on the line.
+4. Desired speed. Capped above by `WP_SPEED` (the cruise setting); capped from below by what the kinematic limits (`ATC_ACCEL_MAX`, `ATC_DECEL_MAX`, `ATC_TURN_MAX_G`) allow at this point on the path. The boat slows down in tight corners on purpose.
+5. Desired yaw rate. Computed so the boat steers toward the bearing while respecting the turning g-cap; includes a proportional response on cross-track error.
+6. Setpoint handoff. Desired speed → `THR_DesSpeed` → speed PID. Desired yaw rate → `STER_DesTurnRate` → yaw-rate PID.
+7. Arrival check. Within `WP_RADIUS` of the active waypoint? If yes, advance to the next waypoint. If this was the last waypoint, the mission is complete.
+
+## The S-curve, briefly
+
+ArduPilot's S-curve is not a Bézier curve. It is a jerk-limited 7-segment kinematic trajectory:
+
+> "SCurves calculate paths between waypoints (including the corners) using specified speed, acceleration and jerk limits."
+> — `libraries/AP_Math/SCurve.h`
+
+The 7 segments are: jerk-up, constant accel, jerk-down, cruise, jerk-down (decel), constant decel, jerk-up. Corner-blending between consecutive waypoints uses a spline so the path stays continuous in velocity, but the speed profile along that path is the jerk-limited segmented profile, not a Bézier in time.
+
+The point is that the S-curve produces a reference the boat is physically capable of following — it will not ask for an acceleration the actuators cannot deliver, or a turn rate the hull cannot sustain at the requested speed. From the Rover docs:
+
+> "S-Curves are used to plan a smooth path that brings the vehicle close to each waypoint while not exceeding speed or acceleration limits. […] The vehicle will cut the corners more at higher speeds and more if the maximum accelerations are reduced, but will slow down in the corners if necessary to pass within `WP_RADIUS` of the waypoint without exceeding the maximum accelerations."
+
+This is feedforward in the strictest sense: an open-loop plan generated from the waypoints and the vehicle's kinematic limits, fed into the loop below as a reference.
+
+## Closing the position loop (`AC_PosControl`)
+
+The position controller is a PID with feedforward, structurally identical to the stabilization channels:
+
+| Term | Parameter | Role |
 |---|---|---|
-| **Setpoint** | speed (m/s), yaw-rate (rad/s) | active waypoint (lat, lon) |
-| **Measurement** | `GPS_Spd`, EKF yaw rate | EKF position |
-| **Error** | speed − measured speed | cross-track + along-track distance |
-| **Proportional gain** | `ATC_SPEED_P`, `ATC_STR_RAT_P` | implicit, inside `AC_PosControl` (parameters `PSC_*`, fixed across teams) |
-| **Feedforward** | `ATC_*_FF × setpoint` (Lab 1's `1/K_dc`) | S-curve velocity reference — kinematically feasible by construction |
-| **Output** | throttle PWM, rudder PWM | `THR_DesSpeed`, `STER_DesTurnRate` (= next layer's setpoint) |
+| FF (velocity) | (from S-curve) | open-loop velocity reference along the planned path |
+| P (position) | `PSC_POS_P` | proportional gain on position error |
+| P, I, D (velocity) | `PSC_VEL_P`, `PSC_VEL_I`, `PSC_VEL_D` | inner velocity loop inside the position controller |
+
+: {tbl-colwidths="[20, 30, 50]"}
+
+Position error feeds a P controller that produces a desired velocity correction; that gets added to the S-curve's `vel_ref` to produce the composite velocity setpoint; the velocity PID then produces a throttle / rudder demand — which, for Rover, is delivered as a speed setpoint to the stabilization layer rather than directly to the motors.
+
+If that structure feels recursive, it is. It is the same stabilization-layer block diagram with one extra outer wrap.
+
+## The PID analogy, side by side
+
+| Concept | Stabilization layer | Navigation layer |
+|---|---|---|
+| Setpoint | speed (m/s), yaw-rate (rad/s) | active waypoint (lat, lon) |
+| Measurement | `GPS_Spd`, EKF yaw rate | EKF position |
+| Error | speed − measured speed | cross-track + along-track distance |
+| Proportional gain | `ATC_SPEED_P`, `ATC_STR_RAT_P` | implicit, inside `AC_PosControl` (parameters `PSC_*`) |
+| Feedforward | `ATC_*_FF × setpoint` (≈ `1/K_dc`) | S-curve velocity reference — kinematically feasible by construction |
+| Output | throttle PWM, rudder PWM | `THR_DesSpeed`, `STER_DesTurnRate` (= next layer's setpoint) |
 
 : {tbl-colwidths="[20, 38, 42]"}
 
-Two takeaways:
+Two takeaways: each layer has the same internal pattern (setpoint → error → P/I/D → output, with an optional feedforward branch); and each layer's output is the next layer's setpoint. Waypoint mission execution is the stabilization block diagram nested inside one more wrapper.
 
-- **Same internal pattern.** Setpoint → error → P/I/D → output, with an optional feedforward branch that supplies an open-loop guess.
-- **Recursive cascade.** Each layer's output is the next layer's setpoint. Waypoint mission execution is just the Lab-2 block diagram nested inside one more wrapper.
+## Why the stabilization layer still matters
+
+The G&N stack only generates setpoints that are achievable in the ideal. Whether the boat actually achieves them is the inner loop's job.
+
+If the stabilization PIDs are sluggish, the boat will lag the S-curve and overshoot corners. If they are oscillatory, the trajectory will be tracked with high-frequency jitter on top. If they saturate, the S-curve's "kinematic feasibility" guarantee is broken — the plant cannot deliver what was planned.
+
+A well-tuned trajectory on top of poorly-tuned PIDs is wasted. The stabilization layer is what enables the outer loops to do their job.
 
 ## What students should think about (and what to leave alone)
 
-**Worth knowing — these dominate mission performance:**
+Worth knowing — these dominate mission performance:
 
 - `WP_SPEED` — cruise speed along the path (m/s).
 - `WP_RADIUS` — how close counts as "arrived".
 - `WP_OVERSHOOT` — how much lateral overshoot is tolerated when cutting corners.
 - `ATC_ACCEL_MAX`, `ATC_DECEL_MAX`, `ATC_TURN_MAX_G` — the kinematic caps; these constrain what the navigation layer is allowed to ask for.
-- That **cross-track error exists** and is what pulls the boat back onto the path when wind / current push it off.
+- That cross-track error exists and is what pulls the boat back onto the path when wind / current push it off.
 
-**Out of scope for this course:**
+Outside the scope of this course (but visible in the logs):
 
-- S-curve internals (jerk-limited 7-segment trajectory generator).
+- S-curve internals (jerk-limited 7-segment trajectory generator math).
 - `PSC_*` position-controller PID gains.
 - L1 navigation algorithm derivation, NPFG, spline blending.
 - EKF / state estimation.
 
-These shape the behavior you see in the logs, but you are not expected to tune or analyze them.
+## Further reading
 
-## External references
+Architecture overview (start here):
 
-**Conceptual + parameter handbook (Rover-specific):**
+- [Copter Position Control and Navigation — dev wiki](https://ardupilot.org/dev/docs/code-overview-copter-poscontrol-and-navigation.html) — Rover uses the same `AC_WPNav` / `AC_PosControl` / `SCurve` libraries the wiki describes; despite the "Copter" title it is the right architecture doc.
+
+The S-curve algorithm, from the author:
+
+- [Trigonometric S-Curve Navigation — ArduPilot UnConference 2019](https://www.youtube.com/watch?v=LHq5o9zgNWk) (Leonard Hall, ~30 min) — closest thing to a paper. Why trig-shaped jerk profiles, what is wrong with simple trapezoidal accel, how corner-blending works.
+- [S-Curves by Leonard Hall](https://www.youtube.com/watch?v=MQiNDJGJDWs) — shorter companion talk.
+
+Motivation (before / after):
+
+- [Leash vs S-Curve navigation](https://discuss.ardupilot.org/t/leash-vs-s-curve-navigation/64745) — what S-curve replaced (the "leash" method in Copter 4.0) and why the rewrite happened.
+- [S-Curve in action](https://discuss.ardupilot.org/t/s-curve-in-action/73131) — flight-test comparison plots.
+
+Rover parameter handbook (what you actually set):
 
 - [ArduRover → Navigation](https://ardupilot.org/rover/docs/navigation.html) — what the autopilot does in AUTO mode; mission semantics.
 - [ArduRover → Position Control](https://ardupilot.org/rover/docs/position-control.html) — how the boat is steered toward a target.
 - [ArduRover → Tuning Navigation](https://ardupilot.org/rover/docs/rover-tuning-navigation.html) — per-parameter handbook for `WP_*`, `PSC_*`, the S-curve caps.
 - [ArduRover → AUTO Mode](https://ardupilot.org/rover/docs/auto-mode.html) — mission upload, mode switching, behavior on mission end.
 
-**Algorithm internals (out of scope, but the canonical sources if you go looking):**
+Source-level (when you need the truth):
 
-- [Copter Position Control and Navigation — dev wiki](https://ardupilot.org/dev/docs/code-overview-copter-poscontrol-and-navigation.html) — Rover uses the same `AC_WPNav` / `AC_PosControl` / `SCurve` libraries the wiki describes; despite the "Copter" title it's the right architecture doc.
-- [Trigonometric S-Curve Navigation — ArduPilot UnConference 2019 (Leonard Hall)](https://www.youtube.com/watch?v=LHq5o9zgNWk) — ~30 min, closest thing to a paper on the trajectory generator.
-- [Leash vs S-Curve navigation — ArduPilot Discourse](https://discuss.ardupilot.org/t/leash-vs-s-curve-navigation/64745) — before/after comparison.
-- [`AC_WPNav.h`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_WPNav/AC_WPNav.h), [`SCurve.h`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Math/SCurve.h) — source headers, more candid than the user wiki.
+- [`AC_WPNav.h`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AC_WPNav/AC_WPNav.h) and [`SCurve.h`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Math/SCurve.h) — header comments more candid than the user wiki.
+- [DeepWiki: Attitude and Position Control](https://deepwiki.com/ArduPilot/ardupilot/2.3-attitude-and-position-control) — auto-generated walkthrough that cross-references the code.
 
-**Within this course:**
+Origin of the Rover port:
+
+- [GitHub Issue #11193 — Rover: improve navigation using S-curves](https://github.com/ArduPilot/ardupilot/issues/11193) — the discussion that brought S-curves to Rover.
+
+Within this course:
 
 - [Stabilization Layer](stabilization.qmd) — the inner loop the navigation layer hands off to. The mental model on this page connects directly to that one.
 - [Lab 3 overview](../weeks/w10_lab_usv_waypoint/index.qmd) — where the conceptual model gets exercised in a field session.
-- [Lab 3 G&N companion](../weeks/w10_lab_usv_waypoint/guidance_navigation.qmd) — lab-specific walk through the same cascade with emphasis on the bridge from Lab 2.
