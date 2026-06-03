@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lab 3 — USV Waypoint Mission Challenge – ME 2801 — Introduction to Feedback Control</title>
+<title>Lab 3 Leaderboard — AY26 Q3 – ME 2801 — Introduction to Feedback Control</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -116,19 +116,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
+  <li><a href="#current-standings" id="toc-current-standings" class="nav-link active" data-scroll-target="#current-standings">Current standings</a></li>
+  <li><a href="#per-team-breakdown" id="toc-per-team-breakdown" class="nav-link" data-scroll-target="#per-team-breakdown">Per-team breakdown</a>
   <ul class="collapse">
-  <li><a href="#waypoint-mission-challenge" id="toc-waypoint-mission-challenge" class="nav-link" data-scroll-target="#waypoint-mission-challenge">Waypoint Mission Challenge</a></li>
+  <li><a href="#cyborgs" id="toc-cyborgs" class="nav-link" data-scroll-target="#cyborgs">cyborgs</a></li>
+  <li><a href="#team3" id="toc-team3" class="nav-link" data-scroll-target="#team3">team3</a></li>
+  <li><a href="#blackpearl" id="toc-blackpearl" class="nav-link" data-scroll-target="#blackpearl">blackpearl</a></li>
   </ul></li>
-  <li><a href="#background---ardurovers-guidance-navigation" id="toc-background---ardurovers-guidance-navigation" class="nav-link" data-scroll-target="#background---ardurovers-guidance-navigation">Background - ArduRover’s Guidance &amp; Navigation</a></li>
-  <li><a href="#procedure" id="toc-procedure" class="nav-link" data-scroll-target="#procedure">Procedure</a></li>
-  <li><a href="#minimum-viable-deliverable-mvd" id="toc-minimum-viable-deliverable-mvd" class="nav-link" data-scroll-target="#minimum-viable-deliverable-mvd">Minimum Viable Deliverable (MVD)</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a>
-  <ul class="collapse">
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  <li><a href="#for-students" id="toc-for-students" class="nav-link" data-scroll-target="#for-students">For Students</a></li>
-  <li><a href="#for-instructors" id="toc-for-instructors" class="nav-link" data-scroll-target="#for-instructors">For Instructors</a></li>
-  </ul></li>
+  <li><a href="#what-the-leaderboard-tells-us" id="toc-what-the-leaderboard-tells-us" class="nav-link" data-scroll-target="#what-the-leaderboard-tells-us">What the leaderboard tells us</a></li>
+  <li><a href="#scoring-notes" id="toc-scoring-notes" class="nav-link" data-scroll-target="#scoring-notes">Scoring notes</a></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
   </ul>
 </nav>
     </div>
@@ -137,8 +134,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 3 — USV Waypoint Mission Challenge</h1>
-<p class="subtitle lead">Week 10 · Spring 2026</p>
+<h1 class="title">Lab 3 Leaderboard — AY26 Q3</h1>
+<p class="subtitle lead">USV Waypoint Mission Challenge — Day 1 (2026-06-03)</p>
 </div>
 
 
@@ -155,116 +152,254 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p><a href="../../weeks/w10_lab_usv_waypoint/index.html">← Back to Lab 3 overview</a></p>
+<section id="current-standings" class="level2">
+<h2 class="anchored" data-anchor-id="current-standings">Current standings</h2>
+<p>Best course time per team on challenge day 1 (2026-06-03). Times are the autopilot’s own WP1-to-WP7 elapsed, as logged in the <code>MSG</code> “Reached waypoint #N” events — see <a href="#scoring-notes">Scoring notes</a> below for why this is the right source of truth.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 22%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Rank</th>
+<th>Team</th>
+<th style="text-align: right;">Best time</th>
+<th style="text-align: center;">UTC time of run</th>
+<th style="text-align: center;">Log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td>cyborgs</td>
+<td style="text-align: right;">01:15 (75.2 s)</td>
+<td style="text-align: center;">2026-06-03 18:41:27</td>
+<td style="text-align: center;"><code>00000051.BIN</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td>team3</td>
+<td style="text-align: right;">01:43 (103.4 s)</td>
+<td style="text-align: center;">2026-06-03 18:26:57</td>
+<td style="text-align: center;"><code>00000039.BIN</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td>blackpearl</td>
+<td style="text-align: right;">03:26 (205.8 s)</td>
+<td style="text-align: center;">2026-06-03 18:28:14</td>
+<td style="text-align: center;"><code>00000049.BIN</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td><em>Instructor benchmark</em></td>
+<td style="text-align: right;"><em>03:13 (193.4 s)</em></td>
+<td style="text-align: center;"><em>2026-05-29 (prototype day)</em></td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+<p>Headline: every team beat the instructor benchmark. cyborgs more than halved it. team3’s best run was ~90 seconds faster than the instructor time as well.</p>
+</section>
+<section id="per-team-breakdown" class="level2">
+<h2 class="anchored" data-anchor-id="per-team-breakdown">Per-team breakdown</h2>
+<p>Parameter-change summaries describe what each team tuned relative to the lab baseline <code>.param</code>, keeping the specific parameter names and values out of view. The point is the <em>direction</em> of each team’s tuning, not a recipe.</p>
+<section id="cyborgs" class="level3">
+<h3 class="anchored" data-anchor-id="cyborgs">cyborgs</h3>
+<p>Seven complete-course runs on challenge day, with a clear improvement arc as they tuned.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">#</th>
+<th style="text-align: right;">Time</th>
+<th style="text-align: left;">UTC</th>
+<th style="text-align: left;">Log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: right;">03:15 (195.2 s)</td>
+<td style="text-align: left;">2026-06-03 18:31:10</td>
+<td style="text-align: left;"><code>00000048.BIN</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: right;">01:28 (87.8 s)</td>
+<td style="text-align: left;">2026-06-03 18:37:24</td>
+<td style="text-align: left;"><code>00000049.BIN</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: right;">01:15 (75.2 s)</td>
+<td style="text-align: left;">2026-06-03 18:41:27</td>
+<td style="text-align: left;"><code>00000051.BIN</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: right;">01:19 (79.2 s)</td>
+<td style="text-align: left;">2026-06-03 18:43:57</td>
+<td style="text-align: left;"><code>00000052.BIN</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: right;">01:15 (75.2 s)</td>
+<td style="text-align: left;">2026-06-03 18:49:04</td>
+<td style="text-align: left;"><code>00000053.BIN</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: right;">01:22 (81.6 s)</td>
+<td style="text-align: left;">2026-06-03 18:54:05</td>
+<td style="text-align: left;"><code>00000057.BIN</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: right;">01:20 (79.5 s)</td>
+<td style="text-align: left;">2026-06-03 18:58:56</td>
+<td style="text-align: left;"><code>00000058.BIN</code></td>
+</tr>
+</tbody>
+</table>
+<p>Tuning direction relative to baseline:</p>
 <ul>
-<li>Use the tuned stabilization layer, from <a href="../../weeks/w07_lab_usv_pid/index.html">Lab 2</a>, as the foundation for autonomously following a sequence of waypoints with ArduRover’s guidance and navigation stack.</li>
-<li>While the details of the navigation and guidance layers are outside the scope of this class, the general concept of feedback provides insight into how the G and N layers work with the control for USV GNC.</li>
-<li>The motivating objective is a USV race - minimum time to complete a fixed waypoint mission.</li>
+<li>Applied the standard fix to the stick-to-rate scaling.</li>
+<li>Disabled the speed-axis rate limiter.</li>
+<li>Raised the waypoint cruise speed modestly (a small multiple of baseline).</li>
+<li>Zeroed out the speed-loop feedforward gain (relying entirely on PID closure).</li>
+<li>Raised the pivot-turn threshold so moderate course-changes are handled with continuous steering instead of stop-and-pivot.</li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/ardurover_arch.svg" class="img-fluid figure-img" alt="ArduRover architecture block diagram, Mission Planner laptop above the USV's autopilot, mission execution / guidance / stabilization layers cascading to actuators."></p>
-<figcaption>ArduRover architecture: Mission Planner on the ground laptop issues the mission to the autopilot, which runs the guidance, navigation, and stabilization layers on the boat. The stabilization layer is what you tuned in Lab 2; the layers above are introduced in the <a href="../../autopilot/waypoint_navigation.html">companion page</a>.</figcaption>
-</figure>
-</div>
-<section id="waypoint-mission-challenge" class="level3">
-<h3 class="anchored" data-anchor-id="waypoint-mission-challenge">Waypoint Mission Challenge</h3>
+<p>The arc — first run baseline at ~195 s, then a step-change to ~88 s once they committed to their tuning, then six runs clustered tightly in the 75-82 s range — looks like a team that iterated to a good configuration and then exercised it for consistency.</p>
+</section>
+<section id="team3" class="level3">
+<h3 class="anchored" data-anchor-id="team3">team3</h3>
+<p>Four complete-course runs on challenge day, all clustered tightly in the 103-108 s range.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">#</th>
+<th style="text-align: right;">Time</th>
+<th style="text-align: left;">UTC</th>
+<th style="text-align: left;">Log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: right;">01:48 (108.0 s)</td>
+<td style="text-align: left;">2026-06-03 18:20:43</td>
+<td style="text-align: left;"><code>00000037.BIN</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: right;">01:43 (103.4 s)</td>
+<td style="text-align: left;">2026-06-03 18:26:57</td>
+<td style="text-align: left;"><code>00000039.BIN</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: right;">01:45 (104.5 s)</td>
+<td style="text-align: left;">2026-06-03 18:34:12</td>
+<td style="text-align: left;"><code>00000041.BIN</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: right;">01:44 (104.3 s)</td>
+<td style="text-align: left;">2026-06-03 18:42:15</td>
+<td style="text-align: left;"><code>00000043.BIN</code></td>
+</tr>
+</tbody>
+</table>
+<p>Tuning direction relative to baseline:</p>
 <ul>
-<li><strong>Minimize course time</strong> for a fixed mission
-<ul>
-<li>Mission file: <a href="docs/challengecourse_ay26q3.waypoints"><code>challengecourse_ay26q3.waypoints</code></a> — the standard course mission, distributed for upload via Mission Planner.</li>
-</ul></li>
-<li><strong>Course time</strong> is defined as
-<ul>
-<li><strong>Start:</strong> the first time the USV is within the acceptance threshold of waypoint 1.</li>
-<li><strong>End:</strong> the first time the USV enters the threshold of the final waypoint.</li>
-</ul></li>
-<li><strong>Two measurements per run:</strong>
-<ul>
-<li>Real-time estimate: recorded by the team in the field using Mission Planner.<br>
-</li>
-<li>Post-processed estimate (official score): result of analyzing the log files with the provided script</li>
-</ul></li>
+<li>Applied the standard stick-to-rate fix.</li>
+<li>Disabled the speed-axis rate limiter.</li>
+<li>Pushed both the cruise-speed scaling and the waypoint cruise speed to very high values — well above the boat’s nominal cruise.</li>
+<li>Maxed out the throttle baseline bias.</li>
+<li>Disabled the pivot-turn feature entirely.</li>
+<li>Slashed the steering proportional and integral gains, sharply raised the steering feedforward, and added a derivative term.</li>
+<li>Switched the primary heading reference between compass instances.</li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/missionplanner_course.png" class="img-fluid figure-img" alt="Mission Planner screenshot showing the uploaded waypoint mission overlaid on a satellite map of the course area."></p>
-<figcaption>Overview of the competition waypoint mission, as it appears in Mission Planner before upload to the autopilot.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/00000035.BIN.coursetime.png" class="img-fluid figure-img" style="width:60.0%" alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii."></p>
-<figcaption>Prototype course run from a scored post-processing pass.</figcaption>
-</figure>
-</div>
-<div class="callout callout-style-simple callout-tip">
+<p>team3 chose to commit to high-speed transit and accept that the boat would overshoot every waypoint. The autopilot was happy with that — it advanced through the mission using perpendicular-crossing detection rather than waiting for the boat to dip inside the strict acceptance radius. The on-water observation that “team3 looked fast” was correct.</p>
+<p>It is worth singling out the <strong>combination</strong> that team3 produced: by far the most aggressive tuning of any team — speeds set well above the boat’s nominal cruise, throttle baseline maxed, steering loop substantially restructured — <em>and</em> the most consistent lap-to-lap results on the leaderboard. Their four complete runs span 4.6 seconds end-to-end (103.4 s to 108.0 s), a tighter spread than any other team’s runs. Aggressive and unreliable is the usual pairing in autonomous-vehicle tuning; aggressive and <em>repeatable</em> is harder, and team3 demonstrated it.</p>
+<p>That they didn’t win on raw time is a separate observation. Whatever cyborgs was doing at the steering layer let them carry similar (or higher) average speed through the course geometry with cleaner traces through the corners — but neither configuration “broke” the autopilot, and both finished well under the instructor benchmark.</p>
+<div class="callout callout-style-simple callout-note">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Current standings:</strong> see the <a href="../../weeks/w10_lab_usv_waypoint/leaderboard_ay26q3.html">AY26 Q3 Leaderboard</a> for the running scoreboard, per-team successful runs, and a summary of each team’s tuning direction.</p>
+<p><strong>Note on the original analysis.</strong> Day-1’s first leaderboard initially showed team3 as “DNF”. That was a bug in our scoring script — it required each waypoint to be physically entered within the 1 m acceptance radius, but team3’s boat was traveling fast enough that it overshot most waypoints without entering the strict radius. The autopilot itself, which uses both radius entry and perpendicular crossing, advanced through all 7 waypoints just fine; we just weren’t reading its <code>MSG</code> log. The script has since been corrected; see <a href="#scoring-notes">Scoring notes</a>.</p>
 </div>
 </div>
 </div>
 </section>
-</section>
-<section id="background---ardurovers-guidance-navigation" class="level2">
-<h2 class="anchored" data-anchor-id="background---ardurovers-guidance-navigation">Background - ArduRover’s Guidance &amp; Navigation</h2>
+<section id="blackpearl" class="level3">
+<h3 class="anchored" data-anchor-id="blackpearl">blackpearl</h3>
+<p>One complete-course run on challenge day.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">#</th>
+<th style="text-align: right;">Time</th>
+<th style="text-align: left;">UTC</th>
+<th style="text-align: left;">Log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: right;">03:26 (205.8 s)</td>
+<td style="text-align: left;">2026-06-03 18:28:14</td>
+<td style="text-align: left;"><code>00000049.BIN</code></td>
+</tr>
+</tbody>
+</table>
+<p>Tuning direction relative to baseline:</p>
 <ul>
-<li>In Lab 2 each stabilization loop had the same internal structure: setpoint → error → PID (with feedforward) → actuator.</li>
-<li>The guidance layer applies the same pattern:
-<ul>
-<li>Setpoint = next waypoint.</li>
-<li>Error = position relative to the waypoint (a vector, but treated similarly to a scalar error in the proportional sense).</li>
-<li>“Controller output” = a speed and yaw-rate command sent down to the stabilization layer — i.e.&nbsp;the same <code>THR_DesSpeed</code> and <code>STER_DesTurnRate</code> channels you logged in Lab 2.</li>
-</ul></li>
-<li>In other words: Lab 3’s guidance layer is a proportional position controller wrapped around your Lab-2 PIDs.</li>
-<li>See the autopilot reference page <a href="../../autopilot/waypoint_navigation.html">Waypoint Navigation in ArduRover (Boats)</a> for the full walk-through.</li>
+<li>Applied the standard stick-to-rate fix.</li>
+<li>Disabled the speed-axis rate limiter.</li>
+<li>Roughly doubled the cruise-speed scaling and significantly raised the waypoint cruise speed.</li>
+<li>Added a constant throttle baseline bias on top of the per-step feedforward.</li>
+<li>Heavily retuned the speed-loop PID — substantially more aggressive across proportional, integral, derivative, and feedforward.</li>
+<li>Reduced the steering PID gains while raising the steering feedforward.</li>
+<li>Re-enabled the R/C-loss failsafe (the procedure recommends turning this off for the challenge course).</li>
 </ul>
-<p>The internals of guidance and navigation — trajectory generation, position-controller tuning, the EKF — are outside the scope of this introductory class. The references on this page and in the companion give you a mental model that’s sufficient for thinking about Lab 3 performance; a proper treatment is in followon graduate courses on guidance, navigation, and control.</p>
+<p>blackpearl’s only complete run came in about 30 seconds slower than cyborgs’ early baseline run and roughly 2-3x slower than what cyborgs and team3 settled into. The very aggressive throttle-stack tuning may have been spending control effort on the speed loop that wasn’t translating into shorter course time, or producing overshoot that complicated the steering layer’s job.</p>
 </section>
-<section id="procedure" class="level2">
-<h2 class="anchored" data-anchor-id="procedure">Procedure</h2>
-<p><strong><a href="../../weeks/w10_lab_usv_waypoint/procedure.html">Procedure</a></strong> — pre-lab checklist, uploading the mission via Mission Planner, in-water safety, stopwatch protocol, and log capture.</p>
 </section>
-<section id="minimum-viable-deliverable-mvd" class="level2">
-<h2 class="anchored" data-anchor-id="minimum-viable-deliverable-mvd">Minimum Viable Deliverable (MVD)</h2>
-<p>One PowerPoint slide containing:</p>
+<section id="what-the-leaderboard-tells-us" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-leaderboard-tells-us">What the leaderboard tells us</h2>
+<p>Day 1’s spread was wide — 75 s to 206 s — and the order isn’t a simple “more aggressive is faster” or “more conservative is faster.” Two takeaways:</p>
 <ul>
-<li>Trajectory plot from the log, waypoints overlaid on the actual path.</li>
-<li>Course time, stopwatch and log-derived, side by side.</li>
-<li>Comments/notes on what your team tried to improve on the baseline, and what worked / didn’t work.</li>
+<li>The winning configuration (cyborgs) was <em>modest</em> on cruise speed but had a steering-loop tune that handled the corners well at the speeds they did use.</li>
+<li>team3’s configuration was <em>very</em> aggressive on speed and accepted that the boat would overshoot waypoints — and it worked, because the autopilot’s mission-advancement logic accepts perpendicular crossings, not just radius entry.</li>
 </ul>
+<p>blackpearl’s heavy speed-loop retune didn’t pay off relative to the more measured approaches. Worth digging into the per-run logs to understand whether the limiting factor was speed-loop saturation, steering response, or trajectory shape at the corners.</p>
 </section>
-<section id="resources" class="level2">
-<h2 class="anchored" data-anchor-id="resources">Resources</h2>
-<section id="references" class="level3">
-<h3 class="anchored" data-anchor-id="references">References</h3>
+<section id="scoring-notes" class="level2">
+<h2 class="anchored" data-anchor-id="scoring-notes">Scoring notes</h2>
+<p>A complete-course run is one where the autopilot’s <code>MSG</code> log contains <code>"Reached waypoint #N"</code> for N = 1 .. 7 in that order. This is the autopilot’s own mission-advancement signal, which uses <em>both</em> of:</p>
 <ul>
-<li><a href="../../autopilot/waypoint_navigation.html">Waypoint Navigation in ArduRover (Boats)</a> — the autopilot reference; conceptual frame for everything in this lab.</li>
-<li><strong><a href="../../autopilot/stabilization.html">Autopilot → Stabilization Layer</a></strong> — Lab 2 reference. Re-skim because the position controller hands its outputs to the channels you already tuned.</li>
-<li><strong><a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Rover Tuning Navigation</a></strong> — parameter handbook for the G&amp;N layer.</li>
+<li>The boat entering the waypoint’s acceptance radius (<code>WP_RADIUS</code>).</li>
+<li>The boat crossing the perpendicular at the waypoint (overshoot detection).</li>
 </ul>
+<p>The second condition matters at speed: at this course’s geometry, a boat moving above ~3 m/s can legitimately overshoot a waypoint without ever dipping inside a 1 m radius. The script used to ignore this case and undercounted finishes. It has since been corrected to use the autopilot’s events directly; see <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py"><code>bin_coursetime.py</code></a>.</p>
 </section>
-<section id="for-students" class="level3">
-<h3 class="anchored" data-anchor-id="for-students">For Students</h3>
+<section id="notes" class="level2">
+<h2 class="anchored" data-anchor-id="notes">Notes</h2>
 <ul>
-<li><strong>Shared data repository:</strong> <a href="https://nps01-my.sharepoint.com/:f:/g/personal/bbingham_nps_edu/IgBrVQgpC7VsQ4pnhatXVfWBAatl-so1kOaAatxqty9Bj7g?e=C0EGzJ">ME2801_USV_Shared</a> — upload raw <code>*.BIN</code> mission logs to your team subfolder; instructors convert to <code>.mat</code>.</li>
-<li><strong>Mission file:</strong> <a href="docs/challengecourse_ay26q3.waypoints"><code>challengecourse_ay26q3.waypoints</code></a> — the standard course mission, distributed for upload via Mission Planner.</li>
-<li><strong>Baseline parameters:</strong> <a href="docs/2026_05_29_proto.param"><code>2026_05_29_proto.param</code></a> — the instructors’ full prototype parameter set. See the <a href="../../weeks/w10_lab_usv_waypoint/procedure.html#configuration-parameter-changes">Procedure → Configuration Parameter Changes</a> note before loading this; using the file wholesale will overwrite the Lab 2 stabilization-layer tuning.</li>
-</ul>
-</section>
-<section id="for-instructors" class="level3">
-<h3 class="anchored" data-anchor-id="for-instructors">For Instructors</h3>
-<ul>
-<li><strong>Course-time analysis script:</strong> <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py"><code>utils/ardu_utils/bin_coursetime.py</code></a> — reads one or more <code>.BIN</code> logs plus a mission <code>.waypoints</code> file and reports the log-derived course time (and optionally a trajectory plot). See the <a href="../../weeks/w10_lab_usv_waypoint/procedure.html#post-field">Procedure → Post-field section</a> for the recommended invocation.</li>
+<li>The 192-193 s instructor benchmark is a prototype-day run (2026-05-29) using the baseline parameter file. It is the time-to-beat for the challenge, not part of the AY26 Q3 team standings. The 2026-05-29 result is preserved in the raw data but excluded from the per-team standings on this page.</li>
+<li>Per-team parameter summaries are drawn from a representative challenge-day log per team; the underlying logs are in <code>/data/ME2801_USV/2026_06_03_challengeday1/logs/</code> (instructor-only access).</li>
+<li>Day 2 results, when available, will be appended in a follow-on table above.</li>
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
