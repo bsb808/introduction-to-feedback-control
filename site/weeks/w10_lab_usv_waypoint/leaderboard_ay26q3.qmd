@@ -23,7 +23,7 @@ below.
 
 ## Per-team breakdown
 
-Parameter-change summaries included with general descriptions - not exact details. The point is to convey what each team tuned relative to the lab baseline `.param`, 
+Parameter-change summaries are general descriptions, not exact details. The point is to convey what each team tuned relative to the lab baseline `.param`.
 
 ### cyborgs
 
@@ -69,15 +69,14 @@ Tuning direction relative to baseline:
 - Slashed the steering proportional and integral gains, sharply raised the steering feedforward, and added a derivative term.
 - Switched the primary heading reference between compass instances.
 
-team3 chose to commit to high-speed transit and accept that the boat would overshoot every waypoint. The autopilot was happy with that — it advanced through the mission using perpendicular-crossing detection % CLAUDE: See if you can find a link online to describe this waypoint behavior in ArduRover, and link to it here. 
-rather than waiting for the boat to dip inside the strict acceptance radius. 
+team3 chose to commit to high-speed transit and accept that the boat would overshoot every waypoint. The autopilot was happy with that — it advanced through the mission using perpendicular-crossing detection (the "finish-line" criterion documented under [ArduRover → Tuning Navigation](https://ardupilot.org/rover/docs/rover-tuning-navigation.html); see also the discussion in [ArduPilot issue #23457](https://github.com/ArduPilot/ardupilot/issues/23457) about how WP_RADIUS is effectively bypassed at speed) rather than waiting for the boat to dip inside the strict acceptance radius.
 
 
 That they didn't win on raw time is a separate observation. Whatever cyborgs was doing at the steering layer let them carry similar (or higher) average speed through the course geometry with cleaner traces through the corners — but neither configuration "broke" the autopilot.
 
 ### blackpearl
 
-One complete-course run .
+One complete-course run.
 
 | # | Time | UTC | Log |
 |:-:|---:|:--|:--|
@@ -100,11 +99,11 @@ A complete-course run is one where the autopilot's `MSG` log contains
 autopilot's own mission-advancement signal, which uses *both* of:
 
 - The boat entering the waypoint's acceptance radius (`WP_RADIUS`).
-- The boat crossing the perpendicular at the waypoint (overshoot detection).
+- The boat crossing a "finish line" — a line through the waypoint, perpendicular to the path segment leading to it. Once the boat is on the far side of that line, the autopilot treats the waypoint as reached even if the boat never came inside `WP_RADIUS`.
 
-The second condition matters at speed: at this course's geometry, a
-boat moving above ~3 m/s can legitimately overshoot a waypoint without
-ever dipping inside a 1 m radius. % CLAUDE: Actually, put the details of this waypoint detection - ideally an external reference that describes this behavior in ArduRover.  It can be a bit surprising because the WP_RADIUS parameter sets the acceptance radius for the first condition, but the second condition allows the mission to advance even if the boat never enters that radius.
+The second condition is the surprising one and matters at speed. At the AY26 Q3 course geometry, a boat moving above ~3 m/s can legitimately overshoot a waypoint without ever dipping inside a 1 m radius. The autopilot still advances the mission, the `MSG` log still records "Reached waypoint #N", and on the water the team sees a clean lap — but a scoring script that only checks `WP_RADIUS` entry will undercount finishes. This is exactly what happened to team3's results before the scoring script was corrected.
+
+The behavior is documented (loosely) in the [ArduRover → Tuning Navigation](https://ardupilot.org/rover/docs/rover-tuning-navigation.html) page (look for `WP_OVERSHOOT` and the "finish line" discussion). [ArduPilot issue #23457](https://github.com/ArduPilot/ardupilot/issues/23457) — "AR_WPNav: Rover 4.3+ does not honor WP_RADIUS" — has more candid detail on how the perpendicular check has effectively superseded the radius check since the 4.3 navigation rewrite.
 
 ## Notes
 
