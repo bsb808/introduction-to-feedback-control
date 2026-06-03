@@ -5,12 +5,12 @@ subtitle: "USV Waypoint Mission Challenge — Day 1 (2026-06-03)"
 
 [← Back to Lab 3 overview](index.qmd)
 
-## Current standings
+## Current standings (unverified)
 
 Best course time per team on challenge day 1 (2026-06-03). Times are
 the autopilot's own WP1-to-WP7 elapsed, as logged in the `MSG`
 "Reached waypoint #N" events — see [Scoring notes](#scoring-notes)
-below for why this is the right source of truth.
+below.
 
 | Rank | Team | Best time | UTC time of run | Log |
 |:---:|---|---:|:---:|:---:|
@@ -19,16 +19,11 @@ below for why this is the right source of truth.
 | 3 | blackpearl | 03:26 (205.8 s) | 2026-06-03 18:28:14 | `00000049.BIN` |
 |  | *Instructor benchmark* | *03:13 (193.4 s)* | *2026-05-29 (prototype day)* | — |
 
-Headline: every team beat the instructor benchmark. cyborgs more than
-halved it. team3's best run was ~90 seconds faster than the instructor
-time as well.
+
 
 ## Per-team breakdown
 
-Parameter-change summaries describe what each team tuned relative to
-the lab baseline `.param`, keeping the specific parameter names and
-values out of view. The point is the *direction* of each team's
-tuning, not a recipe.
+Parameter-change summaries included with general descriptions - not exact details. The point is to convey what each team tuned relative to the lab baseline `.param`, 
 
 ### cyborgs
 
@@ -53,11 +48,9 @@ Tuning direction relative to baseline:
 - Zeroed out the speed-loop feedforward gain (relying entirely on PID closure).
 - Raised the pivot-turn threshold so moderate course-changes are handled with continuous steering instead of stop-and-pivot.
 
-The arc — first run baseline at ~195 s, then a step-change to ~88 s once they committed to their tuning, then six runs clustered tightly in the 75-82 s range — looks like a team that iterated to a good configuration and then exercised it for consistency.
-
 ### team3
 
-Four complete-course runs on challenge day, all clustered tightly in the 103-108 s range.
+Four complete-course runs, all clustered tightly in the 103-108 s range.
 
 | # | Time | UTC | Log |
 |:-:|---:|:--|:--|
@@ -76,19 +69,15 @@ Tuning direction relative to baseline:
 - Slashed the steering proportional and integral gains, sharply raised the steering feedforward, and added a derivative term.
 - Switched the primary heading reference between compass instances.
 
-team3 chose to commit to high-speed transit and accept that the boat would overshoot every waypoint. The autopilot was happy with that — it advanced through the mission using perpendicular-crossing detection rather than waiting for the boat to dip inside the strict acceptance radius. The on-water observation that "team3 looked fast" was correct.
+team3 chose to commit to high-speed transit and accept that the boat would overshoot every waypoint. The autopilot was happy with that — it advanced through the mission using perpendicular-crossing detection % CLAUDE: See if you can find a link online to describe this waypoint behavior in ArduRover, and link to it here. 
+rather than waiting for the boat to dip inside the strict acceptance radius. 
 
-It is worth singling out the **combination** that team3 produced: by far the most aggressive tuning of any team — speeds set well above the boat's nominal cruise, throttle baseline maxed, steering loop substantially restructured — *and* the most consistent lap-to-lap results on the leaderboard. Their four complete runs span 4.6 seconds end-to-end (103.4 s to 108.0 s), a tighter spread than any other team's runs. Aggressive and unreliable is the usual pairing in autonomous-vehicle tuning; aggressive and *repeatable* is harder, and team3 demonstrated it.
 
-That they didn't win on raw time is a separate observation. Whatever cyborgs was doing at the steering layer let them carry similar (or higher) average speed through the course geometry with cleaner traces through the corners — but neither configuration "broke" the autopilot, and both finished well under the instructor benchmark.
-
-::: {.callout-note appearance="simple"}
-**Note on the original analysis.** Day-1's first leaderboard initially showed team3 as "DNF". That was a bug in our scoring script — it required each waypoint to be physically entered within the 1 m acceptance radius, but team3's boat was traveling fast enough that it overshot most waypoints without entering the strict radius. The autopilot itself, which uses both radius entry and perpendicular crossing, advanced through all 7 waypoints just fine; we just weren't reading its `MSG` log. The script has since been corrected; see [Scoring notes](#scoring-notes).
-:::
+That they didn't win on raw time is a separate observation. Whatever cyborgs was doing at the steering layer let them carry similar (or higher) average speed through the course geometry with cleaner traces through the corners — but neither configuration "broke" the autopilot.
 
 ### blackpearl
 
-One complete-course run on challenge day.
+One complete-course run .
 
 | # | Time | UTC | Log |
 |:-:|---:|:--|:--|
@@ -104,17 +93,6 @@ Tuning direction relative to baseline:
 - Reduced the steering PID gains while raising the steering feedforward.
 - Re-enabled the R/C-loss failsafe (the procedure recommends turning this off for the challenge course).
 
-blackpearl's only complete run came in about 30 seconds slower than cyborgs' early baseline run and roughly 2-3x slower than what cyborgs and team3 settled into. The very aggressive throttle-stack tuning may have been spending control effort on the speed loop that wasn't translating into shorter course time, or producing overshoot that complicated the steering layer's job.
-
-## What the leaderboard tells us
-
-Day 1's spread was wide — 75 s to 206 s — and the order isn't a simple "more aggressive is faster" or "more conservative is faster." Two takeaways:
-
-- The winning configuration (cyborgs) was *modest* on cruise speed but had a steering-loop tune that handled the corners well at the speeds they did use.
-- team3's configuration was *very* aggressive on speed and accepted that the boat would overshoot waypoints — and it worked, because the autopilot's mission-advancement logic accepts perpendicular crossings, not just radius entry.
-
-blackpearl's heavy speed-loop retune didn't pay off relative to the more measured approaches. Worth digging into the per-run logs to understand whether the limiting factor was speed-loop saturation, steering response, or trajectory shape at the corners.
-
 ## Scoring notes
 
 A complete-course run is one where the autopilot's `MSG` log contains
@@ -126,13 +104,9 @@ autopilot's own mission-advancement signal, which uses *both* of:
 
 The second condition matters at speed: at this course's geometry, a
 boat moving above ~3 m/s can legitimately overshoot a waypoint without
-ever dipping inside a 1 m radius. The script used to ignore this case
-and undercounted finishes. It has since been corrected to use the
-autopilot's events directly; see
-[`bin_coursetime.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py).
+ever dipping inside a 1 m radius. % CLAUDE: Actually, put the details of this waypoint detection - ideally an external reference that describes this behavior in ArduRover.  It can be a bit surprising because the WP_RADIUS parameter sets the acceptance radius for the first condition, but the second condition allows the mission to advance even if the boat never enters that radius.
 
 ## Notes
 
-- The 192-193 s instructor benchmark is a prototype-day run (2026-05-29) using the baseline parameter file. It is the time-to-beat for the challenge, not part of the AY26 Q3 team standings. The 2026-05-29 result is preserved in the raw data but excluded from the per-team standings on this page.
 - Per-team parameter summaries are drawn from a representative challenge-day log per team; the underlying logs are in `/data/ME2801_USV/2026_06_03_challengeday1/logs/` (instructor-only access).
 - Day 2 results, when available, will be appended in a follow-on table above.
