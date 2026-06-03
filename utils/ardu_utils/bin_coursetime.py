@@ -36,8 +36,10 @@ Usage:
   python bin_coursetime.py <input> <mission.waypoints> -r 2.0       # fixed radius
 
 Output: CSV on stdout, one row per file:
-    filename,elapsed_hms,elapsed_seconds,radius_m,status
-Header is printed first. Diagnostics go to stderr.
+    filename,elapsed_hms,elapsed_seconds,start_utc,radius_m,status
+Header is printed first. Diagnostics go to stderr. start_utc is the UTC
+timestamp of the WP1-radius entry (derived via pymavlink from the log's
+GPS lock); empty if no GPS lock or no successful course.
 
 With -p/--plot, a PNG (<logfile>.coursetime.png) is written next to each BIN
 showing the x/y (East/North) trajectory, the waypoints, a dashed acceptance-
@@ -142,19 +144,24 @@ def make_projector(lat0, lon0):
 def read_log(bin_path):
     """Read POS track and WP_RADIUS from a BIN log.
 
-    Returns (track, wp_radius) where track is a list of (t_us, lat, lon) and
-    wp_radius is the logged WP_RADIUS value (float) or None if not present.
+    Returns (track, wp_radius) where track is a list of
+    (t_us, t_unix, lat, lon) and wp_radius is the logged WP_RADIUS value
+    (float) or None if not present. t_unix is pymavlink's _timestamp, which
+    becomes valid UTC once a GPS lock is parsed (zero or boot-relative
+    before that). GPS messages are included in the recv filter so the
+    UTC mapping is established as soon as a GPS fix appears.
     """
     mlog = mavutil.mavlink_connection(bin_path)
     track = []
     wp_radius = None
     while True:
-        msg = mlog.recv_match(type=['POS', 'PARM'])
+        msg = mlog.recv_match(type=['POS', 'PARM', 'GPS'])
         if msg is None:
             break
         t = msg.get_type()
         if t == 'POS':
-            track.append((msg.TimeUS, msg.Lat, msg.Lng))
+            track.append((msg.TimeUS, getattr(msg, '_timestamp', 0.0),
+                          msg.Lat, msg.Lng))
         elif t == 'PARM':
             # Last logged value wins if a param is emitted more than once.
             if str(getattr(msg, 'Name', '')).strip() == 'WP_RADIUS':
@@ -165,50 +172,61 @@ def read_log(bin_path):
     return track, wp_radius
 
 
-def course_time(track, project, wp_first, wp_last, radius_m):
+def course_time(track, project, waypoints, radius_m):
     """Compute the course timing for one track.
 
+    The course is considered completed only if the trajectory enters each
+    waypoint's acceptance radius in mission order (WP1 → WP2 → ... → WPn).
+    Without this ordering check, courses whose first and last waypoints
+    happen to be close geographically can be 'completed' in seconds by a
+    boat that just transits between them — see e.g. the AY26Q3 course
+    where WP1 and WP7 are ~13 m apart.
+
     Returns a dict with keys:
-      elapsed_s   float seconds (0.0 if unsuccessful)
-      start_idx   index into track of the start sample (or None)
-      stop_idx    index into track of the stop sample (or None)
-      status      'ok' | 'no_track' | 'never_reached_wp1' | 'never_reached_final'
+      elapsed_s     float seconds (0.0 if unsuccessful)
+      start_idx     index into track of the WP1-radius entry (or None)
+      stop_idx      index into track of the final-WP-radius entry (or None)
+      start_t_unix  unix time of start_idx (or None)
+      status        'ok' | 'no_track' | 'never_reached_wpN' (N = first
+                    waypoint that wasn't entered in sequence)
     """
     result = {'elapsed_s': 0.0, 'start_idx': None, 'stop_idx': None,
-              'status': 'no_track'}
+              'start_t_unix': None, 'status': 'no_track'}
     if not track:
         return result
 
-    fx, fy = project(wp_first[1], wp_first[2])
-    lx, ly = project(wp_last[1], wp_last[2])
+    wp_xy = [project(lat, lon) for _, lat, lon in waypoints]
     r2 = radius_m * radius_m
 
-    # First sample inside the first waypoint's radius.
+    # Walk the trajectory, advancing the waypoint cursor each time the
+    # vehicle enters the next waypoint's acceptance radius.
+    cursor = 0  # index of the next waypoint to satisfy
     start_idx = None
-    for i, (_, lat, lon) in enumerate(track):
-        x, y = project(lat, lon)
-        if (x - fx) ** 2 + (y - fy) ** 2 <= r2:
-            start_idx = i
+    stop_idx = None
+    for i, (_, _, lat, lon) in enumerate(track):
+        if cursor >= len(wp_xy):
             break
+        x, y = project(lat, lon)
+        wx, wy = wp_xy[cursor]
+        if (x - wx) ** 2 + (y - wy) ** 2 <= r2:
+            if cursor == 0:
+                start_idx = i
+            cursor += 1
+            if cursor == len(wp_xy):
+                stop_idx = i
+                break
+
     if start_idx is None:
         result['status'] = 'never_reached_wp1'
         return result
-
-    # First sample at/after start inside the final waypoint's radius.
-    stop_idx = None
-    for i in range(start_idx, len(track)):
-        _, lat, lon = track[i]
-        x, y = project(lat, lon)
-        if (x - lx) ** 2 + (y - ly) ** 2 <= r2:
-            stop_idx = i
-            break
     if stop_idx is None:
-        result['status'] = 'never_reached_final'
+        result['status'] = f'never_reached_wp{cursor + 1}'
         return result
 
     elapsed_s = (track[stop_idx][0] - track[start_idx][0]) / 1e6
     result.update(elapsed_s=elapsed_s, start_idx=start_idx,
-                  stop_idx=stop_idx, status='ok')
+                  stop_idx=stop_idx, start_t_unix=track[start_idx][1],
+                  status='ok')
     return result
 
 
@@ -220,6 +238,15 @@ def fmt_hms(seconds):
     return f"{h:02d}:{m:02d}:{s:02d}"
 
 
+def fmt_utc(t_unix):
+    """Format a unix timestamp as 'YYYY-MM-DD HH:MM:SS UTC' (empty if None/0)."""
+    import datetime
+    if not t_unix:
+        return ''
+    dt = datetime.datetime.fromtimestamp(t_unix, tz=datetime.timezone.utc)
+    return dt.strftime('%Y-%m-%d %H:%M:%S UTC')
+
+
 def plot_course(bin_path, track, project, waypoints, radius_m, result):
     """Write <bin_path>.coursetime.png showing trajectory, waypoints, radii."""
     import matplotlib
@@ -228,7 +255,7 @@ def plot_course(bin_path, track, project, waypoints, radius_m, result):
     from matplotlib.patches import Circle
 
     xs, ys = [], []
-    for _, lat, lon in track:
+    for _, _, lat, lon in track:
         x, y = project(lat, lon)
         xs.append(x)
         ys.append(y)
@@ -327,7 +354,8 @@ def main():
         sys.exit(1)
 
     writer = csv.writer(sys.stdout)
-    writer.writerow(['filename', 'elapsed_hms', 'elapsed_seconds', 'radius_m', 'status'])
+    writer.writerow(['filename', 'elapsed_hms', 'elapsed_seconds',
+                     'start_utc', 'radius_m', 'status'])
 
     for f in files:
         if not os.path.isfile(f):
@@ -338,7 +366,7 @@ def main():
             track, log_radius = read_log(f)
         except Exception as e:
             print(f"Warning: failed to read {f}: {e}", file=sys.stderr)
-            writer.writerow([f, fmt_hms(0), '0.0', '', 'read_error'])
+            writer.writerow([f, fmt_hms(0), '0.0', '', '', 'read_error'])
             continue
 
         # Radius precedence: CLI override > logged WP_RADIUS > default.
@@ -351,7 +379,7 @@ def main():
             print(f"  note: WP_RADIUS not in log; using default {DEFAULT_RADIUS_M:g} m",
                   file=sys.stderr)
 
-        result = course_time(track, project, wp_first, wp_last, radius_m)
+        result = course_time(track, project, waypoints, radius_m)
         if result['status'] == 'ok':
             print(f"  elapsed {fmt_hms(result['elapsed_s'])} "
                   f"({result['elapsed_s']:.1f} s), radius {radius_m:g} m", file=sys.stderr)
@@ -359,7 +387,9 @@ def main():
             print(f"  {result['status']} (radius {radius_m:g} m) -> zeros", file=sys.stderr)
 
         writer.writerow([f, fmt_hms(result['elapsed_s']),
-                         f"{result['elapsed_s']:.1f}", f"{radius_m:g}", result['status']])
+                         f"{result['elapsed_s']:.1f}",
+                         fmt_utc(result['start_t_unix']),
+                         f"{radius_m:g}", result['status']])
 
         if args.plot:
             try:
