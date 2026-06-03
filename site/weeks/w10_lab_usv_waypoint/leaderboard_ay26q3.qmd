@@ -5,6 +5,12 @@ subtitle: "USV Waypoint Mission Challenge — Day 1 (2026-06-03)"
 
 [← Back to Lab 3 overview](index.qmd)
 
+## Highlight videos
+
+- [Day 1 — time lapse of the day](https://youtu.be/_MJer6qtC7E)
+
+More to come.
+
 ## Current standings (unverified)
 
 Best course time per team on challenge day 1 (2026-06-03). Times are
