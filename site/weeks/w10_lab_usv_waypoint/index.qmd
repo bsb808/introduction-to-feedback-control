@@ -26,6 +26,10 @@ subtitle: "Week 10 · {{< var quarter >}}"
 
 ![Prototype course run from a scored post-processing pass.](images/00000035.BIN.coursetime.png){fig-alt="Prototype course run showing the USV's trajectory, waypoints, and acceptance radii." width=60%}
 
+::: {.callout-tip appearance="simple"}
+**Current standings:** see the [AY26 Q3 Leaderboard](leaderboard_ay26q3.qmd) for the running scoreboard, per-team successful runs, and a summary of each team's tuning direction.
+:::
+
 ## Background - ArduRover's Guidance & Navigation
 
 * In Lab 2 each stabilization loop had the same internal structure: setpoint → error → PID (with feedforward) → actuator.

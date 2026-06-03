@@ -1,0 +1,101 @@
+---
+title: "Lab 3 Leaderboard — AY26 Q3"
+subtitle: "USV Waypoint Mission Challenge — Day 1 (2026-06-03)"
+---
+
+[← Back to Lab 3 overview](index.qmd)
+
+## Current standings
+
+Course time, instructor benchmark, and team bests after Day 1 of the
+challenge. A run counts only if the boat enters each waypoint's
+acceptance radius in mission order (WP1 → WP2 → … → WP7); transits that
+skip intermediate waypoints are excluded. Numbers come from running
+[`bin_coursetime.py`](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py)
+on each team's logs against
+[`challengecourse_ay26q3.waypoints`](docs/challengecourse_ay26q3.waypoints).
+
+| Rank | Team | Best time | UTC time of run | Log |
+|:---:|---|---:|:---:|:---:|
+| 1 | cyborgs | 03:14 (194.5 s) | 2026-06-03 18:31:10 | `00000048.BIN` |
+| 2 | blackpearl | 04:41 (280.8 s) | 2026-06-03 18:33:58 | `00000049.BIN` |
+| — | team3 | DNF (no complete-course run) | — | — |
+|  | *Instructor benchmark* | *03:12 (192.4 s)* | *2026-05-29 18:22:01* | — |
+
+cyborgs landed within 2 seconds of the instructor benchmark. blackpearl
+finished cleanly but ~1.5x slower. team3 logged many attempts but none
+completed the ordered waypoint sequence on challenge day.
+
+## Per-team breakdown
+
+The parameter-change summaries below describe what each team tuned
+relative to the lab baseline `.param`, deliberately keeping the
+specific parameter names and values out of view. The point is the
+**direction** of each team's tuning, not a recipe.
+
+### cyborgs
+
+**Successful runs:**
+
+| # | Time | UTC | Log |
+|:-:|---:|:--|:--|
+| 1 | 03:14 (194.5 s) | 2026-06-03 18:31:10 | `00000048.BIN` |
+
+**Tuning direction relative to baseline:**
+
+- Applied the standard fix to the stick-to-rate scaling that the rest of the field also used (matches the procedure note).
+- Disabled the speed-axis rate limiter.
+- Increased the waypoint cruise speed modestly — a small multiple of the baseline target.
+- Zeroed out the speed-loop feedforward gain (relying entirely on PID closure rather than open-loop guess).
+- Raised the pivot-turn threshold so moderate course-changes are handled with continuous steering instead of stop-and-pivot.
+
+In short: conservative on tuning, modest on speed. The lowest-variance setup of the three teams, and the result speaks for itself — essentially instructor-equivalent course time.
+
+### blackpearl
+
+**Successful runs:**
+
+| # | Time | UTC | Log |
+|:-:|---:|:--|:--|
+| 1 | 04:41 (280.8 s) | 2026-06-03 18:33:58 | `00000049.BIN` |
+
+**Tuning direction relative to baseline:**
+
+- Applied the standard stick-to-rate fix.
+- Disabled the speed-axis rate limiter.
+- Roughly doubled the cruise-speed scaling and significantly raised the waypoint cruise speed.
+- Added a constant throttle baseline bias on top of the per-step feedforward.
+- Heavily retuned the speed-loop PID — substantially more aggressive across all of proportional, integral, derivative, and feedforward.
+- Reduced the steering PID gains while raising the steering feedforward.
+- Re-enabled the R/C-loss failsafe (the procedure recommends turning this off for the challenge course; blackpearl chose the safer setting).
+
+In short: a much more aggressive throttle stack and a much lighter steering loop. The boat completed the course but slower than cyborgs — the aggressive speed-loop tuning may have been spending controller effort that didn't translate to course time, or producing overshoot at the waypoints.
+
+### team3
+
+**Successful runs:** none completed the ordered course on Day 1.
+
+**Tuning direction relative to baseline:**
+
+- Applied the standard stick-to-rate fix.
+- Disabled the speed-axis rate limiter.
+- Pushed both the cruise-speed scaling and the waypoint cruise speed to values well above what the boat can physically achieve.
+- Maxed out the throttle baseline bias.
+- Disabled the pivot-turn feature entirely.
+- Slashed the steering proportional and integral gains, sharply raised the steering feedforward, and added a derivative term.
+- Switched the primary heading reference between compass instances (likely contributing to navigation difficulty during the runs).
+
+In short: most-aggressive setup of the three teams on speed, paired with the most experimental steering loop and a heading-reference change. With several of the configured speeds beyond physically achievable, the position controller would have been continuously winding up against saturation — a plausible explanation for not closing the loop on intermediate waypoints.
+
+## What the leaderboard tells us
+
+A pattern across the three teams: the team that tuned least aggressively (cyborgs) finished closest to the instructor benchmark. The team that tuned most aggressively (team3) didn't finish at all. blackpearl sits in the middle on both axes.
+
+This is not a moral about tuning conservatively — it is the standard observation that aggressive outer-loop setpoints only translate to outer-loop performance if the inner loops can actually track them. The stabilization layer tuned in Lab 2 sets the ceiling on what the guidance layer can ask for in Lab 3. Above that ceiling you spend the same controller effort and get a worse outcome.
+
+## Notes
+
+- The "instructor benchmark" was a prototype-day run (2026-05-29) using the baseline parameter file. It is the time-to-beat for the challenge, not part of the AY26 Q3 team standings.
+- A "complete course" requires the trajectory to enter each waypoint's acceptance radius in sequence (WP1 → WP2 → … → WP7). The AY26 Q3 course geometry places WP1 and WP7 about 13 m apart, so without the ordering check it is easy to misclassify a short transit as a finish — see the [analysis-script](https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py) docstring for the algorithm.
+- Per-team parameter summaries are drawn from a representative challenge-day log per team; the underlying logs are in `data/ME2801_USV/2026_06_03_challengeday1/logs/` (instructor-only access).
+- Day 2 results, when available, will be appended in a follow-on table above.
