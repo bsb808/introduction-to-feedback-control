@@ -116,14 +116,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#current-standings" id="toc-current-standings" class="nav-link active" data-scroll-target="#current-standings">Current standings</a></li>
+  <li><a href="#current-standings-unverified" id="toc-current-standings-unverified" class="nav-link active" data-scroll-target="#current-standings-unverified">Current standings (unverified)</a></li>
   <li><a href="#per-team-breakdown" id="toc-per-team-breakdown" class="nav-link" data-scroll-target="#per-team-breakdown">Per-team breakdown</a>
   <ul class="collapse">
   <li><a href="#cyborgs" id="toc-cyborgs" class="nav-link" data-scroll-target="#cyborgs">cyborgs</a></li>
   <li><a href="#team3" id="toc-team3" class="nav-link" data-scroll-target="#team3">team3</a></li>
   <li><a href="#blackpearl" id="toc-blackpearl" class="nav-link" data-scroll-target="#blackpearl">blackpearl</a></li>
   </ul></li>
-  <li><a href="#what-the-leaderboard-tells-us" id="toc-what-the-leaderboard-tells-us" class="nav-link" data-scroll-target="#what-the-leaderboard-tells-us">What the leaderboard tells us</a></li>
   <li><a href="#scoring-notes" id="toc-scoring-notes" class="nav-link" data-scroll-target="#scoring-notes">Scoring notes</a></li>
   <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
   </ul>
@@ -153,9 +152,9 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p><a href="../../weeks/w10_lab_usv_waypoint/index.html">← Back to Lab 3 overview</a></p>
-<section id="current-standings" class="level2">
-<h2 class="anchored" data-anchor-id="current-standings">Current standings</h2>
-<p>Best course time per team on challenge day 1 (2026-06-03). Times are the autopilot’s own WP1-to-WP7 elapsed, as logged in the <code>MSG</code> “Reached waypoint #N” events — see <a href="#scoring-notes">Scoring notes</a> below for why this is the right source of truth.</p>
+<section id="current-standings-unverified" class="level2">
+<h2 class="anchored" data-anchor-id="current-standings-unverified">Current standings (unverified)</h2>
+<p>Best course time per team on challenge day 1 (2026-06-03). Times are the autopilot’s own WP1-to-WP7 elapsed, as logged in the <code>MSG</code> “Reached waypoint #N” events — see <a href="#scoring-notes">Scoring notes</a> below.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 22%">
@@ -204,11 +203,10 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Headline: every team beat the instructor benchmark. cyborgs more than halved it. team3’s best run was ~90 seconds faster than the instructor time as well.</p>
 </section>
 <section id="per-team-breakdown" class="level2">
 <h2 class="anchored" data-anchor-id="per-team-breakdown">Per-team breakdown</h2>
-<p>Parameter-change summaries describe what each team tuned relative to the lab baseline <code>.param</code>, keeping the specific parameter names and values out of view. The point is the <em>direction</em> of each team’s tuning, not a recipe.</p>
+<p>Parameter-change summaries are general descriptions, not exact details. The point is to convey what each team tuned relative to the lab baseline <code>.param</code>.</p>
 <section id="cyborgs" class="level3">
 <h3 class="anchored" data-anchor-id="cyborgs">cyborgs</h3>
 <p>Seven complete-course runs on challenge day, with a clear improvement arc as they tuned.</p>
@@ -274,11 +272,10 @@ ul.task-list li input[type="checkbox"] {
 <li>Zeroed out the speed-loop feedforward gain (relying entirely on PID closure).</li>
 <li>Raised the pivot-turn threshold so moderate course-changes are handled with continuous steering instead of stop-and-pivot.</li>
 </ul>
-<p>The arc — first run baseline at ~195 s, then a step-change to ~88 s once they committed to their tuning, then six runs clustered tightly in the 75-82 s range — looks like a team that iterated to a good configuration and then exercised it for consistency.</p>
 </section>
 <section id="team3" class="level3">
 <h3 class="anchored" data-anchor-id="team3">team3</h3>
-<p>Four complete-course runs on challenge day, all clustered tightly in the 103-108 s range.</p>
+<p>Four complete-course runs, all clustered tightly in the 103-108 s range.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -325,23 +322,12 @@ ul.task-list li input[type="checkbox"] {
 <li>Slashed the steering proportional and integral gains, sharply raised the steering feedforward, and added a derivative term.</li>
 <li>Switched the primary heading reference between compass instances.</li>
 </ul>
-<p>team3 chose to commit to high-speed transit and accept that the boat would overshoot every waypoint. The autopilot was happy with that — it advanced through the mission using perpendicular-crossing detection rather than waiting for the boat to dip inside the strict acceptance radius. The on-water observation that “team3 looked fast” was correct.</p>
-<p>It is worth singling out the <strong>combination</strong> that team3 produced: by far the most aggressive tuning of any team — speeds set well above the boat’s nominal cruise, throttle baseline maxed, steering loop substantially restructured — <em>and</em> the most consistent lap-to-lap results on the leaderboard. Their four complete runs span 4.6 seconds end-to-end (103.4 s to 108.0 s), a tighter spread than any other team’s runs. Aggressive and unreliable is the usual pairing in autonomous-vehicle tuning; aggressive and <em>repeatable</em> is harder, and team3 demonstrated it.</p>
-<p>That they didn’t win on raw time is a separate observation. Whatever cyborgs was doing at the steering layer let them carry similar (or higher) average speed through the course geometry with cleaner traces through the corners — but neither configuration “broke” the autopilot, and both finished well under the instructor benchmark.</p>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>Note on the original analysis.</strong> Day-1’s first leaderboard initially showed team3 as “DNF”. That was a bug in our scoring script — it required each waypoint to be physically entered within the 1 m acceptance radius, but team3’s boat was traveling fast enough that it overshot most waypoints without entering the strict radius. The autopilot itself, which uses both radius entry and perpendicular crossing, advanced through all 7 waypoints just fine; we just weren’t reading its <code>MSG</code> log. The script has since been corrected; see <a href="#scoring-notes">Scoring notes</a>.</p>
-</div>
-</div>
-</div>
+<p>team3 chose to commit to high-speed transit and accept that the boat would overshoot every waypoint. The autopilot was happy with that — it advanced through the mission using perpendicular-crossing detection (the “finish-line” criterion documented under <a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Tuning Navigation</a>; see also the discussion in <a href="https://github.com/ArduPilot/ardupilot/issues/23457">ArduPilot issue #23457</a> about how WP_RADIUS is effectively bypassed at speed) rather than waiting for the boat to dip inside the strict acceptance radius.</p>
+<p>That they didn’t win on raw time is a separate observation. Whatever cyborgs was doing at the steering layer let them carry similar (or higher) average speed through the course geometry with cleaner traces through the corners — but neither configuration “broke” the autopilot.</p>
 </section>
 <section id="blackpearl" class="level3">
 <h3 class="anchored" data-anchor-id="blackpearl">blackpearl</h3>
-<p>One complete-course run on challenge day.</p>
+<p>One complete-course run.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -370,31 +356,21 @@ ul.task-list li input[type="checkbox"] {
 <li>Reduced the steering PID gains while raising the steering feedforward.</li>
 <li>Re-enabled the R/C-loss failsafe (the procedure recommends turning this off for the challenge course).</li>
 </ul>
-<p>blackpearl’s only complete run came in about 30 seconds slower than cyborgs’ early baseline run and roughly 2-3x slower than what cyborgs and team3 settled into. The very aggressive throttle-stack tuning may have been spending control effort on the speed loop that wasn’t translating into shorter course time, or producing overshoot that complicated the steering layer’s job.</p>
 </section>
-</section>
-<section id="what-the-leaderboard-tells-us" class="level2">
-<h2 class="anchored" data-anchor-id="what-the-leaderboard-tells-us">What the leaderboard tells us</h2>
-<p>Day 1’s spread was wide — 75 s to 206 s — and the order isn’t a simple “more aggressive is faster” or “more conservative is faster.” Two takeaways:</p>
-<ul>
-<li>The winning configuration (cyborgs) was <em>modest</em> on cruise speed but had a steering-loop tune that handled the corners well at the speeds they did use.</li>
-<li>team3’s configuration was <em>very</em> aggressive on speed and accepted that the boat would overshoot waypoints — and it worked, because the autopilot’s mission-advancement logic accepts perpendicular crossings, not just radius entry.</li>
-</ul>
-<p>blackpearl’s heavy speed-loop retune didn’t pay off relative to the more measured approaches. Worth digging into the per-run logs to understand whether the limiting factor was speed-loop saturation, steering response, or trajectory shape at the corners.</p>
 </section>
 <section id="scoring-notes" class="level2">
 <h2 class="anchored" data-anchor-id="scoring-notes">Scoring notes</h2>
 <p>A complete-course run is one where the autopilot’s <code>MSG</code> log contains <code>"Reached waypoint #N"</code> for N = 1 .. 7 in that order. This is the autopilot’s own mission-advancement signal, which uses <em>both</em> of:</p>
 <ul>
 <li>The boat entering the waypoint’s acceptance radius (<code>WP_RADIUS</code>).</li>
-<li>The boat crossing the perpendicular at the waypoint (overshoot detection).</li>
+<li>The boat crossing a “finish line” — a line through the waypoint, perpendicular to the path segment leading to it. Once the boat is on the far side of that line, the autopilot treats the waypoint as reached even if the boat never came inside <code>WP_RADIUS</code>.</li>
 </ul>
-<p>The second condition matters at speed: at this course’s geometry, a boat moving above ~3 m/s can legitimately overshoot a waypoint without ever dipping inside a 1 m radius. The script used to ignore this case and undercounted finishes. It has since been corrected to use the autopilot’s events directly; see <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/utils/ardu_utils/bin_coursetime.py"><code>bin_coursetime.py</code></a>.</p>
+<p>The second condition is the surprising one and matters at speed. At the AY26 Q3 course geometry, a boat moving above ~3 m/s can legitimately overshoot a waypoint without ever dipping inside a 1 m radius. The autopilot still advances the mission, the <code>MSG</code> log still records “Reached waypoint #N”, and on the water the team sees a clean lap — but a scoring script that only checks <code>WP_RADIUS</code> entry will undercount finishes. This is exactly what happened to team3’s results before the scoring script was corrected.</p>
+<p>The behavior is documented (loosely) in the <a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Tuning Navigation</a> page (look for <code>WP_OVERSHOOT</code> and the “finish line” discussion). <a href="https://github.com/ArduPilot/ardupilot/issues/23457">ArduPilot issue #23457</a> — “AR_WPNav: Rover 4.3+ does not honor WP_RADIUS” — has more candid detail on how the perpendicular check has effectively superseded the radius check since the 4.3 navigation rewrite.</p>
 </section>
 <section id="notes" class="level2">
 <h2 class="anchored" data-anchor-id="notes">Notes</h2>
 <ul>
-<li>The 192-193 s instructor benchmark is a prototype-day run (2026-05-29) using the baseline parameter file. It is the time-to-beat for the challenge, not part of the AY26 Q3 team standings. The 2026-05-29 result is preserved in the raw data but excluded from the per-team standings on this page.</li>
 <li>Per-team parameter summaries are drawn from a representative challenge-day log per team; the underlying logs are in <code>/data/ME2801_USV/2026_06_03_challengeday1/logs/</code> (instructor-only access).</li>
 <li>Day 2 results, when available, will be appended in a follow-on table above.</li>
 </ul>
