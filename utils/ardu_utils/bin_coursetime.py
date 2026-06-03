@@ -142,20 +142,27 @@ def make_projector(lat0, lon0):
 
 
 def read_log(bin_path):
-    """Read POS track and WP_RADIUS from a BIN log.
+    """Read POS track, WP_RADIUS, and 'Reached waypoint #N' events.
 
-    Returns (track, wp_radius) where track is a list of
-    (t_us, t_unix, lat, lon) and wp_radius is the logged WP_RADIUS value
-    (float) or None if not present. t_unix is pymavlink's _timestamp, which
-    becomes valid UTC once a GPS lock is parsed (zero or boot-relative
-    before that). GPS messages are included in the recv filter so the
-    UTC mapping is established as soon as a GPS fix appears.
+    Returns (track, wp_radius, reached) where:
+      track     list of (t_us, t_unix, lat, lon)
+      wp_radius logged WP_RADIUS value (float), or None if absent
+      reached   list of (t_unix, wp_num) from autopilot 'Reached waypoint
+                #N' MSG events — the autopilot's authoritative call,
+                which accepts perpendicular crossings in addition to
+                radius entry (matters at speed, where the boat
+                overshoots without dipping inside WP_RADIUS).
+
+    t_unix is pymavlink's _timestamp; becomes valid UTC after the first
+    GPS lock. GPS messages are included in the recv filter so the UTC
+    mapping is established as soon as a fix appears.
     """
     mlog = mavutil.mavlink_connection(bin_path)
     track = []
     wp_radius = None
+    reached = []
     while True:
-        msg = mlog.recv_match(type=['POS', 'PARM', 'GPS'])
+        msg = mlog.recv_match(type=['POS', 'PARM', 'GPS', 'MSG'])
         if msg is None:
             break
         t = msg.get_type()
@@ -169,38 +176,82 @@ def read_log(bin_path):
                     wp_radius = float(msg.Value)
                 except (ValueError, TypeError):
                     pass
-    return track, wp_radius
+        elif t == 'MSG':
+            text = str(getattr(msg, 'Message', '')).strip()
+            if text.startswith('Reached waypoint #'):
+                try:
+                    n = int(text.replace('Reached waypoint #', ''))
+                    reached.append((getattr(msg, '_timestamp', 0.0), n))
+                except ValueError:
+                    pass
+    return track, wp_radius, reached
 
 
-def course_time(track, project, waypoints, radius_m):
+def course_time(track, project, waypoints, radius_m, reached=None):
     """Compute the course timing for one track.
 
-    The course is considered completed only if the trajectory enters each
-    waypoint's acceptance radius in mission order (WP1 → WP2 → ... → WPn).
-    Without this ordering check, courses whose first and last waypoints
-    happen to be close geographically can be 'completed' in seconds by a
-    boat that just transits between them — see e.g. the AY26Q3 course
-    where WP1 and WP7 are ~13 m apart.
+    Authoritative source is ArduPilot's own 'Reached waypoint #N' MSG
+    events when present (see read_log's `reached`). The autopilot
+    advances on radius entry *or* perpendicular crossing — important
+    when the boat overshoots a waypoint at speed without dipping inside
+    the strict radius. Falls back to a POS-radius check requiring
+    in-order entry of every waypoint if no MSG events are available
+    (older firmware or stripped logs).
 
     Returns a dict with keys:
       elapsed_s     float seconds (0.0 if unsuccessful)
-      start_idx     index into track of the WP1-radius entry (or None)
-      stop_idx      index into track of the final-WP-radius entry (or None)
-      start_t_unix  unix time of start_idx (or None)
-      status        'ok' | 'no_track' | 'never_reached_wpN' (N = first
-                    waypoint that wasn't entered in sequence)
+      start_idx     index into track nearest the WP1-reach time
+      stop_idx      index into track nearest the WPn-reach time
+      start_t_unix  unix time of WP1 reach (or None)
+      status        'ok' | 'no_track' | 'never_reached_wpN'
+      source        'msg' (autopilot events) | 'pos' (POS-radius
+                    fallback). Useful for explaining a result.
     """
     result = {'elapsed_s': 0.0, 'start_idx': None, 'stop_idx': None,
-              'start_t_unix': None, 'status': 'no_track'}
+              'start_t_unix': None, 'status': 'no_track', 'source': None}
     if not track:
         return result
 
+    # --- Preferred: MSG-event scoring ---
+    if reached:
+        t_at = {}                     # first reach time per WP number
+        cursor = 1
+        for t_unix, n in reached:
+            if n == cursor and n not in t_at:
+                t_at[n] = t_unix
+                cursor += 1
+                if cursor > len(waypoints):
+                    break
+        if 1 not in t_at:
+            result['status'] = 'never_reached_wp1'
+            result['source'] = 'msg'
+            return result
+        target_n = len(waypoints)
+        if target_n not in t_at:
+            # First missing WP in sequence after 1.
+            missed = next(n for n in range(2, target_n + 1) if n not in t_at)
+            result['status'] = f'never_reached_wp{missed}'
+            result['source'] = 'msg'
+            return result
+        # Map t_unix to nearest track index for plot markers.
+        def nearest_idx(t):
+            best_i, best_d = 0, abs(track[0][1] - t)
+            for i in range(1, len(track)):
+                d = abs(track[i][1] - t)
+                if d < best_d:
+                    best_d, best_i = d, i
+            return best_i
+        start_idx = nearest_idx(t_at[1])
+        stop_idx = nearest_idx(t_at[target_n])
+        result.update(elapsed_s=t_at[target_n] - t_at[1],
+                      start_idx=start_idx, stop_idx=stop_idx,
+                      start_t_unix=t_at[1], status='ok', source='msg')
+        return result
+
+    # --- Fallback: POS-radius scoring (no MSG events) ---
     wp_xy = [project(lat, lon) for _, lat, lon in waypoints]
     r2 = radius_m * radius_m
-
-    # Walk the trajectory, advancing the waypoint cursor each time the
-    # vehicle enters the next waypoint's acceptance radius.
-    cursor = 0  # index of the next waypoint to satisfy
+    cursor = 0
     start_idx = None
     stop_idx = None
     for i, (_, _, lat, lon) in enumerate(track):
@@ -218,15 +269,17 @@ def course_time(track, project, waypoints, radius_m):
 
     if start_idx is None:
         result['status'] = 'never_reached_wp1'
+        result['source'] = 'pos'
         return result
     if stop_idx is None:
         result['status'] = f'never_reached_wp{cursor + 1}'
+        result['source'] = 'pos'
         return result
 
     elapsed_s = (track[stop_idx][0] - track[start_idx][0]) / 1e6
     result.update(elapsed_s=elapsed_s, start_idx=start_idx,
                   stop_idx=stop_idx, start_t_unix=track[start_idx][1],
-                  status='ok')
+                  status='ok', source='pos')
     return result
 
 
@@ -363,7 +416,7 @@ def main():
             continue
         #print(f"Reading: {f}", file=sys.stderr)
         try:
-            track, log_radius = read_log(f)
+            track, log_radius, reached = read_log(f)
         except Exception as e:
             print(f"Warning: failed to read {f}: {e}", file=sys.stderr)
             writer.writerow([f, fmt_hms(0), '0.0', '', '', 'read_error'])
@@ -379,7 +432,8 @@ def main():
             print(f"  note: WP_RADIUS not in log; using default {DEFAULT_RADIUS_M:g} m",
                   file=sys.stderr)
 
-        result = course_time(track, project, waypoints, radius_m)
+        result = course_time(track, project, waypoints, radius_m,
+                             reached=reached)
         if result['status'] == 'ok':
             print(f"  elapsed {fmt_hms(result['elapsed_s'])} "
                   f"({result['elapsed_s']:.1f} s), radius {radius_m:g} m", file=sys.stderr)
