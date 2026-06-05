@@ -401,13 +401,8 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="scoring-notes" class="level2">
 <h2 class="anchored" data-anchor-id="scoring-notes">Scoring notes</h2>
-<p>A complete-course run is one where the autopilot’s <code>MSG</code> log contains <code>"Reached waypoint #N"</code> for N = 1 .. 7 in that order. This is the autopilot’s own mission-advancement signal, which uses <em>both</em> of:</p>
-<ul>
-<li>The boat entering the waypoint’s acceptance radius (<code>WP_RADIUS</code>).</li>
-<li>The boat crossing a “finish line” — a line through the waypoint, perpendicular to the path segment leading to it. Once the boat is on the far side of that line, the autopilot treats the waypoint as reached even if the boat never came inside <code>WP_RADIUS</code>.</li>
-</ul>
-<p>The second condition is the surprising one and matters at speed. At the AY26 Q3 course geometry, a boat moving above ~3 m/s can legitimately overshoot a waypoint without ever dipping inside a 1 m radius. The autopilot still advances the mission, the <code>MSG</code> log still records “Reached waypoint #N”, and on the water the team sees a clean lap — but a scoring script that only checks <code>WP_RADIUS</code> entry will undercount finishes. This is exactly what happened to team3’s Day-1 results before the scoring script was corrected.</p>
-<p>The behavior is documented (loosely) in the <a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Tuning Navigation</a> page (look for <code>WP_OVERSHOOT</code> and the “finish line” discussion). <a href="https://github.com/ArduPilot/ardupilot/issues/23457">ArduPilot issue #23457</a> — “AR_WPNav: Rover 4.3+ does not honor WP_RADIUS” — has more candid detail on how the perpendicular check has effectively superseded the radius check since the 4.3 navigation rewrite.</p>
+<p>A complete-course run is one where the autopilot’s <code>MSG</code> log contains <code>"Reached waypoint #N"</code> for N = 1 .. 7 in that order — the autopilot’s own mission-advancement signal, which uses both a radius check <em>and</em> a perpendicular-crossing check. The second of those means a boat moving at speed can clear the mission without ever physically entering <code>WP_RADIUS</code>, and a scoring script that only checks radius entry will undercount finishes. This is exactly what happened to team3’s Day-1 results before the scoring script was fixed.</p>
+<p>The full discussion (both arrival conditions, why the radius check is not a “how close did I pass” tolerance, links to the ArduRover docs and the relevant GH issue) lives in the autopilot reference: <a href="../../autopilot/waypoint_navigation.html#when-is-a-waypoint-reached">Waypoint Navigation → When is a waypoint “reached”?</a>.</p>
 </section>
 <section id="notes" class="level2">
 <h2 class="anchored" data-anchor-id="notes">Notes</h2>

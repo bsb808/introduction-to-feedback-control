@@ -121,6 +121,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#the-familiar-pattern-feedforward-pid-recursively" id="toc-the-familiar-pattern-feedforward-pid-recursively" class="nav-link" data-scroll-target="#the-familiar-pattern-feedforward-pid-recursively">The familiar pattern: feedforward + PID, recursively</a></li>
   <li><a href="#the-cascade-in-three-layers" id="toc-the-cascade-in-three-layers" class="nav-link" data-scroll-target="#the-cascade-in-three-layers">The cascade in three layers</a></li>
   <li><a href="#what-happens-each-control-tick" id="toc-what-happens-each-control-tick" class="nav-link" data-scroll-target="#what-happens-each-control-tick">What happens each control tick</a></li>
+  <li><a href="#when-is-a-waypoint-reached" id="toc-when-is-a-waypoint-reached" class="nav-link" data-scroll-target="#when-is-a-waypoint-reached">When is a waypoint “reached”?</a></li>
   <li><a href="#the-s-curve-briefly" id="toc-the-s-curve-briefly" class="nav-link" data-scroll-target="#the-s-curve-briefly">The S-curve, briefly</a></li>
   <li><a href="#closing-the-position-loop-ac_poscontrol" id="toc-closing-the-position-loop-ac_poscontrol" class="nav-link" data-scroll-target="#closing-the-position-loop-ac_poscontrol">Closing the position loop (<code>AC_PosControl</code>)</a></li>
   <li><a href="#the-pid-analogy-side-by-side" id="toc-the-pid-analogy-side-by-side" class="nav-link" data-scroll-target="#the-pid-analogy-side-by-side">The PID analogy, side by side</a></li>
@@ -245,8 +246,25 @@ ul.task-list li input[type="checkbox"] {
 <li>Desired speed. Capped above by <code>WP_SPEED</code> (the cruise setting); capped from below by what the kinematic limits (<code>ATC_ACCEL_MAX</code>, <code>ATC_DECEL_MAX</code>, <code>ATC_TURN_MAX_G</code>) allow at this point on the path. The boat slows down in tight corners on purpose.</li>
 <li>Desired yaw rate. Computed so the boat steers toward the bearing while respecting the turning g-cap; includes a proportional response on cross-track error.</li>
 <li>Setpoint handoff. Desired speed → <code>THR_DesSpeed</code> → speed PID. Desired yaw rate → <code>STER_DesTurnRate</code> → yaw-rate PID.</li>
-<li>Arrival check. Within <code>WP_RADIUS</code> of the active waypoint? If yes, advance to the next waypoint. If this was the last waypoint, the mission is complete.</li>
+<li>Arrival check. The autopilot decides the active waypoint has been reached (see <a href="#when-is-a-waypoint-reached">When is a waypoint “reached”?</a> below) and advances to the next waypoint. If this was the last waypoint, the mission is complete.</li>
 </ol>
+</section>
+<section id="when-is-a-waypoint-reached" class="level2">
+<h2 class="anchored" data-anchor-id="when-is-a-waypoint-reached">When is a waypoint “reached”?</h2>
+<p>This is the surprising one, and worth getting right because it shapes how the autopilot behaves at speed.</p>
+<p>The autopilot considers a waypoint reached when <em>either</em> of the following becomes true:</p>
+<ol type="1">
+<li>The boat enters the waypoint’s acceptance radius (<code>WP_RADIUS</code>).</li>
+<li>The boat crosses a “finish line” — a line through the waypoint, perpendicular to the path segment leading to it. Once the boat is on the far side of that line, the waypoint is considered reached even if the boat never came inside <code>WP_RADIUS</code>.</li>
+</ol>
+<p>Condition 2 is the one that catches people out. The intuitive mental model is “I set <code>WP_RADIUS = 1 m</code>, so the boat will pass within 1 m of each waypoint.” That is not what the autopilot promises. What it promises is “I will not loop back to retry a waypoint that I have already gone past.” That promise is essential — without it, an overshooting boat would orbit waypoints forever — but it means that <strong>at speed, the boat can advance through a mission without ever physically entering <code>WP_RADIUS</code> around any waypoint</strong>.</p>
+<p>The threshold for “at speed” is geometry-dependent. On a course where consecutive waypoints are 30-50 m apart and the boat is moving above ~3 m/s, overshoots of several meters are routine, and the perpendicular check carries most of the mission advancement work. On a tight course at low speed, the radius check dominates.</p>
+<p>Two practical consequences:</p>
+<ul>
+<li><strong>On-water observation can disagree with strict radius scoring.</strong> A team that sees their boat cleanly traverse all waypoints (per the autopilot’s <code>MSG</code> log: <code>"Reached waypoint #N"</code> for N = 1 .. 7 in order) may find that a post-processing script which only checks <code>WP_RADIUS</code> entry reports a DNF. The autopilot’s <code>MSG</code> events are the authoritative signal; radius-only scoring undercounts.</li>
+<li><strong><code>WP_RADIUS</code> is not a “how close did I pass” tolerance.</strong> It is one of two arrival criteria, and on a fast course it is often <em>the one that doesn’t fire</em>. To force the boat closer to each waypoint, you usually need to reduce speed (so overshoot drops) rather than just tighten <code>WP_RADIUS</code>.</li>
+</ul>
+<p>The behavior is documented (loosely) in the <a href="https://ardupilot.org/rover/docs/rover-tuning-navigation.html">ArduRover → Tuning Navigation</a> page (look for <code>WP_OVERSHOOT</code> and the “finish line” discussion). <a href="https://github.com/ArduPilot/ardupilot/issues/23457">ArduPilot issue #23457</a> — “AR_WPNav: Rover 4.3+ does not honor WP_RADIUS” — has the candid version of how the perpendicular check has effectively superseded the radius check since the 4.3 navigation rewrite. For an in-class example of the behavior, see the <a href="../weeks/w10_lab_usv_waypoint/leaderboard_ay26q3.html">AY26 Q3 leaderboard</a>, where team3’s Day-1 results were initially misclassified as DNF for exactly this reason.</p>
 </section>
 <section id="the-s-curve-briefly" class="level2">
 <h2 class="anchored" data-anchor-id="the-s-curve-briefly">The S-curve, briefly</h2>
