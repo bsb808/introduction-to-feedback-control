@@ -111,15 +111,18 @@ The relationship between Lab 2 stabilization tuning and Lab 3 course time held t
 ## Scoring notes
 
 A complete-course run is one where the autopilot's `MSG` log contains
-`"Reached waypoint #N"` for N = 1 .. 7 in that order. This is the
-autopilot's own mission-advancement signal, which uses *both* of:
+`"Reached waypoint #N"` for N = 1 .. 7 in that order — the autopilot's
+own mission-advancement signal, which uses both a radius check *and* a
+perpendicular-crossing check. The second of those means a boat moving
+at speed can clear the mission without ever physically entering
+`WP_RADIUS`, and a scoring script that only checks radius entry will
+undercount finishes. This is exactly what happened to team3's Day-1
+results before the scoring script was fixed.
 
-- The boat entering the waypoint's acceptance radius (`WP_RADIUS`).
-- The boat crossing a "finish line" — a line through the waypoint, perpendicular to the path segment leading to it. Once the boat is on the far side of that line, the autopilot treats the waypoint as reached even if the boat never came inside `WP_RADIUS`.
-
-The second condition is the surprising one and matters at speed. At the AY26 Q3 course geometry, a boat moving above ~3 m/s can legitimately overshoot a waypoint without ever dipping inside a 1 m radius. The autopilot still advances the mission, the `MSG` log still records "Reached waypoint #N", and on the water the team sees a clean lap — but a scoring script that only checks `WP_RADIUS` entry will undercount finishes. This is exactly what happened to team3's Day-1 results before the scoring script was corrected.
-
-The behavior is documented (loosely) in the [ArduRover → Tuning Navigation](https://ardupilot.org/rover/docs/rover-tuning-navigation.html) page (look for `WP_OVERSHOOT` and the "finish line" discussion). [ArduPilot issue #23457](https://github.com/ArduPilot/ardupilot/issues/23457) — "AR_WPNav: Rover 4.3+ does not honor WP_RADIUS" — has more candid detail on how the perpendicular check has effectively superseded the radius check since the 4.3 navigation rewrite.
+The full discussion (both arrival conditions, why the radius check is
+not a "how close did I pass" tolerance, links to the ArduRover docs
+and the relevant GH issue) lives in the autopilot reference:
+[Waypoint Navigation → When is a waypoint "reached"?](../../autopilot/waypoint_navigation.qmd#when-is-a-waypoint-reached).
 
 ## Notes
 

@@ -72,7 +72,27 @@ Within an AUTO mission, on each iteration of the loop:
 4. Desired speed. Capped above by `WP_SPEED` (the cruise setting); capped from below by what the kinematic limits (`ATC_ACCEL_MAX`, `ATC_DECEL_MAX`, `ATC_TURN_MAX_G`) allow at this point on the path. The boat slows down in tight corners on purpose.
 5. Desired yaw rate. Computed so the boat steers toward the bearing while respecting the turning g-cap; includes a proportional response on cross-track error.
 6. Setpoint handoff. Desired speed → `THR_DesSpeed` → speed PID. Desired yaw rate → `STER_DesTurnRate` → yaw-rate PID.
-7. Arrival check. Within `WP_RADIUS` of the active waypoint? If yes, advance to the next waypoint. If this was the last waypoint, the mission is complete.
+7. Arrival check. The autopilot decides the active waypoint has been reached (see [When is a waypoint "reached"?](#when-is-a-waypoint-reached) below) and advances to the next waypoint. If this was the last waypoint, the mission is complete.
+
+## When is a waypoint "reached"?
+
+This is the surprising one, and worth getting right because it shapes how the autopilot behaves at speed.
+
+The autopilot considers a waypoint reached when *either* of the following becomes true:
+
+1. The boat enters the waypoint's acceptance radius (`WP_RADIUS`).
+2. The boat crosses a "finish line" — a line through the waypoint, perpendicular to the path segment leading to it. Once the boat is on the far side of that line, the waypoint is considered reached even if the boat never came inside `WP_RADIUS`.
+
+Condition 2 is the one that catches people out. The intuitive mental model is "I set `WP_RADIUS = 1 m`, so the boat will pass within 1 m of each waypoint." That is not what the autopilot promises. What it promises is "I will not loop back to retry a waypoint that I have already gone past." That promise is essential — without it, an overshooting boat would orbit waypoints forever — but it means that **at speed, the boat can advance through a mission without ever physically entering `WP_RADIUS` around any waypoint**.
+
+The threshold for "at speed" is geometry-dependent. On a course where consecutive waypoints are 30-50 m apart and the boat is moving above ~3 m/s, overshoots of several meters are routine, and the perpendicular check carries most of the mission advancement work. On a tight course at low speed, the radius check dominates.
+
+Two practical consequences:
+
+- **On-water observation can disagree with strict radius scoring.** A team that sees their boat cleanly traverse all waypoints (per the autopilot's `MSG` log: `"Reached waypoint #N"` for N = 1 .. 7 in order) may find that a post-processing script which only checks `WP_RADIUS` entry reports a DNF. The autopilot's `MSG` events are the authoritative signal; radius-only scoring undercounts.
+- **`WP_RADIUS` is not a "how close did I pass" tolerance.** It is one of two arrival criteria, and on a fast course it is often *the one that doesn't fire*. To force the boat closer to each waypoint, you usually need to reduce speed (so overshoot drops) rather than just tighten `WP_RADIUS`.
+
+The behavior is documented (loosely) in the [ArduRover → Tuning Navigation](https://ardupilot.org/rover/docs/rover-tuning-navigation.html) page (look for `WP_OVERSHOOT` and the "finish line" discussion). [ArduPilot issue #23457](https://github.com/ArduPilot/ardupilot/issues/23457) — "AR_WPNav: Rover 4.3+ does not honor WP_RADIUS" — has the candid version of how the perpendicular check has effectively superseded the radius check since the 4.3 navigation rewrite. For an in-class example of the behavior, see the [AY26 Q3 leaderboard](../weeks/w10_lab_usv_waypoint/leaderboard_ay26q3.qmd), where team3's Day-1 results were initially misclassified as DNF for exactly this reason.
 
 ## The S-curve, briefly
 
