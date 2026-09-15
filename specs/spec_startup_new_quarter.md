@@ -43,7 +43,10 @@ Background:
 - Outputs: [site/schedule.qmd](../site/schedule.qmd) for the new quarter; previous schedule kept under `site/archive/<quarter>/schedule.qmd` with a note at the top saying it is archived and just for reference.
 - Owner: AI initiates with constraints, author review
 - Verification: every date in the grid checked against the weekday and the NPS calendar; PMR.
-- Status: todo
+- Status: review (AY27Q1 draft)
+- Notes:
+  - The draft is made by copying the archived previous-quarter page, removing the `../../` link prefixes, and replacing week dates and quarter-specific items (holidays, guest lectures, end-of-term events).
+  - Date check: a short Python check confirms every week row and heading is a Monday exactly N−1 weeks after instruction begins, and that each key date's weekday matches the NPS calendar and appears on the page. Candidate for a small committed script if it gets reused next quarter.
 
 ## 3. Assignments and labs
 
@@ -93,4 +96,8 @@ Constraints:
 
 Decisions:
 
-- (none yet)
+- `_variables.yml` set to Fall 2026 (`term_start` 2026-09-28, `term_end` 2026-12-11). `meeting` still holds the Spring value until the author confirms times in Python.
+- First draft keeps the Spring 2026 week order, so Lab 1 lands in the cancelled week 3. Lab placement options for the refactor:
+  - A: Lab 1 moves to week 4 (19 Oct); weeks 4–9 topics shift one week later and frequency response (weeks 8–9) merges into one week.
+  - B: Lab 1 moves to week 4; time response merges into week 2 as asynchronous videos, and the rest of the topics keep their weeks.
+  - C: Lab 1 moves to week 2 (5 Oct), before transfer functions; this works if the lab is framed as data collection with modeling afterwards.
