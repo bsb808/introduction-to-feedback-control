@@ -20,6 +20,11 @@ Decisions:
 
 - Restricted material (Nise textbook solutions, HW solutions, Nise textbook-table handout, exam schedule spreadsheet) does not go on the public site. It goes to Sakai only; the instructor copy lives in the private repo. Public pages say "Solutions posted on Sakai."
 - Attachments are grouped by topic week (not by quarter), so current and archived pages link the same files. Exact placement is proposed in the inventory (open item 1).
+- Static files (PDF, MLX, PPTX, images) are committed directly into the repo under `site/`, the closest match to the Confluence drag-and-drop flow. Kept files total about 40 MB, well within GitHub's limits (warning at 50 MB per file, 1 GB recommended per repo and per published Pages site). Alternatives considered: Git LFS, GitHub Releases, a cloud storage bucket, OneDrive/Sakai. Guardrails:
+  - `.gitignore` exceptions are scoped to site files only (`!site/**/files/*.pdf`, `!site/handouts/*.pdf`).
+  - Filenames stay stable (no quarter suffixes), so replacing a file needs no link edits.
+  - PDFs built from `.tex` already in `book/` (chapters, some handouts) are candidates for a CI build later rather than committing.
+  - Size check (`du -sh site`) is part of publishing. Flag any single file over 20 MB. If `site/` passes about 300 MB, or video hosting is needed, move the `files/` folders to a cloud storage bucket; links are relative paths, so it is a single search-and-replace.
 
 Context-window management (the export is large):
 
