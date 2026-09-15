@@ -8,35 +8,74 @@ title: "Syllabus and Course Policies"
 
 | | |
 |---|---|
-| **Schedule** | _TBD — meeting days, times, room_ |
+| **Schedule** | {{< var meeting >}} |
 | **Instructor** | {{< var instructor >}} <{{< var instructor_email >}}> |
-| **Office Hours** | _TBD_ |
-| **Textbook** | _TBD_ |
-| **Prerequisites** | _TBD_ |
+| **Office Hours** | By appointment. See Outlook for schedule constraints and send a meeting request. |
+| **Website** | This site for course content. Sakai for submitting assignments and quizzes. |
+| **Textbook** | *Control Systems Engineering*, Norman Nise, 7th Edition (see [Textbook](#textbook)) |
+| **Prerequisites** | AE2440: Introduction to Scientific Programming |
 
 ## Course Catalog Description
 
-_TBD_
+This course presents classical analysis of feedback control systems using basic principles in the frequency domain (Bode plots) and in the s-domain (root locus). Performance criteria in the time domain such as steady-state accuracy, transient response specifications, and in the frequency domain such as bandwidth and disturbance rejection are introduced. Simple design applications using root locus and Bode plot techniques will be addressed in the course. Laboratory experiments are designed to expose the students to testing and evaluating mathematical models of physical systems, using computer simulations and hardware implementations. ME2801 and EC2300 are equivalent courses. This course can be offered as an online course.
+
+## Textbook
+
+The official course textbook is *Control Systems Engineering* by Norman Nise, 7th Edition.
+
+We will use exercises from the textbook. Publishers are known to change the exercises with each new edition, so if you use an earlier edition it will take a bit of extra work to verify the assigned exercises. The tables of contents of the 6th and 4th editions cover the same material in the same order.
 
 ## Grading
 
+The goal of the grading policy is to assess your performance as it pertains to the knowledge and skills of the course. Your grade in the course will be determined by your performance on the following assignments:
+
 | Assignment | How many | Weight |
 |---|---|---|
-| Reading Quizzes | _TBD_ | _TBD_ |
-| Homework | _TBD_ | _TBD_ |
-| Exams | _TBD_ | _TBD_ |
-| Labs | _TBD_ | _TBD_ |
+| Reading Quizzes | ~7 | 10% |
+| Homework | ~7 | 30% |
+| Exams | 1 | 30% |
+| Labs | 3 | 30% |
 
-_Notes on quiz / homework / exam grading rules — TBD._
+Reading quizzes: the grade contribution from quizzes is calculated as follows.
+
+1. The lowest quiz grade is dropped.
+2. The average of the remaining quiz grades is calculated.
+3. If the average is above 70%, you receive full credit; if it is above 40%, you receive 75% credit; otherwise, no credit.
 
 ## Late Work
 
-_TBD_
+Credit for work submitted past the announced deadline will be reduced by 10% per day (or portion of a day) up to 50%. Work will not be accepted more than 5 days late. Deadline extensions will not be granted within 24 hours of assignment deadlines without extenuating circumstances. If there are conflicts with deadlines, please notify the instructor so that other arrangements can be made.
 
 ## Collaboration and Generative AI
 
-_TBD — Reasonable / Not Reasonable table goes here._
+The goal of this policy is to encourage meaningful learning and prevent activities that hinder your educational development.
 
-## NPS Honor Code
+Our guiding principle for academic honesty is: "be reasonable." You are encouraged to collaborate thoughtfully, both with classmates and generative AI tools, but only to the extent that it aids your learning without compromising your individual work. Your submitted assignments must be your own work. In this course, learning comes through practice, including debugging on your own. Frustration can be a valuable part of the learning process: "every moment of frustration is a sign you're learning something new."
 
-_TBD_
+We view working with other people and using generative AI tools similarly: both are valuable resources that can enhance your learning when used properly. However, they must be used responsibly to support, rather than undermine, your educational growth.
+
+Below are examples (not exhaustive) of what constitutes acceptable and unacceptable collaboration. If unsure, always seek approval from the instructor before proceeding.
+
+| Reasonable | Not Reasonable |
+|---|---|
+| Discussing ideas and concepts with classmates or an AI tool to enhance understanding. | Sharing your work (solutions, code, etc.) with others, either directly or through an AI tool. |
+| Collaborating with classmates on how to approach a problem, techniques or concepts without sharing actual solutions. | Using web search, AI tools or work from previous students to develop or refine actual work instead of doing it yourself. |
+| Asking an AI tool to explain concepts or programming techniques. | Asking a classmate or AI tool to provide solutions or answers to assignments. |
+| Seeking external resources for clarification or technical troubleshooting (not for outright solutions). | Searching for or using online solutions to assessments. |
+| Providing or receiving conceptual help on assignments. | Dividing an assignment and combining work with another student. |
+| Using a few lines of code found online, provided they are not solutions to the assignment, and citing them. | Submitting code found online or from others as your own, without proper citation. |
+| Assisting classmates by discussing debugging techniques without directly sharing code. "Looking over the shoulder" of a classmate to identify and fix errors. | Sharing or receiving solutions or code to solve errors or complete an assignment. |
+| Reviewing general concepts or strategies from prior offerings to aid your understanding. | Using solutions, code, completed assignments or previous exams from prior offerings of the course to complete your own work, even if modified. |
+| Reviewing general study guides or topics covered in past exams to inform your study approach. | Accessing or using previous exams, quizzes, or their solutions (if not explicitly provided in this course) to prepare for current assessments. |
+
+In all cases, any external code or ideas incorporated must be cited in your code comments, respecting academic integrity.
+
+Attribution: this policy borrows from many other course policies, including [Harvard's CS50](https://cs50.harvard.edu/python/2022/) and [USNA's IC210](https://www.usna.edu/Users/cs/choi/ic210/resources/index.html).
+
+## NPS Honor Code and Academic Integrity
+
+The NPS Student Information Handbook in "Section 218: Academic Honor Code" clearly establishes that "Students must follow the [Academic Honor Code](https://nps.edu/documents/105858948/106279825/NPSINST+5370.4D+-+ACADEMIC+HONOR+CODE.pdf/2125a8f9-a2e8-4348-8520-6560e6e3bc1b?t=1540915845000) (NPS instruction 5370.4 series) at all times. The highest standards of honesty and integrity are expected of all students. Plagiarism, fraud, cheating, and verbal or written misrepresentation, constitute a violation of the Academic Honor Code."
+
+## Generative AI and Academic Integrity
+
+NPS encourages you to explore generative AI tools, and you must use them ethically and responsibly. Your coursework must accurately represent your underlying work, knowledge, and ideas, not the capabilities of an AI tool. If you use generative AI tools, state how you did so and describe how you remained in control of decisions and verification of information. Follow current NPS guidance on the use of generative AI tools. Never input classified or controlled unclassified information into a generative AI tool unless the platform has been explicitly approved by DoD or DON for such use.

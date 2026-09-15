@@ -2,12 +2,15 @@
 title: "ME 2801 — Introduction to Control Systems"
 ---
 
-::: {.callout-note}
-**Current quarter:** {{< var quarter >}} ({{< var term_start >}} – {{< var term_end >}})
-:::
 
-Welcome.
+## Course Information
 
-- [Syllabus](syllabus.qmd)
+- [Syllabus and Course Policies](syllabus.qmd)
 - [Schedule](schedule.qmd)
-- [Assignments](assignments.qmd)
+- [Assignments and Labs](assignments.qmd)
+- Sakai site (coming soon)
+- [Oral Final Exam](coming soon)
+
+## References
+
+- [Textbook](syllabus.qmd#textbook): *Control Systems Engineering*, Norman Nise, 7th Edition
