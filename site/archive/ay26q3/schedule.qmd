@@ -1,0 +1,227 @@
+---
+title: "Schedule — Spring 2026 (AY26Q3)"
+---
+
+::: {.callout-warning}
+## Archived
+This is the Spring 2026 schedule, kept for reference only. See the [current schedule](../../schedule.qmd).
+:::
+
+Unless explicitly scheduled, the only in-person class meetings were Mondays and Wednesdays. Tuesdays and Thursdays were asynchronous.
+
+| Week | Starts | Topic |
+|---|---|---|
+| [1](#week-1) | 30 Mar | Course Introduction and Laplace Introduction |
+| [2](#week-2) | 6 Apr | Transfer Functions and Modeling |
+| [3](#week-3) | 13 Apr | Lab 1: USV System Identification |
+| [4](#week-4) | 20 Apr | Time Response in t- and s-domains |
+| [5](#week-5) | 27 Apr | Block Diagrams and Feedback |
+| [6](#week-6) | 4 May | Steady-State Errors |
+| [7](#week-7) | 11 May | Lab 2: USV PID Tuning, Heading and Speed |
+| [8](#week-8) | 18 May | Frequency Response |
+| [9](#week-9) | 25 May | Memorial Day; Compensation Design with Frequency Response |
+| [10](#week-10) | 1 Jun | Lab 3: USV Navigation Tuning |
+| [11](#week-11) | 8 Jun | Final Oral Exams |
+
+## Week 1 — 30 Mar: Course Introduction and Laplace Introduction {#week-1}
+
+**Monday (in person):** Course introduction and Laplace introduction
+
+- Slides: [lec_w1_intro.pdf](../../weeks/w01_laplace_part1/files/lec_w1_intro.pdf)
+
+**Tuesday (asynchronous):** Required videos (54 min)
+
+- Laplace Transforms
+  - [Laplace Introduction](https://vimeo.com/401346310) (11:27)
+  - [Laplace Properties and Pairs](https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/IQAlWbiwak8iQ5BAt7EC5qRAAeHQ4XK9nfHrqTHAOMAIElQ?e=UxvduG) (13:58)
+  - Laplace Transform Examples
+    - [Part 1: Simple examples](https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/IQAF6KsdUx1mR6CXCXZtN3x2AQ9lYMGJ3tOzE3aBi2HOiLM?e=jHRG8j) (7:22)
+    - [Part 2: Using the frequency-shift property](https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/EVj6oGSB1yFHutdmMqR5xDQBL3eKyy9zunKtJN3DXWhU1A?e=d0xbda) (6:03) — static notes: [example_freq_shift.pdf](../../weeks/w01_laplace_part1/files/example_freq_shift.pdf)
+  - [Inverse Laplace and Partial Fraction Expansion (Real Poles)](https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/IQBuK6aU4GYXT65qSm42n7YUAd37ZFznoQ9lmOzgjvBA6VM?e=3M4h1i) (15:29)
+  - Slides: [lec_w1_laplaceintro_annotated.pdf](../../weeks/w01_laplace_part1/files/lec_w1_laplaceintro_annotated.pdf)
+- Handouts: Laplace properties and pairs (two equivalent versions)
+  - Nise textbook tables: [nise-handout.pdf](../../handouts/nise-handout.pdf)
+  - Custom, same information as Nise: [laplace_succinct_v1.pdf](../../handouts/laplace_succinct_v1.pdf)
+- Optional notes (these address questions that may arise about details)
+  - [A few things to note about the mathematical definition of the Laplace transform](https://lpsa.swarthmore.edu/LaplaceXform/FwdLaplace/LaplaceFuncs.html), from Swarthmore
+  - Laplace transform at zero, and the unit-step function in the inverse Laplace transform: [laplace_at_zero.pdf](../../weeks/w01_laplace_part1/files/laplace_at_zero.pdf)
+  - What does "s" mean in the Laplace transform? [Notes from others on the topic](https://physics.stackexchange.com/questions/300309/what-is-the-physical-meaning-of-a-laplace-transform)
+  - Laplace transform, units and initial conditions: [laplace_ic_units.pdf](../../weeks/w01_laplace_part1/files/laplace_ic_units.pdf)
+  - Step and delta functions, from [MIT IAP course 18.031](https://math.mit.edu/~stoopn/18.031/)
+
+**Wednesday:** No in-person meeting; see the Tuesday video lectures.
+
+**Thursday (asynchronous):**
+
+- Before class: watch videos, start HW1
+- Due Friday 1700: HW1 (see [Assignments and Labs](assignments.qmd)), submit via Sakai
+- For Monday: Reading Quiz #1 via Sakai
+- Optional (asynchronous): [MATLAB Refresher](../../resources/matlab.qmd); MATLAB plotting example from HW1, [Part 1](https://vimeo.com/402785482) and [Part 2](https://vimeo.com/402785249)
+
+## Week 2 — 6 Apr: Transfer Functions and Modeling {#week-2}
+
+**Monday (in person):** Transfer Functions
+
+- Due before class: Reading Quiz #1 via Sakai (10 min): [Nise textbook](../../syllabus.qmd#textbook) Sections 2.3, 2.5 and 2.6 (transfer functions and mechanical models)
+- Topics: review HW1, review reading quiz
+
+**Tuesday (asynchronous):** Modeling introduction and examples. Required videos (96 min)
+
+- [Inverse Laplace with Complex Roots](https://vimeo.com/402964969) (11:45)
+  - Handout: [partialfractionexpansion_complex.pdf](../../handouts/partialfractionexpansion_complex.pdf)
+  - Slides: [lec_w2_invlaplace_complexroots.pdf](../../weeks/w02_laplace_part2_modeling/files/lec_w2_invlaplace_complexroots.pdf)
+- [Second-order ODE solution using Laplace](https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/Edf02uuuf_1DqJ6yHYmZGigBEJ9FnzaFBo9fan14aDzbhg?e=oxNYwz) (14:55)
+- Transfer Functions
+  - [Part 1: Overview and ODE → TF](https://vimeo.com/403119211) (10:02)
+  - [Part 1b: Examples of type 1 problems (ODE → TF)](https://vimeo.com/405178977) (9:13)
+  - [Part 2: TFs in MATLAB](https://vimeo.com/403415103) (10:48)
+  - Slides: [lec_w2_transferfunction.pdf](../../weeks/w02_laplace_part2_modeling/files/lec_w2_transferfunction.pdf)
+- Modeling
+  - [Overview](https://vimeo.com/403493497) (19:25)
+  - [Example: Mass-spring-damper](https://vimeo.com/403493375) (10:22)
+  - [Example: Cruise control](https://vimeo.com/403493250) (9:18)
+  - Slides: [lec_w2_modeling.pdf](../../weeks/w02_laplace_part2_modeling/files/lec_w2_modeling.pdf)
+- Optional videos
+  - [Example: Quarter-car model](https://vimeo.com/403493166) (8:39)
+  - [Example: Shaft and bearing](https://vimeo.com/403493063) (7:06)
+
+**Wednesday:** Before class: watch videos, preview HW2. Due Friday: HW2.
+
+**Thursday:** No in-person meeting.
+
+## Week 3 — 13 Apr: Lab 1: USV System Identification {#week-3}
+
+**Monday–Thursday:** Lab 1: USV System Identification
+
+- [lab_intro.pdf](../../weeks/w03_lab_usv_sysid/files/lab_intro.pdf)
+- See [Assignments and Labs](assignments.qmd#usv-labs)
+
+## Week 4 — 20 Apr: Time Response in t- and s-domains {#week-4}
+
+**Monday (in person):**
+
+- Due: Reading Quiz #2: Chapter 4, through 4.4
+- Topics: review reading quiz, introduction to time response
+- USV Lab 1: [lab1_sysid.pptx](../../weeks/w03_lab_usv_sysid/files/lab1_sysid.pptx); see [Assignments and Labs](assignments.qmd#usv-labs) for the prototype script
+
+**Tuesday (asynchronous):** Video lectures
+
+- First-Order Response
+  - [Part 1: Impulse and step response](https://vimeo.com/405194566) (10:55)
+  - [Part 2: Examples and MATLAB](https://vimeo.com/405194318) (14:23)
+- [Second-Order Response](https://vimeo.com/405193986) (19:43)
+  - Note: there is some inconsistency in the constant term of the analytical solution for the second-order impulse response. For the canonical form and calculating the impulse response by hand, see [ME2801_second_order_impulse.pdf](../../weeks/w04_time_response/files/ME2801_second_order_impulse.pdf) and the MATLAB verification [MATLAB_second_order_response.mlx](../../weeks/w04_time_response/files/MATLAB_second_order_response.mlx)
+- [Stability](https://vimeo.com/405193899) (4:30)
+- [Performance Metrics, Specifications or Figures of Merit](https://vimeo.com/405631079) (15:29)
+- Slides: [lec_w3_timeresponse.pdf](../../weeks/w04_time_response/files/lec_w3_timeresponse.pdf)
+- Optional notes
+  - Gain and DC gain: how the term "gain" is used with the canonical transfer function forms: [me2801_gain.pdf](../../weeks/w04_time_response/files/me2801_gain.pdf)
+    - [Transfer Function DC Gain — Example Video](https://vimeo.com/409518315) (14:30): given a step response graph, find the DC gain
+  - Example: algebra for deriving the impulse response of the canonical second-order transfer function: [second_order_impulse_verify.pdf](../../weeks/w04_time_response/files/second_order_impulse_verify.pdf)
+  - Rise time of a second-order model step response: [risetime_secondorder.mlx](../../weeks/w04_time_response/files/risetime_secondorder.mlx)
+
+**Wednesday:** MATLAB and time response: [time_response.mlx](../../weeks/w04_time_response/files/time_response.mlx)
+
+**Thursday:** Due: HW3
+
+## Week 5 — 27 Apr: Block Diagrams and Feedback {#week-5}
+
+**Monday (in person):**
+
+- Due: Reading Quiz #3: Block Diagrams and Feedback, Chapter 5, through 5.3
+- HW3 review: [lec_hw3_review.pdf](../../weeks/w04_time_response/files/lec_hw3_review.pdf), [laplace_pairs_response.pdf](../../handouts/laplace_pairs_response.pdf)
+- Lab 1 results (posted on Sakai)
+
+**Tuesday (asynchronous):** Video lectures
+
+- [Block Diagrams: Introduction](https://vimeo.com/407780308)
+- [Block Diagrams: Example 1](https://vimeo.com/407780182)
+- [Feedback Design Example](https://vimeo.com/407779802)
+- Slides: [lec_w4_blockdiagrams.pdf](../../weeks/w05_blockdiagrams_pid/files/lec_w4_blockdiagrams.pdf) ([annotated](../../weeks/w05_blockdiagrams_pid/files/lec_w4_blockdiagrams_annotated.pdf)), [lec_w4_feedback_design_ex.pdf](../../weeks/w05_blockdiagrams_pid/files/lec_w4_feedback_design_ex.pdf) ([annotated](../../weeks/w05_blockdiagrams_pid/files/lec_w4_feedback_design_ex_annotated.pdf))
+- Block diagrams and engineering units: [video](https://vimeo.com/410772611), notes [blockdiagram_units.pdf](../../weeks/w05_blockdiagrams_pid/files/blockdiagram_units.pdf)
+
+**Wednesday:**
+
+- Before class: read up through Subsection 1.3 of [blockdiagrams_pid.pdf](../../weeks/w05_blockdiagrams_pid/files/blockdiagrams_pid.pdf)
+- Block diagrams and USV PID: [ArduRover — Tuning Speed and Throttle](https://ardupilot.org/rover/docs/rover-tuning-throttle-and-speed.html)
+- Reading assignment for Monday (different format)
+
+**Thursday:** Due: HW4
+
+## Week 6 — 4 May: Steady-State Errors {#week-6}
+
+**Monday (in person):**
+
+- Reading assignment, due before class via Sakai: review the chapter [steady_state_error_v1.pdf](../../weeks/w06_steady_state_error/files/steady_state_error_v1.pdf) and submit at least three points of first-skim feedback (location, comment, suggestion) as plain text
+- Topics: HW4 review, reading review, steady-state error introduction
+
+**Tuesday (asynchronous):** Steady-State Error videos
+
+- [Introduction](https://vimeo.com/411128315)
+- [USV Example](https://vimeo.com/411128567)
+- [System Type](https://vimeo.com/411129239)
+- Slides: [lec_w4_sserror.pdf](../../weeks/w06_steady_state_error/files/lec_w4_sserror.pdf) ([annotated](../../weeks/w06_steady_state_error/files/lec_w4_sserror_annotated.pdf))
+
+**Wednesday:** Guest lecture: CDR (ret) Todd Greene. [sse_input_simulation.m](https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w06_steady_state_error/code/sse_input_simulation.m)
+
+**Thursday:** Due: HW5
+
+## Week 7 — 11 May: Lab 2: USV PID Tuning, Heading and Speed {#week-7}
+
+**Monday–Thursday:** [Lab 2: USV PID Tuning, Heading and Speed](../../weeks/w07_lab_usv_pid/index.qmd)
+
+## Week 8 — 18 May: Frequency Response {#week-8}
+
+**Monday (in person):** Guest lecture
+
+**Tuesday (in person):** Frequency Response
+
+- Due: Reading Quiz #6, Frequency Response, Chapter 10, through 10.2
+- Topics: Lab 2 deliverable
+- Frequency response introduction: [lec_w8_freqresp_intro.pdf](../../weeks/w08_freq_response_part1/files/lec_w8_freqresp_intro.pdf)
+  - [Frequency response animation — first order](https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/ETuy7J4pSsdFvKZg6zyYiGcBlwvVroSbqw7o9FEr3xqSTg?e=dNcDiw)
+  - [Frequency response animation — second order](https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/EZLUC3WDvIRBvjdyyh3-xlQBZj5SP-A1B-7whocqyS2OFQ?e=CtQhOc)
+- Bode graph paper for asymptotic sketching: download and print [bode2_nolabel.png](../../handouts/bode2_nolabel.png) (more in [MATLAB Resources](../../resources/matlab.qmd))
+
+**Wednesday (in person):** Sketching Bode Plots Using Building Blocks
+
+- Handout: [bodebuildingblocks2.pdf](../../handouts/bodebuildingblocks2.pdf)
+- Videos
+  1. [Part 1: Gain, derivative and integral building blocks](https://vimeo.com/375456082)
+  2. [Part 2: Example using derivative and gain](https://vimeo.com/375456371)
+  3. [Part 3: First- and second-order building blocks](https://vimeo.com/375456513)
+  4. [Part 4: Example of first order and gain](https://vimeo.com/375456787)
+  5. [Part 5: Example of first order, gain and derivative; checking with MATLAB](https://vimeo.com/375456986)
+- Slides: [lec_w8_freqresp_buildingblocks.pdf](../../weeks/w08_freq_response_part1/files/lec_w8_freqresp_buildingblocks.pdf)
+- Optional
+  - Swarthmore's [Bode Plot Examples](https://lpsa.swarthmore.edu/Bode/BodeExamples.html) is a nice tool for sketching the plot step by step. See if you can use it to work the examples from class or the assignment.
+  - For more practice and a different voice, Prof. Rick Hill has a series of videos on frequency response that complement the ME2801 video lectures: see his [YouTube channel](https://www.youtube.com/c/hillrickc), specifically the [Frequency Response Methods playlist](https://www.youtube.com/playlist?list=PL4VMBEQr3gME5YeUcppHvUAhpIknz_xBA)
+
+**Thursday:** No in-person class. Friday: nothing due.
+
+## Week 9 — 25 May: Compensation Design with Frequency Response {#week-9}
+
+**Monday:** Memorial Day (holiday)
+
+**Tuesday:** Compensation Design with Frequency Response (no in-person class)
+
+**Wednesday:** No in-person class
+
+**Thursday (in person):** Due Friday: HW7, includes the Lab 2 deliverable
+
+## Week 10 — 1 Jun: Lab 3: USV Navigation Tuning {#week-10}
+
+**Monday–Thursday:** [Lab 3: USV Navigation Tuning](../../weeks/w10_lab_usv_waypoint/index.qmd)
+
+## Week 11 — 8 Jun: Final Oral Exams {#week-11}
+
+**Monday:** Final oral exams
+
+- Lab 3: [procedure](../../weeks/w10_lab_usv_waypoint/index.qmd)
+- Exam: [Oral Final Exam](../../oral-exam.qmd)
+
+**Tuesday:** MAE Retreat, no class
+
+**Wednesday:** No class
+
+**Thursday:** Last class (11 Jun). Awards ceremony, 1120. Friday: Lab 3 due.

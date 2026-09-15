@@ -5,6 +5,7 @@ project:
     - "*.qmd"
     - "weeks/**/*.qmd"
     - "autopilot/**/*.qmd"
+    - "archive/**/*.qmd"
   resources:
     - CNAME
 

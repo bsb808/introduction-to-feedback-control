@@ -55,6 +55,8 @@ private/
 !**/refs/*.pdf
 !misc/**/*.pdf
 !**/chapter/images/*.pdf
+!site/**/files/*.pdf
+!site/handouts/*.pdf
 
 .trash/
 

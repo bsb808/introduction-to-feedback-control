@@ -62,7 +62,12 @@ Context-window management (the export is large):
 - Groups (one PMR each): (1) syllabus; (2) archived Spring 2026 schedule and assignments under `site/archive/ay26q3/` with attachments (these become the "previous quarter" archive pages that the quarter runbook's schedule and assignments tasks start from); (3) resources pages.
 - Owner: AI
 - Verification: `quarto render` clean; no `wiki.nps.edu` links in `site/`; no Nise solutions-manual files in `site/`; author checks content manually in `quarto preview`.
-- Status: todo
+- Status: in progress
+- Notes:
+  - Group 1 (syllabus, home links): done. Meeting time comes from a new `meeting` variable in `_variables.yml`.
+  - Group 2 (archive): `site/archive/index.qmd` plus `site/archive/ay26q3/{schedule,assignments}.qmd`. The schedule is an overview table followed by one section per week (days as sub-blocks) instead of the wiki's wide grid, which is hard to read on narrow screens. Files are copied from `tmp/wiki/manifests/ay26q3.tsv` (55 files, about 27 MB) with `extract.py copy`.
+  - Links from the archive to `resources/matlab.qmd` and `autopilot/usv_setup.qmd` resolve once group 3 lands.
+  - Don't run `quarto render` while `quarto preview` is running; the two collide on the Sass cache. Stop the preview, render, and restart it.
 
 ## 4. Author follow-ups (human tasks)
 
