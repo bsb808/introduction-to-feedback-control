@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -34,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9735d54fab97433a71b882fd56fb8b6a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5cae71d622733d7013a6a9f0dcea46b0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -118,10 +121,12 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#course-information" id="toc-course-information" class="nav-link active" data-scroll-target="#course-information">Course Information</a></li>
   <li><a href="#course-catalog-description" id="toc-course-catalog-description" class="nav-link" data-scroll-target="#course-catalog-description">Course Catalog Description</a></li>
+  <li><a href="#textbook" id="toc-textbook" class="nav-link" data-scroll-target="#textbook">Textbook</a></li>
   <li><a href="#grading" id="toc-grading" class="nav-link" data-scroll-target="#grading">Grading</a></li>
   <li><a href="#late-work" id="toc-late-work" class="nav-link" data-scroll-target="#late-work">Late Work</a></li>
   <li><a href="#collaboration-and-generative-ai" id="toc-collaboration-and-generative-ai" class="nav-link" data-scroll-target="#collaboration-and-generative-ai">Collaboration and Generative AI</a></li>
-  <li><a href="#nps-honor-code" id="toc-nps-honor-code" class="nav-link" data-scroll-target="#nps-honor-code">NPS Honor Code</a></li>
+  <li><a href="#nps-honor-code-and-academic-integrity" id="toc-nps-honor-code-and-academic-integrity" class="nav-link" data-scroll-target="#nps-honor-code-and-academic-integrity">NPS Honor Code and Academic Integrity</a></li>
+  <li><a href="#generative-ai-and-academic-integrity" id="toc-generative-ai-and-academic-integrity" class="nav-link" data-scroll-target="#generative-ai-and-academic-integrity">Generative AI and Academic Integrity</a></li>
   </ul>
 </nav>
     </div>
@@ -147,18 +152,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><em>Quarter:</em> Spring 2026</p>
+<p><em>Quarter:</em> Fall 2026</p>
 <section id="course-information" class="level2">
 <h2 class="anchored" data-anchor-id="course-information">Course Information</h2>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
 <tbody>
 <tr class="odd">
 <td><strong>Schedule</strong></td>
-<td><em>TBD — meeting days, times, room</em></td>
+<td><p>M–R, 1100–1150, WA-147</p></td>
 </tr>
 <tr class="even">
 <td><strong>Instructor</strong></td>
@@ -166,25 +167,35 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><strong>Office Hours</strong></td>
-<td><em>TBD</em></td>
+<td>By appointment. See Outlook for schedule constraints and send a meeting request.</td>
 </tr>
 <tr class="even">
-<td><strong>Textbook</strong></td>
-<td><em>TBD</em></td>
+<td><strong>Website</strong></td>
+<td>This site for course content. Sakai for submitting assignments and quizzes.</td>
 </tr>
 <tr class="odd">
+<td><strong>Textbook</strong></td>
+<td><em>Control Systems Engineering</em>, Norman Nise, 7th Edition (see <a href="#textbook">Textbook</a>)</td>
+</tr>
+<tr class="even">
 <td><strong>Prerequisites</strong></td>
-<td><em>TBD</em></td>
+<td>AE2440: Introduction to Scientific Programming</td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="course-catalog-description" class="level2">
 <h2 class="anchored" data-anchor-id="course-catalog-description">Course Catalog Description</h2>
-<p><em>TBD</em></p>
+<p>This course presents classical analysis of feedback control systems using basic principles in the frequency domain (Bode plots) and in the s-domain (root locus). Performance criteria in the time domain such as steady-state accuracy, transient response specifications, and in the frequency domain such as bandwidth and disturbance rejection are introduced. Simple design applications using root locus and Bode plot techniques will be addressed in the course. Laboratory experiments are designed to expose the students to testing and evaluating mathematical models of physical systems, using computer simulations and hardware implementations. ME2801 and EC2300 are equivalent courses. This course can be offered as an online course.</p>
+</section>
+<section id="textbook" class="level2">
+<h2 class="anchored" data-anchor-id="textbook">Textbook</h2>
+<p>The official course textbook is <em>Control Systems Engineering</em> by Norman Nise, 7th Edition.</p>
+<p>We will use exercises from the textbook. Publishers are known to change the exercises with each new edition, so if you use an earlier edition it will take a bit of extra work to verify the assigned exercises. The tables of contents of the 6th and 4th editions cover the same material in the same order.</p>
 </section>
 <section id="grading" class="level2">
 <h2 class="anchored" data-anchor-id="grading">Grading</h2>
+<p>The goal of the grading policy is to assess your performance as it pertains to the knowledge and skills of the course. Your grade in the course will be determined by your performance on the following assignments:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -196,39 +207,103 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>Reading Quizzes</td>
-<td><em>TBD</em></td>
-<td><em>TBD</em></td>
+<td>~7</td>
+<td>10%</td>
 </tr>
 <tr class="even">
 <td>Homework</td>
-<td><em>TBD</em></td>
-<td><em>TBD</em></td>
+<td>~7</td>
+<td>30%</td>
 </tr>
 <tr class="odd">
 <td>Exams</td>
-<td><em>TBD</em></td>
-<td><em>TBD</em></td>
+<td>1</td>
+<td>30%</td>
 </tr>
 <tr class="even">
 <td>Labs</td>
-<td><em>TBD</em></td>
-<td><em>TBD</em></td>
+<td>3</td>
+<td>30%</td>
 </tr>
 </tbody>
 </table>
-<p><em>Notes on quiz / homework / exam grading rules — TBD.</em></p>
+<p>Reading quizzes: the grade contribution from quizzes is calculated as follows.</p>
+<ol type="1">
+<li>The lowest quiz grade is dropped.</li>
+<li>The average of the remaining quiz grades is calculated.</li>
+<li>If the average is above 70%, you receive full credit; if it is above 40%, you receive 75% credit; otherwise, no credit.</li>
+</ol>
 </section>
 <section id="late-work" class="level2">
 <h2 class="anchored" data-anchor-id="late-work">Late Work</h2>
-<p><em>TBD</em></p>
+<p>Credit for work submitted past the announced deadline will be reduced by 10% per day (or portion of a day) up to 50%. Work will not be accepted more than 5 days late. Deadline extensions will not be granted within 24 hours of assignment deadlines without extenuating circumstances. If there are conflicts with deadlines, please notify the instructor so that other arrangements can be made.</p>
 </section>
 <section id="collaboration-and-generative-ai" class="level2">
 <h2 class="anchored" data-anchor-id="collaboration-and-generative-ai">Collaboration and Generative AI</h2>
-<p><em>TBD — Reasonable / Not Reasonable table goes here.</em></p>
+<p>The goal of this policy is to encourage meaningful learning and prevent activities that hinder your educational development.</p>
+<p>Our guiding principle for academic honesty is: “be reasonable.” You are encouraged to collaborate thoughtfully, both with classmates and generative AI tools, but only to the extent that it aids your learning without compromising your individual work. Your submitted assignments must be your own work. In this course, learning comes through practice, including debugging on your own. Frustration can be a valuable part of the learning process: “every moment of frustration is a sign you’re learning something new.”</p>
+<p>We view working with other people and using generative AI tools similarly: both are valuable resources that can enhance your learning when used properly. However, they must be used responsibly to support, rather than undermine, your educational growth.</p>
+<p>Below are examples (not exhaustive) of what constitutes acceptable and unacceptable collaboration. If unsure, always seek approval from the instructor before proceeding.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Reasonable</th>
+<th>Not Reasonable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Discussing ideas and concepts with classmates or an AI tool to enhance understanding.</td>
+<td>Sharing your work (solutions, code, etc.) with others, either directly or through an AI tool.</td>
+</tr>
+<tr class="even">
+<td>Collaborating with classmates on how to approach a problem, techniques or concepts without sharing actual solutions.</td>
+<td>Using web search, AI tools or work from previous students to develop or refine actual work instead of doing it yourself.</td>
+</tr>
+<tr class="odd">
+<td>Asking an AI tool to explain concepts or programming techniques.</td>
+<td>Asking a classmate or AI tool to provide solutions or answers to assignments.</td>
+</tr>
+<tr class="even">
+<td>Seeking external resources for clarification or technical troubleshooting (not for outright solutions).</td>
+<td>Searching for or using online solutions to assessments.</td>
+</tr>
+<tr class="odd">
+<td>Providing or receiving conceptual help on assignments.</td>
+<td>Dividing an assignment and combining work with another student.</td>
+</tr>
+<tr class="even">
+<td>Using a few lines of code found online, provided they are not solutions to the assignment, and citing them.</td>
+<td>Submitting code found online or from others as your own, without proper citation.</td>
+</tr>
+<tr class="odd">
+<td>Assisting classmates by discussing debugging techniques without directly sharing code. “Looking over the shoulder” of a classmate to identify and fix errors.</td>
+<td>Sharing or receiving solutions or code to solve errors or complete an assignment.</td>
+</tr>
+<tr class="even">
+<td>Reviewing general concepts or strategies from prior offerings to aid your understanding.</td>
+<td>Using solutions, code, completed assignments or previous exams from prior offerings of the course to complete your own work, even if modified.</td>
+</tr>
+<tr class="odd">
+<td>Reviewing general study guides or topics covered in past exams to inform your study approach.</td>
+<td>Accessing or using previous exams, quizzes, or their solutions (if not explicitly provided in this course) to prepare for current assessments.</td>
+</tr>
+</tbody>
+</table>
+<p>In all cases, any external code or ideas incorporated must be cited in your code comments, respecting academic integrity.</p>
+<p>Attribution: this policy borrows from many other course policies, including <a href="https://cs50.harvard.edu/python/2022/">Harvard’s CS50</a> and <a href="https://www.usna.edu/Users/cs/choi/ic210/resources/index.html">USNA’s IC210</a>.</p>
 </section>
-<section id="nps-honor-code" class="level2">
-<h2 class="anchored" data-anchor-id="nps-honor-code">NPS Honor Code</h2>
-<p><em>TBD</em></p>
+<section id="nps-honor-code-and-academic-integrity" class="level2">
+<h2 class="anchored" data-anchor-id="nps-honor-code-and-academic-integrity">NPS Honor Code and Academic Integrity</h2>
+<p>The NPS Student Information Handbook in “Section 218: Academic Honor Code” clearly establishes that “Students must follow the <a href="https://nps.edu/documents/105858948/106279825/NPSINST+5370.4D+-+ACADEMIC+HONOR+CODE.pdf/2125a8f9-a2e8-4348-8520-6560e6e3bc1b?t=1540915845000">Academic Honor Code</a> (NPS instruction 5370.4 series) at all times. The highest standards of honesty and integrity are expected of all students. Plagiarism, fraud, cheating, and verbal or written misrepresentation, constitute a violation of the Academic Honor Code.”</p>
+</section>
+<section id="generative-ai-and-academic-integrity" class="level2">
+<h2 class="anchored" data-anchor-id="generative-ai-and-academic-integrity">Generative AI and Academic Integrity</h2>
+<p>NPS encourages you to explore generative AI tools, and you must use them ethically and responsibly. Your coursework must accurately represent your underlying work, knowledge, and ideas, not the capabilities of an AI tool. If you use generative AI tools, state how you did so and describe how you remained in control of decisions and verification of information. Follow current NPS guidance on the use of generative AI tools. Never input classified or controlled unclassified information into a generative AI tool unless the platform has been explicitly approved by DoD or DON for such use.</p>
 
 
 </section>

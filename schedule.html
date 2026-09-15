@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -34,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9735d54fab97433a71b882fd56fb8b6a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5cae71d622733d7013a6a9f0dcea46b0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -108,14 +111,30 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#week-1" id="toc-week-1" class="nav-link active" data-scroll-target="#week-1">Week 1 — 28 Sep: Course Introduction and Laplace Introduction</a></li>
+  <li><a href="#week-2" id="toc-week-2" class="nav-link" data-scroll-target="#week-2">Week 2 — 5 Oct: Transfer Functions and Modeling</a></li>
+  <li><a href="#week-3" id="toc-week-3" class="nav-link" data-scroll-target="#week-3">Week 3 — 12 Oct: Lab 1: USV System Identification</a></li>
+  <li><a href="#week-4" id="toc-week-4" class="nav-link" data-scroll-target="#week-4">Week 4 — 19 Oct: Time Response in t- and s-domains</a></li>
+  <li><a href="#week-5" id="toc-week-5" class="nav-link" data-scroll-target="#week-5">Week 5 — 26 Oct: Block Diagrams and Feedback</a></li>
+  <li><a href="#week-6" id="toc-week-6" class="nav-link" data-scroll-target="#week-6">Week 6 — 2 Nov: Steady-State Errors</a></li>
+  <li><a href="#week-7" id="toc-week-7" class="nav-link" data-scroll-target="#week-7">Week 7 — 9 Nov: Lab 2: USV PID Tuning, Heading and Speed</a></li>
+  <li><a href="#week-8" id="toc-week-8" class="nav-link" data-scroll-target="#week-8">Week 8 — 16 Nov: Frequency Response</a></li>
+  <li><a href="#week-9" id="toc-week-9" class="nav-link" data-scroll-target="#week-9">Week 9 — 23 Nov: Compensation Design with Frequency Response</a></li>
+  <li><a href="#week-10" id="toc-week-10" class="nav-link" data-scroll-target="#week-10">Week 10 — 30 Nov: Lab 3: USV Navigation Tuning</a></li>
+  <li><a href="#week-11" id="toc-week-11" class="nav-link" data-scroll-target="#week-11">Week 11 — 7 Dec: Final Oral Exams</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -124,7 +143,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta">
 
     
   
@@ -136,102 +155,330 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><em>Quarter:</em> Spring 2026 · <em>Class days this quarter:</em> Monday – Thursday</p>
-<!-- Internal: placeholder skeleton. The grid will be rendered from
-     `data/schedule.yml` in Phase 2a of the site plan; per-day columns
-     are configurable per quarter (this quarter happens to be Mon–Thu). -->
+<p><em>Quarter:</em> Fall 2026 · Previous quarters: <a href="./archive/index.html">Archive</a></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Draft
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Fall 2026 dates are set; content is carried over from Spring 2026 and will be updated as the quarter approaches. Week 3 (12–16 Oct) is cancelled and the schedule will be adjusted for the lost days.</p>
+</div>
+</div>
+<p>Unless explicitly scheduled, the only in-person class meetings are Mondays and Wednesdays. Tuesdays and Thursdays are asynchronous.</p>
+<p>Key dates: Columbus Day (Mon 12 Oct), shift day with a Friday class schedule (Tue 20 Oct), Veterans Day (Wed 11 Nov), Thanksgiving (Thu 26 Nov), awards ceremony (Tue 8 Dec), last day of classes (Fri 11 Dec).</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Week</th>
-<th>Mon — In Person</th>
-<th>Tue — Async</th>
-<th>Wed</th>
-<th>Thu — Async</th>
+<th>Starts</th>
+<th>Topic</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>1</strong><br>30 Mar</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>No in-person class</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><a href="#week-1">1</a></td>
+<td>28 Sep</td>
+<td>Course Introduction and Laplace Introduction</td>
 </tr>
 <tr class="even">
-<td><strong>2</strong><br>6 Apr</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>No in-person class</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><a href="#week-2">2</a></td>
+<td>5 Oct</td>
+<td>Transfer Functions and Modeling</td>
 </tr>
 <tr class="odd">
-<td><strong>3</strong><br>13 Apr</td>
-<td><strong>Lab 1 — USV System Identification</strong></td>
-<td>Lab 1</td>
-<td>Lab 1</td>
-<td>Lab 1</td>
+<td><a href="#week-3">3</a></td>
+<td>12 Oct</td>
+<td>Class cancelled <sup>*</sup></td>
 </tr>
 <tr class="even">
-<td><strong>4</strong><br>20 Apr</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><a href="#week-4">4</a></td>
+<td>19 Oct</td>
+<td>Lab 1: USV System Identification <sup>†</sup></td>
 </tr>
 <tr class="odd">
-<td><strong>5</strong><br>27 Apr</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><a href="#week-5">5</a></td>
+<td>26 Oct</td>
+<td>Time Response</td>
 </tr>
 <tr class="even">
-<td><strong>6</strong><br>4 May</td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async videos — TBD</em></td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><a href="#week-6">6</a></td>
+<td>2 Nov</td>
+<td>Block Diagrams, Feedback and Steady-State Errors</td>
 </tr>
 <tr class="odd">
-<td><strong>7</strong><br>11 May</td>
-<td><strong><a href="./weeks/w07_lab_usv_pid/index.html">Lab 2 — USV PID Tuning</a></strong></td>
-<td><a href="./weeks/w07_lab_usv_pid/index.html">Lab 2</a></td>
-<td><a href="./weeks/w07_lab_usv_pid/index.html">Lab 2</a></td>
-<td><a href="./weeks/w07_lab_usv_pid/index.html">Lab 2</a></td>
+<td><a href="#week-7">7</a></td>
+<td>9 Nov</td>
+<td>Lab 2: USV PID Tuning, Heading and Speed <sup>‡</sup></td>
 </tr>
 <tr class="even">
-<td><strong>8</strong><br>18 May</td>
-<td><em>Guest lecture — TBD</em></td>
-<td><em>Lecture topic — TBD</em></td>
-<td><em>Async — TBD</em></td>
-<td><em>Reading / due — TBD</em></td>
+<td><a href="#week-8">8</a></td>
+<td>16 Nov</td>
+<td>Frequency Response</td>
 </tr>
 <tr class="odd">
-<td><strong>9</strong><br>25 May</td>
-<td><em>Memorial Day — no class</em></td>
-<td><em>Lecture topic — TBD</em></td>
-<td>—</td>
-<td><em>Reading / due — TBD</em></td>
+<td><a href="#week-9">9</a></td>
+<td>23 Nov</td>
+<td>Compensation Design with Frequency Response <sup>§</sup></td>
 </tr>
 <tr class="even">
-<td><strong>10</strong><br>1 Jun</td>
-<td><strong>Lab 3 — USV Navigation Tuning</strong></td>
-<td>Lab 3</td>
-<td>Lab 3</td>
-<td>Lab 3</td>
+<td><a href="#week-10">10</a></td>
+<td>30 Nov</td>
+<td>Lab 3: USV Navigation Tuning</td>
 </tr>
 <tr class="odd">
-<td><strong>11</strong><br>8 Jun</td>
-<td><em>Final Oral Exams</em></td>
-<td><em>MAE Retreat — no class</em></td>
-<td>—</td>
-<td><em>Last class</em></td>
+<td><a href="#week-11">11</a></td>
+<td>7 Dec</td>
+<td>Final Oral Exams</td>
 </tr>
 </tbody>
 </table>
+<div class="small">
+<p><sup>†</sup> Shift day (Tue 20 Oct follows the Friday schedule): no class Tue.<br> <sup>‡</sup> Veterans Day (Wed 11 Nov): no class Wed.<br> <sup>§</sup> Thanksgiving (Thu 26 Nov): no class Wed, Thu.</p>
+</div>
+<section id="week-1" class="level2">
+<h2 class="anchored" data-anchor-id="week-1">Week 1 — 28 Sep: Course Introduction and Laplace Introduction</h2>
+<p><strong>Monday (in person):</strong> Course introduction and Laplace introduction</p>
+<ul>
+<li>Slides: <a href="weeks/w01_laplace_part1/files/lec_w1_intro.pdf">lec_w1_intro.pdf</a></li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Required videos (54 min)</p>
+<ul>
+<li>Laplace Transforms
+<ul>
+<li><a href="https://vimeo.com/401346310">Laplace Introduction</a> (11:27)</li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/IQAlWbiwak8iQ5BAt7EC5qRAAeHQ4XK9nfHrqTHAOMAIElQ?e=UxvduG">Laplace Properties and Pairs</a> (13:58)</li>
+<li>Laplace Transform Examples
+<ul>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/IQAF6KsdUx1mR6CXCXZtN3x2AQ9lYMGJ3tOzE3aBi2HOiLM?e=jHRG8j">Part 1: Simple examples</a> (7:22)</li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/EVj6oGSB1yFHutdmMqR5xDQBL3eKyy9zunKtJN3DXWhU1A?e=d0xbda">Part 2: Using the frequency-shift property</a> (6:03) — static notes: <a href="weeks/w01_laplace_part1/files/example_freq_shift.pdf">example_freq_shift.pdf</a></li>
+</ul></li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/IQBuK6aU4GYXT65qSm42n7YUAd37ZFznoQ9lmOzgjvBA6VM?e=3M4h1i">Inverse Laplace and Partial Fraction Expansion (Real Poles)</a> (15:29)</li>
+<li>Slides: <a href="weeks/w01_laplace_part1/files/lec_w1_laplaceintro_annotated.pdf">lec_w1_laplaceintro_annotated.pdf</a></li>
+</ul></li>
+<li>Handouts: Laplace properties and pairs (two equivalent versions)
+<ul>
+<li>Nise textbook tables: <a href="handouts/nise-handout.pdf">nise-handout.pdf</a></li>
+<li>Custom, same information as Nise: <a href="handouts/laplace_succinct_v1.pdf">laplace_succinct_v1.pdf</a></li>
+</ul></li>
+<li>Optional notes (these address questions that may arise about details)
+<ul>
+<li><a href="https://lpsa.swarthmore.edu/LaplaceXform/FwdLaplace/LaplaceFuncs.html">A few things to note about the mathematical definition of the Laplace transform</a>, from Swarthmore</li>
+<li>Laplace transform at zero, and the unit-step function in the inverse Laplace transform: <a href="weeks/w01_laplace_part1/files/laplace_at_zero.pdf">laplace_at_zero.pdf</a></li>
+<li>What does “s” mean in the Laplace transform? <a href="https://physics.stackexchange.com/questions/300309/what-is-the-physical-meaning-of-a-laplace-transform">Notes from others on the topic</a></li>
+<li>Laplace transform, units and initial conditions: <a href="weeks/w01_laplace_part1/files/laplace_ic_units.pdf">laplace_ic_units.pdf</a></li>
+<li>Step and delta functions, from <a href="https://math.mit.edu/~stoopn/18.031/">MIT IAP course 18.031</a></li>
+</ul></li>
+</ul>
+<p><strong>Wednesday:</strong> No in-person meeting; see the Tuesday video lectures.</p>
+<p><strong>Thursday (asynchronous):</strong></p>
+<ul>
+<li>Before class: watch videos, start HW1</li>
+<li>Due Friday 1700: HW1 (see <a href="./assignments.html">Assignments and Labs</a>), submit via Sakai</li>
+<li>For Monday: Reading Quiz #1 via Sakai</li>
+<li>Optional (asynchronous): <a href="resources/matlab.qmd">MATLAB Refresher</a>; MATLAB plotting example from HW1, <a href="https://vimeo.com/402785482">Part 1</a> and <a href="https://vimeo.com/402785249">Part 2</a></li>
+</ul>
+</section>
+<section id="week-2" class="level2">
+<h2 class="anchored" data-anchor-id="week-2">Week 2 — 5 Oct: Transfer Functions and Modeling</h2>
+<p><strong>Monday (in person):</strong> Transfer Functions</p>
+<ul>
+<li>Due before class: Reading Quiz #1 via Sakai (10 min): <a href="./syllabus.html#textbook">Nise textbook</a> Sections 2.3, 2.5 and 2.6 (transfer functions and mechanical models)</li>
+<li>Topics: review HW1, review reading quiz</li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Modeling introduction and examples. Required videos (96 min)</p>
+<ul>
+<li><a href="https://vimeo.com/402964969">Inverse Laplace with Complex Roots</a> (11:45)
+<ul>
+<li>Handout: <a href="handouts/partialfractionexpansion_complex.pdf">partialfractionexpansion_complex.pdf</a></li>
+<li>Slides: <a href="weeks/w02_laplace_part2_modeling/files/lec_w2_invlaplace_complexroots.pdf">lec_w2_invlaplace_complexroots.pdf</a></li>
+</ul></li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/Edf02uuuf_1DqJ6yHYmZGigBEJ9FnzaFBo9fan14aDzbhg?e=oxNYwz">Second-order ODE solution using Laplace</a> (14:55)</li>
+<li>Transfer Functions
+<ul>
+<li><a href="https://vimeo.com/403119211">Part 1: Overview and ODE → TF</a> (10:02)</li>
+<li><a href="https://vimeo.com/405178977">Part 1b: Examples of type 1 problems (ODE → TF)</a> (9:13)</li>
+<li><a href="https://vimeo.com/403415103">Part 2: TFs in MATLAB</a> (10:48)</li>
+<li>Slides: <a href="weeks/w02_laplace_part2_modeling/files/lec_w2_transferfunction.pdf">lec_w2_transferfunction.pdf</a></li>
+</ul></li>
+<li>Modeling
+<ul>
+<li><a href="https://vimeo.com/403493497">Overview</a> (19:25)</li>
+<li><a href="https://vimeo.com/403493375">Example: Mass-spring-damper</a> (10:22)</li>
+<li><a href="https://vimeo.com/403493250">Example: Cruise control</a> (9:18)</li>
+<li>Slides: <a href="weeks/w02_laplace_part2_modeling/files/lec_w2_modeling.pdf">lec_w2_modeling.pdf</a></li>
+</ul></li>
+<li>Optional videos
+<ul>
+<li><a href="https://vimeo.com/403493166">Example: Quarter-car model</a> (8:39)</li>
+<li><a href="https://vimeo.com/403493063">Example: Shaft and bearing</a> (7:06)</li>
+</ul></li>
+</ul>
+<p><strong>Wednesday:</strong> Before class: watch videos, preview HW2. Due Friday: HW2.</p>
+<p><strong>Thursday:</strong> No in-person meeting.</p>
+</section>
+<section id="week-3" class="level2">
+<h2 class="anchored" data-anchor-id="week-3">Week 3 — 12 Oct: Lab 1: USV System Identification</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No class this week (Columbus Day Mon 12 Oct; instructor travel). Content below is the Spring 2026 plan, pending the schedule refactor.</p>
+</div>
+</div>
+<p><strong>Monday–Thursday:</strong> Lab 1: USV System Identification</p>
+<ul>
+<li><a href="weeks/w03_lab_usv_sysid/files/lab_intro.pdf">lab_intro.pdf</a></li>
+<li>See <a href="./assignments.html#usv-labs">Assignments and Labs</a></li>
+</ul>
+</section>
+<section id="week-4" class="level2">
+<h2 class="anchored" data-anchor-id="week-4">Week 4 — 19 Oct: Time Response in t- and s-domains</h2>
+<p><strong>Monday (in person):</strong></p>
+<ul>
+<li>Due: Reading Quiz #2: Chapter 4, through 4.4</li>
+<li>Topics: review reading quiz, introduction to time response</li>
+<li>USV Lab 1: <a href="weeks/w03_lab_usv_sysid/files/lab1_sysid.pptx">lab1_sysid.pptx</a>; see <a href="./assignments.html#usv-labs">Assignments and Labs</a> for the prototype script</li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Shift day (Tue 20 Oct follows the Friday class schedule). Video lectures</p>
+<ul>
+<li>First-Order Response
+<ul>
+<li><a href="https://vimeo.com/405194566">Part 1: Impulse and step response</a> (10:55)</li>
+<li><a href="https://vimeo.com/405194318">Part 2: Examples and MATLAB</a> (14:23)</li>
+</ul></li>
+<li><a href="https://vimeo.com/405193986">Second-Order Response</a> (19:43)
+<ul>
+<li>Note: there is some inconsistency in the constant term of the analytical solution for the second-order impulse response. For the canonical form and calculating the impulse response by hand, see <a href="weeks/w04_time_response/files/ME2801_second_order_impulse.pdf">ME2801_second_order_impulse.pdf</a> and the MATLAB verification <a href="weeks/w04_time_response/files/MATLAB_second_order_response.mlx">MATLAB_second_order_response.mlx</a></li>
+</ul></li>
+<li><a href="https://vimeo.com/405193899">Stability</a> (4:30)</li>
+<li><a href="https://vimeo.com/405631079">Performance Metrics, Specifications or Figures of Merit</a> (15:29)</li>
+<li>Slides: <a href="weeks/w04_time_response/files/lec_w3_timeresponse.pdf">lec_w3_timeresponse.pdf</a></li>
+<li>Optional notes
+<ul>
+<li>Gain and DC gain: how the term “gain” is used with the canonical transfer function forms: <a href="weeks/w04_time_response/files/me2801_gain.pdf">me2801_gain.pdf</a>
+<ul>
+<li><a href="https://vimeo.com/409518315">Transfer Function DC Gain — Example Video</a> (14:30): given a step response graph, find the DC gain</li>
+</ul></li>
+<li>Example: algebra for deriving the impulse response of the canonical second-order transfer function: <a href="weeks/w04_time_response/files/second_order_impulse_verify.pdf">second_order_impulse_verify.pdf</a></li>
+<li>Rise time of a second-order model step response: <a href="weeks/w04_time_response/files/risetime_secondorder.mlx">risetime_secondorder.mlx</a></li>
+</ul></li>
+</ul>
+<p><strong>Wednesday:</strong> MATLAB and time response: <a href="weeks/w04_time_response/files/time_response.mlx">time_response.mlx</a></p>
+<p><strong>Thursday:</strong> Due: HW3</p>
+</section>
+<section id="week-5" class="level2">
+<h2 class="anchored" data-anchor-id="week-5">Week 5 — 26 Oct: Block Diagrams and Feedback</h2>
+<p><strong>Monday (in person):</strong></p>
+<ul>
+<li>Due: Reading Quiz #3: Block Diagrams and Feedback, Chapter 5, through 5.3</li>
+<li>HW3 review: <a href="weeks/w04_time_response/files/lec_hw3_review.pdf">lec_hw3_review.pdf</a>, <a href="handouts/laplace_pairs_response.pdf">laplace_pairs_response.pdf</a></li>
+<li>Lab 1 results (posted on Sakai)</li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Video lectures</p>
+<ul>
+<li><a href="https://vimeo.com/407780308">Block Diagrams: Introduction</a></li>
+<li><a href="https://vimeo.com/407780182">Block Diagrams: Example 1</a></li>
+<li><a href="https://vimeo.com/407779802">Feedback Design Example</a></li>
+<li>Slides: <a href="weeks/w05_blockdiagrams_pid/files/lec_w4_blockdiagrams.pdf">lec_w4_blockdiagrams.pdf</a> (<a href="weeks/w05_blockdiagrams_pid/files/lec_w4_blockdiagrams_annotated.pdf">annotated</a>), <a href="weeks/w05_blockdiagrams_pid/files/lec_w4_feedback_design_ex.pdf">lec_w4_feedback_design_ex.pdf</a> (<a href="weeks/w05_blockdiagrams_pid/files/lec_w4_feedback_design_ex_annotated.pdf">annotated</a>)</li>
+<li>Block diagrams and engineering units: <a href="https://vimeo.com/410772611">video</a>, notes <a href="weeks/w05_blockdiagrams_pid/files/blockdiagram_units.pdf">blockdiagram_units.pdf</a></li>
+</ul>
+<p><strong>Wednesday:</strong></p>
+<ul>
+<li>Before class: read up through Subsection 1.3 of <a href="weeks/w05_blockdiagrams_pid/files/blockdiagrams_pid.pdf">blockdiagrams_pid.pdf</a></li>
+<li>Block diagrams and USV PID: <a href="https://ardupilot.org/rover/docs/rover-tuning-throttle-and-speed.html">ArduRover — Tuning Speed and Throttle</a></li>
+<li>Reading assignment for Monday (different format)</li>
+</ul>
+<p><strong>Thursday:</strong> Due: HW4</p>
+</section>
+<section id="week-6" class="level2">
+<h2 class="anchored" data-anchor-id="week-6">Week 6 — 2 Nov: Steady-State Errors</h2>
+<p><strong>Monday (in person):</strong></p>
+<ul>
+<li>Reading assignment, due before class via Sakai: review the chapter <a href="weeks/w06_steady_state_error/files/steady_state_error_v1.pdf">steady_state_error_v1.pdf</a> and submit at least three points of first-skim feedback (location, comment, suggestion) as plain text</li>
+<li>Topics: HW4 review, reading review, steady-state error introduction</li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Steady-State Error videos</p>
+<ul>
+<li><a href="https://vimeo.com/411128315">Introduction</a></li>
+<li><a href="https://vimeo.com/411128567">USV Example</a></li>
+<li><a href="https://vimeo.com/411129239">System Type</a></li>
+<li>Slides: <a href="weeks/w06_steady_state_error/files/lec_w4_sserror.pdf">lec_w4_sserror.pdf</a> (<a href="weeks/w06_steady_state_error/files/lec_w4_sserror_annotated.pdf">annotated</a>)</li>
+</ul>
+<p><strong>Wednesday:</strong> Guest lecture (TBD). <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w06_steady_state_error/code/sse_input_simulation.m">sse_input_simulation.m</a></p>
+<p><strong>Thursday:</strong> Due: HW5</p>
+</section>
+<section id="week-7" class="level2">
+<h2 class="anchored" data-anchor-id="week-7">Week 7 — 9 Nov: Lab 2: USV PID Tuning, Heading and Speed</h2>
+<p><strong>Monday–Thursday:</strong> <a href="./weeks/w07_lab_usv_pid/index.html">Lab 2: USV PID Tuning, Heading and Speed</a>. Veterans Day (Wed 11 Nov): no class.</p>
+</section>
+<section id="week-8" class="level2">
+<h2 class="anchored" data-anchor-id="week-8">Week 8 — 16 Nov: Frequency Response</h2>
+<p><strong>Monday (in person):</strong> Guest lecture</p>
+<p><strong>Tuesday (in person):</strong> Frequency Response</p>
+<ul>
+<li>Due: Reading Quiz #6, Frequency Response, Chapter 10, through 10.2</li>
+<li>Topics: Lab 2 deliverable</li>
+<li>Frequency response introduction: <a href="weeks/w08_freq_response_part1/files/lec_w8_freqresp_intro.pdf">lec_w8_freqresp_intro.pdf</a>
+<ul>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/ETuy7J4pSsdFvKZg6zyYiGcBlwvVroSbqw7o9FEr3xqSTg?e=dNcDiw">Frequency response animation — first order</a></li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/EZLUC3WDvIRBvjdyyh3-xlQBZj5SP-A1B-7whocqyS2OFQ?e=CtQhOc">Frequency response animation — second order</a></li>
+</ul></li>
+<li>Bode graph paper for asymptotic sketching: download and print <a href="handouts/bode2_nolabel.png">bode2_nolabel.png</a> (more in <a href="resources/matlab.qmd">MATLAB Resources</a>)</li>
+</ul>
+<p><strong>Wednesday (in person):</strong> Sketching Bode Plots Using Building Blocks</p>
+<ul>
+<li>Handout: <a href="handouts/bodebuildingblocks2.pdf">bodebuildingblocks2.pdf</a></li>
+<li>Videos
+<ol type="1">
+<li><a href="https://vimeo.com/375456082">Part 1: Gain, derivative and integral building blocks</a></li>
+<li><a href="https://vimeo.com/375456371">Part 2: Example using derivative and gain</a></li>
+<li><a href="https://vimeo.com/375456513">Part 3: First- and second-order building blocks</a></li>
+<li><a href="https://vimeo.com/375456787">Part 4: Example of first order and gain</a></li>
+<li><a href="https://vimeo.com/375456986">Part 5: Example of first order, gain and derivative; checking with MATLAB</a></li>
+</ol></li>
+<li>Slides: <a href="weeks/w08_freq_response_part1/files/lec_w8_freqresp_buildingblocks.pdf">lec_w8_freqresp_buildingblocks.pdf</a></li>
+<li>Optional
+<ul>
+<li>Swarthmore’s <a href="https://lpsa.swarthmore.edu/Bode/BodeExamples.html">Bode Plot Examples</a> is a nice tool for sketching the plot step by step. See if you can use it to work the examples from class or the assignment.</li>
+<li>For more practice and a different voice, Prof.&nbsp;Rick Hill has a series of videos on frequency response that complement the ME2801 video lectures: see his <a href="https://www.youtube.com/c/hillrickc">YouTube channel</a>, specifically the <a href="https://www.youtube.com/playlist?list=PL4VMBEQr3gME5YeUcppHvUAhpIknz_xBA">Frequency Response Methods playlist</a></li>
+</ul></li>
+</ul>
+<p><strong>Thursday:</strong> No in-person class. Friday: nothing due.</p>
+</section>
+<section id="week-9" class="level2">
+<h2 class="anchored" data-anchor-id="week-9">Week 9 — 23 Nov: Compensation Design with Frequency Response</h2>
+<p><strong>Monday (in person):</strong> Compensation Design with Frequency Response</p>
+<p><strong>Tuesday (asynchronous):</strong> TBD</p>
+<p><strong>Wednesday (in person):</strong> TBD</p>
+<p><strong>Thursday:</strong> Thanksgiving (holiday). Due Friday: HW7, includes the Lab 2 deliverable</p>
+</section>
+<section id="week-10" class="level2">
+<h2 class="anchored" data-anchor-id="week-10">Week 10 — 30 Nov: Lab 3: USV Navigation Tuning</h2>
+<p><strong>Monday–Thursday:</strong> <a href="./weeks/w10_lab_usv_waypoint/index.html">Lab 3: USV Navigation Tuning</a></p>
+</section>
+<section id="week-11" class="level2">
+<h2 class="anchored" data-anchor-id="week-11">Week 11 — 7 Dec: Final Oral Exams</h2>
+<p><strong>Monday–Thursday:</strong> Final oral exams</p>
+<ul>
+<li>Lab 3: <a href="./weeks/w10_lab_usv_waypoint/index.html">procedure</a></li>
+<li>Exam: <a href="./oral-exam.html">Oral Final Exam</a></li>
+</ul>
+<p><strong>Tuesday 8 Dec:</strong> Pre-graduation awards ceremony</p>
+<p><strong>Friday 11 Dec:</strong> Last day of classes. Lab 3 due.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Schedule — Spring 2026 (AY26Q3) – ME 2801 — Introduction to Feedback Control</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-5cae71d622733d7013a6a9f0dcea46b0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">ME 2801 — Introduction to Feedback Control</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../assignments.html"> 
+<span class="menu-text">Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../autopilot/index.html"> 
+<span class="menu-text">Autopilot</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bsb808/introduction-to-feedback-control"> <i class="bi bi-github" role="img" aria-label="Source on GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#week-1" id="toc-week-1" class="nav-link active" data-scroll-target="#week-1">Week 1 — 30 Mar: Course Introduction and Laplace Introduction</a></li>
+  <li><a href="#week-2" id="toc-week-2" class="nav-link" data-scroll-target="#week-2">Week 2 — 6 Apr: Transfer Functions and Modeling</a></li>
+  <li><a href="#week-3" id="toc-week-3" class="nav-link" data-scroll-target="#week-3">Week 3 — 13 Apr: Lab 1: USV System Identification</a></li>
+  <li><a href="#week-4" id="toc-week-4" class="nav-link" data-scroll-target="#week-4">Week 4 — 20 Apr: Time Response in t- and s-domains</a></li>
+  <li><a href="#week-5" id="toc-week-5" class="nav-link" data-scroll-target="#week-5">Week 5 — 27 Apr: Block Diagrams and Feedback</a></li>
+  <li><a href="#week-6" id="toc-week-6" class="nav-link" data-scroll-target="#week-6">Week 6 — 4 May: Steady-State Errors</a></li>
+  <li><a href="#week-7" id="toc-week-7" class="nav-link" data-scroll-target="#week-7">Week 7 — 11 May: Lab 2: USV PID Tuning, Heading and Speed</a></li>
+  <li><a href="#week-8" id="toc-week-8" class="nav-link" data-scroll-target="#week-8">Week 8 — 18 May: Frequency Response</a></li>
+  <li><a href="#week-9" id="toc-week-9" class="nav-link" data-scroll-target="#week-9">Week 9 — 25 May: Compensation Design with Frequency Response</a></li>
+  <li><a href="#week-10" id="toc-week-10" class="nav-link" data-scroll-target="#week-10">Week 10 — 1 Jun: Lab 3: USV Navigation Tuning</a></li>
+  <li><a href="#week-11" id="toc-week-11" class="nav-link" data-scroll-target="#week-11">Week 11 — 8 Jun: Final Oral Exams</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Schedule — Spring 2026 (AY26Q3)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Archived
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is the Spring 2026 schedule, kept for reference only. See the <a href="../../schedule.html">current schedule</a>.</p>
+</div>
+</div>
+<p>Unless explicitly scheduled, the only in-person class meetings were Mondays and Wednesdays. Tuesdays and Thursdays were asynchronous.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Starts</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#week-1">1</a></td>
+<td>30 Mar</td>
+<td>Course Introduction and Laplace Introduction</td>
+</tr>
+<tr class="even">
+<td><a href="#week-2">2</a></td>
+<td>6 Apr</td>
+<td>Transfer Functions and Modeling</td>
+</tr>
+<tr class="odd">
+<td><a href="#week-3">3</a></td>
+<td>13 Apr</td>
+<td>Lab 1: USV System Identification</td>
+</tr>
+<tr class="even">
+<td><a href="#week-4">4</a></td>
+<td>20 Apr</td>
+<td>Time Response in t- and s-domains</td>
+</tr>
+<tr class="odd">
+<td><a href="#week-5">5</a></td>
+<td>27 Apr</td>
+<td>Block Diagrams and Feedback</td>
+</tr>
+<tr class="even">
+<td><a href="#week-6">6</a></td>
+<td>4 May</td>
+<td>Steady-State Errors</td>
+</tr>
+<tr class="odd">
+<td><a href="#week-7">7</a></td>
+<td>11 May</td>
+<td>Lab 2: USV PID Tuning, Heading and Speed</td>
+</tr>
+<tr class="even">
+<td><a href="#week-8">8</a></td>
+<td>18 May</td>
+<td>Frequency Response</td>
+</tr>
+<tr class="odd">
+<td><a href="#week-9">9</a></td>
+<td>25 May</td>
+<td>Memorial Day; Compensation Design with Frequency Response</td>
+</tr>
+<tr class="even">
+<td><a href="#week-10">10</a></td>
+<td>1 Jun</td>
+<td>Lab 3: USV Navigation Tuning</td>
+</tr>
+<tr class="odd">
+<td><a href="#week-11">11</a></td>
+<td>8 Jun</td>
+<td>Final Oral Exams</td>
+</tr>
+</tbody>
+</table>
+<section id="week-1" class="level2">
+<h2 class="anchored" data-anchor-id="week-1">Week 1 — 30 Mar: Course Introduction and Laplace Introduction</h2>
+<p><strong>Monday (in person):</strong> Course introduction and Laplace introduction</p>
+<ul>
+<li>Slides: <a href="../../weeks/w01_laplace_part1/files/lec_w1_intro.pdf">lec_w1_intro.pdf</a></li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Required videos (54 min)</p>
+<ul>
+<li>Laplace Transforms
+<ul>
+<li><a href="https://vimeo.com/401346310">Laplace Introduction</a> (11:27)</li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/IQAlWbiwak8iQ5BAt7EC5qRAAeHQ4XK9nfHrqTHAOMAIElQ?e=UxvduG">Laplace Properties and Pairs</a> (13:58)</li>
+<li>Laplace Transform Examples
+<ul>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/IQAF6KsdUx1mR6CXCXZtN3x2AQ9lYMGJ3tOzE3aBi2HOiLM?e=jHRG8j">Part 1: Simple examples</a> (7:22)</li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/EVj6oGSB1yFHutdmMqR5xDQBL3eKyy9zunKtJN3DXWhU1A?e=d0xbda">Part 2: Using the frequency-shift property</a> (6:03) — static notes: <a href="../../weeks/w01_laplace_part1/files/example_freq_shift.pdf">example_freq_shift.pdf</a></li>
+</ul></li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/IQBuK6aU4GYXT65qSm42n7YUAd37ZFznoQ9lmOzgjvBA6VM?e=3M4h1i">Inverse Laplace and Partial Fraction Expansion (Real Poles)</a> (15:29)</li>
+<li>Slides: <a href="../../weeks/w01_laplace_part1/files/lec_w1_laplaceintro_annotated.pdf">lec_w1_laplaceintro_annotated.pdf</a></li>
+</ul></li>
+<li>Handouts: Laplace properties and pairs (two equivalent versions)
+<ul>
+<li>Nise textbook tables: <a href="../../handouts/nise-handout.pdf">nise-handout.pdf</a></li>
+<li>Custom, same information as Nise: <a href="../../handouts/laplace_succinct_v1.pdf">laplace_succinct_v1.pdf</a></li>
+</ul></li>
+<li>Optional notes (these address questions that may arise about details)
+<ul>
+<li><a href="https://lpsa.swarthmore.edu/LaplaceXform/FwdLaplace/LaplaceFuncs.html">A few things to note about the mathematical definition of the Laplace transform</a>, from Swarthmore</li>
+<li>Laplace transform at zero, and the unit-step function in the inverse Laplace transform: <a href="../../weeks/w01_laplace_part1/files/laplace_at_zero.pdf">laplace_at_zero.pdf</a></li>
+<li>What does “s” mean in the Laplace transform? <a href="https://physics.stackexchange.com/questions/300309/what-is-the-physical-meaning-of-a-laplace-transform">Notes from others on the topic</a></li>
+<li>Laplace transform, units and initial conditions: <a href="../../weeks/w01_laplace_part1/files/laplace_ic_units.pdf">laplace_ic_units.pdf</a></li>
+<li>Step and delta functions, from <a href="https://math.mit.edu/~stoopn/18.031/">MIT IAP course 18.031</a></li>
+</ul></li>
+</ul>
+<p><strong>Wednesday:</strong> No in-person meeting; see the Tuesday video lectures.</p>
+<p><strong>Thursday (asynchronous):</strong></p>
+<ul>
+<li>Before class: watch videos, start HW1</li>
+<li>Due Friday 1700: HW1 (see <a href="../../archive/ay26q3/assignments.html">Assignments and Labs</a>), submit via Sakai</li>
+<li>For Monday: Reading Quiz #1 via Sakai</li>
+<li>Optional (asynchronous): <a href="../../resources/matlab.qmd">MATLAB Refresher</a>; MATLAB plotting example from HW1, <a href="https://vimeo.com/402785482">Part 1</a> and <a href="https://vimeo.com/402785249">Part 2</a></li>
+</ul>
+</section>
+<section id="week-2" class="level2">
+<h2 class="anchored" data-anchor-id="week-2">Week 2 — 6 Apr: Transfer Functions and Modeling</h2>
+<p><strong>Monday (in person):</strong> Transfer Functions</p>
+<ul>
+<li>Due before class: Reading Quiz #1 via Sakai (10 min): <a href="../../syllabus.html#textbook">Nise textbook</a> Sections 2.3, 2.5 and 2.6 (transfer functions and mechanical models)</li>
+<li>Topics: review HW1, review reading quiz</li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Modeling introduction and examples. Required videos (96 min)</p>
+<ul>
+<li><a href="https://vimeo.com/402964969">Inverse Laplace with Complex Roots</a> (11:45)
+<ul>
+<li>Handout: <a href="../../handouts/partialfractionexpansion_complex.pdf">partialfractionexpansion_complex.pdf</a></li>
+<li>Slides: <a href="../../weeks/w02_laplace_part2_modeling/files/lec_w2_invlaplace_complexroots.pdf">lec_w2_invlaplace_complexroots.pdf</a></li>
+</ul></li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/Edf02uuuf_1DqJ6yHYmZGigBEJ9FnzaFBo9fan14aDzbhg?e=oxNYwz">Second-order ODE solution using Laplace</a> (14:55)</li>
+<li>Transfer Functions
+<ul>
+<li><a href="https://vimeo.com/403119211">Part 1: Overview and ODE → TF</a> (10:02)</li>
+<li><a href="https://vimeo.com/405178977">Part 1b: Examples of type 1 problems (ODE → TF)</a> (9:13)</li>
+<li><a href="https://vimeo.com/403415103">Part 2: TFs in MATLAB</a> (10:48)</li>
+<li>Slides: <a href="../../weeks/w02_laplace_part2_modeling/files/lec_w2_transferfunction.pdf">lec_w2_transferfunction.pdf</a></li>
+</ul></li>
+<li>Modeling
+<ul>
+<li><a href="https://vimeo.com/403493497">Overview</a> (19:25)</li>
+<li><a href="https://vimeo.com/403493375">Example: Mass-spring-damper</a> (10:22)</li>
+<li><a href="https://vimeo.com/403493250">Example: Cruise control</a> (9:18)</li>
+<li>Slides: <a href="../../weeks/w02_laplace_part2_modeling/files/lec_w2_modeling.pdf">lec_w2_modeling.pdf</a></li>
+</ul></li>
+<li>Optional videos
+<ul>
+<li><a href="https://vimeo.com/403493166">Example: Quarter-car model</a> (8:39)</li>
+<li><a href="https://vimeo.com/403493063">Example: Shaft and bearing</a> (7:06)</li>
+</ul></li>
+</ul>
+<p><strong>Wednesday:</strong> Before class: watch videos, preview HW2. Due Friday: HW2.</p>
+<p><strong>Thursday:</strong> No in-person meeting.</p>
+</section>
+<section id="week-3" class="level2">
+<h2 class="anchored" data-anchor-id="week-3">Week 3 — 13 Apr: Lab 1: USV System Identification</h2>
+<p><strong>Monday–Thursday:</strong> Lab 1: USV System Identification</p>
+<ul>
+<li><a href="../../weeks/w03_lab_usv_sysid/files/lab_intro.pdf">lab_intro.pdf</a></li>
+<li>See <a href="../../archive/ay26q3/assignments.html#usv-labs">Assignments and Labs</a></li>
+</ul>
+</section>
+<section id="week-4" class="level2">
+<h2 class="anchored" data-anchor-id="week-4">Week 4 — 20 Apr: Time Response in t- and s-domains</h2>
+<p><strong>Monday (in person):</strong></p>
+<ul>
+<li>Due: Reading Quiz #2: Chapter 4, through 4.4</li>
+<li>Topics: review reading quiz, introduction to time response</li>
+<li>USV Lab 1: <a href="../../weeks/w03_lab_usv_sysid/files/lab1_sysid.pptx">lab1_sysid.pptx</a>; see <a href="../../archive/ay26q3/assignments.html#usv-labs">Assignments and Labs</a> for the prototype script</li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Video lectures</p>
+<ul>
+<li>First-Order Response
+<ul>
+<li><a href="https://vimeo.com/405194566">Part 1: Impulse and step response</a> (10:55)</li>
+<li><a href="https://vimeo.com/405194318">Part 2: Examples and MATLAB</a> (14:23)</li>
+</ul></li>
+<li><a href="https://vimeo.com/405193986">Second-Order Response</a> (19:43)
+<ul>
+<li>Note: there is some inconsistency in the constant term of the analytical solution for the second-order impulse response. For the canonical form and calculating the impulse response by hand, see <a href="../../weeks/w04_time_response/files/ME2801_second_order_impulse.pdf">ME2801_second_order_impulse.pdf</a> and the MATLAB verification <a href="../../weeks/w04_time_response/files/MATLAB_second_order_response.mlx">MATLAB_second_order_response.mlx</a></li>
+</ul></li>
+<li><a href="https://vimeo.com/405193899">Stability</a> (4:30)</li>
+<li><a href="https://vimeo.com/405631079">Performance Metrics, Specifications or Figures of Merit</a> (15:29)</li>
+<li>Slides: <a href="../../weeks/w04_time_response/files/lec_w3_timeresponse.pdf">lec_w3_timeresponse.pdf</a></li>
+<li>Optional notes
+<ul>
+<li>Gain and DC gain: how the term “gain” is used with the canonical transfer function forms: <a href="../../weeks/w04_time_response/files/me2801_gain.pdf">me2801_gain.pdf</a>
+<ul>
+<li><a href="https://vimeo.com/409518315">Transfer Function DC Gain — Example Video</a> (14:30): given a step response graph, find the DC gain</li>
+</ul></li>
+<li>Example: algebra for deriving the impulse response of the canonical second-order transfer function: <a href="../../weeks/w04_time_response/files/second_order_impulse_verify.pdf">second_order_impulse_verify.pdf</a></li>
+<li>Rise time of a second-order model step response: <a href="../../weeks/w04_time_response/files/risetime_secondorder.mlx">risetime_secondorder.mlx</a></li>
+</ul></li>
+</ul>
+<p><strong>Wednesday:</strong> MATLAB and time response: <a href="../../weeks/w04_time_response/files/time_response.mlx">time_response.mlx</a></p>
+<p><strong>Thursday:</strong> Due: HW3</p>
+</section>
+<section id="week-5" class="level2">
+<h2 class="anchored" data-anchor-id="week-5">Week 5 — 27 Apr: Block Diagrams and Feedback</h2>
+<p><strong>Monday (in person):</strong></p>
+<ul>
+<li>Due: Reading Quiz #3: Block Diagrams and Feedback, Chapter 5, through 5.3</li>
+<li>HW3 review: <a href="../../weeks/w04_time_response/files/lec_hw3_review.pdf">lec_hw3_review.pdf</a>, <a href="../../handouts/laplace_pairs_response.pdf">laplace_pairs_response.pdf</a></li>
+<li>Lab 1 results (posted on Sakai)</li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Video lectures</p>
+<ul>
+<li><a href="https://vimeo.com/407780308">Block Diagrams: Introduction</a></li>
+<li><a href="https://vimeo.com/407780182">Block Diagrams: Example 1</a></li>
+<li><a href="https://vimeo.com/407779802">Feedback Design Example</a></li>
+<li>Slides: <a href="../../weeks/w05_blockdiagrams_pid/files/lec_w4_blockdiagrams.pdf">lec_w4_blockdiagrams.pdf</a> (<a href="../../weeks/w05_blockdiagrams_pid/files/lec_w4_blockdiagrams_annotated.pdf">annotated</a>), <a href="../../weeks/w05_blockdiagrams_pid/files/lec_w4_feedback_design_ex.pdf">lec_w4_feedback_design_ex.pdf</a> (<a href="../../weeks/w05_blockdiagrams_pid/files/lec_w4_feedback_design_ex_annotated.pdf">annotated</a>)</li>
+<li>Block diagrams and engineering units: <a href="https://vimeo.com/410772611">video</a>, notes <a href="../../weeks/w05_blockdiagrams_pid/files/blockdiagram_units.pdf">blockdiagram_units.pdf</a></li>
+</ul>
+<p><strong>Wednesday:</strong></p>
+<ul>
+<li>Before class: read up through Subsection 1.3 of <a href="../../weeks/w05_blockdiagrams_pid/files/blockdiagrams_pid.pdf">blockdiagrams_pid.pdf</a></li>
+<li>Block diagrams and USV PID: <a href="https://ardupilot.org/rover/docs/rover-tuning-throttle-and-speed.html">ArduRover — Tuning Speed and Throttle</a></li>
+<li>Reading assignment for Monday (different format)</li>
+</ul>
+<p><strong>Thursday:</strong> Due: HW4</p>
+</section>
+<section id="week-6" class="level2">
+<h2 class="anchored" data-anchor-id="week-6">Week 6 — 4 May: Steady-State Errors</h2>
+<p><strong>Monday (in person):</strong></p>
+<ul>
+<li>Reading assignment, due before class via Sakai: review the chapter <a href="../../weeks/w06_steady_state_error/files/steady_state_error_v1.pdf">steady_state_error_v1.pdf</a> and submit at least three points of first-skim feedback (location, comment, suggestion) as plain text</li>
+<li>Topics: HW4 review, reading review, steady-state error introduction</li>
+</ul>
+<p><strong>Tuesday (asynchronous):</strong> Steady-State Error videos</p>
+<ul>
+<li><a href="https://vimeo.com/411128315">Introduction</a></li>
+<li><a href="https://vimeo.com/411128567">USV Example</a></li>
+<li><a href="https://vimeo.com/411129239">System Type</a></li>
+<li>Slides: <a href="../../weeks/w06_steady_state_error/files/lec_w4_sserror.pdf">lec_w4_sserror.pdf</a> (<a href="../../weeks/w06_steady_state_error/files/lec_w4_sserror_annotated.pdf">annotated</a>)</li>
+</ul>
+<p><strong>Wednesday:</strong> Guest lecture: CDR (ret) Todd Greene. <a href="https://github.com/bsb808/introduction-to-feedback-control/blob/main/book/w06_steady_state_error/code/sse_input_simulation.m">sse_input_simulation.m</a></p>
+<p><strong>Thursday:</strong> Due: HW5</p>
+</section>
+<section id="week-7" class="level2">
+<h2 class="anchored" data-anchor-id="week-7">Week 7 — 11 May: Lab 2: USV PID Tuning, Heading and Speed</h2>
+<p><strong>Monday–Thursday:</strong> <a href="../../weeks/w07_lab_usv_pid/index.html">Lab 2: USV PID Tuning, Heading and Speed</a></p>
+</section>
+<section id="week-8" class="level2">
+<h2 class="anchored" data-anchor-id="week-8">Week 8 — 18 May: Frequency Response</h2>
+<p><strong>Monday (in person):</strong> Guest lecture</p>
+<p><strong>Tuesday (in person):</strong> Frequency Response</p>
+<ul>
+<li>Due: Reading Quiz #6, Frequency Response, Chapter 10, through 10.2</li>
+<li>Topics: Lab 2 deliverable</li>
+<li>Frequency response introduction: <a href="../../weeks/w08_freq_response_part1/files/lec_w8_freqresp_intro.pdf">lec_w8_freqresp_intro.pdf</a>
+<ul>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/ETuy7J4pSsdFvKZg6zyYiGcBlwvVroSbqw7o9FEr3xqSTg?e=dNcDiw">Frequency response animation — first order</a></li>
+<li><a href="https://nps01-my.sharepoint.com/:v:/g/personal/bbingham_nps_edu/EZLUC3WDvIRBvjdyyh3-xlQBZj5SP-A1B-7whocqyS2OFQ?e=CtQhOc">Frequency response animation — second order</a></li>
+</ul></li>
+<li>Bode graph paper for asymptotic sketching: download and print <a href="../../handouts/bode2_nolabel.png">bode2_nolabel.png</a> (more in <a href="../../resources/matlab.qmd">MATLAB Resources</a>)</li>
+</ul>
+<p><strong>Wednesday (in person):</strong> Sketching Bode Plots Using Building Blocks</p>
+<ul>
+<li>Handout: <a href="../../handouts/bodebuildingblocks2.pdf">bodebuildingblocks2.pdf</a></li>
+<li>Videos
+<ol type="1">
+<li><a href="https://vimeo.com/375456082">Part 1: Gain, derivative and integral building blocks</a></li>
+<li><a href="https://vimeo.com/375456371">Part 2: Example using derivative and gain</a></li>
+<li><a href="https://vimeo.com/375456513">Part 3: First- and second-order building blocks</a></li>
+<li><a href="https://vimeo.com/375456787">Part 4: Example of first order and gain</a></li>
+<li><a href="https://vimeo.com/375456986">Part 5: Example of first order, gain and derivative; checking with MATLAB</a></li>
+</ol></li>
+<li>Slides: <a href="../../weeks/w08_freq_response_part1/files/lec_w8_freqresp_buildingblocks.pdf">lec_w8_freqresp_buildingblocks.pdf</a></li>
+<li>Optional
+<ul>
+<li>Swarthmore’s <a href="https://lpsa.swarthmore.edu/Bode/BodeExamples.html">Bode Plot Examples</a> is a nice tool for sketching the plot step by step. See if you can use it to work the examples from class or the assignment.</li>
+<li>For more practice and a different voice, Prof.&nbsp;Rick Hill has a series of videos on frequency response that complement the ME2801 video lectures: see his <a href="https://www.youtube.com/c/hillrickc">YouTube channel</a>, specifically the <a href="https://www.youtube.com/playlist?list=PL4VMBEQr3gME5YeUcppHvUAhpIknz_xBA">Frequency Response Methods playlist</a></li>
+</ul></li>
+</ul>
+<p><strong>Thursday:</strong> No in-person class. Friday: nothing due.</p>
+</section>
+<section id="week-9" class="level2">
+<h2 class="anchored" data-anchor-id="week-9">Week 9 — 25 May: Compensation Design with Frequency Response</h2>
+<p><strong>Monday:</strong> Memorial Day (holiday)</p>
+<p><strong>Tuesday:</strong> Compensation Design with Frequency Response (no in-person class)</p>
+<p><strong>Wednesday:</strong> No in-person class</p>
+<p><strong>Thursday (in person):</strong> Due Friday: HW7, includes the Lab 2 deliverable</p>
+</section>
+<section id="week-10" class="level2">
+<h2 class="anchored" data-anchor-id="week-10">Week 10 — 1 Jun: Lab 3: USV Navigation Tuning</h2>
+<p><strong>Monday–Thursday:</strong> <a href="../../weeks/w10_lab_usv_waypoint/index.html">Lab 3: USV Navigation Tuning</a></p>
+</section>
+<section id="week-11" class="level2">
+<h2 class="anchored" data-anchor-id="week-11">Week 11 — 8 Jun: Final Oral Exams</h2>
+<p><strong>Monday:</strong> Final oral exams</p>
+<ul>
+<li>Lab 3: <a href="../../weeks/w10_lab_usv_waypoint/index.html">procedure</a></li>
+<li>Exam: <a href="../../oral-exam.html">Oral Final Exam</a></li>
+</ul>
+<p><strong>Tuesday:</strong> MAE Retreat, no class</p>
+<p><strong>Wednesday:</strong> No class</p>
+<p><strong>Thursday:</strong> Last class (11 Jun). Awards ceremony, 1120. Friday: Lab 3 due.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/controls-intro\.bbingham\.dev");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© Brian Bingham · <a href="https://github.com/bsb808/introduction-to-feedback-control">Source on GitHub</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

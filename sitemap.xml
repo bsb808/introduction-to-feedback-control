@@ -2,66 +2,78 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w10_lab_usv_waypoint/procedure.html</loc>
-    <lastmod>2026-06-05T03:31:19.601Z</lastmod>
+    <lastmod>2026-09-15T22:05:29.102Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w10_lab_usv_waypoint/index.html</loc>
-    <lastmod>2026-06-05T03:31:19.601Z</lastmod>
+    <lastmod>2026-09-15T22:05:29.102Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/procedure.html</loc>
-    <lastmod>2026-06-05T03:31:19.578Z</lastmod>
+    <lastmod>2026-09-15T22:05:29.067Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/syllabus.html</loc>
-    <lastmod>2026-06-05T03:31:19.568Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.997Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/oral-exam.html</loc>
-    <lastmod>2026-06-05T03:31:19.568Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.997Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/autopilot/waypoint_navigation.html</loc>
-    <lastmod>2026-06-05T03:31:19.568Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.992Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/autopilot/parameters.html</loc>
-    <lastmod>2026-06-05T03:31:19.568Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.992Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/autopilot/atc_params.html</loc>
-    <lastmod>2026-06-05T03:31:19.564Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.989Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/archive/index.html</loc>
+    <lastmod>2026-09-15T22:05:28.989Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/archive/ay26q3/assignments.html</loc>
+    <lastmod>2026-09-15T22:05:28.988Z</lastmod>
+  </url>
+  <url>
+    <loc>https://controls-intro.bbingham.dev/archive/ay26q3/schedule.html</loc>
+    <lastmod>2026-09-15T22:05:28.989Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/assignments.html</loc>
-    <lastmod>2026-06-05T03:31:19.564Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.989Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/autopilot/index.html</loc>
-    <lastmod>2026-06-05T03:31:19.568Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.992Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/autopilot/stabilization.html</loc>
-    <lastmod>2026-06-05T03:31:19.568Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.992Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/index.html</loc>
-    <lastmod>2026-06-05T03:31:19.568Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.997Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/schedule.html</loc>
-    <lastmod>2026-06-05T03:31:19.568Z</lastmod>
+    <lastmod>2026-09-15T22:05:28.997Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/index.html</loc>
-    <lastmod>2026-06-05T03:31:19.577Z</lastmod>
+    <lastmod>2026-09-15T22:05:29.067Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w07_lab_usv_pid/results.html</loc>
-    <lastmod>2026-06-05T03:31:19.578Z</lastmod>
+    <lastmod>2026-09-15T22:05:29.067Z</lastmod>
   </url>
   <url>
     <loc>https://controls-intro.bbingham.dev/weeks/w10_lab_usv_waypoint/leaderboard_ay26q3.html</loc>
-    <lastmod>2026-06-05T03:31:19.601Z</lastmod>
+    <lastmod>2026-09-15T22:05:29.102Z</lastmod>
   </url>
 </urlset>

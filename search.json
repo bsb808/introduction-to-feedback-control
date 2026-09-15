@@ -172,56 +172,70 @@
     "href": "syllabus.html",
     "title": "Syllabus and Course Policies",
     "section": "",
-    "text": "Quarter: Spring 2026"
+    "text": "Quarter: Fall 2026"
   },
   {
     "objectID": "syllabus.html#course-information",
     "href": "syllabus.html#course-information",
     "title": "Syllabus and Course Policies",
     "section": "Course Information",
-    "text": "Course Information\n\n\n\n\n\n\n\nSchedule\nTBD — meeting days, times, room\n\n\nInstructor\nBrian Bingham &lt;bbingham@nps.edu&gt;\n\n\nOffice Hours\nTBD\n\n\nTextbook\nTBD\n\n\nPrerequisites\nTBD"
+    "text": "Course Information\n\n\n\nSchedule\nM–R, 1100–1150, WA-147\n\n\nInstructor\nBrian Bingham &lt;bbingham@nps.edu&gt;\n\n\nOffice Hours\nBy appointment. See Outlook for schedule constraints and send a meeting request.\n\n\nWebsite\nThis site for course content. Sakai for submitting assignments and quizzes.\n\n\nTextbook\nControl Systems Engineering, Norman Nise, 7th Edition (see Textbook)\n\n\nPrerequisites\nAE2440: Introduction to Scientific Programming"
   },
   {
     "objectID": "syllabus.html#course-catalog-description",
     "href": "syllabus.html#course-catalog-description",
     "title": "Syllabus and Course Policies",
     "section": "Course Catalog Description",
-    "text": "Course Catalog Description\nTBD"
+    "text": "Course Catalog Description\nThis course presents classical analysis of feedback control systems using basic principles in the frequency domain (Bode plots) and in the s-domain (root locus). Performance criteria in the time domain such as steady-state accuracy, transient response specifications, and in the frequency domain such as bandwidth and disturbance rejection are introduced. Simple design applications using root locus and Bode plot techniques will be addressed in the course. Laboratory experiments are designed to expose the students to testing and evaluating mathematical models of physical systems, using computer simulations and hardware implementations. ME2801 and EC2300 are equivalent courses. This course can be offered as an online course."
+  },
+  {
+    "objectID": "syllabus.html#textbook",
+    "href": "syllabus.html#textbook",
+    "title": "Syllabus and Course Policies",
+    "section": "Textbook",
+    "text": "Textbook\nThe official course textbook is Control Systems Engineering by Norman Nise, 7th Edition.\nWe will use exercises from the textbook. Publishers are known to change the exercises with each new edition, so if you use an earlier edition it will take a bit of extra work to verify the assigned exercises. The tables of contents of the 6th and 4th editions cover the same material in the same order."
   },
   {
     "objectID": "syllabus.html#grading",
     "href": "syllabus.html#grading",
     "title": "Syllabus and Course Policies",
     "section": "Grading",
-    "text": "Grading\n\n\n\nAssignment\nHow many\nWeight\n\n\n\n\nReading Quizzes\nTBD\nTBD\n\n\nHomework\nTBD\nTBD\n\n\nExams\nTBD\nTBD\n\n\nLabs\nTBD\nTBD\n\n\n\nNotes on quiz / homework / exam grading rules — TBD."
+    "text": "Grading\nThe goal of the grading policy is to assess your performance as it pertains to the knowledge and skills of the course. Your grade in the course will be determined by your performance on the following assignments:\n\n\n\nAssignment\nHow many\nWeight\n\n\n\n\nReading Quizzes\n~7\n10%\n\n\nHomework\n~7\n30%\n\n\nExams\n1\n30%\n\n\nLabs\n3\n30%\n\n\n\nReading quizzes: the grade contribution from quizzes is calculated as follows.\n\nThe lowest quiz grade is dropped.\nThe average of the remaining quiz grades is calculated.\nIf the average is above 70%, you receive full credit; if it is above 40%, you receive 75% credit; otherwise, no credit."
   },
   {
     "objectID": "syllabus.html#late-work",
     "href": "syllabus.html#late-work",
     "title": "Syllabus and Course Policies",
     "section": "Late Work",
-    "text": "Late Work\nTBD"
+    "text": "Late Work\nCredit for work submitted past the announced deadline will be reduced by 10% per day (or portion of a day) up to 50%. Work will not be accepted more than 5 days late. Deadline extensions will not be granted within 24 hours of assignment deadlines without extenuating circumstances. If there are conflicts with deadlines, please notify the instructor so that other arrangements can be made."
   },
   {
     "objectID": "syllabus.html#collaboration-and-generative-ai",
     "href": "syllabus.html#collaboration-and-generative-ai",
     "title": "Syllabus and Course Policies",
     "section": "Collaboration and Generative AI",
-    "text": "Collaboration and Generative AI\nTBD — Reasonable / Not Reasonable table goes here."
+    "text": "Collaboration and Generative AI\nThe goal of this policy is to encourage meaningful learning and prevent activities that hinder your educational development.\nOur guiding principle for academic honesty is: “be reasonable.” You are encouraged to collaborate thoughtfully, both with classmates and generative AI tools, but only to the extent that it aids your learning without compromising your individual work. Your submitted assignments must be your own work. In this course, learning comes through practice, including debugging on your own. Frustration can be a valuable part of the learning process: “every moment of frustration is a sign you’re learning something new.”\nWe view working with other people and using generative AI tools similarly: both are valuable resources that can enhance your learning when used properly. However, they must be used responsibly to support, rather than undermine, your educational growth.\nBelow are examples (not exhaustive) of what constitutes acceptable and unacceptable collaboration. If unsure, always seek approval from the instructor before proceeding.\n\n\n\n\n\n\n\nReasonable\nNot Reasonable\n\n\n\n\nDiscussing ideas and concepts with classmates or an AI tool to enhance understanding.\nSharing your work (solutions, code, etc.) with others, either directly or through an AI tool.\n\n\nCollaborating with classmates on how to approach a problem, techniques or concepts without sharing actual solutions.\nUsing web search, AI tools or work from previous students to develop or refine actual work instead of doing it yourself.\n\n\nAsking an AI tool to explain concepts or programming techniques.\nAsking a classmate or AI tool to provide solutions or answers to assignments.\n\n\nSeeking external resources for clarification or technical troubleshooting (not for outright solutions).\nSearching for or using online solutions to assessments.\n\n\nProviding or receiving conceptual help on assignments.\nDividing an assignment and combining work with another student.\n\n\nUsing a few lines of code found online, provided they are not solutions to the assignment, and citing them.\nSubmitting code found online or from others as your own, without proper citation.\n\n\nAssisting classmates by discussing debugging techniques without directly sharing code. “Looking over the shoulder” of a classmate to identify and fix errors.\nSharing or receiving solutions or code to solve errors or complete an assignment.\n\n\nReviewing general concepts or strategies from prior offerings to aid your understanding.\nUsing solutions, code, completed assignments or previous exams from prior offerings of the course to complete your own work, even if modified.\n\n\nReviewing general study guides or topics covered in past exams to inform your study approach.\nAccessing or using previous exams, quizzes, or their solutions (if not explicitly provided in this course) to prepare for current assessments.\n\n\n\nIn all cases, any external code or ideas incorporated must be cited in your code comments, respecting academic integrity.\nAttribution: this policy borrows from many other course policies, including Harvard’s CS50 and USNA’s IC210."
   },
   {
-    "objectID": "syllabus.html#nps-honor-code",
-    "href": "syllabus.html#nps-honor-code",
+    "objectID": "syllabus.html#nps-honor-code-and-academic-integrity",
+    "href": "syllabus.html#nps-honor-code-and-academic-integrity",
     "title": "Syllabus and Course Policies",
-    "section": "NPS Honor Code",
-    "text": "NPS Honor Code\nTBD"
+    "section": "NPS Honor Code and Academic Integrity",
+    "text": "NPS Honor Code and Academic Integrity\nThe NPS Student Information Handbook in “Section 218: Academic Honor Code” clearly establishes that “Students must follow the Academic Honor Code (NPS instruction 5370.4 series) at all times. The highest standards of honesty and integrity are expected of all students. Plagiarism, fraud, cheating, and verbal or written misrepresentation, constitute a violation of the Academic Honor Code.”"
+  },
+  {
+    "objectID": "syllabus.html#generative-ai-and-academic-integrity",
+    "href": "syllabus.html#generative-ai-and-academic-integrity",
+    "title": "Syllabus and Course Policies",
+    "section": "Generative AI and Academic Integrity",
+    "text": "Generative AI and Academic Integrity\nNPS encourages you to explore generative AI tools, and you must use them ethically and responsibly. Your coursework must accurately represent your underlying work, knowledge, and ideas, not the capabilities of an AI tool. If you use generative AI tools, state how you did so and describe how you remained in control of decisions and verification of information. Follow current NPS guidance on the use of generative AI tools. Never input classified or controlled unclassified information into a generative AI tool unless the platform has been explicitly approved by DoD or DON for such use."
   },
   {
     "objectID": "oral-exam.html",
     "href": "oral-exam.html",
     "title": "Final Oral Exam",
     "section": "",
-    "text": "Quarter: Spring 2026"
+    "text": "Quarter: Fall 2026"
   },
   {
     "objectID": "oral-exam.html#overview",
@@ -455,11 +469,130 @@
     "text": "Useful source/code references\n\nAR_AttitudeControl.cpp — parameter definitions, default values, and PID call sites\nAR_AttitudeControl.h — class interface\nAC_PID.cpp — the underlying PID implementation that all _P, _I, _D, _FF, _FLT*, _IMAX, _SMAX, _PDMX parameters configure\nRover ACRO mode docs — official explanation of the stick-to-rate mapping\nRover speed and steering tuning guide — official tuning recipe (different in tone from a controls-class treatment but useful for cross-reference)"
   },
   {
+    "objectID": "archive/index.html",
+    "href": "archive/index.html",
+    "title": "Archive",
+    "section": "",
+    "text": "Schedules and assignments from previous quarters, kept for reference only.\n\n\n\nQuarter\nSchedule\nAssignments and Labs\n\n\n\n\nSpring 2026 (AY26Q3)\nSchedule\nAssignments and Labs"
+  },
+  {
+    "objectID": "archive/ay26q3/assignments.html",
+    "href": "archive/ay26q3/assignments.html",
+    "title": "Assignments and Labs — Spring 2026 (AY26Q3)",
+    "section": "",
+    "text": "WarningArchived\n\n\n\nThese are the Spring 2026 assignments and labs, kept for reference only. See the current assignments and labs.\nTextbook exercises marked “Nise” are from the Problems section at the end of each chapter in Control Systems Engineering by Norman Nise, 7th Edition. Solutions to textbook exercises are posted on Sakai; the solutions below are in addition to those."
+  },
+  {
+    "objectID": "archive/ay26q3/assignments.html#homework",
+    "href": "archive/ay26q3/assignments.html#homework",
+    "title": "Assignments and Labs — Spring 2026 (AY26Q3)",
+    "section": "Homework",
+    "text": "Homework\n\n\n\n\nTopics\nAssignment\nSolutions\n\n\n\n\nHW1\nLaplace Transforms, Inverse Laplace Transforms\nme2801_hw1.pdf\nme2801_hw1_solutions.pdf\n\n\nHW2\nSolving ODEs with Laplace; Transfer Functions; Modeling (translational and rotational mechanical systems)\nme2801_hw2.pdf\nSee HW2 solutions below\n\n\nHW3\nTime Response in t- and s-domains\nme2801_hw3.pdf\nTextbook solutions on Sakai\n\n\nHW4\nBlock Diagrams and Feedback\nme2801_hw4.pdf; supplemental note on feedforward block diagram algebra: ff_reduction.pdf\nTextbook solutions on Sakai; me2801_hw4_solutions.mlx\n\n\nHW5\nSteady-State Error\nme2801_hw5.pdf\n—\n\n\nHW6\nFrequency Response\nme2801_hw6.pdf\nSee HW6 solutions below\n\n\n\n\nHW2 solutions\n\nSolving a first-order ODE with Laplace: solve_ode_laplace.pdf\n“Inverse Laplace Transform of Functions”: live script hw2_pfe_complex.mlx, PDF hw2_pfe_complex.pdf\n“Transfer Function Representation in MATLAB”: hw2_tf_representation.pdf\nThe textbook solution for 2.13 appears to have a mistake. Here is an alternative: nise_2_13.pdf\n\nConcatenating row/column vectors for zpk: document concatenate_vectors.pdf, live script concatenate_vectors.mlx\n\nModeling examples: usv_model.pdf, usv_response.pdf\n\n\n\nHW6 solutions\n\nDecibels and reading Bode magnitude: decibels_reading_magnitude.pdf\nSketching by hand videos: Question 1, Question 2, Question 3, Question 4\nWritten solutions: me2801_hw6_bodesketch.pdf (corrected a labeling error in the last problem)"
+  },
+  {
+    "objectID": "archive/ay26q3/assignments.html#usv-labs",
+    "href": "archive/ay26q3/assignments.html#usv-labs",
+    "title": "Assignments and Labs — Spring 2026 (AY26Q3)",
+    "section": "USV Labs",
+    "text": "USV Labs\n\nLab 1: Make It Work — System Identification\n\nAssignment: lab1_sysid.pdf. Deliverable changed to a slide deck summary: see lab1_sysid.pptx\nCube Orange+ autopilot wiring: copy the example USV and/or use the Cube wiring quick start and telemetry RFD900x setup\nMission Planner: follow these instructions to install version 1.3.83 locally from the ZIP archive (not the MSI); see USV Setup: Mission Planner and R/C Tx/Rx\nUSV logs: ME2801_USV_Shared OneDrive folder\n\nPrototype step response visualization: proc_openloop_response.m\nThe data is already converted, but just in case, the Python BIN-to-MAT converter: bin2mat.py\n\nPrototype system identification MATLAB live script: lab1_sysid_proto.m\n\nExample data: step_resp_example.BIN.proc.mat\n\n\n\n\nLab 2: Make It Right — PID Tuning\n\nProcedure: Lab 2: USV PID Tuning\nDeliverable: slides with step response plots for 6 cases and a summary table\n\nModify the template: lab2_pid_stab_template.pptx\nEach team member submits a copy of the team’s slides via Sakai\n\n\n\n\nLab 3: Make It Fast — Navigation Tuning\n\nProcedure: Lab 3: USV Waypoint Mission Challenge\nLeaderboard\nData, videos, etc.: 2026_06_03_challengeday1"
+  },
+  {
+    "objectID": "archive/ay26q3/assignments.html#exams",
+    "href": "archive/ay26q3/assignments.html#exams",
+    "title": "Assignments and Labs — Spring 2026 (AY26Q3)",
+    "section": "Exams",
+    "text": "Exams\n\nOral Final Exam (Week 11)"
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html",
+    "href": "archive/ay26q3/schedule.html",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "",
+    "text": "WarningArchived\n\n\n\nThis is the Spring 2026 schedule, kept for reference only. See the current schedule.\nUnless explicitly scheduled, the only in-person class meetings were Mondays and Wednesdays. Tuesdays and Thursdays were asynchronous."
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-1",
+    "href": "archive/ay26q3/schedule.html#week-1",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 1 — 30 Mar: Course Introduction and Laplace Introduction",
+    "text": "Week 1 — 30 Mar: Course Introduction and Laplace Introduction\nMonday (in person): Course introduction and Laplace introduction\n\nSlides: lec_w1_intro.pdf\n\nTuesday (asynchronous): Required videos (54 min)\n\nLaplace Transforms\n\nLaplace Introduction (11:27)\nLaplace Properties and Pairs (13:58)\nLaplace Transform Examples\n\nPart 1: Simple examples (7:22)\nPart 2: Using the frequency-shift property (6:03) — static notes: example_freq_shift.pdf\n\nInverse Laplace and Partial Fraction Expansion (Real Poles) (15:29)\nSlides: lec_w1_laplaceintro_annotated.pdf\n\nHandouts: Laplace properties and pairs (two equivalent versions)\n\nNise textbook tables: nise-handout.pdf\nCustom, same information as Nise: laplace_succinct_v1.pdf\n\nOptional notes (these address questions that may arise about details)\n\nA few things to note about the mathematical definition of the Laplace transform, from Swarthmore\nLaplace transform at zero, and the unit-step function in the inverse Laplace transform: laplace_at_zero.pdf\nWhat does “s” mean in the Laplace transform? Notes from others on the topic\nLaplace transform, units and initial conditions: laplace_ic_units.pdf\nStep and delta functions, from MIT IAP course 18.031\n\n\nWednesday: No in-person meeting; see the Tuesday video lectures.\nThursday (asynchronous):\n\nBefore class: watch videos, start HW1\nDue Friday 1700: HW1 (see Assignments and Labs), submit via Sakai\nFor Monday: Reading Quiz #1 via Sakai\nOptional (asynchronous): MATLAB Refresher; MATLAB plotting example from HW1, Part 1 and Part 2"
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-2",
+    "href": "archive/ay26q3/schedule.html#week-2",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 2 — 6 Apr: Transfer Functions and Modeling",
+    "text": "Week 2 — 6 Apr: Transfer Functions and Modeling\nMonday (in person): Transfer Functions\n\nDue before class: Reading Quiz #1 via Sakai (10 min): Nise textbook Sections 2.3, 2.5 and 2.6 (transfer functions and mechanical models)\nTopics: review HW1, review reading quiz\n\nTuesday (asynchronous): Modeling introduction and examples. Required videos (96 min)\n\nInverse Laplace with Complex Roots (11:45)\n\nHandout: partialfractionexpansion_complex.pdf\nSlides: lec_w2_invlaplace_complexroots.pdf\n\nSecond-order ODE solution using Laplace (14:55)\nTransfer Functions\n\nPart 1: Overview and ODE → TF (10:02)\nPart 1b: Examples of type 1 problems (ODE → TF) (9:13)\nPart 2: TFs in MATLAB (10:48)\nSlides: lec_w2_transferfunction.pdf\n\nModeling\n\nOverview (19:25)\nExample: Mass-spring-damper (10:22)\nExample: Cruise control (9:18)\nSlides: lec_w2_modeling.pdf\n\nOptional videos\n\nExample: Quarter-car model (8:39)\nExample: Shaft and bearing (7:06)\n\n\nWednesday: Before class: watch videos, preview HW2. Due Friday: HW2.\nThursday: No in-person meeting."
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-3",
+    "href": "archive/ay26q3/schedule.html#week-3",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 3 — 13 Apr: Lab 1: USV System Identification",
+    "text": "Week 3 — 13 Apr: Lab 1: USV System Identification\nMonday–Thursday: Lab 1: USV System Identification\n\nlab_intro.pdf\nSee Assignments and Labs"
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-4",
+    "href": "archive/ay26q3/schedule.html#week-4",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 4 — 20 Apr: Time Response in t- and s-domains",
+    "text": "Week 4 — 20 Apr: Time Response in t- and s-domains\nMonday (in person):\n\nDue: Reading Quiz #2: Chapter 4, through 4.4\nTopics: review reading quiz, introduction to time response\nUSV Lab 1: lab1_sysid.pptx; see Assignments and Labs for the prototype script\n\nTuesday (asynchronous): Video lectures\n\nFirst-Order Response\n\nPart 1: Impulse and step response (10:55)\nPart 2: Examples and MATLAB (14:23)\n\nSecond-Order Response (19:43)\n\nNote: there is some inconsistency in the constant term of the analytical solution for the second-order impulse response. For the canonical form and calculating the impulse response by hand, see ME2801_second_order_impulse.pdf and the MATLAB verification MATLAB_second_order_response.mlx\n\nStability (4:30)\nPerformance Metrics, Specifications or Figures of Merit (15:29)\nSlides: lec_w3_timeresponse.pdf\nOptional notes\n\nGain and DC gain: how the term “gain” is used with the canonical transfer function forms: me2801_gain.pdf\n\nTransfer Function DC Gain — Example Video (14:30): given a step response graph, find the DC gain\n\nExample: algebra for deriving the impulse response of the canonical second-order transfer function: second_order_impulse_verify.pdf\nRise time of a second-order model step response: risetime_secondorder.mlx\n\n\nWednesday: MATLAB and time response: time_response.mlx\nThursday: Due: HW3"
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-5",
+    "href": "archive/ay26q3/schedule.html#week-5",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 5 — 27 Apr: Block Diagrams and Feedback",
+    "text": "Week 5 — 27 Apr: Block Diagrams and Feedback\nMonday (in person):\n\nDue: Reading Quiz #3: Block Diagrams and Feedback, Chapter 5, through 5.3\nHW3 review: lec_hw3_review.pdf, laplace_pairs_response.pdf\nLab 1 results (posted on Sakai)\n\nTuesday (asynchronous): Video lectures\n\nBlock Diagrams: Introduction\nBlock Diagrams: Example 1\nFeedback Design Example\nSlides: lec_w4_blockdiagrams.pdf (annotated), lec_w4_feedback_design_ex.pdf (annotated)\nBlock diagrams and engineering units: video, notes blockdiagram_units.pdf\n\nWednesday:\n\nBefore class: read up through Subsection 1.3 of blockdiagrams_pid.pdf\nBlock diagrams and USV PID: ArduRover — Tuning Speed and Throttle\nReading assignment for Monday (different format)\n\nThursday: Due: HW4"
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-6",
+    "href": "archive/ay26q3/schedule.html#week-6",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 6 — 4 May: Steady-State Errors",
+    "text": "Week 6 — 4 May: Steady-State Errors\nMonday (in person):\n\nReading assignment, due before class via Sakai: review the chapter steady_state_error_v1.pdf and submit at least three points of first-skim feedback (location, comment, suggestion) as plain text\nTopics: HW4 review, reading review, steady-state error introduction\n\nTuesday (asynchronous): Steady-State Error videos\n\nIntroduction\nUSV Example\nSystem Type\nSlides: lec_w4_sserror.pdf (annotated)\n\nWednesday: Guest lecture: CDR (ret) Todd Greene. sse_input_simulation.m\nThursday: Due: HW5"
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-7",
+    "href": "archive/ay26q3/schedule.html#week-7",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 7 — 11 May: Lab 2: USV PID Tuning, Heading and Speed",
+    "text": "Week 7 — 11 May: Lab 2: USV PID Tuning, Heading and Speed\nMonday–Thursday: Lab 2: USV PID Tuning, Heading and Speed"
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-8",
+    "href": "archive/ay26q3/schedule.html#week-8",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 8 — 18 May: Frequency Response",
+    "text": "Week 8 — 18 May: Frequency Response\nMonday (in person): Guest lecture\nTuesday (in person): Frequency Response\n\nDue: Reading Quiz #6, Frequency Response, Chapter 10, through 10.2\nTopics: Lab 2 deliverable\nFrequency response introduction: lec_w8_freqresp_intro.pdf\n\nFrequency response animation — first order\nFrequency response animation — second order\n\nBode graph paper for asymptotic sketching: download and print bode2_nolabel.png (more in MATLAB Resources)\n\nWednesday (in person): Sketching Bode Plots Using Building Blocks\n\nHandout: bodebuildingblocks2.pdf\nVideos\n\nPart 1: Gain, derivative and integral building blocks\nPart 2: Example using derivative and gain\nPart 3: First- and second-order building blocks\nPart 4: Example of first order and gain\nPart 5: Example of first order, gain and derivative; checking with MATLAB\n\nSlides: lec_w8_freqresp_buildingblocks.pdf\nOptional\n\nSwarthmore’s Bode Plot Examples is a nice tool for sketching the plot step by step. See if you can use it to work the examples from class or the assignment.\nFor more practice and a different voice, Prof. Rick Hill has a series of videos on frequency response that complement the ME2801 video lectures: see his YouTube channel, specifically the Frequency Response Methods playlist\n\n\nThursday: No in-person class. Friday: nothing due."
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-9",
+    "href": "archive/ay26q3/schedule.html#week-9",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 9 — 25 May: Compensation Design with Frequency Response",
+    "text": "Week 9 — 25 May: Compensation Design with Frequency Response\nMonday: Memorial Day (holiday)\nTuesday: Compensation Design with Frequency Response (no in-person class)\nWednesday: No in-person class\nThursday (in person): Due Friday: HW7, includes the Lab 2 deliverable"
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-10",
+    "href": "archive/ay26q3/schedule.html#week-10",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 10 — 1 Jun: Lab 3: USV Navigation Tuning",
+    "text": "Week 10 — 1 Jun: Lab 3: USV Navigation Tuning\nMonday–Thursday: Lab 3: USV Navigation Tuning"
+  },
+  {
+    "objectID": "archive/ay26q3/schedule.html#week-11",
+    "href": "archive/ay26q3/schedule.html#week-11",
+    "title": "Schedule — Spring 2026 (AY26Q3)",
+    "section": "Week 11 — 8 Jun: Final Oral Exams",
+    "text": "Week 11 — 8 Jun: Final Oral Exams\nMonday: Final oral exams\n\nLab 3: procedure\nExam: Oral Final Exam\n\nTuesday: MAE Retreat, no class\nWednesday: No class\nThursday: Last class (11 Jun). Awards ceremony, 1120. Friday: Lab 3 due."
+  },
+  {
     "objectID": "assignments.html",
     "href": "assignments.html",
     "title": "Assignments and Labs",
     "section": "",
-    "text": "Quarter: Spring 2026"
+    "text": "Quarter: Fall 2026"
   },
   {
     "objectID": "assignments.html#homework",
@@ -585,14 +718,105 @@
     "href": "index.html",
     "title": "ME 2801 — Introduction to Control Systems",
     "section": "",
-    "text": "Note\n\n\n\nCurrent quarter: Spring 2026 (2026-03-30 – 2026-06-12)\n\n\nWelcome.\n\nSyllabus\nSchedule\nAssignments"
+    "text": "Syllabus and Course Policies\nSchedule\nAssignments and Labs\nSakai site (coming soon)\nOral Final Exam"
+  },
+  {
+    "objectID": "index.html#course-information",
+    "href": "index.html#course-information",
+    "title": "ME 2801 — Introduction to Control Systems",
+    "section": "",
+    "text": "Syllabus and Course Policies\nSchedule\nAssignments and Labs\nSakai site (coming soon)\nOral Final Exam"
+  },
+  {
+    "objectID": "index.html#references",
+    "href": "index.html#references",
+    "title": "ME 2801 — Introduction to Control Systems",
+    "section": "References",
+    "text": "References\n\nTextbook: Control Systems Engineering, Norman Nise, 7th Edition"
   },
   {
     "objectID": "schedule.html",
     "href": "schedule.html",
     "title": "Schedule",
     "section": "",
-    "text": "Quarter: Spring 2026 · Class days this quarter: Monday – Thursday\n\n\n\n\nWeek\nMon — In Person\nTue — Async\nWed\nThu — Async\n\n\n\n\n130 Mar\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n26 Apr\nLecture topic — TBD\nAsync videos — TBD\nNo in-person class\nReading / due — TBD\n\n\n313 Apr\nLab 1 — USV System Identification\nLab 1\nLab 1\nLab 1\n\n\n420 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n527 Apr\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n64 May\nLecture topic — TBD\nAsync videos — TBD\nLecture topic — TBD\nReading / due — TBD\n\n\n711 May\nLab 2 — USV PID Tuning\nLab 2\nLab 2\nLab 2\n\n\n818 May\nGuest lecture — TBD\nLecture topic — TBD\nAsync — TBD\nReading / due — TBD\n\n\n925 May\nMemorial Day — no class\nLecture topic — TBD\n—\nReading / due — TBD\n\n\n101 Jun\nLab 3 — USV Navigation Tuning\nLab 3\nLab 3\nLab 3\n\n\n118 Jun\nFinal Oral Exams\nMAE Retreat — no class\n—\nLast class"
+    "text": "Quarter: Fall 2026 · Previous quarters: Archive\nUnless explicitly scheduled, the only in-person class meetings are Mondays and Wednesdays. Tuesdays and Thursdays are asynchronous.\nKey dates: Columbus Day (Mon 12 Oct), shift day with a Friday class schedule (Tue 20 Oct), Veterans Day (Wed 11 Nov), Thanksgiving (Thu 26 Nov), awards ceremony (Tue 8 Dec), last day of classes (Fri 11 Dec)."
+  },
+  {
+    "objectID": "schedule.html#week-1",
+    "href": "schedule.html#week-1",
+    "title": "Schedule",
+    "section": "Week 1 — 28 Sep: Course Introduction and Laplace Introduction",
+    "text": "Week 1 — 28 Sep: Course Introduction and Laplace Introduction\nMonday (in person): Course introduction and Laplace introduction\n\nSlides: lec_w1_intro.pdf\n\nTuesday (asynchronous): Required videos (54 min)\n\nLaplace Transforms\n\nLaplace Introduction (11:27)\nLaplace Properties and Pairs (13:58)\nLaplace Transform Examples\n\nPart 1: Simple examples (7:22)\nPart 2: Using the frequency-shift property (6:03) — static notes: example_freq_shift.pdf\n\nInverse Laplace and Partial Fraction Expansion (Real Poles) (15:29)\nSlides: lec_w1_laplaceintro_annotated.pdf\n\nHandouts: Laplace properties and pairs (two equivalent versions)\n\nNise textbook tables: nise-handout.pdf\nCustom, same information as Nise: laplace_succinct_v1.pdf\n\nOptional notes (these address questions that may arise about details)\n\nA few things to note about the mathematical definition of the Laplace transform, from Swarthmore\nLaplace transform at zero, and the unit-step function in the inverse Laplace transform: laplace_at_zero.pdf\nWhat does “s” mean in the Laplace transform? Notes from others on the topic\nLaplace transform, units and initial conditions: laplace_ic_units.pdf\nStep and delta functions, from MIT IAP course 18.031\n\n\nWednesday: No in-person meeting; see the Tuesday video lectures.\nThursday (asynchronous):\n\nBefore class: watch videos, start HW1\nDue Friday 1700: HW1 (see Assignments and Labs), submit via Sakai\nFor Monday: Reading Quiz #1 via Sakai\nOptional (asynchronous): MATLAB Refresher; MATLAB plotting example from HW1, Part 1 and Part 2"
+  },
+  {
+    "objectID": "schedule.html#week-2",
+    "href": "schedule.html#week-2",
+    "title": "Schedule",
+    "section": "Week 2 — 5 Oct: Transfer Functions and Modeling",
+    "text": "Week 2 — 5 Oct: Transfer Functions and Modeling\nMonday (in person): Transfer Functions\n\nDue before class: Reading Quiz #1 via Sakai (10 min): Nise textbook Sections 2.3, 2.5 and 2.6 (transfer functions and mechanical models)\nTopics: review HW1, review reading quiz\n\nTuesday (asynchronous): Modeling introduction and examples. Required videos (96 min)\n\nInverse Laplace with Complex Roots (11:45)\n\nHandout: partialfractionexpansion_complex.pdf\nSlides: lec_w2_invlaplace_complexroots.pdf\n\nSecond-order ODE solution using Laplace (14:55)\nTransfer Functions\n\nPart 1: Overview and ODE → TF (10:02)\nPart 1b: Examples of type 1 problems (ODE → TF) (9:13)\nPart 2: TFs in MATLAB (10:48)\nSlides: lec_w2_transferfunction.pdf\n\nModeling\n\nOverview (19:25)\nExample: Mass-spring-damper (10:22)\nExample: Cruise control (9:18)\nSlides: lec_w2_modeling.pdf\n\nOptional videos\n\nExample: Quarter-car model (8:39)\nExample: Shaft and bearing (7:06)\n\n\nWednesday: Before class: watch videos, preview HW2. Due Friday: HW2.\nThursday: No in-person meeting."
+  },
+  {
+    "objectID": "schedule.html#week-3",
+    "href": "schedule.html#week-3",
+    "title": "Schedule",
+    "section": "Week 3 — 12 Oct: Lab 1: USV System Identification",
+    "text": "Week 3 — 12 Oct: Lab 1: USV System Identification\n\n\n\n\n\n\nWarning\n\n\n\nNo class this week (Columbus Day Mon 12 Oct; instructor travel). Content below is the Spring 2026 plan, pending the schedule refactor.\n\n\nMonday–Thursday: Lab 1: USV System Identification\n\nlab_intro.pdf\nSee Assignments and Labs"
+  },
+  {
+    "objectID": "schedule.html#week-4",
+    "href": "schedule.html#week-4",
+    "title": "Schedule",
+    "section": "Week 4 — 19 Oct: Time Response in t- and s-domains",
+    "text": "Week 4 — 19 Oct: Time Response in t- and s-domains\nMonday (in person):\n\nDue: Reading Quiz #2: Chapter 4, through 4.4\nTopics: review reading quiz, introduction to time response\nUSV Lab 1: lab1_sysid.pptx; see Assignments and Labs for the prototype script\n\nTuesday (asynchronous): Shift day (Tue 20 Oct follows the Friday class schedule). Video lectures\n\nFirst-Order Response\n\nPart 1: Impulse and step response (10:55)\nPart 2: Examples and MATLAB (14:23)\n\nSecond-Order Response (19:43)\n\nNote: there is some inconsistency in the constant term of the analytical solution for the second-order impulse response. For the canonical form and calculating the impulse response by hand, see ME2801_second_order_impulse.pdf and the MATLAB verification MATLAB_second_order_response.mlx\n\nStability (4:30)\nPerformance Metrics, Specifications or Figures of Merit (15:29)\nSlides: lec_w3_timeresponse.pdf\nOptional notes\n\nGain and DC gain: how the term “gain” is used with the canonical transfer function forms: me2801_gain.pdf\n\nTransfer Function DC Gain — Example Video (14:30): given a step response graph, find the DC gain\n\nExample: algebra for deriving the impulse response of the canonical second-order transfer function: second_order_impulse_verify.pdf\nRise time of a second-order model step response: risetime_secondorder.mlx\n\n\nWednesday: MATLAB and time response: time_response.mlx\nThursday: Due: HW3"
+  },
+  {
+    "objectID": "schedule.html#week-5",
+    "href": "schedule.html#week-5",
+    "title": "Schedule",
+    "section": "Week 5 — 26 Oct: Block Diagrams and Feedback",
+    "text": "Week 5 — 26 Oct: Block Diagrams and Feedback\nMonday (in person):\n\nDue: Reading Quiz #3: Block Diagrams and Feedback, Chapter 5, through 5.3\nHW3 review: lec_hw3_review.pdf, laplace_pairs_response.pdf\nLab 1 results (posted on Sakai)\n\nTuesday (asynchronous): Video lectures\n\nBlock Diagrams: Introduction\nBlock Diagrams: Example 1\nFeedback Design Example\nSlides: lec_w4_blockdiagrams.pdf (annotated), lec_w4_feedback_design_ex.pdf (annotated)\nBlock diagrams and engineering units: video, notes blockdiagram_units.pdf\n\nWednesday:\n\nBefore class: read up through Subsection 1.3 of blockdiagrams_pid.pdf\nBlock diagrams and USV PID: ArduRover — Tuning Speed and Throttle\nReading assignment for Monday (different format)\n\nThursday: Due: HW4"
+  },
+  {
+    "objectID": "schedule.html#week-6",
+    "href": "schedule.html#week-6",
+    "title": "Schedule",
+    "section": "Week 6 — 2 Nov: Steady-State Errors",
+    "text": "Week 6 — 2 Nov: Steady-State Errors\nMonday (in person):\n\nReading assignment, due before class via Sakai: review the chapter steady_state_error_v1.pdf and submit at least three points of first-skim feedback (location, comment, suggestion) as plain text\nTopics: HW4 review, reading review, steady-state error introduction\n\nTuesday (asynchronous): Steady-State Error videos\n\nIntroduction\nUSV Example\nSystem Type\nSlides: lec_w4_sserror.pdf (annotated)\n\nWednesday: Guest lecture (TBD). sse_input_simulation.m\nThursday: Due: HW5"
+  },
+  {
+    "objectID": "schedule.html#week-7",
+    "href": "schedule.html#week-7",
+    "title": "Schedule",
+    "section": "Week 7 — 9 Nov: Lab 2: USV PID Tuning, Heading and Speed",
+    "text": "Week 7 — 9 Nov: Lab 2: USV PID Tuning, Heading and Speed\nMonday–Thursday: Lab 2: USV PID Tuning, Heading and Speed. Veterans Day (Wed 11 Nov): no class."
+  },
+  {
+    "objectID": "schedule.html#week-8",
+    "href": "schedule.html#week-8",
+    "title": "Schedule",
+    "section": "Week 8 — 16 Nov: Frequency Response",
+    "text": "Week 8 — 16 Nov: Frequency Response\nMonday (in person): Guest lecture\nTuesday (in person): Frequency Response\n\nDue: Reading Quiz #6, Frequency Response, Chapter 10, through 10.2\nTopics: Lab 2 deliverable\nFrequency response introduction: lec_w8_freqresp_intro.pdf\n\nFrequency response animation — first order\nFrequency response animation — second order\n\nBode graph paper for asymptotic sketching: download and print bode2_nolabel.png (more in MATLAB Resources)\n\nWednesday (in person): Sketching Bode Plots Using Building Blocks\n\nHandout: bodebuildingblocks2.pdf\nVideos\n\nPart 1: Gain, derivative and integral building blocks\nPart 2: Example using derivative and gain\nPart 3: First- and second-order building blocks\nPart 4: Example of first order and gain\nPart 5: Example of first order, gain and derivative; checking with MATLAB\n\nSlides: lec_w8_freqresp_buildingblocks.pdf\nOptional\n\nSwarthmore’s Bode Plot Examples is a nice tool for sketching the plot step by step. See if you can use it to work the examples from class or the assignment.\nFor more practice and a different voice, Prof. Rick Hill has a series of videos on frequency response that complement the ME2801 video lectures: see his YouTube channel, specifically the Frequency Response Methods playlist\n\n\nThursday: No in-person class. Friday: nothing due."
+  },
+  {
+    "objectID": "schedule.html#week-9",
+    "href": "schedule.html#week-9",
+    "title": "Schedule",
+    "section": "Week 9 — 23 Nov: Compensation Design with Frequency Response",
+    "text": "Week 9 — 23 Nov: Compensation Design with Frequency Response\nMonday (in person): Compensation Design with Frequency Response\nTuesday (asynchronous): TBD\nWednesday (in person): TBD\nThursday: Thanksgiving (holiday). Due Friday: HW7, includes the Lab 2 deliverable"
+  },
+  {
+    "objectID": "schedule.html#week-10",
+    "href": "schedule.html#week-10",
+    "title": "Schedule",
+    "section": "Week 10 — 30 Nov: Lab 3: USV Navigation Tuning",
+    "text": "Week 10 — 30 Nov: Lab 3: USV Navigation Tuning\nMonday–Thursday: Lab 3: USV Navigation Tuning"
+  },
+  {
+    "objectID": "schedule.html#week-11",
+    "href": "schedule.html#week-11",
+    "title": "Schedule",
+    "section": "Week 11 — 7 Dec: Final Oral Exams",
+    "text": "Week 11 — 7 Dec: Final Oral Exams\nMonday–Thursday: Final oral exams\n\nLab 3: procedure\nExam: Oral Final Exam\n\nTuesday 8 Dec: Pre-graduation awards ceremony\nFriday 11 Dec: Last day of classes. Lab 3 due."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/index.html",
