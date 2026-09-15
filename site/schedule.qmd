@@ -17,15 +17,21 @@ Key dates: Columbus Day (Mon 12 Oct), shift day with a Friday class schedule (Tu
 |---|---|---|
 | [1](#week-1) | 28 Sep | Course Introduction and Laplace Introduction |
 | [2](#week-2) | 5 Oct | Transfer Functions and Modeling |
-| [3](#week-3) | 12 Oct | ~~Lab 1: USV System Identification~~ — cancelled (Columbus Day week, instructor travel) |
-| [4](#week-4) | 19 Oct | Time Response in t- and s-domains |
-| [5](#week-5) | 26 Oct | Block Diagrams and Feedback |
-| [6](#week-6) | 2 Nov | Steady-State Errors |
-| [7](#week-7) | 9 Nov | Lab 2: USV PID Tuning, Heading and Speed |
+| [3](#week-3) | 12 Oct | Class cancelled ^\*^ |
+| [4](#week-4) | 19 Oct | Lab 1: USV System Identification ^†^ |
+| [5](#week-5) | 26 Oct | Time Response |
+| [6](#week-6) | 2 Nov | Block Diagrams, Feedback and Steady-State Errors | % CLAUDE: This will require refactoring the weekly content a bit.  Idea is to fold in just the basics of what steady-state error "is" and skip over how to do the analysis.  
+| [7](#week-7) | 9 Nov | Lab 2: USV PID Tuning, Heading and Speed ^‡^ |
 | [8](#week-8) | 16 Nov | Frequency Response |
-| [9](#week-9) | 23 Nov | Compensation Design with Frequency Response; Thanksgiving |
+| [9](#week-9) | 23 Nov | Compensation Design with Frequency Response ^§^ |
 | [10](#week-10) | 30 Nov | Lab 3: USV Navigation Tuning |
 | [11](#week-11) | 7 Dec | Final Oral Exams |
+
+::: {.small}
+^†^ Shift day (Tue 20 Oct follows the Friday schedule): no class Tue.<br>
+^‡^ Veterans Day (Wed 11 Nov): no class Wed.<br>
+^§^ Thanksgiving (Thu 26 Nov): no class Wed, Thu.
+:::
 
 ## Week 1 — 28 Sep: Course Introduction and Laplace Introduction {#week-1}
 
