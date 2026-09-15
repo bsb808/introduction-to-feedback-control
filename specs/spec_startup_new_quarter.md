@@ -59,7 +59,7 @@ Background:
 - [ ] Verify class meeting days, times, and room in Python; add the class meetings to Outlook.
 - [ ] Pull roster from Python, put copy in OneDrive.
 - [ ] Request new Sakai site.
-- [ ] Upload restricted material (solutions, etc.) to Sakai.
+- [ ] Upload the Nise solutions manual to Sakai; update the Sakai link on the home page.
 
 ## 5. Publish
 

@@ -18,8 +18,10 @@ Objective: transition the content from the wiki to this site, cleaning up the co
 
 Decisions:
 
-- Restricted material (Nise textbook solutions, HW solutions, Nise textbook-table handout, exam schedule spreadsheet) does not go on the public site. It goes to Sakai only; the instructor copy lives in the private repo. Public pages say "Solutions posted on Sakai."
-- Attachments are grouped by topic week (not by quarter), so current and archived pages link the same files. Exact placement is proposed in the inventory (open item 1).
+- Only the copyrighted Nise solutions manual is restricted. The author uploads it to Sakai; it goes into neither repo. The Nise textbook-table handout (`nise-handout.pdf`) is kept on the site. Homework solutions are public (students get them to check their work). Material with student names (e.g. team result slides) also goes to Sakai.
+- Attachments are grouped by topic week (not by quarter), so current and archived pages link the same files: `site/weeks/wXX_<name>/files/` next to the week pages, plus `site/handouts/` for cross-week handouts.
+- Vimeo videos are moving to Microsoft Stream. Migrated pages keep the Vimeo links for now; the author replaces them (see task 4).
+- The home page links to the Sakai site ("coming soon" until the new site is set up).
 - Static files (PDF, MLX, PPTX, images) are committed directly into the repo under `site/`, the closest match to the Confluence drag-and-drop flow. Kept files total about 40 MB, well within GitHub's limits (warning at 50 MB per file, 1 GB recommended per repo and per published Pages site). Alternatives considered: Git LFS, GitHub Releases, a cloud storage bucket, OneDrive/Sakai. Guardrails:
   - `.gitignore` exceptions are scoped to site files only (`!site/**/files/*.pdf`, `!site/handouts/*.pdf`).
   - Filenames stay stable (no quarter suffixes), so replacing a file needs no link edits.
@@ -43,7 +45,7 @@ Context-window management (the export is large):
   - `./extract.py extract --all` writes all 60 pages (~1 MB total). The large 26-3 schedule becomes a 13 KB extract.
   - The HTML stores attachments by id; links that point at another page's attachments (`wiki.nps.edu/download/attachments/<page>/<name>`) are resolved to the local file through the `data-linked-resource-default-alias` attributes on all pages.
   - SharePoint `nav=` parameters are stripped in the Markdown (kept in the TSV).
-  - The `restricted` column is a filename pattern safety net only; solutions are identified by where they appear (the Solutions column), not by name.
+  - The `restricted` column flags Nise-related filenames for a second look (the solutions manual chapters are the only restricted files); it is a safety net, and the inventory is the authority.
 
 ## 2. Transition inventory
 
@@ -52,12 +54,18 @@ Context-window management (the export is large):
 - Outputs: [specs/wiki_transition_inventory.md](wiki_transition_inventory.md) — one row per wiki page (disposition, target), and per kept page the attachment list with disposition.
 - Owner: AI proposes, author reviews
 - Verification: author review (PMR) before any migration.
-- Status: review
+- Status: done
 
 ## 3. Migrate pages
 
 - Objective: rebuild kept pages as `.qmd`, cleaning as we go.
 - Groups (one PMR each): (1) syllabus; (2) archived Spring 2026 schedule and assignments under `site/archive/ay26q3/` with attachments (these become the "previous quarter" archive pages that the quarter runbook's schedule and assignments tasks start from); (3) resources pages.
 - Owner: AI
-- Verification: `quarto render` clean; no `wiki.nps.edu` links in `site/`; no restricted files in `site/`; author checks content manually in `quarto preview`.
+- Verification: `quarto render` clean; no `wiki.nps.edu` links in `site/`; no Nise solutions-manual files in `site/`; author checks content manually in `quarto preview`.
 - Status: todo
+
+## 4. Author follow-ups (human tasks)
+
+- [ ] Upload to Sakai: Nise solutions manual (13 chapter PDFs), `lab1_results.pdf`.
+- [ ] Replace Vimeo links with Microsoft Stream links once the videos are moved. List the remaining ones with `grep -rn "vimeo.com" site --include=*.qmd`.
+- [ ] Replace the "coming soon" Sakai link on the home page with the new Sakai site URL.

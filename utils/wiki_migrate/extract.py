@@ -40,8 +40,9 @@ REPO = Path(__file__).resolve().parents[2]
 EXPORT = REPO / 'tmp' / 'wiki' / 'html' / 'ME2801'
 OUT = REPO / 'tmp' / 'wiki' / 'extract'
 
-# Names that must not end up on the public site (textbook/HW solutions, exam spreadsheets).
-RESTRICTED = re.compile(r'solution|soln|nise|^ch\d+\.pdf$|\.xlsx?$', re.IGNORECASE)
+# Names worth a second look for copyrighted material (the Nise solutions manual chapters are restricted).
+# A safety net for review only; homework solutions and the Nise handout are public.
+RESTRICTED = re.compile(r'nise|^ch\d+\.pdf$', re.IGNORECASE)
 WIKI_PAGE_HREF = re.compile(r'^(?:[\w\-]+_)?(\d+)\.html(#.*)?$|^index\.html$')
 
 BLOCK_TAGS = {'p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li',
