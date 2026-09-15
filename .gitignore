@@ -70,3 +70,4 @@ site/.quarto/
 
 ## Local-only working material (wiki migration source, etc.)
 current_wiki_samples
+tmp/
