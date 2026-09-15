@@ -13,19 +13,19 @@ Unless explicitly scheduled, the only in-person class meetings are Mondays and W
 
 Key dates: Columbus Day (Mon 12 Oct), shift day with a Friday class schedule (Tue 20 Oct), Veterans Day (Wed 11 Nov), Thanksgiving (Thu 26 Nov), awards ceremony (Tue 8 Dec), last day of classes (Fri 11 Dec).
 
-| Week | Starts | Topic |
-|---|---|---|
-| [1](#week-1) | 28 Sep | Course Introduction and Laplace Introduction |
-| [2](#week-2) | 5 Oct | Transfer Functions and Modeling |
-| [3](#week-3) | 12 Oct | Class cancelled ^\*^ |
-| [4](#week-4) | 19 Oct | Lab 1: USV System Identification ^†^ |
-| [5](#week-5) | 26 Oct | Time Response |
-| [6](#week-6) | 2 Nov | Block Diagrams, Feedback and Steady-State Errors | % CLAUDE: This will require refactoring the weekly content a bit.  Idea is to fold in just the basics of what steady-state error "is" and skip over how to do the analysis.  
-| [7](#week-7) | 9 Nov | Lab 2: USV PID Tuning, Heading and Speed ^‡^ |
-| [8](#week-8) | 16 Nov | Frequency Response |
-| [9](#week-9) | 23 Nov | Compensation Design with Frequency Response ^§^ |
-| [10](#week-10) | 30 Nov | Lab 3: USV Navigation Tuning |
-| [11](#week-11) | 7 Dec | Final Oral Exams |
+| Week | Starts | Topic | Due |
+|---|---|---|---|
+| [1](#week-1) | 28 Sep | Course Introduction and Laplace Introduction | HW1 (Fri) |
+| [2](#week-2) | 5 Oct | Transfer Functions and Modeling | Reading Quiz 1 (Mon); HW2 (Fri) |
+| [3](#week-3) | 12 Oct | Class cancelled ^\*^ | — |
+| [4](#week-4) | 19 Oct | Lab 1: USV System Identification ^†^ | — |
+| [5](#week-5) | 26 Oct | Time Response | Reading Quiz 2 (Mon); HW3 (Fri); Lab 1 (Fri) |
+| [6](#week-6) | 2 Nov | Block Diagrams, Feedback and Steady-State Errors | Reading Quiz 3 (Mon); HW4 (Fri) | % CLAUDE: This will require refactoring the weekly content a bit.  Idea is to fold in just the basics of what steady-state error "is" and skip over how to do the analysis.  
+| [7](#week-7) | 9 Nov | Lab 2: USV PID Tuning, Heading and Speed ^‡^ | — |
+| [8](#week-8) | 16 Nov | Frequency Response | Reading Quiz 4 (Mon) |
+| [9](#week-9) | 23 Nov | Compensation Design with Frequency Response ^§^ | HW5 (Fri); Lab 2 (Fri) |
+| [10](#week-10) | 30 Nov | Lab 3: USV Navigation Tuning | — |
+| [11](#week-11) | 7 Dec | Final Oral Exams | Lab 3 (Fri 11 Dec) |
 
 ::: {.small}
 ^†^ Shift day (Tue 20 Oct follows the Friday schedule): no class Tue.<br>
