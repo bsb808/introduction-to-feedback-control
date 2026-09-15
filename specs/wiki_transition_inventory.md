@@ -12,7 +12,7 @@ These refine the placement decision in the spec after looking at how `site/` is 
 - Handouts used across weeks and by [oral-exam.qmd](../site/oral-exam.qmd) go in `site/handouts/` (already exists and is already linked for `nise-handout.pdf`, `partialfractionexpansion_complex.pdf`, `bodebuildingblocks2.pdf`, `bode2_nolabel.png`).
 - Code that already lives in the repo is linked on GitHub, not copied. Where the repo copy differs from the wiki copy, the repo copy is newer and wins.
 - Filenames are cleaned when copied: drop Confluence duplicate suffixes like ` (5)` and stale quarter suffixes like `_20_3`, `-25-1`; fix obvious typos (`impluse` → `impulse`).
-- Solutions go to Sakai (instructor copy in `../introduction-to-feedback-control-private/wiki_sakai/`). Public pages say "Solutions posted on Sakai."
+- Solutions go to Sakai (instructor copy in `../introduction-to-feedback-control-private/wiki_sakai/`). Public pages say "Solutions posted on Sakai." % CLAUDE: I'll add the solutions to Sakai.  Don't put htem in the private repo. 
 - SharePoint/OneDrive links (NPS login) stay as links. Vimeo and external links stay as links.
 - `.gitignore` has `*.pdf`, so an exception `!site/**/*.pdf` is needed or the site PDFs will never be committed. The PDFs `oral-exam.qmd` links today are missing from the repo for this reason.
 
@@ -20,7 +20,7 @@ These refine the placement decision in the spec after looking at how `site/` is 
 
 | Wiki page | Disposition | Target |
 |---|---|---|
-| ME2801: Introduction to Control Systems (home) | Keep (merge) | Link list folds into [site/index.qmd](../site/index.qmd). Sakai site link dropped (per site design plan: no Sakai link on the site). |
+| ME2801: Introduction to Control Systems (home) | Keep (merge) | Link list folds into [site/index.qmd](../site/index.qmd). Sakai site link dropped (per site design plan: no Sakai link on the site). % CLAUDE: Actually, will include a link to the sakai site.  It is being setup up now, so coming soon.  |
 | Course Syllabus | Keep | [site/syllabus.qmd](../site/syllabus.qmd). "Website: Course Content Wiki" row replaced by the site URL. |
 | Textbook | Keep (merge) | One paragraph in `syllabus.qmd` under Textbook. |
 | Schedule (26-3) | Keep | `site/archive/ay26q3/schedule.qmd` |
@@ -28,10 +28,10 @@ These refine the placement decision in the spec after looking at how `site/` is 
 | MATLAB Resources | Keep (merge) | `site/resources/matlab.qmd`. Drop the ECP data import section (no ECP hardware in the USV-era course). |
 | MATLAB Refresher | Keep (merge) | Same page as MATLAB Resources, as a "Refresher" section. |
 | USV Setup: Mission Planner and R/C Tx/Rx | Keep | `site/autopilot/usv_setup.qmd` (sits with the existing autopilot pages). Unfinished placeholders ("INSERT VERIFY INSTRUCTION", "TESTS TO VERIFY…") removed. |
-| Video Lectures | Review | Proposed: keep the Frequency Response items (Bode building blocks, gain compensation design, SSE and open-loop frequency response, closed-loop frequency response) as week 9 content, since the 26-3 schedule has no material for "Compensation Design with Frequency Response". Drop Steady-State Error (duplicated in the schedule) and Root Locus (not in 26-3). Prof. Hill's channel link goes to the resources page. |
+| Video Lectures | Review | Proposed: keep the Frequency Response items (Bode building blocks, gain compensation design, SSE and open-loop frequency response, closed-loop frequency response) as week 9 content, since the 26-3 schedule has no material for "Compensation Design with Frequency Response". Drop Steady-State Error (duplicated in the schedule) and Root Locus (not in 26-3). Prof. Hill's channel link goes to the resources page. % CLAUDE: The VIMEO vidoes are my content, but I'm moving all the VIMEO videos to the MS Stream service (then don't need VIMEO pro).  , so will need to redo those video links.  Links to outside sources (like Prof. Hill) can stay.
 | ME2801Files | Follow Video Lectures | Only `os_mp.png`, `os_mp_db.png`, `zeta2pm.png` are referenced; they go with the week 9 content if kept. |
-| Video Examples | Review | Proposed: drop. 2015-era Vimeo examples; ECP videos obsolete. |
-| Technical Writing | Review | Proposed: drop from the course site (thesis-writing guidance, not ME 2801 content). |
+| Video Examples | Review | Proposed: drop. 2015-era Vimeo examples; ECP videos obsolete. % CLAUDE: DRop |
+| Technical Writing | Review | Proposed: drop from the course site (thesis-writing guidance, not ME 2801 content).% CLAUDE: Drop |
 | Simulink Onramp | Drop | Not referenced by 26-3 (it was an older Lab 1). |
 | Textbook Solutions - Nise | Sakai | 13 chapter PDFs to Sakai. |
 | Zoom Recordings | Drop | Old recordings with passcodes; must not be published. |
@@ -118,6 +118,6 @@ These refine the placement decision in the spec after looking at how `site/` is 
 
 ## 5. Open items for the author
 
-1. Placement: `site/weeks/wXX_*/files/` + `site/handouts/` instead of `site/assets/wXX/`?
-2. Review rows above: Video Lectures, Video Examples, Technical Writing, `stepanddelta.pdf`, `lab1_results.pdf`, `laplace_pairs_response.pdf`, `concatenate_vectors.*`, `usv_model/response.pdf`, AE2440 install link, `Example_Boat_Params.param`.
-3. Outside this migration but found along the way: the public repo already contains `book/w06_steady_state_error/assign/assign_steady_state_error_soln.tex` and `assignment_solutions.m`. Given the Sakai-only decision for solutions, these may belong in the private repo.
+1. Placement: `site/weeks/wXX_*/files/` + `site/handouts/` instead of `site/assets/wXX/`? % CLAUDE: Yes.  Good idea. 
+2. Review rows above: Video Lectures, Video Examples, Technical Writing, `stepanddelta.pdf`, `lab1_results.pdf`, `laplace_pairs_response.pdf`, `concatenate_vectors.*`, `usv_model/response.pdf`, AE2440 install link, `Example_Boat_Params.param`. % CLAUDE: Reviewed
+3. Outside this migration but found along the way: the public repo already contains `book/w06_steady_state_error/assign/assign_steady_state_error_soln.tex` and `assignment_solutions.m`. Given the Sakai-only decision for solutions, these may belong in the private repo. % CLAUDE: No, the only thing we need to protect is the copyrighted solutions manual. The students are provided with all homework "solutions" so that they can check their work.
