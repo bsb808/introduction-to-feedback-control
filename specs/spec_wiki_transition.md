@@ -19,7 +19,7 @@ Objective: transition the content from the wiki to this site, cleaning up the co
 Decisions:
 
 - Restricted material (Nise textbook solutions, HW solutions, Nise textbook-table handout, exam schedule spreadsheet) does not go on the public site. It goes to Sakai only; the instructor copy lives in the private repo. Public pages say "Solutions posted on Sakai."
-- Attachments are placed under `site/assets/wXX/` grouped by topic week (not by quarter), so current and archived pages link the same files.
+- Attachments are grouped by topic week (not by quarter), so current and archived pages link the same files. Exact placement is proposed in the inventory (open item 1).
 
 Context-window management (the export is large):
 
@@ -33,7 +33,12 @@ Context-window management (the export is large):
 - Outputs: [utils/wiki_migrate/extract.py](../utils/wiki_migrate/extract.py); `tmp/wiki/extract/<slug>.md`, `<slug>.links.tsv`
 - Owner: AI
 - Verification: spot-check the Schedule (26-3) extract against PDF export pages 5–9.
-- Status: todo
+- Status: done
+- Notes:
+  - `./extract.py extract --all` writes all 60 pages (~1 MB total). The large 26-3 schedule becomes a 13 KB extract.
+  - The HTML stores attachments by id; links that point at another page's attachments (`wiki.nps.edu/download/attachments/<page>/<name>`) are resolved to the local file through the `data-linked-resource-default-alias` attributes on all pages.
+  - SharePoint `nav=` parameters are stripped in the Markdown (kept in the TSV).
+  - The `restricted` column is a filename pattern safety net only; solutions are identified by where they appear (the Solutions column), not by name.
 
 ## 2. Transition inventory
 
@@ -42,7 +47,7 @@ Context-window management (the export is large):
 - Outputs: [specs/wiki_transition_inventory.md](wiki_transition_inventory.md) — one row per wiki page (disposition, target), and per kept page the attachment list with disposition.
 - Owner: AI proposes, author reviews
 - Verification: author review (PMR) before any migration.
-- Status: todo
+- Status: review
 
 ## 3. Migrate pages
 
