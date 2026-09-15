@@ -95,6 +95,8 @@ Used in pages as `{{< var quarter >}}`. One file to edit at the start of each te
 
 ## 5. Per-quarter remix mechanism
 
+> Superseded in part by [specs/spec_startup_new_quarter.md](specs/spec_startup_new_quarter.md): previous quarters' schedule and assignments pages stay live on the site under `site/archive/<quarter>/`, marked as archived.
+
 **Recommended:** single-branch model with Git tags for historical snapshots.
 
 - `main` always reflects the *current* quarter. Updating `_variables.yml`, `schedule.yml`, and `assignments.yml` is the per-quarter ritual.
@@ -109,6 +111,8 @@ Rejected alternatives:
 ---
 
 ## 6. Schedule data shape
+
+> Not implemented. The schedule is a hand-authored table in `schedule.qmd`; see [specs/spec_startup_new_quarter.md](specs/spec_startup_new_quarter.md) for the current process.
 
 `site/data/schedule.yml` drives `schedule.qmd`. The data file is intentionally **slim** — it carries only what's needed to render the calendar/index table. Rich content (videos, slides, handouts, notes) lives on the per-week page and is reached via the `page` link.
 
@@ -188,6 +192,8 @@ Local preview during authoring: `cd site && quarto preview`. No CI needed for dr
 
 ## 9. Authoring workflow
 
+> The start-of-quarter steps now live in [specs/spec_startup_new_quarter.md](specs/spec_startup_new_quarter.md).
+
 **Routine edits (typo, schedule tweak, link update):**
 1. Edit the `.qmd` or `.yml` file in VSCode
 2. `quarto preview` running in the background hot-reloads
@@ -206,11 +212,13 @@ Local preview during authoring: `cd site && quarto preview`. No CI needed for dr
 5. Skim `index.qmd` and `syllabus.qmd` for stale references (term, dates, links)
 6. Push
 
-The "start of quarter" should be a checklist file (`site/QUARTER_CHECKLIST.md`) that lives next to the data files.
+The start-of-quarter process lives in `specs/spec_startup_new_quarter.md` (kept out of `site/` so it is not published to students).
 
 ---
 
 ## 10. Confluence as a model, not a migration target
+
+> Superseded by [specs/spec_wiki_transition.md](specs/spec_wiki_transition.md): content from the last offering (Spring 2026) is migrated to the site and cleaned along the way; archival wiki content is not.
 
 The existing Confluence space is a reference for *what kinds of pages have proven useful* — not a thing to reproduce one-for-one. Expect the site to refactor structure and drop pages that were workarounds for wiki limitations rather than genuine course content.
 
@@ -266,7 +274,7 @@ Still open:
 ## 13. Risks
 
 - **CI build time.** TeX Live + figure rendering can push past 5 minutes. Mitigate with cache actions and Quarto's `_freeze`.
-- **Per-quarter ritual gets skipped.** If `_variables.yml` isn't updated, the syllabus shows last term. Mitigated by the QUARTER_CHECKLIST file and by surfacing the term name prominently on the home page so a stale value is visible.
+- **Per-quarter ritual gets skipped.** If `_variables.yml` isn't updated, the syllabus shows last term. Mitigated by the quarter runbook spec (`specs/spec_startup_new_quarter.md`) and by surfacing the term name prominently on the home page so a stale value is visible.
 - **Operating principle: keep web-native and PDF content separate.** The LaTeX book and the web site are two delivery channels with different ergonomics; we won't try to make them share source. Web pages are authored as `.qmd`; chapters stay as `.tex`. The site links to built chapter PDFs rather than re-rendering chapter content as HTML. This sidesteps LaTeX-to-qmd conversion drag entirely.
 
 ---

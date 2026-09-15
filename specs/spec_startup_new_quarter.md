@@ -1,48 +1,95 @@
 # Spec: Tooling and process for setting up a new quarter
 
-This is a regular and reoccuring task where we need to do a number of things to setup a new quarter.   We will co-evolve this spec with any tooling and utilities development.
+This is a regular and recurring task where we need to do a number of things to set up a new quarter. We will co-evolve this spec with any tooling and utilities development (spec-anchored: the spec is the source of truth; every decision or lesson learned during execution is written back here in the same commit as the work).
 
-## Wiki Transition - one time task  
+This spec supersedes the conflicting parts of [site_design_plan.md](../site_design_plan.md): §5 (past quarters as git tags only) and §6 (the `data/schedule.yml` rendering, which was never built). The one-time wiki migration has its own spec: [spec_wiki_transition.md](spec_wiki_transition.md).
 
-A significant change from previous work is we are going transfer the course content from the NPS wiki to the site pages here: introduction-to-feedback-control/site
+## How we work
 
-Becuase it is tough for you to access the Atlassian wiki, I'v put the exported site as HTML and PDF here: introduction-to-feedback-control/tmp/wiki
+Each task below has Objective, Inputs, Outputs, Owner, Verification, and Status. For each AI-owned task:
 
-Objective: Transition the content from the wiki to this site.   Clean up the content while we are doing this.   
-- Don't move over any archival information, only take what was necessary for the last version of the class (Spring quarter 2026).  The archvie
-- Overall structure can stay similar.  Small incremental improvements, but want to keep the site organization roughly the same. 
+1. Claude executes the task and produces the outputs.
+2. Review gate using the PMR workflow: baseline commit, proposal applied, `code --diff`, author resolves.
+3. Before the "resolved" commit, Claude updates this spec: Status, decisions, and anything next quarter should reuse.
+4. Nothing is pushed without the author asking.
 
-Verification:
-- You should tell plan for what will transition and what will not first.  I'll review that before you move things so we are cleaning as we go.
-- Most of the verification will be manually by me, must making sure the new site has what we need.
+Status values: `todo`, `in progress`, `review`, `done`, `deferred`.
 
-## Regular and Reoccuring
+---
 
-These are the tasks currently on my radar.  We'll keep this list up to date as we execute - spec-anchored model. 
+# Runbook
 
-### Update syllabus in place
-- Syllabus: AI update syllabus with new course times (supplied by human) and days of the week.   Human review
+These are the tasks currently on the radar. We'll keep this list up to date as we execute.
 
-### Start new Schedule
+Background:
 
 - The class is taught fall and spring quarters.
-- Keep previous quarter schedule page on the site for archival purposes.  Add a note at the top of the old page saying it is archived and just for reference.  
+- NPS academic calendars: https://nps.edu/web/registrar/calendar (download the AY PDF into `tmp/calendar/`). The key dates are the first day of classes, the last day of classes, holidays, and shift days. Finals can be ignored (typically nothing scheduled for finals week).
+- Each quarter has constraints unique to that quarter that we need to schedule around (e.g., instructor travel). These are supplied by the author and recorded in the quarter log below.
 
-- The schedule starts as a repeat of the previous fall or spring. Using the old calendars as models/templates This fall will be a bit different b/c of the new USV labs, so will need to merge the most recent offering (spring 2026) and the new USV lab schedule
-- The NPS calendars for each quarter are here: https://nps.edu/web/registrar/calendar.  Where we can get the AY 2027 (AY27) schedule PDF, which I've put in introduction-to-feedback-control/tmp/calendar.  
-  - The key dates are the first day of classes, the last day of classes and any holidays.  Finals can be ignored (typically nothing scheduled for finals week)
-- Each quarter the there are timely constraints unique to that quarter that we need to schedule around.  For this coming quarter, There will be no class for the week of Columbus day - 12-16 October.  It is typical, but not aways, that I have to travel for a week. For this class we'll just cancel that week of classes.  
-- Initiated by AI with constraints
+## 1. Update syllabus in place
 
-#### Assignments and Labs
+- Objective: update the syllabus with the new course days of the week, times, and room.
+- Inputs: meeting days/times/room (supplied by author)
+- Outputs: [site/syllabus.qmd](../site/syllabus.qmd); [site/_variables.yml](../site/_variables.yml) (`quarter`, `term_start`, `term_end`)
+- Owner: AI, author review
+- Verification: PMR; skim `index.qmd` and `syllabus.qmd` for stale references (term, dates, links, office hours).
+- Status: todo
 
-- AI initiated: Similar to scheudle - start a new page based on the most recent.  New page should have the layout, but only the first couple assignments.  We'll post the rest as the quarter progresses.  Old assignments and labs kept in repo, noted as archived
-- Update all links so points to new assignments and labs page. 
+## 2. Start new schedule
 
-#### Class info
+- Objective: new schedule page for the quarter.
+- Inputs: previous offering of the same season as a template (Fall or Spring); NPS calendar key dates; quarter constraints.
+- Outputs: [site/schedule.qmd](../site/schedule.qmd) for the new quarter; previous schedule kept under `site/archive/<quarter>/schedule.qmd` with a note at the top saying it is archived and just for reference.
+- Owner: AI initiates with constraints, author review
+- Verification: every date in the grid checked against the weekday and the NPS calendar; PMR.
+- Status: todo
 
-Human must do
+## 3. Assignments and labs
 
-- Pull roster from Python, put copy in OneDrive. 
-- Request new sakai site
+- Objective: start a new assignments page based on the most recent one. The new page has the layout, but only the first couple of assignments; the rest are posted as the quarter progresses.
+- Outputs: [site/assignments.qmd](../site/assignments.qmd); previous page kept under `site/archive/<quarter>/assignments.qmd`, noted as archived.
+- Update all links (navbar, `index.qmd`, `schedule.qmd`) so they point to the new assignments and labs page.
+- Owner: AI, author review
+- Verification: grep for links to the archived page from current pages returns nothing; PMR.
+- Status: todo
 
+## 4. Class info (human tasks)
+
+- [ ] Pull roster from Python, put copy in OneDrive.
+- [ ] Request new Sakai site.
+- [ ] Upload restricted material (solutions, etc.) to Sakai.
+
+## 5. Publish
+
+- [ ] Optional: tag the end of the previous quarter: `git tag site-YYYY-season && git push --tags`
+- [ ] Skim `site/weeks/wXX_*/` pages for stale per-quarter content (dates, video links, leaderboards)
+- [ ] Local preview: `cd site && quarto preview`
+- [ ] Push and verify the published site after the GitHub Action runs.
+
+---
+
+# Quarter log
+
+## AY27Q1 — Fall 2026
+
+Key dates (from `tmp/calendar/2027 NPS Academic Calendar - Rev Aug2026.pdf`):
+
+| Date | Event |
+|---|---|
+| Mon 28 Sep 2026 | Instruction begins |
+| Mon 12 Oct | Columbus Day (holiday) |
+| Tue 20 Oct | Shift day: treat as Friday class schedule |
+| Wed 11 Nov | Veterans Day (holiday) |
+| Thu 26 Nov | Thanksgiving (holiday) |
+| Tue 8 Dec | Pre-graduation awards ceremony |
+| Fri 11 Dec | Last day of classes |
+
+Constraints:
+
+- No class the week of 12–16 October (instructor travel). First schedule draft keeps that week in place; the author then refactors for the lost days.
+- This fall is a bit different because of the new USV labs: merge the most recent offering (Spring 2026) with the USV lab schedule. Lab placement is decided at the schedule step (task 2).
+
+Decisions:
+
+- (none yet)
