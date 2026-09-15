@@ -56,6 +56,7 @@ Background:
 
 ## 4. Class info (human tasks)
 
+- [ ] Verify class meeting days, times, and room in Python; add the class meetings to Outlook.
 - [ ] Pull roster from Python, put copy in OneDrive.
 - [ ] Request new Sakai site.
 - [ ] Upload restricted material (solutions, etc.) to Sakai.
