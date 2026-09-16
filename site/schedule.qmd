@@ -4,20 +4,17 @@ title: "Schedule"
 
 *Quarter:* {{< var quarter >}} · Previous quarters: [Archive](archive/index.qmd)
 
-::: {.callout-important}
-## Posted weekly
-The overview table below covers the whole quarter, including due dates. Details for each week are posted at least a week ahead.
-:::
 
-Unless explicitly scheduled, the only in-person class meetings are Mondays and Wednesdays. Tuesdays and Thursdays are asynchronous.
+The nominal class schedule is as follows: 
 
-Key dates: Columbus Day (Mon 12 Oct), shift day with a Friday class schedule (Tue 20 Oct), Veterans Day (Wed 11 Nov), Thanksgiving (Thu 26 Nov), awards ceremony (Tue 8 Dec), last day of classes (Fri 11 Dec).
+* Mondays and Thursdays are in-person meetings
+* Tuesdays and Thursdays are asynchronous
 
 | Week | Starts | Topic | Due |
 |---|---|---|---|
 | [1](#week-1) | 28 Sep | Course Introduction and Laplace Introduction | HW1 (Fri) |
 | [2](#week-2) | 5 Oct | Transfer Functions and Modeling | Reading Quiz 1 (Mon); HW2 (Fri) |
-| [3](#week-3) | 12 Oct | Class cancelled ^\*^ | — |
+| [3](#week-3) | 12 Oct | Class cancelled  | — |
 | [4](#week-4) | 19 Oct | Lab 1: USV System Identification ^†^ | — |
 | [5](#week-5) | 26 Oct | Time Response | Reading Quiz 2 (Mon); HW3 (Fri); Lab 1 (Fri) |
 | [6](#week-6) | 2 Nov | Block Diagrams, Feedback and Steady-State Errors | Reading Quiz 3 (Mon); HW4 (Fri)
