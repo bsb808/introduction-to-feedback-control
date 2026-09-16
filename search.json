@@ -739,7 +739,7 @@
     "href": "schedule.html",
     "title": "Schedule",
     "section": "",
-    "text": "Quarter: Fall 2026 · Previous quarters: Archive\nUnless explicitly scheduled, the only in-person class meetings are Mondays and Wednesdays. Tuesdays and Thursdays are asynchronous.\nKey dates: Columbus Day (Mon 12 Oct), shift day with a Friday class schedule (Tue 20 Oct), Veterans Day (Wed 11 Nov), Thanksgiving (Thu 26 Nov), awards ceremony (Tue 8 Dec), last day of classes (Fri 11 Dec)."
+    "text": "Quarter: Fall 2026 · Previous quarters: Archive\nThe nominal class schedule is as follows:"
   },
   {
     "objectID": "schedule.html#week-1",
@@ -759,64 +759,64 @@
     "objectID": "schedule.html#week-3",
     "href": "schedule.html#week-3",
     "title": "Schedule",
-    "section": "Week 3 — 12 Oct: Lab 1: USV System Identification",
-    "text": "Week 3 — 12 Oct: Lab 1: USV System Identification\n\n\n\n\n\n\nWarning\n\n\n\nNo class this week (Columbus Day Mon 12 Oct; instructor travel). Content below is the Spring 2026 plan, pending the schedule refactor.\n\n\nMonday–Thursday: Lab 1: USV System Identification\n\nlab_intro.pdf\nSee Assignments and Labs"
+    "section": "Week 3 — 12 Oct: Class cancelled",
+    "text": "Week 3 — 12 Oct: Class cancelled\n\nColumbus Day (Mon 12 Oct): no class Mon; rest of the week cancelled for instructor travel."
   },
   {
     "objectID": "schedule.html#week-4",
     "href": "schedule.html#week-4",
     "title": "Schedule",
-    "section": "Week 4 — 19 Oct: Time Response in t- and s-domains",
-    "text": "Week 4 — 19 Oct: Time Response in t- and s-domains\nMonday (in person):\n\nDue: Reading Quiz #2: Chapter 4, through 4.4\nTopics: review reading quiz, introduction to time response\nUSV Lab 1: lab1_sysid.pptx; see Assignments and Labs for the prototype script\n\nTuesday (asynchronous): Shift day (Tue 20 Oct follows the Friday class schedule). Video lectures\n\nFirst-Order Response\n\nPart 1: Impulse and step response (10:55)\nPart 2: Examples and MATLAB (14:23)\n\nSecond-Order Response (19:43)\n\nNote: there is some inconsistency in the constant term of the analytical solution for the second-order impulse response. For the canonical form and calculating the impulse response by hand, see ME2801_second_order_impulse.pdf and the MATLAB verification MATLAB_second_order_response.mlx\n\nStability (4:30)\nPerformance Metrics, Specifications or Figures of Merit (15:29)\nSlides: lec_w3_timeresponse.pdf\nOptional notes\n\nGain and DC gain: how the term “gain” is used with the canonical transfer function forms: me2801_gain.pdf\n\nTransfer Function DC Gain — Example Video (14:30): given a step response graph, find the DC gain\n\nExample: algebra for deriving the impulse response of the canonical second-order transfer function: second_order_impulse_verify.pdf\nRise time of a second-order model step response: risetime_secondorder.mlx\n\n\nWednesday: MATLAB and time response: time_response.mlx\nThursday: Due: HW3"
+    "section": "Week 4 — 19 Oct: Lab 1: USV System Identification",
+    "text": "Week 4 — 19 Oct: Lab 1: USV System Identification\n\n\n\n\n\n\nNote\n\n\n\nDetails will be posted by Mon 5 Oct.\n\n\n\nShift day (Tue 20 Oct follows the Friday schedule): no class Tue.\nDue: nothing this week."
   },
   {
     "objectID": "schedule.html#week-5",
     "href": "schedule.html#week-5",
     "title": "Schedule",
-    "section": "Week 5 — 26 Oct: Block Diagrams and Feedback",
-    "text": "Week 5 — 26 Oct: Block Diagrams and Feedback\nMonday (in person):\n\nDue: Reading Quiz #3: Block Diagrams and Feedback, Chapter 5, through 5.3\nHW3 review: lec_hw3_review.pdf, laplace_pairs_response.pdf\nLab 1 results (posted on Sakai)\n\nTuesday (asynchronous): Video lectures\n\nBlock Diagrams: Introduction\nBlock Diagrams: Example 1\nFeedback Design Example\nSlides: lec_w4_blockdiagrams.pdf (annotated), lec_w4_feedback_design_ex.pdf (annotated)\nBlock diagrams and engineering units: video, notes blockdiagram_units.pdf\n\nWednesday:\n\nBefore class: read up through Subsection 1.3 of blockdiagrams_pid.pdf\nBlock diagrams and USV PID: ArduRover — Tuning Speed and Throttle\nReading assignment for Monday (different format)\n\nThursday: Due: HW4"
+    "section": "Week 5 — 26 Oct: Time Response",
+    "text": "Week 5 — 26 Oct: Time Response\n\n\n\n\n\n\nNote\n\n\n\nDetails will be posted by Mon 12 Oct.\n\n\n\nDue: Reading Quiz 2 (Mon); HW3 (Fri); Lab 1 (Fri)."
   },
   {
     "objectID": "schedule.html#week-6",
     "href": "schedule.html#week-6",
     "title": "Schedule",
-    "section": "Week 6 — 2 Nov: Steady-State Errors",
-    "text": "Week 6 — 2 Nov: Steady-State Errors\nMonday (in person):\n\nReading assignment, due before class via Sakai: review the chapter steady_state_error_v1.pdf and submit at least three points of first-skim feedback (location, comment, suggestion) as plain text\nTopics: HW4 review, reading review, steady-state error introduction\n\nTuesday (asynchronous): Steady-State Error videos\n\nIntroduction\nUSV Example\nSystem Type\nSlides: lec_w4_sserror.pdf (annotated)\n\nWednesday: Guest lecture (TBD). sse_input_simulation.m\nThursday: Due: HW5"
+    "section": "Week 6 — 2 Nov: Block Diagrams, Feedback and Steady-State Errors",
+    "text": "Week 6 — 2 Nov: Block Diagrams, Feedback and Steady-State Errors\n\n\n\n\n\n\nNote\n\n\n\nDetails will be posted by Mon 19 Oct.\n\n\n\nDue: Reading Quiz 3 (Mon); HW4 (Fri)."
   },
   {
     "objectID": "schedule.html#week-7",
     "href": "schedule.html#week-7",
     "title": "Schedule",
     "section": "Week 7 — 9 Nov: Lab 2: USV PID Tuning, Heading and Speed",
-    "text": "Week 7 — 9 Nov: Lab 2: USV PID Tuning, Heading and Speed\nMonday–Thursday: Lab 2: USV PID Tuning, Heading and Speed. Veterans Day (Wed 11 Nov): no class."
+    "text": "Week 7 — 9 Nov: Lab 2: USV PID Tuning, Heading and Speed\n\n\n\n\n\n\nNote\n\n\n\nDetails will be posted by Mon 26 Oct.\n\n\n\nVeterans Day (Wed 11 Nov): no class Wed.\nDue: nothing this week."
   },
   {
     "objectID": "schedule.html#week-8",
     "href": "schedule.html#week-8",
     "title": "Schedule",
     "section": "Week 8 — 16 Nov: Frequency Response",
-    "text": "Week 8 — 16 Nov: Frequency Response\nMonday (in person): Guest lecture\nTuesday (in person): Frequency Response\n\nDue: Reading Quiz #6, Frequency Response, Chapter 10, through 10.2\nTopics: Lab 2 deliverable\nFrequency response introduction: lec_w8_freqresp_intro.pdf\n\nFrequency response animation — first order\nFrequency response animation — second order\n\nBode graph paper for asymptotic sketching: download and print bode2_nolabel.png (more in MATLAB Resources)\n\nWednesday (in person): Sketching Bode Plots Using Building Blocks\n\nHandout: bodebuildingblocks2.pdf\nVideos\n\nPart 1: Gain, derivative and integral building blocks\nPart 2: Example using derivative and gain\nPart 3: First- and second-order building blocks\nPart 4: Example of first order and gain\nPart 5: Example of first order, gain and derivative; checking with MATLAB\n\nSlides: lec_w8_freqresp_buildingblocks.pdf\nOptional\n\nSwarthmore’s Bode Plot Examples is a nice tool for sketching the plot step by step. See if you can use it to work the examples from class or the assignment.\nFor more practice and a different voice, Prof. Rick Hill has a series of videos on frequency response that complement the ME2801 video lectures: see his YouTube channel, specifically the Frequency Response Methods playlist\n\n\nThursday: No in-person class. Friday: nothing due."
+    "text": "Week 8 — 16 Nov: Frequency Response\n\n\n\n\n\n\nNote\n\n\n\nDetails will be posted by Mon 2 Nov.\n\n\n\nDue: Reading Quiz 4 (Mon)."
   },
   {
     "objectID": "schedule.html#week-9",
     "href": "schedule.html#week-9",
     "title": "Schedule",
     "section": "Week 9 — 23 Nov: Compensation Design with Frequency Response",
-    "text": "Week 9 — 23 Nov: Compensation Design with Frequency Response\nMonday (in person): Compensation Design with Frequency Response\nTuesday (asynchronous): TBD\nWednesday (in person): TBD\nThursday: Thanksgiving (holiday). Due Friday: HW7, includes the Lab 2 deliverable"
+    "text": "Week 9 — 23 Nov: Compensation Design with Frequency Response\n\n\n\n\n\n\nNote\n\n\n\nDetails will be posted by Mon 9 Nov.\n\n\n\nThanksgiving (Thu 26 Nov): no class Wed, Thu.\nDue: HW5 (Fri); Lab 2 (Fri)."
   },
   {
     "objectID": "schedule.html#week-10",
     "href": "schedule.html#week-10",
     "title": "Schedule",
     "section": "Week 10 — 30 Nov: Lab 3: USV Navigation Tuning",
-    "text": "Week 10 — 30 Nov: Lab 3: USV Navigation Tuning\nMonday–Thursday: Lab 3: USV Navigation Tuning"
+    "text": "Week 10 — 30 Nov: Lab 3: USV Navigation Tuning\n\n\n\n\n\n\nNote\n\n\n\nDetails will be posted by Mon 16 Nov.\n\n\n\nDue: nothing this week."
   },
   {
     "objectID": "schedule.html#week-11",
     "href": "schedule.html#week-11",
     "title": "Schedule",
     "section": "Week 11 — 7 Dec: Final Oral Exams",
-    "text": "Week 11 — 7 Dec: Final Oral Exams\nMonday–Thursday: Final oral exams\n\nLab 3: procedure\nExam: Oral Final Exam\n\nTuesday 8 Dec: Pre-graduation awards ceremony\nFriday 11 Dec: Last day of classes. Lab 3 due."
+    "text": "Week 11 — 7 Dec: Final Oral Exams\n\n\n\n\n\n\nNote\n\n\n\nDetails will be posted by Mon 23 Nov.\n\n\n\nPre-graduation awards ceremony (Tue 8 Dec).\nLast day of classes (Fri 11 Dec).\nDue: Lab 3 (Fri 11 Dec)."
   },
   {
     "objectID": "weeks/w07_lab_usv_pid/index.html",
